@@ -98,6 +98,7 @@ public class Swimmer : MonoBehaviour
             playerVelocity+=-transform.forward*acceleration*Time.deltaTime;
         }
 
+        //Lateral movement
         if(playerInput.movingLeft && !playerInput.movingRight && Mathf.Abs((transform.rotation*playerVelocity).x)<lateralMaxVelocity){
             playerVelocity+=-transform.right*lateralAcceleration*Time.deltaTime;
         }else if(playerInput.movingRight && !playerInput.movingLeft && Mathf.Abs((transform.rotation*playerVelocity).x)<lateralMaxVelocity){
@@ -113,3 +114,12 @@ public class Swimmer : MonoBehaviour
 
     }
 }
+
+
+/*
+TO-DO:
+    + MAKE LATERAL/FORWARD MOVEMENT ONLY ONE AT A TIME
+    + ANIMATE
+    + ADD BREAST STROKE/COASTING
+    + ADD BOOST
+*/
