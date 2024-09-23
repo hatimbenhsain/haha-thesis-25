@@ -12,33 +12,65 @@ public class PlayerInput : MonoBehaviour
     public bool movingBackward;
     public bool movingLeft;
     public bool movingRight;
+    public bool movingUp;
+    public bool movingDown;
     public bool boosting;
+    public bool interacting;
 
     public bool yAxisInverted=false;
 
+    //[HideInInspector]
+    public bool prevMovingForward, prevMovingBackward, prevMovingLeft, prevMovingRight, prevMovingUp, prevMovingDown, prevBoosting, prevInteracting;
+
+    
+    void LateUpdate() {
+        prevMovingForward=movingForward;
+        prevMovingBackward=movingBackward;
+        prevMovingUp=movingUp;
+        prevMovingLeft=movingLeft;
+        prevMovingRight=movingRight;
+        prevMovingUp=movingUp;
+        prevMovingDown=movingDown;
+        prevBoosting=boosting;
+        prevInteracting=interacting;
+    }
+
     public void OnMoveForward(InputAction.CallbackContext value){
-        MoveForwardInput(value.performed);
+        MoveForwardInput(value.performed || value.started);
     }
 
     public void OnMoveBackward(InputAction.CallbackContext value){
-        MoveBackwardInput(value.performed);
+        MoveBackwardInput(value.performed || value.started);
     }
 
     public void OnMoveLeft(InputAction.CallbackContext value){
-        MoveLeftInput(value.performed);
+        MoveLeftInput(value.performed || value.started);
     }
 
     public void OnMoveRight(InputAction.CallbackContext value){
-        MoveRightInput(value.performed);
+        MoveRightInput(value.performed || value.started);
     }
 
+    public void OnMoveUp(InputAction.CallbackContext value){
+        MoveUpInput(value.performed || value.started);
+    }
+
+    public void OnMoveDown(InputAction.CallbackContext value){
+        MoveDownInput(value.performed || value.started);
+    }
+
+
     public void OnBoost(InputAction.CallbackContext value){
-        BoostInput(value.performed);
+        BoostInput(value.performed || value.started);
     }
 
     public void OnLook(InputAction.CallbackContext value)
     {
         LookInput(value.ReadValue<Vector2>());
+    }
+
+    public void OnInteract(InputAction.CallbackContext value){
+        InteractInput(value.performed || value.started);
     }
 
 
@@ -59,6 +91,14 @@ public class PlayerInput : MonoBehaviour
         movingRight=b;
     }
 
+    void MoveUpInput(bool b){
+        movingUp=b;
+    }
+
+    void MoveDownInput(bool b){
+        movingDown=b;
+    }
+
     void BoostInput(bool b){
         boosting=b;
     }
@@ -68,6 +108,10 @@ public class PlayerInput : MonoBehaviour
         if(yAxisInverted){
             look.y=-look.y;
         }
+    }
+
+    void InteractInput(bool b){
+        interacting=false;
     }
 
 }

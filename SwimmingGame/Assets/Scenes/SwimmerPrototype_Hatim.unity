@@ -241,6 +241,61 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 90, y: 0, z: 0}
+--- !u!1 &260927043 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 2df53a344e5db70449f46e6b86c35a81,
+    type: 3}
+  m_PrefabInstance: {fileID: 624069049}
+  m_PrefabAsset: {fileID: 0}
+--- !u!54 &260927044
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 260927043}
+  serializedVersion: 4
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 0
+  m_IsKinematic: 1
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
+--- !u!64 &260927045
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 260927043}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 5
+  m_Convex: 1
+  m_CookingOptions: 30
+  m_Mesh: {fileID: 0}
 --- !u!1 &289689943
 GameObject:
   m_ObjectHideFlags: 0
@@ -358,7 +413,7 @@ GameObject:
   - component: {fileID: 387403134}
   - component: {fileID: 387403135}
   m_Layer: 0
-  m_Name: swimmer_0
+  m_Name: Sprite
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2129,6 +2184,87 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: -90, y: 0, z: 0}
+--- !u!1001 &624069049
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: -8679921383154817045, guid: 2df53a344e5db70449f46e6b86c35a81,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 3.0755024
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 2df53a344e5db70449f46e6b86c35a81,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 2.33
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 2df53a344e5db70449f46e6b86c35a81,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 3.2694423
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 2df53a344e5db70449f46e6b86c35a81,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: -0.27687395
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 2df53a344e5db70449f46e6b86c35a81,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 2df53a344e5db70449f46e6b86c35a81,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0.96090627
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 2df53a344e5db70449f46e6b86c35a81,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 2df53a344e5db70449f46e6b86c35a81,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 2df53a344e5db70449f46e6b86c35a81,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 212.147
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 2df53a344e5db70449f46e6b86c35a81,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 2df53a344e5db70449f46e6b86c35a81,
+        type: 3}
+      propertyPath: m_Name
+      value: BetaFairy
+      objectReference: {fileID: 0}
+    - target: {fileID: 6471496338278676438, guid: 2df53a344e5db70449f46e6b86c35a81,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 2df53a344e5db70449f46e6b86c35a81,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 260927045}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 2df53a344e5db70449f46e6b86c35a81,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 260927044}
+  m_SourcePrefab: {fileID: 100100000, guid: 2df53a344e5db70449f46e6b86c35a81, type: 3}
 --- !u!43 &720382209
 Mesh:
   m_ObjectHideFlags: 0
@@ -2473,6 +2609,7 @@ GameObject:
   - component: {fileID: 926769617}
   - component: {fileID: 926769616}
   - component: {fileID: 926769615}
+  - component: {fileID: 926769618}
   m_Layer: 0
   m_Name: Swimmer
   m_TagString: Untagged
@@ -2537,13 +2674,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   acceleration: 4
   maxVelocity: 3
-  deceleration: 1
-  lateralAcceleration: 2
+  deceleration: 2
+  lateralAcceleration: 3
   lateralMaxVelocity: 1.5
   rotationAcceleration: 120
   rotationMaxVelocity: 90
   rotationDeceleration: 60
-  maxRotationXAngle: 60
+  maxRotationXAngle: 80
 --- !u!114 &926769616
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2561,6 +2698,8 @@ MonoBehaviour:
   movingBackward: 0
   movingLeft: 0
   movingRight: 0
+  movingUp: 0
+  movingDown: 0
   boosting: 0
   yAxisInverted: 0
 --- !u!114 &926769617
@@ -2725,11 +2864,64 @@ MonoBehaviour:
         m_CallState: 2
     m_ActionId: 5a6bc999-2206-4dad-be54-24d14ab6e7d4
     m_ActionName: Player/MoveLeft[/XInputControllerWindows/leftShoulder,/SwitchProControllerHID/leftShoulder,/Keyboard/a]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 926769616}
+        m_TargetAssemblyTypeName: PlayerInput, Assembly-CSharp
+        m_MethodName: OnMoveUp
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 963e39ef-2e81-4c2c-abe4-5ddde21bde80
+    m_ActionName: Player/MoveUp[/Keyboard/q]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 926769616}
+        m_TargetAssemblyTypeName: PlayerInput, Assembly-CSharp
+        m_MethodName: OnMoveDown
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: fe519328-fd7b-4767-8110-fa2ac355f90e
+    m_ActionName: Player/MoveDown[/Keyboard/e]
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: Player
   m_SplitScreenIndex: -1
   m_Camera: {fileID: 0}
+--- !u!95 &926769618
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 926769612}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 7ab19e3314fab5c4082980c0f4decb90, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &961739749
 GameObject:
   m_ObjectHideFlags: 0
@@ -3454,3 +3646,4 @@ SceneRoots:
   - {fileID: 1522068750}
   - {fileID: 926769614}
   - {fileID: 542825223}
+  - {fileID: 624069049}

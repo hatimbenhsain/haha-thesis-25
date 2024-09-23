@@ -10,6 +10,12 @@ public class Swimmer : MonoBehaviour
     public float lateralAcceleration=1f;
     public float lateralMaxVelocity=5f;
 
+    public float boostSpeed=1f;
+    public float coastingSpeed=3f;  //maintains coasting speed when not boosting
+
+    public float boostTimer=0f;
+    public float boostTime=1f;     //time before boost takes effect
+
     private CharacterController controller;
     private PlayerInput playerInput;
 
@@ -19,10 +25,18 @@ public class Swimmer : MonoBehaviour
     public float rotationDeceleration=180f;
     public float maxRotationXAngle=60f;
 
+    public float maxTiltAngle=10f; //max angle to tilt when moving laterally
+    public float angleTiltSpeed=1f; //speed to tile when moving laterally
+
+    private Animator animator;
+
+
+
     void Start()
     {
         controller=GetComponent<CharacterController>();
         playerInput=GetComponent<PlayerInput>();
+        animator=GetComponent<Animator>();
     }
 
     void Update()
@@ -67,6 +81,19 @@ public class Swimmer : MonoBehaviour
         }else{
             newRotation.x=Mathf.Clamp(newRotation.x,360f-maxRotationXAngle,360f+maxRotationXAngle);
         }
+
+        //Tilt player if moving laterally
+        float targetRotationZ=0f;
+        if(playerInput.movingLeft && !playerInput.movingRight){
+            targetRotationZ=maxTiltAngle;
+        }else if(playerInput.movingRight && !playerInput.movingLeft){
+            targetRotationZ=-maxTiltAngle;
+        }
+        if(newRotation.z>=180f){
+            targetRotationZ=360f+targetRotationZ;
+        }
+        newRotation.z=Mathf.Lerp(newRotation.z,targetRotationZ,Time.deltaTime*angleTiltSpeed);
+
         transform.rotation=Quaternion.Euler(newRotation);
 
         Vector3 currentVelocity=new Vector3(controller.velocity.x,controller.velocity.y,controller.velocity.z);
@@ -79,7 +106,7 @@ public class Swimmer : MonoBehaviour
         playerVelocity=playerVelocity-=decelerationVector;
 
         //Cancel deceleration if it goes past the direction
-        if(!playerInput.movingForward && !playerInput.movingBackward){
+        if(!playerInput.movingForward && !playerInput.movingBackward && !playerInput.movingLeft && !playerInput.movingRight && !playerInput.movingUp && !playerInput.movingUp){
             if(playerVelocity.x/Mathf.Abs(playerVelocity.x)!=currentVelocity.x/Mathf.Abs(currentVelocity.x)){
                 playerVelocity.x=0;
             }
@@ -91,11 +118,33 @@ public class Swimmer : MonoBehaviour
             }
         }
 
+        boostTimer+=Time.deltaTime;
+
+        //Boosting player velocity at the end of the brushstroke
+        if(boostTimer>boostTime && boostTimer-Time.deltaTime<=boostTime){
+            playerVelocity+=transform.forward*boostSpeed;
+        }
+
         //Adding velocity
         if(playerInput.movingForward && !playerInput.movingBackward){
-            playerVelocity+=transform.forward*acceleration*Time.deltaTime;
+            if(playerVelocity.magnitude<coastingSpeed || Vector3.Angle(playerVelocity,transform.forward)>=90f){
+                playerVelocity+=transform.forward*acceleration*Time.deltaTime;
+            }
+            animator.SetBool("swimmingForward",true);
+            if(!playerInput.prevMovingForward){
+                boostTimer=0f;
+                animator.SetTrigger("boostForward");
+            }
         }else if(playerInput.movingBackward && !playerInput.movingForward){
-            playerVelocity+=-transform.forward*acceleration*Time.deltaTime;
+            if(playerVelocity.magnitude<coastingSpeed || Vector3.Angle(playerVelocity,-transform.forward)>=90f){
+                playerVelocity+=-transform.forward*acceleration*Time.deltaTime;
+            }
+            animator.SetBool("swimmingBackward",true);
+            boostTimer=boostTime+1f;
+        }else{
+            animator.SetBool("swimmingForward",false);
+            animator.SetBool("swimmingBackward",false);
+            boostTimer=boostTime+1f;
         }
 
         //Lateral movement
@@ -103,6 +152,13 @@ public class Swimmer : MonoBehaviour
             playerVelocity+=-transform.right*lateralAcceleration*Time.deltaTime;
         }else if(playerInput.movingRight && !playerInput.movingLeft && Mathf.Abs((transform.rotation*playerVelocity).x)<lateralMaxVelocity){
             playerVelocity+=transform.right*lateralAcceleration*Time.deltaTime;
+        }
+
+        //Vertical movement
+        if(playerInput.movingUp && !playerInput.movingDown && Mathf.Abs((transform.rotation*playerVelocity).y)<lateralMaxVelocity){
+            playerVelocity+=transform.up*lateralAcceleration*Time.deltaTime;
+        }else if(playerInput.movingDown && !playerInput.movingUp && Mathf.Abs((transform.rotation*playerVelocity).y)<lateralMaxVelocity){
+            playerVelocity+=-transform.up*lateralAcceleration*Time.deltaTime;
         }
 
         playerVelocity=Vector3.ClampMagnitude(playerVelocity,maxVelocity);
@@ -119,7 +175,8 @@ public class Swimmer : MonoBehaviour
 /*
 TO-DO:
     + MAKE LATERAL/FORWARD MOVEMENT ONLY ONE AT A TIME
-    + ANIMATE
-    + ADD BREAST STROKE/COASTING
     + ADD BOOST
+    + EXPRIMENT WITH LERP INSTEAD OF LINEAR DECELERATION
+    + LOOK INTO PHYSICS SNAPPING
+    + MAKE CAMERA COLLISIONS work
 */
