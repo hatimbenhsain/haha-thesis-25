@@ -4,21 +4,29 @@ using UnityEngine;
 
 public class Swimmer : MonoBehaviour
 {
+    [Header("Movement")]
     public float acceleration=1f;
+    public float backwardAcceleration=1f;
     public float maxVelocity=10f;
+    [Tooltip("Deceleration always takes effect")]
     public float deceleration=5f;
     public float lateralAcceleration=1f;
     public float lateralMaxVelocity=5f;
 
+    [Tooltip("Instant speed gain at the end of a stroke")]
     public float boostSpeed=1f;
+    [Tooltip("Swimmer maintains coasting speed when not boosting")]
     public float coastingSpeed=3f;  //maintains coasting speed when not boosting
 
+    [Tooltip("Timer for before boost takes effect")]
     public float boostTimer=0f;
+    [Tooltip("Total time it takes before boost takes effect")]
     public float boostTime=1f;     //time before boost takes effect
 
     private CharacterController controller;
     private PlayerInput playerInput;
 
+    [Header("Rotation")]
     public float rotationAcceleration=180f;
     public float rotationMaxVelocity=180f;
     private Vector3 rotationVelocity=Vector3.zero;
@@ -137,7 +145,7 @@ public class Swimmer : MonoBehaviour
             }
         }else if(playerInput.movingBackward && !playerInput.movingForward){
             if(playerVelocity.magnitude<coastingSpeed || Vector3.Angle(playerVelocity,-transform.forward)>=90f){
-                playerVelocity+=-transform.forward*acceleration*Time.deltaTime;
+                playerVelocity+=-transform.forward*backwardAcceleration*Time.deltaTime;
             }
             animator.SetBool("swimmingBackward",true);
             boostTimer=boostTime+1f;
