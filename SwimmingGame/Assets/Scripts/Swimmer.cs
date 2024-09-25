@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.EditorTools;
 using UnityEngine;
 
 public class Swimmer : MonoBehaviour
@@ -37,6 +38,19 @@ public class Swimmer : MonoBehaviour
     public float angleTiltSpeed=1f; //speed to tile when moving laterally
 
     private Animator animator;
+
+    [Header("Misc")]
+
+    [Tooltip("Sometimes when colliding with something the character goes flying off. We use this value to limit the speed resulting.")]
+    public float maxCollisionSpeed=4f;
+
+    private bool justCollided=false;
+    private Vector3 collisionVelocity;
+    private Vector3 prevVelocity;
+
+    private int collisionNumber=0;
+
+
 
 
 
@@ -128,6 +142,31 @@ public class Swimmer : MonoBehaviour
 
         boostTimer+=Time.deltaTime;
 
+        //Checking if the player just collided and went flying off => dampen speed
+        if(justCollided){
+            
+            Debug.Log("just collided");
+            if(collisionNumber==1){
+                Debug.Log(collisionVelocity);
+                Debug.Log(prevVelocity);
+            }
+            Vector3 velocityChange=playerVelocity-collisionVelocity;
+            if(velocityChange.magnitude>=maxCollisionSpeed && Vector3.Angle(collisionVelocity,playerVelocity)>=45){
+                Debug.Log("big change");
+            //     //playerVelocity=Vector3.zero;
+
+                
+                //playerVelocity=collisionVelocity+Vector3.ClampMagnitude(velocityChange,maxCollisionSpeed);
+                playerVelocity=collisionVelocity+velocityChange.normalized*(maxCollisionSpeed+Mathf.Sqrt(velocityChange.magnitude-maxCollisionSpeed+1)-1);
+            }
+            Debug.Log(collisionNumber);
+            
+            Debug.Log(playerVelocity);
+            justCollided=false;
+        }else{
+            collisionNumber=0;
+        }
+
         //Boosting player velocity at the end of the brushstroke
         if(boostTimer>boostTime && boostTimer-Time.deltaTime<=boostTime){
             playerVelocity+=transform.forward*boostSpeed;
@@ -172,10 +211,19 @@ public class Swimmer : MonoBehaviour
         playerVelocity=Vector3.ClampMagnitude(playerVelocity,maxVelocity);
 
         controller.Move(playerVelocity*Time.deltaTime); 
+
+        prevVelocity=controller.velocity;
+
     }
 
     public void Swim(){
 
+    }
+
+    private void OnControllerColliderHit(ControllerColliderHit hit) {
+        justCollided=true;
+        collisionVelocity=controller.velocity;
+        collisionNumber+=1;
     }
 }
 
