@@ -44,6 +44,7 @@ public class Swimmer : MonoBehaviour
 
     [Tooltip("Sometimes when colliding with something the character goes flying off. We use this value to limit the speed resulting.")]
     public float maxCollisionSpeed=4f;
+    public float collisionSpeedFactor=1f;
 
     private bool justCollided=false;
     private Vector3 collisionVelocity;
@@ -239,7 +240,9 @@ public class Swimmer : MonoBehaviour
     }
 
     private void OnCollisionEnter(Collision other) {
-        Debug.Log(other.gameObject);
+        // Vector3 collisionPoint=other.GetContact(0).point;
+        // Vector3 normal=other.GetContact(0).normal;
+        // Vector3 force=normal*other.relativeVelocity*collisionSpeedFactor;
     }
 }
 
