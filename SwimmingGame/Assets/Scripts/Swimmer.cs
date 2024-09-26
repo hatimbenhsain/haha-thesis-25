@@ -25,6 +25,7 @@ public class Swimmer : MonoBehaviour
     public float boostTime=1f;     //time before boost takes effect
 
     private CharacterController controller;
+    private Rigidbody body;
     private PlayerInput playerInput;
 
     [Header("Rotation")]
@@ -59,9 +60,17 @@ public class Swimmer : MonoBehaviour
         controller=GetComponent<CharacterController>();
         playerInput=GetComponent<PlayerInput>();
         animator=GetComponent<Animator>();
+        body=GetComponent<Rigidbody>();
     }
 
-    void Update()
+    void Update(){
+        if(playerInput.movingForward && !playerInput.prevMovingForward){
+            boostTimer=0f;
+            animator.SetTrigger("boostForward");
+        }
+    }
+
+    void FixedUpdate()
     {
         Move();
     }
@@ -70,7 +79,7 @@ public class Swimmer : MonoBehaviour
         //Deceleration of rotation speed
         Vector3 antiRotationVector=rotationVelocity;
         Vector3 prevRotationVelocity=rotationVelocity;
-        antiRotationVector=antiRotationVector.normalized*rotationDeceleration*Time.deltaTime;
+        antiRotationVector=antiRotationVector.normalized*rotationDeceleration*Time.fixedDeltaTime;
 
         rotationVelocity=rotationVelocity-=antiRotationVector;
 
@@ -88,7 +97,7 @@ public class Swimmer : MonoBehaviour
         }
 
         if(playerInput.look!=Vector2.zero){//Setting rotation speed
-            rotationVelocity+=new Vector3(playerInput.look.y,playerInput.look.x,0f)*rotationAcceleration*Time.deltaTime;
+            rotationVelocity+=new Vector3(playerInput.look.y,playerInput.look.x,0f)*rotationAcceleration*Time.fixedDeltaTime;
             rotationVelocity=Vector3.ClampMagnitude(rotationVelocity,rotationMaxVelocity);
         }else{//Deceleration of rotation speed
 
@@ -96,7 +105,7 @@ public class Swimmer : MonoBehaviour
 
         //Rotating player
         Vector3 newRotation=transform.rotation.eulerAngles;
-        newRotation+=rotationVelocity*Time.deltaTime;
+        newRotation+=rotationVelocity*Time.fixedDeltaTime;
         //Clamping x rotation
         if(newRotation.x<180f){
             newRotation.x=Mathf.Clamp(newRotation.x,-maxRotationXAngle,maxRotationXAngle);
@@ -114,16 +123,17 @@ public class Swimmer : MonoBehaviour
         if(newRotation.z>=180f){
             targetRotationZ=360f+targetRotationZ;
         }
-        newRotation.z=Mathf.Lerp(newRotation.z,targetRotationZ,Time.deltaTime*angleTiltSpeed);
+        newRotation.z=Mathf.Lerp(newRotation.z,targetRotationZ,Time.fixedDeltaTime*angleTiltSpeed);
 
-        transform.rotation=Quaternion.Euler(newRotation);
+        //transform.rotation=Quaternion.Euler(newRotation);
+        body.MoveRotation(Quaternion.Euler(newRotation));
 
-        Vector3 currentVelocity=new Vector3(controller.velocity.x,controller.velocity.y,controller.velocity.z);
+        Vector3 currentVelocity=new Vector3(body.velocity.x,body.velocity.y,body.velocity.z);
         Vector3 playerVelocity=currentVelocity;
 
         //Deceleration
         Vector3 decelerationVector=currentVelocity;
-        decelerationVector=decelerationVector.normalized*deceleration*Time.deltaTime;
+        decelerationVector=decelerationVector.normalized*deceleration*Time.fixedDeltaTime;
 
         playerVelocity=playerVelocity-=decelerationVector;
 
@@ -140,7 +150,7 @@ public class Swimmer : MonoBehaviour
             }
         }
 
-        boostTimer+=Time.deltaTime;
+        boostTimer+=Time.fixedDeltaTime;
 
         //Checking if the player just collided and went flying off => dampen speed
         if(justCollided){
@@ -168,14 +178,14 @@ public class Swimmer : MonoBehaviour
         }
 
         //Boosting player velocity at the end of the brushstroke
-        if(boostTimer>boostTime && boostTimer-Time.deltaTime<=boostTime){
+        if(boostTimer>boostTime && boostTimer-Time.fixedDeltaTime<=boostTime){
             playerVelocity+=transform.forward*boostSpeed;
         }
 
         //Adding velocity
         if(playerInput.movingForward && !playerInput.movingBackward){
             if(playerVelocity.magnitude<coastingSpeed || Vector3.Angle(playerVelocity,transform.forward)>=90f){
-                playerVelocity+=transform.forward*acceleration*Time.deltaTime;
+                playerVelocity+=transform.forward*acceleration*Time.fixedDeltaTime;
             }
             animator.SetBool("swimmingForward",true);
             if(!playerInput.prevMovingForward){
@@ -184,7 +194,7 @@ public class Swimmer : MonoBehaviour
             }
         }else if(playerInput.movingBackward && !playerInput.movingForward){
             if(playerVelocity.magnitude<coastingSpeed || Vector3.Angle(playerVelocity,-transform.forward)>=90f){
-                playerVelocity+=-transform.forward*backwardAcceleration*Time.deltaTime;
+                playerVelocity+=-transform.forward*backwardAcceleration*Time.fixedDeltaTime;
             }
             animator.SetBool("swimmingBackward",true);
             boostTimer=boostTime+1f;
@@ -196,23 +206,25 @@ public class Swimmer : MonoBehaviour
 
         //Lateral movement
         if(playerInput.movingLeft && !playerInput.movingRight && Mathf.Abs((transform.rotation*playerVelocity).x)<lateralMaxVelocity){
-            playerVelocity+=-transform.right*lateralAcceleration*Time.deltaTime;
+            playerVelocity+=-transform.right*lateralAcceleration*Time.fixedDeltaTime;
         }else if(playerInput.movingRight && !playerInput.movingLeft && Mathf.Abs((transform.rotation*playerVelocity).x)<lateralMaxVelocity){
-            playerVelocity+=transform.right*lateralAcceleration*Time.deltaTime;
+            playerVelocity+=transform.right*lateralAcceleration*Time.fixedDeltaTime;
         }
 
         //Vertical movement
         if(playerInput.movingUp && !playerInput.movingDown && Mathf.Abs((transform.rotation*playerVelocity).y)<lateralMaxVelocity){
             playerVelocity+=transform.up*lateralAcceleration*Time.deltaTime;
         }else if(playerInput.movingDown && !playerInput.movingUp && Mathf.Abs((transform.rotation*playerVelocity).y)<lateralMaxVelocity){
-            playerVelocity+=-transform.up*lateralAcceleration*Time.deltaTime;
+            playerVelocity+=-transform.up*lateralAcceleration*Time.fixedDeltaTime;
         }
 
         playerVelocity=Vector3.ClampMagnitude(playerVelocity,maxVelocity);
 
-        controller.Move(playerVelocity*Time.deltaTime); 
+        //controller.Move(playerVelocity*Time.deltaTime); 
+        //body.AddForce(playerVelocity*Time.fixedDeltaTime,ForceMode.VelocityChange);
+        body.MovePosition(transform.position+playerVelocity*Time.fixedDeltaTime);
 
-        prevVelocity=controller.velocity;
+        prevVelocity=body.velocity;
 
     }
 
@@ -224,6 +236,10 @@ public class Swimmer : MonoBehaviour
         justCollided=true;
         collisionVelocity=controller.velocity;
         collisionNumber+=1;
+    }
+
+    private void OnCollisionEnter(Collision other) {
+        Debug.Log(other.gameObject);
     }
 }
 
