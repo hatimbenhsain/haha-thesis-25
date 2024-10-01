@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEditor.EditorTools;
 using UnityEngine;
+using UnityEngine.Timeline;
 
 public class Swimmer : MonoBehaviour
 {
@@ -45,6 +46,7 @@ public class Swimmer : MonoBehaviour
     [Tooltip("Sometimes when colliding with something the character goes flying off. We use this value to limit the speed resulting.")]
     public float maxCollisionSpeed=4f;
     public float collisionSpeedFactor=1f;
+    public float minCollisionSpeed=0.1f;
 
     private bool justCollided=false;
     private Vector3 collisionVelocity;
@@ -52,9 +54,7 @@ public class Swimmer : MonoBehaviour
 
     private int collisionNumber=0;
 
-
-
-
+    ArrayList allHits=new ArrayList();
 
     void Start()
     {
@@ -77,6 +77,47 @@ public class Swimmer : MonoBehaviour
     }
 
     void Move(){
+        Vector3 currentVelocity=new Vector3(body.velocity.x,body.velocity.y,body.velocity.z);
+        Vector3 playerVelocity=currentVelocity;
+
+        //Deal with collisions
+        foreach (CollisionData hit in allHits)
+        {
+            
+            Vector3 collisionPoint=hit.contact.point;
+            Vector3 normal=hit.contact.normal;
+            Vector3 relativeVelocity;
+            if(hit.contact.otherCollider.TryGetComponent<Rigidbody>(out Rigidbody otherBody)){
+                relativeVelocity=otherBody.velocity;
+            }
+            else{
+                relativeVelocity=Vector3.zero;
+            }
+            relativeVelocity=relativeVelocity-playerVelocity;
+            Vector3 force=normal*relativeVelocity.magnitude*collisionSpeedFactor;
+            //Projection of relative vel on normal
+            //force=collisionSpeedFactor*Vector3.Dot(relativeVelocity,normal)*normal/Vector3.Dot(normal,normal);
+            force=Vector3.Project(relativeVelocity,normal)*collisionSpeedFactor;
+            if(Vector3.Angle(force,normal)>=90){
+                force=Vector3.zero;
+            }
+            if(force==Vector3.zero){
+                force+=normal*minCollisionSpeed;
+            }
+            Debug.Log("relative velocity:");
+            Debug.Log(hit.relativeVelocity);
+            Debug.Log("player velocity:");
+            Debug.Log(playerVelocity);
+            Debug.Log("force:");
+            Debug.Log(force);
+            playerVelocity+=force;
+
+            Debug.DrawRay(hit.contact.point, hit.contact.normal , Color.magenta, 1f);
+            Debug.DrawRay(transform.position, relativeVelocity , Color.green, 1f);
+            Debug.DrawRay(transform.position+Vector3.one*0.1f, force , Color.blue, 1f);
+        }
+        allHits.Clear();
+
         //Deceleration of rotation speed
         Vector3 antiRotationVector=rotationVelocity;
         Vector3 prevRotationVelocity=rotationVelocity;
@@ -128,9 +169,6 @@ public class Swimmer : MonoBehaviour
 
         //transform.rotation=Quaternion.Euler(newRotation);
         body.MoveRotation(Quaternion.Euler(newRotation));
-
-        Vector3 currentVelocity=new Vector3(body.velocity.x,body.velocity.y,body.velocity.z);
-        Vector3 playerVelocity=currentVelocity;
 
         //Deceleration
         Vector3 decelerationVector=currentVelocity;
@@ -219,6 +257,8 @@ public class Swimmer : MonoBehaviour
             playerVelocity+=-transform.up*lateralAcceleration*Time.fixedDeltaTime;
         }
 
+
+
         playerVelocity=Vector3.ClampMagnitude(playerVelocity,maxVelocity);
 
         //controller.Move(playerVelocity*Time.deltaTime); 
@@ -239,10 +279,27 @@ public class Swimmer : MonoBehaviour
         collisionNumber+=1;
     }
 
-    private void OnCollisionEnter(Collision other) {
-        // Vector3 collisionPoint=other.GetContact(0).point;
-        // Vector3 normal=other.GetContact(0).normal;
-        // Vector3 force=normal*other.relativeVelocity*collisionSpeedFactor;
+    private void OnCollisionStay(Collision other) {
+        ContactPoint[] myContacts = new ContactPoint[other.contactCount];
+        for(int i = 0; i < myContacts.Length; i++)
+        {
+            myContacts[i] = other.GetContact(i);
+            CollisionData c=new CollisionData(myContacts[i],other.relativeVelocity);
+            allHits.Add(c);
+        }
+        Debug.Log("collision enter");
+        Debug.Log(other.gameObject);
+    }
+
+    // SHOULD MOVE THIS SOMEWHERE ELSE
+    public struct CollisionData{
+        public ContactPoint contact;
+        public Vector3 relativeVelocity;
+
+        public CollisionData(ContactPoint c, Vector3 v){
+            contact=c;
+            relativeVelocity=v;
+        }
     }
 }
 
