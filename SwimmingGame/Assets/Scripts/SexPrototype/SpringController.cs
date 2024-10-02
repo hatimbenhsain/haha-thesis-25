@@ -18,7 +18,7 @@ public class SpringController : MonoBehaviour
 
     private Vector3 originalScale; // original scale of the cylinder
     private Rigidbody characterRb;
-    private bool isInhaling = false;
+    public bool isInhaling = false;
     private float inhaleStartTime = 0f;
     private float inhaleDuration = 0f;
     private float exhaleForce = 0f; // forward force based on inhale time
