@@ -76,6 +76,15 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": true
+                },
+                {
+                    "name": "Interact",
+                    "type": "Button",
+                    "id": "8415d72c-9d4d-45af-9337-2b7f3a1e33fe",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -323,8 +332,8 @@
                 },
                 {
                     "name": "",
-                    "id": "990f3026-ce7b-4d53-bbab-cca926bbbf9c",
-                    "path": "<Gamepad>/buttonNorth",
+                    "id": "c08249e6-d135-435e-ac6d-e515dfd32d35",
+                    "path": "<Gamepad>/dpad/up",
                     "interactions": "",
                     "processors": "",
                     "groups": "Gamepad",
@@ -345,8 +354,8 @@
                 },
                 {
                     "name": "",
-                    "id": "4bebbb8b-a0c7-4abe-be3e-c3d16d9ef5d8",
-                    "path": "<Gamepad>/buttonWest",
+                    "id": "d27bb0a0-e695-47d8-8bef-cc1bbb6435e1",
+                    "path": "<Gamepad>/dpad/down",
                     "interactions": "",
                     "processors": "",
                     "groups": "Gamepad",
@@ -362,6 +371,28 @@
                     "processors": "",
                     "groups": "Keyboard&Mouse",
                     "action": "MoveDown",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "ce78ad95-5a00-4003-82fa-e58f5f4019db",
+                    "path": "<Gamepad>/buttonWest",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Gamepad",
+                    "action": "Interact",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "1b2f96cf-bf2e-4751-bb1e-117f5c21dff3",
+                    "path": "<Keyboard>/x",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard&Mouse",
+                    "action": "Interact",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
