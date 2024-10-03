@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Security.Cryptography;
 using UnityEditor.EditorTools;
 using UnityEngine;
 using UnityEngine.Timeline;
@@ -56,12 +57,16 @@ public class Swimmer : MonoBehaviour
 
     ArrayList allHits=new ArrayList();
 
+    private CapsuleCollider capsule;
+
+    public float skinWidth=0.05f;
     void Start()
     {
         controller=GetComponent<CharacterController>();
         playerInput=GetComponent<PlayerInput>();
         animator=GetComponent<Animator>();
         body=GetComponent<Rigidbody>();
+        capsule=GetComponent<CapsuleCollider>();
     }
 
     void Update(){
@@ -79,44 +84,6 @@ public class Swimmer : MonoBehaviour
     void Move(){
         Vector3 currentVelocity=new Vector3(body.velocity.x,body.velocity.y,body.velocity.z);
         Vector3 playerVelocity=currentVelocity;
-
-        //Deal with collisions
-        foreach (CollisionData hit in allHits)
-        {
-            
-            Vector3 collisionPoint=hit.contact.point;
-            Vector3 normal=hit.contact.normal;
-            Vector3 relativeVelocity;
-            if(hit.contact.otherCollider.TryGetComponent<Rigidbody>(out Rigidbody otherBody)){
-                relativeVelocity=otherBody.velocity;
-            }
-            else{
-                relativeVelocity=Vector3.zero;
-            }
-            relativeVelocity=relativeVelocity-playerVelocity;
-            Vector3 force=normal*relativeVelocity.magnitude*collisionSpeedFactor;
-            //Projection of relative vel on normal
-            //force=collisionSpeedFactor*Vector3.Dot(relativeVelocity,normal)*normal/Vector3.Dot(normal,normal);
-            force=Vector3.Project(relativeVelocity,normal)*collisionSpeedFactor;
-            if(Vector3.Angle(force,normal)>=90){
-                force=Vector3.zero;
-            }
-            if(force==Vector3.zero){
-                force+=normal*minCollisionSpeed;
-            }
-            Debug.Log("relative velocity:");
-            Debug.Log(hit.relativeVelocity);
-            Debug.Log("player velocity:");
-            Debug.Log(playerVelocity);
-            Debug.Log("force:");
-            Debug.Log(force);
-            playerVelocity+=force;
-
-            Debug.DrawRay(hit.contact.point, hit.contact.normal , Color.magenta, 1f);
-            Debug.DrawRay(transform.position, relativeVelocity , Color.green, 1f);
-            Debug.DrawRay(transform.position+Vector3.one*0.1f, force , Color.blue, 1f);
-        }
-        allHits.Clear();
 
         //Deceleration of rotation speed
         Vector3 antiRotationVector=rotationVelocity;
@@ -188,6 +155,43 @@ public class Swimmer : MonoBehaviour
                 playerVelocity.z=0;
             }
         }
+
+        //Deal with collisions
+        foreach (ContactPoint hit in allHits)
+        {
+            Vector3 collisionPoint=hit.point;
+            Vector3 normal=hit.normal;
+            Vector3 relativeVelocity;
+            if(hit.otherCollider.TryGetComponent<Rigidbody>(out Rigidbody otherBody)){
+                relativeVelocity=otherBody.velocity;
+            }
+            else{
+                relativeVelocity=Vector3.zero;
+            }
+            relativeVelocity=relativeVelocity-playerVelocity;
+            Vector3 force=normal*relativeVelocity.magnitude*collisionSpeedFactor;
+            //Projection of relative vel on normal
+            //force=collisionSpeedFactor*Vector3.Dot(relativeVelocity,normal)*normal/Vector3.Dot(normal,normal);
+            force=Vector3.Project(relativeVelocity,normal)*collisionSpeedFactor;
+            if(Vector3.Angle(force,normal)>=90){
+                force=Vector3.zero;
+            }
+            if(force==Vector3.zero){
+                force+=normal*minCollisionSpeed;
+            }
+            // Debug.Log("player velocity:");
+            // Debug.Log(playerVelocity);
+            // Debug.Log("force:");
+            // Debug.Log(force);
+            playerVelocity+=force;
+
+            Debug.DrawRay(hit.point, hit.normal , Color.magenta, 1f);
+            Debug.DrawRay(transform.position, relativeVelocity , Color.green, 1f);
+            Debug.DrawRay(transform.position+Vector3.one*0.1f, force , Color.blue, 1f);
+
+            //MoveOutOf(hit.otherCollider,normal);
+        }
+        //allHits.Clear();
 
         boostTimer+=Time.fixedDeltaTime;
 
@@ -261,11 +265,19 @@ public class Swimmer : MonoBehaviour
 
         playerVelocity=Vector3.ClampMagnitude(playerVelocity,maxVelocity);
 
+        Vector3 collisionMovement=Vector3.zero;
+        foreach (ContactPoint hit in allHits)
+        {
+            collisionMovement+=MoveOutOf(hit.otherCollider,playerVelocity*Time.fixedDeltaTime,hit.normal);
+        }
+
         //controller.Move(playerVelocity*Time.deltaTime); 
         //body.AddForce(playerVelocity*Time.fixedDeltaTime,ForceMode.VelocityChange);
-        body.MovePosition(transform.position+playerVelocity*Time.fixedDeltaTime);
+        body.MovePosition(transform.position+playerVelocity*Time.fixedDeltaTime+collisionMovement);
 
         prevVelocity=body.velocity;
+
+        allHits.Clear();
 
     }
 
@@ -284,22 +296,55 @@ public class Swimmer : MonoBehaviour
         for(int i = 0; i < myContacts.Length; i++)
         {
             myContacts[i] = other.GetContact(i);
-            CollisionData c=new CollisionData(myContacts[i],other.relativeVelocity);
-            allHits.Add(c);
+            allHits.Add(myContacts[i]);
         }
         Debug.Log("collision enter");
         Debug.Log(other.gameObject);
     }
 
-    // SHOULD MOVE THIS SOMEWHERE ELSE
-    public struct CollisionData{
-        public ContactPoint contact;
-        public Vector3 relativeVelocity;
+    //This function is for moving the player out of a collider without moving too fast
+    public Vector3 MoveOutOf(Collider other, Vector3 pos, Vector3 normal){
+        Vector3 prevVelocity=body.velocity;
 
-        public CollisionData(ContactPoint c, Vector3 v){
-            contact=c;
-            relativeVelocity=v;
+        Vector3 dir=new Vector3();
+        switch(capsule.direction){
+            case 0:
+                dir=transform.right;
+                break;
+            case 1:
+                dir=transform.up;
+                break;
+            case 2:
+                dir=transform.forward;
+                break;
         }
+        Vector3 point1=pos+capsule.center+dir*(capsule.height/2f-capsule.radius);
+        Vector3 point2=pos+capsule.center-dir*(capsule.height/2f-capsule.radius);
+        RaycastHit[] hits;
+
+        bool colliding=true;
+        int tries=0;
+        Vector3 movement=Vector3.zero; //Amount to move the collider 
+
+        LayerMask mask = LayerMask.GetMask("Default");
+
+        while(colliding && tries<100){
+            hits=Physics.CapsuleCastAll(point1+movement,point2+movement,capsule.radius+skinWidth,normal,0f,mask,QueryTriggerInteraction.Ignore);
+            colliding=false;
+            foreach(RaycastHit hit in hits){
+                if(hit.collider==other){
+                    colliding=true;
+                    movement+=normal*minCollisionSpeed;
+                    break;
+                }
+            }
+            tries++;
+        }
+        // Try doing this but then resetting the velocity
+        //body.MovePosition(transform.position+movement);
+
+        return movement;
+
     }
 }
 
