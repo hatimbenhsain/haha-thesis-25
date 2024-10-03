@@ -1,7 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Security.Cryptography;
 using UnityEditor.EditorTools;
 using UnityEngine;
+using UnityEngine.Timeline;
 
 public class Swimmer : MonoBehaviour
 {
@@ -25,6 +27,7 @@ public class Swimmer : MonoBehaviour
     public float boostTime=1f;     //time before boost takes effect
 
     private CharacterController controller;
+    private Rigidbody body;
     private PlayerInput playerInput;
 
     [Header("Rotation")]
@@ -43,6 +46,8 @@ public class Swimmer : MonoBehaviour
 
     [Tooltip("Sometimes when colliding with something the character goes flying off. We use this value to limit the speed resulting.")]
     public float maxCollisionSpeed=4f;
+    public float collisionSpeedFactor=1f;
+    public float minCollisionSpeed=0.1f;
 
     private bool justCollided=false;
     private Vector3 collisionVelocity;
@@ -50,27 +55,40 @@ public class Swimmer : MonoBehaviour
 
     private int collisionNumber=0;
 
+    ArrayList allHits=new ArrayList();
 
+    private CapsuleCollider capsule;
 
-
-
+    public float skinWidth=0.05f;
     void Start()
     {
         controller=GetComponent<CharacterController>();
-        playerInput=GetComponent<PlayerInput>();
+        playerInput=FindObjectOfType<PlayerInput>();
         animator=GetComponent<Animator>();
+        body=GetComponent<Rigidbody>();
+        capsule=GetComponent<CapsuleCollider>();
     }
 
-    void Update()
+    void Update(){
+        if(playerInput.movingForward && !playerInput.prevMovingForward){
+            boostTimer=0f;
+            animator.SetTrigger("boostForward");
+        }
+    }
+
+    void FixedUpdate()
     {
         Move();
     }
 
     void Move(){
+        Vector3 currentVelocity=new Vector3(body.velocity.x,body.velocity.y,body.velocity.z);
+        Vector3 playerVelocity=currentVelocity;
+
         //Deceleration of rotation speed
         Vector3 antiRotationVector=rotationVelocity;
         Vector3 prevRotationVelocity=rotationVelocity;
-        antiRotationVector=antiRotationVector.normalized*rotationDeceleration*Time.deltaTime;
+        antiRotationVector=antiRotationVector.normalized*rotationDeceleration*Time.fixedDeltaTime;
 
         rotationVelocity=rotationVelocity-=antiRotationVector;
 
@@ -88,7 +106,7 @@ public class Swimmer : MonoBehaviour
         }
 
         if(playerInput.look!=Vector2.zero){//Setting rotation speed
-            rotationVelocity+=new Vector3(playerInput.look.y,playerInput.look.x,0f)*rotationAcceleration*Time.deltaTime;
+            rotationVelocity+=new Vector3(playerInput.look.y,playerInput.look.x,0f)*rotationAcceleration*Time.fixedDeltaTime;
             rotationVelocity=Vector3.ClampMagnitude(rotationVelocity,rotationMaxVelocity);
         }else{//Deceleration of rotation speed
 
@@ -96,7 +114,7 @@ public class Swimmer : MonoBehaviour
 
         //Rotating player
         Vector3 newRotation=transform.rotation.eulerAngles;
-        newRotation+=rotationVelocity*Time.deltaTime;
+        newRotation+=rotationVelocity*Time.fixedDeltaTime;
         //Clamping x rotation
         if(newRotation.x<180f){
             newRotation.x=Mathf.Clamp(newRotation.x,-maxRotationXAngle,maxRotationXAngle);
@@ -114,16 +132,14 @@ public class Swimmer : MonoBehaviour
         if(newRotation.z>=180f){
             targetRotationZ=360f+targetRotationZ;
         }
-        newRotation.z=Mathf.Lerp(newRotation.z,targetRotationZ,Time.deltaTime*angleTiltSpeed);
+        newRotation.z=Mathf.Lerp(newRotation.z,targetRotationZ,Time.fixedDeltaTime*angleTiltSpeed);
 
-        transform.rotation=Quaternion.Euler(newRotation);
-
-        Vector3 currentVelocity=new Vector3(controller.velocity.x,controller.velocity.y,controller.velocity.z);
-        Vector3 playerVelocity=currentVelocity;
+        //transform.rotation=Quaternion.Euler(newRotation);
+        body.MoveRotation(Quaternion.Euler(newRotation));
 
         //Deceleration
         Vector3 decelerationVector=currentVelocity;
-        decelerationVector=decelerationVector.normalized*deceleration*Time.deltaTime;
+        decelerationVector=decelerationVector.normalized*deceleration*Time.fixedDeltaTime;
 
         playerVelocity=playerVelocity-=decelerationVector;
 
@@ -140,7 +156,44 @@ public class Swimmer : MonoBehaviour
             }
         }
 
-        boostTimer+=Time.deltaTime;
+        //Deal with collisions
+        foreach (ContactPoint hit in allHits)
+        {
+            Vector3 collisionPoint=hit.point;
+            Vector3 normal=hit.normal;
+            Vector3 relativeVelocity;
+            if(hit.otherCollider.TryGetComponent<Rigidbody>(out Rigidbody otherBody)){
+                relativeVelocity=otherBody.velocity;
+            }
+            else{
+                relativeVelocity=Vector3.zero;
+            }
+            relativeVelocity=relativeVelocity-playerVelocity;
+            Vector3 force=normal*relativeVelocity.magnitude*collisionSpeedFactor;
+            //Projection of relative vel on normal
+            //force=collisionSpeedFactor*Vector3.Dot(relativeVelocity,normal)*normal/Vector3.Dot(normal,normal);
+            force=Vector3.Project(relativeVelocity,normal)*collisionSpeedFactor;
+            if(Vector3.Angle(force,normal)>=90){
+                force=Vector3.zero;
+            }
+            if(force==Vector3.zero){
+                force+=normal*minCollisionSpeed;
+            }
+            // Debug.Log("player velocity:");
+            // Debug.Log(playerVelocity);
+            // Debug.Log("force:");
+            // Debug.Log(force);
+            playerVelocity+=force;
+
+            Debug.DrawRay(hit.point, hit.normal , Color.magenta, 1f);
+            Debug.DrawRay(transform.position, relativeVelocity , Color.green, 1f);
+            Debug.DrawRay(transform.position+Vector3.one*0.1f, force , Color.blue, 1f);
+
+            //MoveOutOf(hit.otherCollider,normal);
+        }
+        //allHits.Clear();
+
+        boostTimer+=Time.fixedDeltaTime;
 
         //Checking if the player just collided and went flying off => dampen speed
         if(justCollided){
@@ -168,14 +221,14 @@ public class Swimmer : MonoBehaviour
         }
 
         //Boosting player velocity at the end of the brushstroke
-        if(boostTimer>boostTime && boostTimer-Time.deltaTime<=boostTime){
+        if(boostTimer>boostTime && boostTimer-Time.fixedDeltaTime<=boostTime){
             playerVelocity+=transform.forward*boostSpeed;
         }
 
         //Adding velocity
         if(playerInput.movingForward && !playerInput.movingBackward){
             if(playerVelocity.magnitude<coastingSpeed || Vector3.Angle(playerVelocity,transform.forward)>=90f){
-                playerVelocity+=transform.forward*acceleration*Time.deltaTime;
+                playerVelocity+=transform.forward*acceleration*Time.fixedDeltaTime;
             }
             animator.SetBool("swimmingForward",true);
             if(!playerInput.prevMovingForward){
@@ -184,7 +237,7 @@ public class Swimmer : MonoBehaviour
             }
         }else if(playerInput.movingBackward && !playerInput.movingForward){
             if(playerVelocity.magnitude<coastingSpeed || Vector3.Angle(playerVelocity,-transform.forward)>=90f){
-                playerVelocity+=-transform.forward*backwardAcceleration*Time.deltaTime;
+                playerVelocity+=-transform.forward*backwardAcceleration*Time.fixedDeltaTime;
             }
             animator.SetBool("swimmingBackward",true);
             boostTimer=boostTime+1f;
@@ -196,23 +249,35 @@ public class Swimmer : MonoBehaviour
 
         //Lateral movement
         if(playerInput.movingLeft && !playerInput.movingRight && Mathf.Abs((transform.rotation*playerVelocity).x)<lateralMaxVelocity){
-            playerVelocity+=-transform.right*lateralAcceleration*Time.deltaTime;
+            playerVelocity+=-transform.right*lateralAcceleration*Time.fixedDeltaTime;
         }else if(playerInput.movingRight && !playerInput.movingLeft && Mathf.Abs((transform.rotation*playerVelocity).x)<lateralMaxVelocity){
-            playerVelocity+=transform.right*lateralAcceleration*Time.deltaTime;
+            playerVelocity+=transform.right*lateralAcceleration*Time.fixedDeltaTime;
         }
 
         //Vertical movement
         if(playerInput.movingUp && !playerInput.movingDown && Mathf.Abs((transform.rotation*playerVelocity).y)<lateralMaxVelocity){
             playerVelocity+=transform.up*lateralAcceleration*Time.deltaTime;
         }else if(playerInput.movingDown && !playerInput.movingUp && Mathf.Abs((transform.rotation*playerVelocity).y)<lateralMaxVelocity){
-            playerVelocity+=-transform.up*lateralAcceleration*Time.deltaTime;
+            playerVelocity+=-transform.up*lateralAcceleration*Time.fixedDeltaTime;
         }
+
+
 
         playerVelocity=Vector3.ClampMagnitude(playerVelocity,maxVelocity);
 
-        controller.Move(playerVelocity*Time.deltaTime); 
+        Vector3 collisionMovement=Vector3.zero;
+        foreach (ContactPoint hit in allHits)
+        {
+            collisionMovement+=MoveOutOf(hit.otherCollider,playerVelocity*Time.fixedDeltaTime,hit.normal);
+        }
 
-        prevVelocity=controller.velocity;
+        //controller.Move(playerVelocity*Time.deltaTime); 
+        //body.AddForce(playerVelocity*Time.fixedDeltaTime,ForceMode.VelocityChange);
+        body.MovePosition(transform.position+playerVelocity*Time.fixedDeltaTime+collisionMovement);
+
+        prevVelocity=body.velocity;
+
+        allHits.Clear();
 
     }
 
@@ -224,6 +289,62 @@ public class Swimmer : MonoBehaviour
         justCollided=true;
         collisionVelocity=controller.velocity;
         collisionNumber+=1;
+    }
+
+    private void OnCollisionStay(Collision other) {
+        ContactPoint[] myContacts = new ContactPoint[other.contactCount];
+        for(int i = 0; i < myContacts.Length; i++)
+        {
+            myContacts[i] = other.GetContact(i);
+            allHits.Add(myContacts[i]);
+        }
+        Debug.Log("collision enter");
+        Debug.Log(other.gameObject);
+    }
+
+    //This function is for moving the player out of a collider without moving too fast
+    public Vector3 MoveOutOf(Collider other, Vector3 pos, Vector3 normal){
+        Vector3 prevVelocity=body.velocity;
+
+        Vector3 dir=new Vector3();
+        switch(capsule.direction){
+            case 0:
+                dir=transform.right;
+                break;
+            case 1:
+                dir=transform.up;
+                break;
+            case 2:
+                dir=transform.forward;
+                break;
+        }
+        Vector3 point1=pos+capsule.center+dir*(capsule.height/2f-capsule.radius);
+        Vector3 point2=pos+capsule.center-dir*(capsule.height/2f-capsule.radius);
+        RaycastHit[] hits;
+
+        bool colliding=true;
+        int tries=0;
+        Vector3 movement=Vector3.zero; //Amount to move the collider 
+
+        LayerMask mask = LayerMask.GetMask("Default");
+
+        while(colliding && tries<100){
+            hits=Physics.CapsuleCastAll(point1+movement,point2+movement,capsule.radius+skinWidth,normal,0f,mask,QueryTriggerInteraction.Ignore);
+            colliding=false;
+            foreach(RaycastHit hit in hits){
+                if(hit.collider==other){
+                    colliding=true;
+                    movement+=normal*minCollisionSpeed;
+                    break;
+                }
+            }
+            tries++;
+        }
+        // Try doing this but then resetting the velocity
+        //body.MovePosition(transform.position+movement);
+
+        return movement;
+
     }
 }
 
