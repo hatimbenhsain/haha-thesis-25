@@ -18,7 +18,7 @@ public class ThirdPersonCamera : MonoBehaviour
         Cursor.lockState = CursorLockMode.Locked;  // Locks the cursor to the center of the screen
     }
 
-    void Update()
+    void FixedUpdate()
     {
         HandleMouseLook();
     }
@@ -37,7 +37,7 @@ public class ThirdPersonCamera : MonoBehaviour
         // Set the target rotation for the cameraRoot
         targetRotation.x = xRotation;
 
-        // Lerp the camera's rotation for a smooth, heavier feel
+        // Lerp the camera's rotation for a, heavier feel
         currentRotation = Vector3.SmoothDamp(currentRotation, targetRotation, ref rotationVelocity, rotationSmoothTime);
 
         // Apply the smoothed rotation to the cameraRoot

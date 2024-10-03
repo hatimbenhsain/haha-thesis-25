@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.07924773, g: 0.07924773, b: 0.07924773, a: 1}
+  m_IndirectSpecularColor: {r: 0.040047113, g: 0.050240323, b: 0.03920058, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -9729,10 +9729,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aa308b3d5e30b124594a1c4e4b198a64, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ropeOrigin: {fileID: 4260743482007162107}
-  swimCharacter: {fileID: 8123564204244306472}
-  speedMultiplier: 0.015
-  pooledParticles: 300
 --- !u!114 &875627282
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9826,7 +9822,7 @@ MonoBehaviour:
     serializedContents: 000000000100000002000000030000000400000005000000060000000700000008000000090000000a0000000b0000000c0000000d0000000e0000000f000000100000001100000012000000130000001400000015000000160000001700000018000000190000001a0000001b0000001c0000001d0000001e0000001f000000200000002100000022000000230000002400000025000000260000002700000028000000290000002a0000002b0000002c0000002d0000002e0000002f000000300000003100000032000000330000003400000035000000360000003700000038000000390000003a0000003b0000003c0000003d0000003e0000003f000000400000004100000042000000430000004400000045000000460000004700000048000000490000004a0000004b0000004c0000004d0000004e0000004f000000500000005100000052000000530000005400000055000000560000005700000058000000590000005a0000005b0000005c0000005d0000005e0000005f000000600000006100000062000000630000006400000065000000660000006700000068000000690000006a0000006b0000006c0000006d0000006e0000006f000000700000007100000072000000730000007400000075000000760000007700000078000000790000007a0000007b0000007c0000007d0000007e0000007f000000800000008100000082000000830000008400000085000000860000008700000088000000890000008a0000008b0000008c0000008d0000008e0000008f000000900000009100000092000000930000009400000095000000960000009700000098000000990000009a0000009b0000009c0000009d0000009e0000009f000000a0000000a1000000a2000000a3000000a4000000a5000000a6000000a7000000a8000000a9000000aa000000ab000000ac000000ad000000ae000000af000000b0000000b1000000b2000000b3000000b4000000b5000000b6000000b7000000b8000000b9000000ba000000bb000000
     m_AlignBytes: 16
   groupID: 1
-  m_CollisionMaterial: {fileID: 11400000, guid: 7e318fd02475245f48f8f968e5ef09d5,
+  m_CollisionMaterial: {fileID: 11400000, guid: 06e7bfec7795f448eb8800edc99dbcf2,
     type: 2}
   m_SurfaceCollisions: 0
   m_SelfCollisions: 1
@@ -11917,52 +11913,6 @@ MonoBehaviour:
   filter: -65535
   m_SourceCollider: {fileID: 939844396}
   m_DistanceField: {fileID: 0}
---- !u!1 &940912450
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 940912452}
-  - component: {fileID: 940912451}
-  m_Layer: 0
-  m_Name: BurstCollisionWorld
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &940912451
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 940912450}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f1a161c4294214a4fbcb7e9e94800494, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  cellSpans:
-    m_AlignBytes: 16
---- !u!4 &940912452
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 940912450}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &948486994
 GameObject:
   m_ObjectHideFlags: 0
@@ -17931,6 +17881,52 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1848473464}
   m_Mesh: {fileID: -2432090755550338912, guid: eedc4ec913db0024caaf70365e7773b4, type: 3}
+--- !u!1 &1893083744
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1893083746}
+  - component: {fileID: 1893083745}
+  m_Layer: 0
+  m_Name: BurstCollisionWorld
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1893083745
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1893083744}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f1a161c4294214a4fbcb7e9e94800494, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cellSpans:
+    m_AlignBytes: 16
+--- !u!4 &1893083746
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1893083744}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1898084485
 GameObject:
   m_ObjectHideFlags: 0
@@ -21837,7 +21833,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   simulateWhenInvisible: 1
   m_Backend: 1
-  substeps: 4
+  substeps: 2
   maxStepsPerFrame: 1
   synchronization: 1
   parameters:
@@ -22042,7 +22038,7 @@ Transform:
   m_GameObject: {fileID: 3243710828659384374}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 11.695667, y: 8.44985, z: 14.856474}
+  m_LocalPosition: {x: 13.195668, y: 8.44985, z: 12.156476}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -22119,7 +22115,7 @@ Transform:
   m_GameObject: {fileID: 1064239061055936852}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 11.715558, y: 8.460597, z: 18.563648}
+  m_LocalPosition: {x: 12.521365, y: 8.460785, z: 18.637188}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -22164,10 +22160,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Damping: {x: 0.1, y: 0.5, z: 0.3}
-  ShoulderOffset: {x: 0, y: 0.94, z: -0.88}
+  ShoulderOffset: {x: 1.5, y: 0.94, z: -0.88}
   VerticalArmLength: 0.4
   CameraSide: 1
-  CameraDistance: 9.3
+  CameraDistance: 12
   CameraCollisionFilter:
     serializedVersion: 2
     m_Bits: 0
@@ -22564,7 +22560,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cameraRoot: {fileID: 8093474892534973865}
   mouseSensitivity: 50
-  rotationSmoothTime: 0.25
+  rotationSmoothTime: 0.5
 --- !u!114 &5769907140057032377
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -22677,8 +22673,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 958c969cfb16745f192d4d7bd28b7178, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  decimation: 0.63
-  smoothing: 2
+  decimation: 0.5
+  smoothing: 3
   twist: 0
   indexInSystem: 1
 --- !u!114 &7237274159717552483
@@ -23378,7 +23374,6 @@ GameObject:
   - component: {fileID: 9173502775060561166}
   - component: {fileID: 8621858526265157298}
   - component: {fileID: 5769907140057032377}
-  - component: {fileID: 9173502775060561167}
   m_Layer: 0
   m_Name: Fixer point
   m_TagString: Untagged
@@ -23429,8 +23424,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   springController: {fileID: 7297657811612574742}
-  bulgeThickness: 0.6
-  baseThickness: 0.3
+  bulgeThickness: 0.4
+  baseThickness: 0.2
   lerpSpeed: 0.1
 --- !u!114 &9143875424138729346
 MonoBehaviour:
@@ -23460,20 +23455,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 5975135556336268344}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &9173502775060561167
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8672318252054725618}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 603d038e178231447b4331d83ea478cf, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  springController: {fileID: 7297657811612574742}
-  positionOffset: {x: 0, y: 0, z: 0.5}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
@@ -23501,4 +23482,4 @@ SceneRoots:
   - {fileID: 7056101036326196221}
   - {fileID: 334242668343267309}
   - {fileID: 1716515412}
-  - {fileID: 940912452}
+  - {fileID: 1893083746}
