@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.040047113, g: 0.050240323, b: 0.03920058, a: 1}
+  m_IndirectSpecularColor: {r: 0.07924773, g: 0.07924773, b: 0.07924773, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -11917,6 +11917,52 @@ MonoBehaviour:
   filter: -65535
   m_SourceCollider: {fileID: 939844396}
   m_DistanceField: {fileID: 0}
+--- !u!1 &940912450
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 940912452}
+  - component: {fileID: 940912451}
+  m_Layer: 0
+  m_Name: BurstCollisionWorld
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &940912451
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 940912450}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f1a161c4294214a4fbcb7e9e94800494, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cellSpans:
+    m_AlignBytes: 16
+--- !u!4 &940912452
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 940912450}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &948486994
 GameObject:
   m_ObjectHideFlags: 0
@@ -17154,52 +17200,6 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 23.46923, y: 30.929491, z: 6.6194086}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &1667325415
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1667325417}
-  - component: {fileID: 1667325416}
-  m_Layer: 0
-  m_Name: BurstCollisionWorld
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &1667325416
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1667325415}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f1a161c4294214a4fbcb7e9e94800494, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  cellSpans:
-    m_AlignBytes: 16
---- !u!4 &1667325417
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1667325415}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -22447,7 +22447,6 @@ GameObject:
   - component: {fileID: 4846867889745069560}
   - component: {fileID: 6333958760987696367}
   - component: {fileID: 7967911001151062834}
-  - component: {fileID: 9093460754370949953}
   - component: {fileID: 9093460754370949954}
   m_Layer: 0
   m_Name: Obi Rope
@@ -22633,7 +22632,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 356b834afda224f73a26e39580b330f1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+  mesh: {fileID: 10207, guid: 0000000000000000e000000000000000, type: 0}
   material: {fileID: 2100000, guid: 2b7dfa8ebb76247318ce5b7df4b97484, type: 2}
   renderParameters:
     layer: 0
@@ -22644,7 +22643,7 @@ MonoBehaviour:
     motionVectors: 0
     renderingLayerMask: 4294967295
   instanceColor: {r: 1, g: 1, b: 1, a: 1}
-  instanceScale: 1
+  instanceScale: 1.97
 --- !u!4 &7056101036326196221
 Transform:
   m_ObjectHideFlags: 0
@@ -23379,8 +23378,9 @@ GameObject:
   - component: {fileID: 9173502775060561166}
   - component: {fileID: 8621858526265157298}
   - component: {fileID: 5769907140057032377}
+  - component: {fileID: 9173502775060561167}
   m_Layer: 0
-  m_Name: Control point
+  m_Name: Fixer point
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -23416,24 +23416,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 334242668343267309}
   m_LocalEulerAnglesHint: {x: 0, y: 270, z: 0}
---- !u!114 &9093460754370949953
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4578809923707014247}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fa664dbfdad436c4e97fd19bf7772952, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  springController: {fileID: 7297657811612574742}
-  pumpSpeed: 5
-  baseThickness: 0.4
-  bulgeThickness: 6.88
-  bulgeMoveSpeed: 10
-  endThinness: 0.08
 --- !u!114 &9093460754370949954
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -23447,8 +23429,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   springController: {fileID: 7297657811612574742}
-  bulgeThickness: 1.32
-  baseThickness: 0.4
+  bulgeThickness: 0.6
+  baseThickness: 0.3
+  lerpSpeed: 0.1
 --- !u!114 &9143875424138729346
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -23470,13 +23453,27 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8672318252054725618}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -1.983}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: -1.9829941}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 5975135556336268344}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &9173502775060561167
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8672318252054725618}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 603d038e178231447b4331d83ea478cf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  springController: {fileID: 7297657811612574742}
+  positionOffset: {x: 0, y: 0, z: 0.5}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
@@ -23504,4 +23501,4 @@ SceneRoots:
   - {fileID: 7056101036326196221}
   - {fileID: 334242668343267309}
   - {fileID: 1716515412}
-  - {fileID: 1667325417}
+  - {fileID: 940912452}
