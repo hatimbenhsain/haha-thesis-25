@@ -63,7 +63,7 @@ public class Swimmer : MonoBehaviour
     void Start()
     {
         controller=GetComponent<CharacterController>();
-        playerInput=GetComponent<PlayerInput>();
+        playerInput=FindObjectOfType<PlayerInput>();
         animator=GetComponent<Animator>();
         body=GetComponent<Rigidbody>();
         capsule=GetComponent<CapsuleCollider>();
