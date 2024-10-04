@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.07924773, g: 0.07924773, b: 0.07924773, a: 1}
+  m_IndirectSpecularColor: {r: 0.07924773, g: 0.07738904, b: 0.073937945, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -11529,6 +11529,7 @@ GameObject:
   - component: {fileID: 289689946}
   - component: {fileID: 289689945}
   - component: {fileID: 289689944}
+  - component: {fileID: 289689948}
   m_Layer: 0
   m_Name: Plane
   m_TagString: Untagged
@@ -11553,7 +11554,7 @@ MeshCollider:
   m_LayerOverridePriority: 0
   m_IsTrigger: 0
   m_ProvidesContacts: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 5
   m_Convex: 0
   m_CookingOptions: 30
@@ -11623,6 +11624,27 @@ Transform:
   m_Children: []
   m_Father: {fileID: 537098616}
   m_LocalEulerAnglesHint: {x: 0, y: -90, z: 0}
+--- !u!65 &289689948
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 289689943}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 10.000002, y: 6.721306, z: 10.000002}
+  m_Center: {x: 0, y: -3.360653, z: 0}
 --- !u!1 &310792321
 GameObject:
   m_ObjectHideFlags: 0
@@ -53595,7 +53617,7 @@ Transform:
   m_GameObject: {fileID: 1623389623}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.4537585, y: 1.8193879, z: -4.7464495}
+  m_LocalPosition: {x: -0.4537585, y: 1.82, z: -4.7464495}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
