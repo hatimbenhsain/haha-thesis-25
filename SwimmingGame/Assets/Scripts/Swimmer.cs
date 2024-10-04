@@ -53,6 +53,14 @@ public class Swimmer : MonoBehaviour
     public int maxMoveoutEffort=100;
     [Tooltip("Distance to keep object away from any collider.")]
     public float skinWidth=0.05f;
+    [Tooltip("Min angle to rotate player when colliding with something.")]
+    public float minCollisionRotationAmount=0.1f;
+    [Tooltip("Max angle to rotate player when colliding with something.")]
+    public float maxCollisionRotationAmount=1f;
+    [Tooltip("Minimum force of collision to make player rotate.")]
+    public float minCollisionForceToRotate=0.01f;
+    [Tooltip("Cap force of collision to make player rotate.")]
+    public float maxCollisionForceToRotate=5f;
 
 
     private Vector3 prevVelocity;
@@ -134,8 +142,7 @@ public class Swimmer : MonoBehaviour
         }
         newRotation.z=Mathf.Lerp(newRotation.z,targetRotationZ,Time.fixedDeltaTime*angleTiltSpeed);
 
-        //Rotating player
-        body.MoveRotation(Quaternion.Euler(newRotation));
+        Quaternion newRotationQ=Quaternion.Euler(newRotation);
 
         //Deceleration
         Vector3 decelerationVector=currentVelocity;
@@ -180,7 +187,18 @@ public class Swimmer : MonoBehaviour
                 force+=normal*minCollisionSpeed;
             }
             playerVelocity+=force;
+            float rotationAmount=minCollisionRotationAmount+(maxCollisionRotationAmount-minCollisionRotationAmount)*
+            Mathf.Clamp((force.magnitude-minCollisionForceToRotate)/(maxCollisionForceToRotate-minCollisionForceToRotate),0f,1f);
+            newRotationQ=Quaternion.RotateTowards(newRotationQ,Quaternion.LookRotation(force),rotationAmount);
+
+            //Attempt at changing rotation speed instead of immediately swerving MAYBE TRY THIS AGAIN
+            // Vector3 rv=Quaternion.FromToRotation(body.rotation.eulerAngles,force).eulerAngles;
+            // rv=rv.normalized*rv.magnitude*rotationAmount;
+            // rotationVelocity+=rv;
         }
+
+        //Rotating player
+        body.MoveRotation(newRotationQ);
 
 
         boostTimer+=Time.fixedDeltaTime;
