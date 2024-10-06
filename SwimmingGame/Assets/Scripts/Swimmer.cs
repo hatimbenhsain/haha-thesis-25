@@ -62,12 +62,30 @@ public class Swimmer : MonoBehaviour
     [Tooltip("Cap force of collision to make player rotate.")]
     public float maxCollisionForceToRotate=5f;
 
+    [Header("Camera")]
+    public float cameraRotationSmoothTime = 0.1f;  // Smoothing factor for the camera movement
+    public float maxCameraRotationAngle=60f;
+    public float cameraRotationSpeed=100f;
+    [Tooltip("If there is no input from player for this long, camera moves back to player.")]
+    public float cameraPauseLength=2f;
+    private float cameraPauseTimer=0f;
+
+    [Header("Misc.")]
+    public Transform cameraTarget;
+    
+    
+    //Camera things
+    private Vector3 targetRotation;
+    private Vector3 cameraRotationVelocity;
+
 
     private Vector3 prevVelocity;
 
     ArrayList allHits=new ArrayList();
 
     private CapsuleCollider capsule;
+
+
 
 
     void Start()
@@ -77,13 +95,18 @@ public class Swimmer : MonoBehaviour
         animator=GetComponent<Animator>();
         body=GetComponent<Rigidbody>();
         capsule=GetComponentInChildren<CapsuleCollider>();
+
+        Cursor.lockState = CursorLockMode.Locked;  // Locks the cursor to the center of the screen
+
     }
 
     void Update(){
-        if(playerInput.movingForward && !playerInput.prevMovingForward){
+        if(playerInput.movedForwardTrigger){
             boostTimer=0f;
             animator.SetTrigger("boostForward");
+            playerInput.movedForwardTrigger=false;
         }
+        Camera();
     }
 
     void FixedUpdate()
@@ -211,13 +234,9 @@ public class Swimmer : MonoBehaviour
         //Adding velocity
         if(playerInput.movingForward && !playerInput.movingBackward){
             if(playerVelocity.magnitude<coastingSpeed || Vector3.Angle(playerVelocity,transform.forward)>=90f){
-                playerVelocity+=transform.forward*acceleration*Time.fixedDeltaTime;
+                playerVelocity+=transform.forward*acceleration*playerInput.movingForwardValue*Time.fixedDeltaTime;
             }
             animator.SetBool("swimmingForward",true);
-            if(!playerInput.prevMovingForward){
-                boostTimer=0f;
-                animator.SetTrigger("boostForward");
-            }
         }else if(playerInput.movingBackward && !playerInput.movingForward){
             if(playerVelocity.magnitude<coastingSpeed || Vector3.Angle(playerVelocity,-transform.forward)>=90f){
                 playerVelocity+=-transform.forward*backwardAcceleration*Time.fixedDeltaTime;
@@ -257,6 +276,7 @@ public class Swimmer : MonoBehaviour
         body.position+=collisionMovement;
         // Using MovePosition because it interpolates movement smoothly and keeps velocity in next frame
         body.MovePosition(body.position+playerVelocity*Time.fixedDeltaTime);
+        animator.SetFloat("speed",playerVelocity.magnitude);
 
         prevVelocity=body.velocity;
 
@@ -264,9 +284,44 @@ public class Swimmer : MonoBehaviour
 
     }
 
+    void Camera(){
+        cameraPauseTimer+=Time.deltaTime;
+
+        Vector3 input=new Vector3(playerInput.rotation.y,playerInput.rotation.x,0f);
+
+        if(input.magnitude>=0.05f){
+            cameraPauseTimer=0f;
+        }
+
+        targetRotation+=input*Time.deltaTime*cameraRotationSpeed;
+
+        if(cameraPauseTimer>=cameraPauseLength){
+            targetRotation=Vector3.zero;
+        }
+
+        targetRotation.x=Mathf.Clamp(targetRotation.x,-maxCameraRotationAngle,maxCameraRotationAngle);
+        targetRotation.y=Mathf.Clamp(targetRotation.y,-maxCameraRotationAngle,maxCameraRotationAngle);
+
+        //Inverting current rotation values if they go over 180
+        Vector3 currentRotation=cameraTarget.localRotation.eulerAngles;
+        if(currentRotation.x>180f){
+            currentRotation.x-=360;
+        }
+        if(currentRotation.y>180f){
+            currentRotation.y-=360;
+        }
+
+        // Lerp the camera's rotation for a, heavier feel
+        Vector3 newRotation=Vector3.SmoothDamp(currentRotation, targetRotation, 
+        ref cameraRotationVelocity, cameraRotationSmoothTime);
+
+        // Apply the smoothed rotation to the cameraRoot
+        cameraTarget.localRotation = Quaternion.Euler(newRotation);
+
+    }
+
 
     private void OnCollisionStay(Collision other) {
-        Debug.Log("collision stay");
         ContactPoint[] myContacts = new ContactPoint[other.contactCount];
         for(int i = 0; i < myContacts.Length; i++)
         {
