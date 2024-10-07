@@ -95,7 +95,7 @@ public class SpringController : MonoBehaviour
         inhaleDuration = Mathf.Clamp(inhaleTime, 0, maxInhaleTime);
 
         float t = inhaleDuration / maxInhaleTime;
-        character.transform.localScale = Vector3.Lerp(originalScale, new Vector3(1.5f, 1.5f, 0.5f), t); // for cylinder scale
+        character.transform.localScale = Vector3.Lerp(originalScale, new Vector3(1.5f, 1.5f, 1f), t); // for cylinder scale
     }
 
     // starts the exhaling process and calculates the force

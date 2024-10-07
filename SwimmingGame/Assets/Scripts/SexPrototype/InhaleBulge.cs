@@ -52,7 +52,7 @@ public class InhaleBulge : MonoBehaviour
         if (rope.elements.Count > 0)
         {
             // Access the second to last particle
-            int startParticle = rope.elements[rope.elements.Count - 1].particle2; 
+            int startParticle = rope.elements[rope.elements.Count - 2].particle2; 
             currentThickness = Mathf.Lerp(currentThickness, bulgeThickness, Time.deltaTime * lerpSpeed);
             rope.solver.principalRadii[startParticle] = Vector3.one * currentThickness;
             //Debug.Log($"Inhaling: Thickness={currentThickness}");
@@ -64,10 +64,10 @@ public class InhaleBulge : MonoBehaviour
         // decrease the thickness towards baseThickness
         if (rope.elements.Count > 0)
         {
-            int startParticle = rope.elements[rope.elements.Count - 1].particle2;
+            int startParticle = rope.elements[rope.elements.Count - 2].particle2;
             currentThickness = Mathf.Lerp(currentThickness, baseThickness, Time.deltaTime * lerpSpeed);
             rope.solver.principalRadii[startParticle] = Vector3.one * currentThickness;
-            //Debug.Log($"Exhaling: Thickness={currentThickness}");
+            // Debug.Log($"Exhaling: Thickness={currentThickness}");
         }
     }
 }
