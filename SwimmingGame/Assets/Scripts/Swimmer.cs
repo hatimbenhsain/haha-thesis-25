@@ -189,6 +189,7 @@ public class Swimmer : MonoBehaviour
 
         //Deal with collisions
         //The way this works: find normal of every collision, project the player's velocity on it, move the player by that much
+        ArrayList collisionImpulses=new ArrayList();
         foreach (ContactPoint hit in allHits)
         {
             Vector3 collisionPoint=hit.point;
@@ -210,7 +211,13 @@ public class Swimmer : MonoBehaviour
             if(force==Vector3.zero){
                 force+=normal*minCollisionSpeed;
             }
-            playerVelocity+=force;
+
+            //Dividing force by number of contacts
+            force=force/allHits.Count;
+
+            collisionImpulses.Add(force);
+
+            //playerVelocity+=force;
             float rotationAmount=minCollisionRotationAmount+(maxCollisionRotationAmount-minCollisionRotationAmount)*
             Mathf.Clamp((force.magnitude-minCollisionForceToRotate)/(maxCollisionForceToRotate-minCollisionForceToRotate),0f,1f);
             newRotationQ=Quaternion.RotateTowards(newRotationQ,Quaternion.LookRotation(force),rotationAmount);
@@ -220,6 +227,42 @@ public class Swimmer : MonoBehaviour
             // rv=rv.normalized*rv.magnitude*rotationAmount;
             // rotationVelocity+=rv;
         }
+
+        foreach(Vector3 force in collisionImpulses){
+            playerVelocity+=force;
+        }
+
+        //Friction
+        ArrayList frictionImpulses=new ArrayList();
+        for(int i=0;i<allHits.Count;i++){
+            ContactPoint hit=(ContactPoint)allHits[i];
+            PhysicsObject physicsObject;
+            if(hit.otherCollider.gameObject.TryGetComponent<PhysicsObject>(out physicsObject)){
+                Vector3 collisionPoint=hit.point;
+                Vector3 normal=hit.normal;
+                Vector3 relativeVelocity;
+                if(hit.otherCollider.TryGetComponent<Rigidbody>(out Rigidbody otherBody)){
+                    relativeVelocity=otherBody.velocity;
+                }
+                else{
+                    relativeVelocity=Vector3.zero;
+                }
+                relativeVelocity=relativeVelocity-playerVelocity;
+                Vector3 force=relativeVelocity-Vector3.Project(relativeVelocity,normal)*collisionSpeedFactor;
+
+                force=Vector3.ClampMagnitude(force,((Vector3)collisionImpulses[i]).magnitude*physicsObject.friction);
+                Debug.Log("friction");
+                Debug.Log(force);
+
+                frictionImpulses.Add(force);
+                Debug.DrawRay(body.position,force*3f, Color.red, 1f);
+            }
+        }
+
+        foreach(Vector3 force in frictionImpulses){
+            playerVelocity+=force;
+        }
+
 
         //Rotating player
         body.MoveRotation(newRotationQ);
@@ -365,8 +408,6 @@ public class Swimmer : MonoBehaviour
         Vector3 movement=Vector3.zero; //Amount to move the collider 
 
         LayerMask mask = LayerMask.GetMask("Default");
-
-        Debug.DrawRay(point1,point2-point1, Color.red, 1f);
 
         while(colliding && tries<maxMoveoutEffort){
             hits=Physics.CapsuleCastAll(point1+movement,point2+movement,capsule.radius+skinWidth,normal,0f,mask,QueryTriggerInteraction.Ignore);
