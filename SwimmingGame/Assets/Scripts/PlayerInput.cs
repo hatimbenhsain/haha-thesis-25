@@ -16,11 +16,12 @@ public class PlayerInput : MonoBehaviour
     public bool movingDown;
     public bool boosting;
     public bool interacting;
+    public bool advancing;
 
     public bool yAxisInverted=false;
 
     //[HideInInspector]
-    public bool prevMovingForward, prevMovingBackward, prevMovingLeft, prevMovingRight, prevMovingUp, prevMovingDown, prevBoosting, prevInteracting;
+    public bool prevMovingForward, prevMovingBackward, prevMovingLeft, prevMovingRight, prevMovingUp, prevMovingDown, prevBoosting, prevInteracting, prevAdvancing;
 
     
     void LateUpdate() {
@@ -33,6 +34,7 @@ public class PlayerInput : MonoBehaviour
         prevMovingDown=movingDown;
         prevBoosting=boosting;
         prevInteracting=interacting;
+        prevAdvancing=advancing;
     }
 
     public void OnMoveForward(InputAction.CallbackContext value){
@@ -71,6 +73,11 @@ public class PlayerInput : MonoBehaviour
 
     public void OnInteract(InputAction.CallbackContext value){
         InteractInput(value.performed || value.started);
+    }
+
+    public void OnAdvance(InputAction.CallbackContext value)
+    {
+        AdvanceInput(value.performed || value.started);
     }
 
 
@@ -114,4 +121,8 @@ public class PlayerInput : MonoBehaviour
         interacting=false;
     }
 
+    void AdvanceInput(bool b)
+    {
+        advancing = b;
+    }
 }
