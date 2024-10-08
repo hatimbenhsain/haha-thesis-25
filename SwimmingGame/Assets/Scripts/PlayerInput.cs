@@ -18,12 +18,12 @@ public class PlayerInput : MonoBehaviour
     public bool movingDown;
     public bool boosting;
     public bool interacting;
-    public bool advancing;
+    public bool aiming;
 
     public bool yAxisInverted=false;
 
     //[HideInInspector]
-    public bool prevMovingForward, prevMovingBackward, prevMovingLeft, prevMovingRight, prevMovingUp, prevMovingDown, prevBoosting, prevInteracting, prevAdvancing;
+    public bool prevMovingForward, prevMovingBackward, prevMovingLeft, prevMovingRight, prevMovingUp, prevMovingDown, prevBoosting, prevInteracting, prevAiming;
 
     public bool movedForwardTrigger;
 
@@ -48,6 +48,7 @@ public class PlayerInput : MonoBehaviour
         prevMovingDown=movingDown;
         prevBoosting=boosting;
         prevInteracting=interacting;
+        prevAiming=aiming;
         currentControlScheme=playerInput.currentControlScheme;
     }
 
@@ -101,9 +102,9 @@ public class PlayerInput : MonoBehaviour
         InteractInput(value.performed || value.started);
     }
 
-    public void OnAdvance(InputAction.CallbackContext value)
+    public void OnAim(InputAction.CallbackContext value)
     {
-        AdvanceInput(value.performed || value.started);
+        AimInput(value.performed || value.started);
     }
 
 
@@ -152,6 +153,7 @@ public class PlayerInput : MonoBehaviour
         if(yAxisInverted){
             look.y=-look.y;
         }
+
     }
 
     public void RotateCameraInput(Vector2 newRotation){
@@ -162,14 +164,15 @@ public class PlayerInput : MonoBehaviour
         if(currentControlScheme=="KeyboardMouse"){
             rotation=rotation*mouseSensitivity/5000f;
         }
+        Debug.Log(rotation);
     }
 
     void InteractInput(bool b){
         interacting=false;
     }
 
-    void AdvanceInput(bool b)
+    void AimInput(bool b)
     {
-        advancing = b;
+        aiming = b;
     }
 }

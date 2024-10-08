@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.InputSystem;
 
 public class SpringController : MonoBehaviour
 {
@@ -45,17 +46,17 @@ public class SpringController : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetMouseButtonDown(0)) // LMB
+        if (playerInput.movingForward && !playerInput.prevMovingForward) // LMB
         {
             StartInhaling();
         }
 
-        if (Input.GetMouseButtonUp(0)) // LMB
+        if (!playerInput.movingForward && playerInput.prevMovingForward) // LMB
         {
             StartExhaling();
         }
 
-        if (Input.GetMouseButton(1)) // RMB
+        if (playerInput.aiming) // RMB
         {
             AlignWithCamera();
         }
@@ -72,8 +73,7 @@ public class SpringController : MonoBehaviour
             Inhale();
         }
 
-        // handle turning and movement based on WASD input
-        HandleTurning();
+        //HandleTurning();
 
         // handle exhaling process
         if (exhaleTimeLeft > 0f)
@@ -147,7 +147,7 @@ public class SpringController : MonoBehaviour
         bool isMoving = false;
 
         // Forward tilt (up direction)
-        if (playerInput.movingForward)
+        if (playerInput.look.y<0f)
         {
             Quaternion targetTilt = Quaternion.Euler(-90, characterRb.rotation.eulerAngles.y, 0);
             characterRb.MoveRotation(Quaternion.Slerp(characterRb.rotation, targetTilt, turnSpeed * Time.fixedDeltaTime));
@@ -155,7 +155,7 @@ public class SpringController : MonoBehaviour
             isMoving = true;
         }
         // Backward tilt (down direction)
-        else if (playerInput.movingBackward)
+        else if (playerInput.look.y > 0f)
         {
             Quaternion targetTilt = Quaternion.Euler(90, characterRb.rotation.eulerAngles.y, 0);
             characterRb.MoveRotation(Quaternion.Slerp(characterRb.rotation, targetTilt, turnSpeed * Time.fixedDeltaTime));
@@ -163,19 +163,19 @@ public class SpringController : MonoBehaviour
             isMoving = true;
         }
         // Left tilt (around y-axis)
-        else if (playerInput.movingLeft)
+        else if (playerInput.look.x < 0f)
         {
-            Quaternion targetTilt = Quaternion.Euler(characterRb.rotation.eulerAngles.x, 90, 0);
+            Quaternion targetTilt = Quaternion.Euler(characterRb.rotation.eulerAngles.x, characterRb.rotation.eulerAngles.y - 90, 0);
             characterRb.MoveRotation(Quaternion.Slerp(characterRb.rotation, targetTilt, turnSpeed * Time.fixedDeltaTime));
-            moveDirection -= character.transform.right;
+            moveDirection -= character.transform.right;  // Keep moving in the character's right direction
             isMoving = true;
         }
-        // Right tilt (around y-axis)
-        else if (playerInput.movingRight)
+        // Right tilt (turning right)
+        else if (playerInput.look.x > 0f)
         {
-            Quaternion targetTilt = Quaternion.Euler(characterRb.rotation.eulerAngles.x, -90, 0);
+            Quaternion targetTilt = Quaternion.Euler(characterRb.rotation.eulerAngles.x, characterRb.rotation.eulerAngles.y + 90, 0);
             characterRb.MoveRotation(Quaternion.Slerp(characterRb.rotation, targetTilt, turnSpeed * Time.fixedDeltaTime));
-            moveDirection += character.transform.right;
+            moveDirection += character.transform.right;  // Keep moving in the character's right direction
             isMoving = true;
         }
 
@@ -187,6 +187,7 @@ public class SpringController : MonoBehaviour
             characterRb.AddForce(currentVelocity, ForceMode.Acceleration);
         }
     }
+
 
 
     // align character with camera direction
