@@ -16,6 +16,10 @@ public class Ring : MonoBehaviour
 
     private Renderer renderer;
     private Color color;
+
+    public float cooldownTimer=0f;
+    public float cooldownTime=1f;
+    public float boostIntensity=1.5f;
     // Start is called before the first frame update
     void Start()
     {
@@ -29,11 +33,23 @@ public class Ring : MonoBehaviour
     {
         currentIntensity=Mathf.Lerp(currentIntensity,targetOpacity,opacityChangeSpeed*Time.deltaTime);
         renderer.material.SetColor("_EmissionColor",color*currentIntensity);
+        cooldownTimer+=Time.deltaTime;
     }
 
     void OnTriggerEnter(Collider other){
+        Debug.Log("trigger enter");
         if(other.gameObject.tag=="Player"){
+            Debug.Log("player");
             targetOpacity=maxIntensity;
+            if(cooldownTimer>=cooldownTime){
+                Vector3 force=transform.up*boostIntensity;
+                Swimmer swimmer=other.gameObject.GetComponentInParent<Swimmer>();
+                if(Vector3.Angle(swimmer.GetComponent<Rigidbody>().velocity,transform.up)>=90){
+                    force=-force;
+                }
+                swimmer.Boost(force);
+            }
+            cooldownTimer=0f;
         }
     }
 
@@ -42,6 +58,5 @@ public class Ring : MonoBehaviour
             targetOpacity=minIntensity;
         }
     }
-
     
 }

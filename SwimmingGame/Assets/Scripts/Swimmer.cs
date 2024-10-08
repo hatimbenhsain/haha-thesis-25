@@ -86,6 +86,7 @@ public class Swimmer : MonoBehaviour
     private CapsuleCollider capsule;
 
 
+    private Vector3 forcesToAdd; //Forces to add at the beginning of the next frame; this is used for e.g. for ring boosts
 
 
     void Start()
@@ -226,12 +227,16 @@ public class Swimmer : MonoBehaviour
 
         boostTimer+=Time.fixedDeltaTime;
 
-        //Boosting player velocity at the end of the brushstroke
+        //Boosting player velocity at the end of the swimstroke
         if(boostTimer>boostTime && boostTimer-Time.fixedDeltaTime<=boostTime){
             playerVelocity+=transform.forward*boostSpeed;
         }
 
-        //Adding velocity
+        //Adding external forces, for e.g. from ring booster
+        playerVelocity+=forcesToAdd;
+        forcesToAdd=Vector3.zero;
+
+        //Adding velocity from swimming
         if(playerInput.movingForward && !playerInput.movingBackward){
             if(playerVelocity.magnitude<coastingSpeed || Vector3.Angle(playerVelocity,transform.forward)>=90f){
                 playerVelocity+=transform.forward*acceleration*playerInput.movingForwardValue*Time.fixedDeltaTime;
@@ -282,6 +287,10 @@ public class Swimmer : MonoBehaviour
 
         allHits.Clear();
 
+    }
+
+    public void Boost(Vector3 force){
+        forcesToAdd+=force;
     }
 
     void Camera(){
