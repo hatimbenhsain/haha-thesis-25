@@ -24,6 +24,15 @@
                     "initialStateCheck": true
                 },
                 {
+                    "name": "MoveForwardTrigger",
+                    "type": "PassThrough",
+                    "id": "fb8b32c6-7059-46ed-86eb-7cef8bc19602",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
+                },
+                {
                     "name": "MoveBackward",
                     "type": "Value",
                     "id": "6d93b1e3-db76-46dd-aed8-e60dd02cfcce",
@@ -87,10 +96,11 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "Advance",
+                    "name": "RotateCamera",
                     "type": "Value",
-                    "id": "85596da7-3fbb-4018-9a2d-1ca0dbe11c67",
-                    "expectedControlType": "",
+                    "id": "977a3ce5-d8a1-487c-b61a-1613a27a0cbf",
+                    "expectedControlType": "Vector2",
+
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": true
@@ -99,19 +109,30 @@
             "bindings": [
                 {
                     "name": "",
-                    "id": "3e5f5442-8668-4b27-a940-df99bad7e831",
-                    "path": "<Joystick>/{Hatswitch}",
+                    "id": "ec829daf-e627-4c2e-a0c7-54973907ca47",
+                    "path": "<Gamepad>/buttonEast",
                     "interactions": "",
                     "processors": "",
-                    "groups": "Joystick",
-                    "action": "Look",
+                    "groups": "Gamepad",
+                    "action": "MoveForward",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
                 {
                     "name": "",
-                    "id": "ec829daf-e627-4c2e-a0c7-54973907ca47",
-                    "path": "<Gamepad>/buttonEast",
+                    "id": "dc30db1a-8f27-4145-9132-37fe10130aff",
+                    "path": "<Gamepad>/leftTrigger",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Gamepad",
+                    "action": "MoveForward",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "7617bb3f-5c66-4b1f-9377-8a5d06c4ce31",
+                    "path": "<Gamepad>/rightTrigger",
                     "interactions": "",
                     "processors": "",
                     "groups": "Gamepad",
@@ -319,6 +340,17 @@
                 },
                 {
                     "name": "",
+                    "id": "bafc6c6f-ab08-48cd-b032-5e28123b66e2",
+                    "path": "<Gamepad>/dpad/right",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Gamepad",
+                    "action": "MoveRight",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
                     "id": "8f4b59fc-180e-4a5b-b72e-d9588a502f5e",
                     "path": "<Keyboard>/d",
                     "interactions": "",
@@ -332,6 +364,17 @@
                     "name": "",
                     "id": "53b06a70-81b9-441f-88be-5146b8109c66",
                     "path": "<Gamepad>/leftShoulder",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Gamepad",
+                    "action": "MoveLeft",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "46028c2c-4cdf-410c-8714-9fdd8e7ea953",
+                    "path": "<Gamepad>/dpad/left",
                     "interactions": "",
                     "processors": "",
                     "groups": "Gamepad",
@@ -418,12 +461,67 @@
                 },
                 {
                     "name": "",
-                    "id": "cb25109e-a6f8-4c78-aad9-e5dd0b1fbbf2",
-                    "path": "<Mouse>/leftButton",
+                    "id": "a1df133c-a3ed-495c-8bcb-343b9de3ea68",
+                    "path": "<Gamepad>/rightStick",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Gamepad",
+                    "action": "RotateCamera",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "8234ef0f-9b08-4dcc-aea6-1aecbf08ddc6",
+                    "path": "<Mouse>/delta",
+                    "interactions": "",
+                    "processors": "ScaleVector2(x=0.05,y=0.05)",
+                    "groups": "Keyboard&Mouse",
+                    "action": "RotateCamera",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "ad3614b7-fe0a-490a-9160-dc5e8f4435b6",
+                    "path": "<Gamepad>/buttonEast",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Gamepad",
+                    "action": "MoveForwardTrigger",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "4f9aa6bd-cfdb-437a-818e-435b60c96e86",
+                    "path": "<Gamepad>/leftTrigger",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Gamepad",
+                    "action": "MoveForwardTrigger",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "1b70aefc-814b-4b66-b75e-85455cb6fbed",
+                    "path": "<Gamepad>/rightTrigger",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Gamepad",
+                    "action": "MoveForwardTrigger",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "bddf42c5-39c5-4555-b50b-e038a5044bbc",
+                    "path": "<Keyboard>/w",
                     "interactions": "",
                     "processors": "",
                     "groups": "Keyboard&Mouse",
-                    "action": "Advance",
+                    "action": "MoveForwardTrigger",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

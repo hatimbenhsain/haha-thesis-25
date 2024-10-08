@@ -117,6 +117,61 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!1 &2377051178449082371
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6652340436672634871}
+  - component: {fileID: 7761547675475620488}
+  m_Layer: 0
+  m_Name: CapsuleCollider
+  m_TagString: Player
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &6652340436672634871
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2377051178449082371}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 6459185956084294451}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!136 &7761547675475620488
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2377051178449082371}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.1989218
+  m_Height: 1.0711159
+  m_Direction: 1
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &3576245318935648849
 GameObject:
   m_ObjectHideFlags: 0
@@ -129,7 +184,6 @@ GameObject:
   - component: {fileID: 1766026178616409248}
   - component: {fileID: 2631372478074727883}
   - component: {fileID: 5373492974550926125}
-  - component: {fileID: 8013270982987526104}
   - component: {fileID: 7276289111960622844}
   m_Layer: 0
   m_Name: Swimmer
@@ -147,12 +201,13 @@ Transform:
   m_GameObject: {fileID: 3576245318935648849}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.4537585, y: 1.8193879, z: -3.879248}
+  m_LocalPosition: {x: -0.4537585, y: 1.82, z: -3.879248}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 5219843417668724586}
   - {fileID: 3267969076799174377}
+  - {fileID: 6652340436672634871}
   m_Father: {fileID: 321062652742570923}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!143 &1766026178616409248
@@ -209,10 +264,20 @@ MonoBehaviour:
   maxRotationXAngle: 80
   maxTiltAngle: 10
   angleTiltSpeed: 1
-  maxCollisionSpeed: 0.1
   collisionSpeedFactor: 1
   minCollisionSpeed: 0.01
-  skinWidth: 0.05
+  minMoveoutStep: 0.001
+  maxMoveoutEffort: 1
+  skinWidth: 0.01
+  minCollisionRotationAmount: 0.1
+  maxCollisionRotationAmount: 1
+  minCollisionForceToRotate: 0.01
+  maxCollisionForceToRotate: 5
+  cameraRotationSmoothTime: 1
+  maxCameraRotationAngle: 45
+  cameraRotationSpeed: 60
+  cameraPauseLength: 2
+  cameraTarget: {fileID: 3267969076799174377}
 --- !u!95 &5373492974550926125
 Animator:
   serializedVersion: 5
@@ -234,29 +299,6 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
---- !u!136 &8013270982987526104
-CapsuleCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3576245318935648849}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 1
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 0.1989218
-  m_Height: 1.0711159
-  m_Direction: 1
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!54 &7276289111960622844
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -294,8 +336,8 @@ GameObject:
   m_Component:
   - component: {fileID: 2193440362755656008}
   - component: {fileID: 5787320425770996312}
-  - component: {fileID: 6397886532225064447}
   - component: {fileID: 542864374816228734}
+  - component: {fileID: 1128508918615739200}
   m_Layer: 0
   m_Name: cm
   m_TagString: Untagged
@@ -330,28 +372,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ac0b09e7857660247b1477e93731de29, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &6397886532225064447
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7937747767322479434}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fa7155796051b734daa718462081dc5f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_BindingMode: 3
-  m_FollowOffset: {x: 0, y: 0, z: -1.98}
-  m_XDamping: 1
-  m_YDamping: 1
-  m_ZDamping: 1
-  m_AngularDampingMode: 0
-  m_PitchDamping: 0
-  m_YawDamping: 0
-  m_RollDamping: 0
-  m_AngularDamping: 0
 --- !u!114 &542864374816228734
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -365,6 +385,30 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Damping: 0.1
+--- !u!114 &1128508918615739200
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7937747767322479434}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bd6043bde05a7fc4cba197d06915c1e3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Damping: {x: 1, y: 1, z: 1}
+  ShoulderOffset: {x: 0, y: 0, z: 0}
+  VerticalArmLength: 0
+  CameraSide: 1
+  CameraDistance: 2
+  CameraCollisionFilter:
+    serializedVersion: 2
+    m_Bits: 1
+  IgnoreTag: Player
+  CameraRadius: 0.2
+  DampingIntoCollision: 2
+  DampingFromCollision: 2
 --- !u!1 &8508218057597013985
 GameObject:
   m_ObjectHideFlags: 0
@@ -390,7 +434,7 @@ Transform:
   m_GameObject: {fileID: 8508218057597013985}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -2.18}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -410,7 +454,7 @@ GameObject:
   - component: {fileID: 2476317814662916276}
   - component: {fileID: 4714216204355016534}
   - component: {fileID: 7045096232581742838}
-  - component: {fileID: 5521482112379142751}
+  - component: {fileID: 6217277459209938169}
   m_Layer: 0
   m_Name: Camera
   m_TagString: Untagged
@@ -427,7 +471,7 @@ Transform:
   m_GameObject: {fileID: 8896260278929868894}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.4537585, y: 1.8193879, z: -5.859248}
+  m_LocalPosition: {x: -0.4537585, y: 1.82, z: -4.64645}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -569,8 +613,8 @@ MonoBehaviour:
   m_StreamingVersion: 20170927
   m_Priority: 10
   m_StandbyUpdate: 2
-  m_LookAt: {fileID: 6459185956084294451}
-  m_Follow: {fileID: 6459185956084294451}
+  m_LookAt: {fileID: 3267969076799174377}
+  m_Follow: {fileID: 3267969076799174377}
   m_Lens:
     FieldOfView: 40
     OrthographicSize: 10
@@ -590,7 +634,7 @@ MonoBehaviour:
         m_Calls: []
   m_LegacyBlendHint: 0
   m_ComponentOwner: {fileID: 2193440362755656008}
---- !u!114 &5521482112379142751
+--- !u!114 &6217277459209938169
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
