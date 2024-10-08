@@ -62,12 +62,31 @@ public class Swimmer : MonoBehaviour
     [Tooltip("Cap force of collision to make player rotate.")]
     public float maxCollisionForceToRotate=5f;
 
+    [Header("Camera")]
+    public float cameraRotationSmoothTime = 0.1f;  // Smoothing factor for the camera movement
+    public float maxCameraRotationAngle=60f;
+    public float cameraRotationSpeed=100f;
+    [Tooltip("If there is no input from player for this long, camera moves back to player.")]
+    public float cameraPauseLength=2f;
+    private float cameraPauseTimer=0f;
+
+    [Header("Misc.")]
+    public Transform cameraTarget;
+    
+    
+    //Camera things
+    private Vector3 targetRotation;
+    private Vector3 cameraRotationVelocity;
+
 
     private Vector3 prevVelocity;
 
     ArrayList allHits=new ArrayList();
 
     private CapsuleCollider capsule;
+
+
+    private Vector3 forcesToAdd; //Forces to add at the beginning of the next frame; this is used for e.g. for ring boosts
 
 
     void Start()
@@ -77,13 +96,18 @@ public class Swimmer : MonoBehaviour
         animator=GetComponent<Animator>();
         body=GetComponent<Rigidbody>();
         capsule=GetComponentInChildren<CapsuleCollider>();
+
+        Cursor.lockState = CursorLockMode.Locked;  // Locks the cursor to the center of the screen
+
     }
 
     void Update(){
-        if(playerInput.movingForward && !playerInput.prevMovingForward){
+        if(playerInput.movedForwardTrigger){
             boostTimer=0f;
             animator.SetTrigger("boostForward");
+            playerInput.movedForwardTrigger=false;
         }
+        Camera();
     }
 
     void FixedUpdate()
@@ -165,6 +189,7 @@ public class Swimmer : MonoBehaviour
 
         //Deal with collisions
         //The way this works: find normal of every collision, project the player's velocity on it, move the player by that much
+        ArrayList collisionImpulses=new ArrayList();
         foreach (ContactPoint hit in allHits)
         {
             Vector3 collisionPoint=hit.point;
@@ -186,7 +211,13 @@ public class Swimmer : MonoBehaviour
             if(force==Vector3.zero){
                 force+=normal*minCollisionSpeed;
             }
-            playerVelocity+=force;
+
+            //Dividing force by number of contacts
+            force=force/allHits.Count;
+
+            collisionImpulses.Add(force);
+
+            //playerVelocity+=force;
             float rotationAmount=minCollisionRotationAmount+(maxCollisionRotationAmount-minCollisionRotationAmount)*
             Mathf.Clamp((force.magnitude-minCollisionForceToRotate)/(maxCollisionForceToRotate-minCollisionForceToRotate),0f,1f);
             newRotationQ=Quaternion.RotateTowards(newRotationQ,Quaternion.LookRotation(force),rotationAmount);
@@ -197,27 +228,63 @@ public class Swimmer : MonoBehaviour
             // rotationVelocity+=rv;
         }
 
+        foreach(Vector3 force in collisionImpulses){
+            playerVelocity+=force;
+        }
+
+        //Friction
+        ArrayList frictionImpulses=new ArrayList();
+        for(int i=0;i<allHits.Count;i++){
+            ContactPoint hit=(ContactPoint)allHits[i];
+            PhysicsObject physicsObject;
+            if(hit.otherCollider.gameObject.TryGetComponent<PhysicsObject>(out physicsObject)){
+                Vector3 collisionPoint=hit.point;
+                Vector3 normal=hit.normal;
+                Vector3 relativeVelocity;
+                if(hit.otherCollider.TryGetComponent<Rigidbody>(out Rigidbody otherBody)){
+                    relativeVelocity=otherBody.velocity;
+                }
+                else{
+                    relativeVelocity=Vector3.zero;
+                }
+                relativeVelocity=relativeVelocity-playerVelocity;
+                Vector3 force=relativeVelocity-Vector3.Project(relativeVelocity,normal)*collisionSpeedFactor;
+
+                force=Vector3.ClampMagnitude(force,((Vector3)collisionImpulses[i]).magnitude*physicsObject.friction);
+                Debug.Log("friction");
+                Debug.Log(force);
+
+                frictionImpulses.Add(force);
+                Debug.DrawRay(body.position,force*3f, Color.red, 1f);
+            }
+        }
+
+        foreach(Vector3 force in frictionImpulses){
+            playerVelocity+=force;
+        }
+
+
         //Rotating player
         body.MoveRotation(newRotationQ);
 
 
         boostTimer+=Time.fixedDeltaTime;
 
-        //Boosting player velocity at the end of the brushstroke
+        //Boosting player velocity at the end of the swimstroke
         if(boostTimer>boostTime && boostTimer-Time.fixedDeltaTime<=boostTime){
             playerVelocity+=transform.forward*boostSpeed;
         }
 
-        //Adding velocity
+        //Adding external forces, for e.g. from ring booster
+        playerVelocity+=forcesToAdd;
+        forcesToAdd=Vector3.zero;
+
+        //Adding velocity from swimming
         if(playerInput.movingForward && !playerInput.movingBackward){
             if(playerVelocity.magnitude<coastingSpeed || Vector3.Angle(playerVelocity,transform.forward)>=90f){
-                playerVelocity+=transform.forward*acceleration*Time.fixedDeltaTime;
+                playerVelocity+=transform.forward*acceleration*playerInput.movingForwardValue*Time.fixedDeltaTime;
             }
             animator.SetBool("swimmingForward",true);
-            if(!playerInput.prevMovingForward){
-                boostTimer=0f;
-                animator.SetTrigger("boostForward");
-            }
         }else if(playerInput.movingBackward && !playerInput.movingForward){
             if(playerVelocity.magnitude<coastingSpeed || Vector3.Angle(playerVelocity,-transform.forward)>=90f){
                 playerVelocity+=-transform.forward*backwardAcceleration*Time.fixedDeltaTime;
@@ -257,6 +324,7 @@ public class Swimmer : MonoBehaviour
         body.position+=collisionMovement;
         // Using MovePosition because it interpolates movement smoothly and keeps velocity in next frame
         body.MovePosition(body.position+playerVelocity*Time.fixedDeltaTime);
+        animator.SetFloat("speed",playerVelocity.magnitude);
 
         prevVelocity=body.velocity;
 
@@ -264,9 +332,48 @@ public class Swimmer : MonoBehaviour
 
     }
 
+    public void Boost(Vector3 force){
+        forcesToAdd+=force;
+    }
+
+    void Camera(){
+        cameraPauseTimer+=Time.deltaTime;
+
+        Vector3 input=new Vector3(playerInput.rotation.y,playerInput.rotation.x,0f);
+
+        if(input.magnitude>=0.05f){
+            cameraPauseTimer=0f;
+        }
+
+        targetRotation+=input*Time.deltaTime*cameraRotationSpeed;
+
+        if(cameraPauseTimer>=cameraPauseLength){
+            targetRotation=Vector3.zero;
+        }
+
+        targetRotation.x=Mathf.Clamp(targetRotation.x,-maxCameraRotationAngle,maxCameraRotationAngle);
+        targetRotation.y=Mathf.Clamp(targetRotation.y,-maxCameraRotationAngle,maxCameraRotationAngle);
+
+        //Inverting current rotation values if they go over 180
+        Vector3 currentRotation=cameraTarget.localRotation.eulerAngles;
+        if(currentRotation.x>180f){
+            currentRotation.x-=360;
+        }
+        if(currentRotation.y>180f){
+            currentRotation.y-=360;
+        }
+
+        // Lerp the camera's rotation for a, heavier feel
+        Vector3 newRotation=Vector3.SmoothDamp(currentRotation, targetRotation, 
+        ref cameraRotationVelocity, cameraRotationSmoothTime);
+
+        // Apply the smoothed rotation to the cameraRoot
+        cameraTarget.localRotation = Quaternion.Euler(newRotation);
+
+    }
+
 
     private void OnCollisionStay(Collision other) {
-        Debug.Log("collision stay");
         ContactPoint[] myContacts = new ContactPoint[other.contactCount];
         for(int i = 0; i < myContacts.Length; i++)
         {
@@ -301,8 +408,6 @@ public class Swimmer : MonoBehaviour
         Vector3 movement=Vector3.zero; //Amount to move the collider 
 
         LayerMask mask = LayerMask.GetMask("Default");
-
-        Debug.DrawRay(point1,point2-point1, Color.red, 1f);
 
         while(colliding && tries<maxMoveoutEffort){
             hits=Physics.CapsuleCastAll(point1+movement,point2+movement,capsule.radius+skinWidth,normal,0f,mask,QueryTriggerInteraction.Ignore);
