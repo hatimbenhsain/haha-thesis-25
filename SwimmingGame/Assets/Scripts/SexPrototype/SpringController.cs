@@ -1,10 +1,11 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 public class SpringController : MonoBehaviour
 {
-    public GameObject character; 
+    public GameObject character;
     public Camera playerCamera; // reference to the camera
 
     public float maxInhaleTime = 3f; // time to fully inhale
@@ -14,25 +15,32 @@ public class SpringController : MonoBehaviour
     public float drag = 1f; // adjustable drag
     public float turnSpeed = 5f; // speed at which the character turns
     public float lerpSpeed = 5f; // speed for the character to align with the camera direction
-    public float tiltAngle = 15f; // max tilt angle when pressing WASD
+    public float tiltAngle = 15f; // max tilt angle when pressing direction
+    public float movementVelocityThreshold; // the speed threshold for moving
+    public float movementMultiplier = 1f;  // speed for the character movement
+    public float movementLerpSpeed = 1f;  // speed for the character to rotate
+    public bool isExhaling = false;
+    public bool isInhaling = false;
 
+    private PlayerInput playerInput;
     private Vector3 originalScale; // original scale of the cylinder
     private Rigidbody characterRb;
-    public bool isInhaling = false;
     private float inhaleStartTime = 0f;
     private float inhaleDuration = 0f;
     private float exhaleForce = 0f; // forward force based on inhale time
     private bool isAligningWithCamera = false; // flag to check if aligning with camera direction
     private Quaternion targetRotation; // target rotation based on camera direction
+    private Vector3 currentVelocity;
 
     private float exhaleTimeLeft = 0f; // time remaining for the exhale process
 
     void Start()
     {
         originalScale = character.transform.localScale; // store the original scale
-        characterRb = character.GetComponent<Rigidbody>(); // get the rigidbody for physics-based movement
+        characterRb = character.GetComponent<Rigidbody>(); // get the rigidbody
         characterRb.drag = drag; // set the drag for the character's movement
         characterRb.useGravity = false; // disable gravity for the character
+        playerInput = FindObjectOfType<PlayerInput>(); // get the player input
     }
 
     void Update()
@@ -71,6 +79,11 @@ public class SpringController : MonoBehaviour
         if (exhaleTimeLeft > 0f)
         {
             Exhale();
+            isExhaling = true;
+        }
+        else
+        {
+            isExhaling = false;
         }
 
         // smoothly rotate to the target direction if aligning
@@ -95,7 +108,7 @@ public class SpringController : MonoBehaviour
         inhaleDuration = Mathf.Clamp(inhaleTime, 0, maxInhaleTime);
 
         float t = inhaleDuration / maxInhaleTime;
-        character.transform.localScale = Vector3.Lerp(originalScale, new Vector3(1.5f, 1.5f, 0.5f), t); // for cylinder scale
+        character.transform.localScale = Vector3.Lerp(originalScale, new Vector3(1.2f, 1.2f, 1f), t); // for cylinder scale
     }
 
     // starts the exhaling process and calculates the force
@@ -118,9 +131,6 @@ public class SpringController : MonoBehaviour
         // apply forward force proportional to inhale
         characterRb.AddForce(character.transform.forward * exhaleForce, ForceMode.Acceleration);
 
-        // handle tilt during exhale based on WASD input
-        HandleExhaleTilt();
-
         exhaleTimeLeft -= Time.fixedDeltaTime;
 
         // when done exhaling, reset the scale and force
@@ -133,48 +143,51 @@ public class SpringController : MonoBehaviour
     // handle turning based on WASD keys
     void HandleTurning()
     {
-        if (Input.GetKey(KeyCode.W))
-        {
-            Quaternion targetTilt = Quaternion.Euler(90, characterRb.rotation.eulerAngles.y, 0);
-            characterRb.MoveRotation(Quaternion.Slerp(characterRb.rotation, targetTilt, turnSpeed * Time.fixedDeltaTime));
-        }
-        else if (Input.GetKey(KeyCode.S))
+        Vector3 moveDirection = Vector3.zero;
+        bool isMoving = false;
+
+        // Forward tilt (up direction)
+        if (playerInput.movingForward)
         {
             Quaternion targetTilt = Quaternion.Euler(-90, characterRb.rotation.eulerAngles.y, 0);
             characterRb.MoveRotation(Quaternion.Slerp(characterRb.rotation, targetTilt, turnSpeed * Time.fixedDeltaTime));
+            moveDirection += character.transform.up;
+            isMoving = true;
         }
-        else if (Input.GetKey(KeyCode.A))
+        // Backward tilt (down direction)
+        else if (playerInput.movingBackward)
         {
-            characterRb.MoveRotation(characterRb.rotation * Quaternion.Euler(0, -turnSpeed * Time.fixedDeltaTime * 100, 0));
+            Quaternion targetTilt = Quaternion.Euler(90, characterRb.rotation.eulerAngles.y, 0);
+            characterRb.MoveRotation(Quaternion.Slerp(characterRb.rotation, targetTilt, turnSpeed * Time.fixedDeltaTime));
+            moveDirection -= character.transform.up;
+            isMoving = true;
         }
-        else if (Input.GetKey(KeyCode.D))
+        // Left tilt (around y-axis)
+        else if (playerInput.movingLeft)
         {
-            characterRb.MoveRotation(characterRb.rotation * Quaternion.Euler(0, turnSpeed * Time.fixedDeltaTime * 100, 0));
+            Quaternion targetTilt = Quaternion.Euler(characterRb.rotation.eulerAngles.x, 90, 0);
+            characterRb.MoveRotation(Quaternion.Slerp(characterRb.rotation, targetTilt, turnSpeed * Time.fixedDeltaTime));
+            moveDirection -= character.transform.right;
+            isMoving = true;
+        }
+        // Right tilt (around y-axis)
+        else if (playerInput.movingRight)
+        {
+            Quaternion targetTilt = Quaternion.Euler(characterRb.rotation.eulerAngles.x, -90, 0);
+            characterRb.MoveRotation(Quaternion.Slerp(characterRb.rotation, targetTilt, turnSpeed * Time.fixedDeltaTime));
+            moveDirection += character.transform.right;
+            isMoving = true;
+        }
+
+        // Handle movement
+        if (isMoving && characterRb.velocity.magnitude > movementVelocityThreshold)
+        {
+            Vector3 targetVelocity = moveDirection.normalized * movementMultiplier;
+            currentVelocity = Vector3.Lerp(currentVelocity, targetVelocity, Time.fixedDeltaTime * movementLerpSpeed);
+            characterRb.AddForce(currentVelocity, ForceMode.Acceleration);
         }
     }
 
-    // handle tilt during exhale based on WASD input
-    void HandleExhaleTilt()
-    {
-        // Apply slight tilts based on movement inputs
-        if (Input.GetKey(KeyCode.W))
-        {
-            characterRb.MoveRotation(characterRb.rotation * Quaternion.Euler(-tiltAngle * Time.fixedDeltaTime, 0, 0)); // slight tilt upward
-        }
-        else if (Input.GetKey(KeyCode.S))
-        {
-            characterRb.MoveRotation(characterRb.rotation * Quaternion.Euler(tiltAngle * Time.fixedDeltaTime, 0, 0)); // slight tilt downward
-        }
-
-        if (Input.GetKey(KeyCode.A))
-        {
-            characterRb.MoveRotation(characterRb.rotation * Quaternion.Euler(0, 0, tiltAngle * Time.fixedDeltaTime)); // slight tilt left
-        }
-        else if (Input.GetKey(KeyCode.D))
-        {
-            characterRb.MoveRotation(characterRb.rotation * Quaternion.Euler(0, 0, -tiltAngle * Time.fixedDeltaTime)); // slight tilt right
-        }
-    }
 
     // align character with camera direction
     void AlignWithCamera()
