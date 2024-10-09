@@ -5,17 +5,19 @@ using UnityEngine;
 public class ThirdPersonCamera : MonoBehaviour
 {
     public Transform cameraRoot;
-    public float mouseSensitivity = 100f;  // Mouse sensitivity for looking around
-    public float rotationSmoothTime = 0.1f;  // Smoothing factor for the camera movement
+    public float sensitivity = 100f;  // sensitivity for looking around
+    public float rotationSmoothTime = 0.1f; 
 
     private float xRotation = 0f;  // Current x-axis rotation
     private Vector3 currentRotation;
     private Vector3 targetRotation;
     private Vector3 rotationVelocity;
+    private PlayerInput playerInput;
 
     void Start()
     {
         Cursor.lockState = CursorLockMode.Locked;  // Locks the cursor to the center of the screen
+        playerInput = FindObjectOfType<PlayerInput>(); 
     }
 
     void FixedUpdate()
@@ -26,8 +28,8 @@ public class ThirdPersonCamera : MonoBehaviour
     void HandleMouseLook()
     {
         // Get mouse input
-        float mouseX = Input.GetAxis("Mouse X") * mouseSensitivity * Time.deltaTime;
-        float mouseY = Input.GetAxis("Mouse Y") * mouseSensitivity * Time.deltaTime;
+        float mouseX = playerInput.rotation.x * sensitivity * Time.deltaTime;
+        float mouseY = playerInput.rotation.y * sensitivity * Time.deltaTime;
 
         // Calculate target rotations based on mouse input
         targetRotation.y += mouseX;  // Horizontal rotation

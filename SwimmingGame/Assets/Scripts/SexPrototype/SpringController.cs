@@ -1,79 +1,97 @@
+using Cinemachine;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.InputSystem;
 
 public class SpringController : MonoBehaviour
 {
+    [Header("Game Objects")]
     public GameObject character;
-    public Camera playerCamera; // reference to the camera
+    public Camera playerCamera;
+    public CinemachineVirtualCamera virtualCamera;
 
-    public float maxInhaleTime = 3f; // time to fully inhale
-    public float maxExhaleTime = 1f; // maximum exhale time
-    public float minExhaleTime = 0f; // minimum exhale time
-    public float acceleration = 10f; // adjustable acceleration
-    public float drag = 1f; // adjustable drag
+    [Header("Movement Parameters")]
+    public float maxInhaleTime = 3f;
+    public float maxExhaleTime = 1f;
+    public float minExhaleTime = 0f;
+    public float acceleration = 10f;
+    public float drag = 1f;
     public float turnSpeed = 5f; // speed at which the character turns
     public float lerpSpeed = 5f; // speed for the character to align with the camera direction
-    public float tiltAngle = 15f; // max tilt angle when pressing direction
-    public float movementVelocityThreshold; // the speed threshold for moving
-    public float movementMultiplier = 1f;  // speed for the character movement
-    public float movementLerpSpeed = 1f;  // speed for the character to rotate
+    public float tiltAngle = 15f;
+    public float movementVelocityThreshold;
+    public float movementMultiplier = 1f;  // speed for movement
+    public float movementLerpSpeed = 1f;
     public bool isExhaling = false;
     public bool isInhaling = false;
 
+    [Header("Camera Parameters")]
+    public float zoomedInDistance;
+
     private PlayerInput playerInput;
-    private Vector3 originalScale; // original scale of the cylinder
+    private Vector3 originalScale;
     private Rigidbody characterRb;
     private float inhaleStartTime = 0f;
     private float inhaleDuration = 0f;
-    private float exhaleForce = 0f; // forward force based on inhale time
-    private bool isAligningWithCamera = false; // flag to check if aligning with camera direction
-    private Quaternion targetRotation; // target rotation based on camera direction
+    private float exhaleForce = 0f;
+    private bool isAligningWithCamera = false;
+    private Quaternion targetRotation;
     private Vector3 currentVelocity;
+    private float originalCameraDistance;
+    private Cinemachine3rdPersonFollow thirdPersonFollow;
 
-    private float exhaleTimeLeft = 0f; // time remaining for the exhale process
+
+    private float exhaleTimeLeft = 0f;
 
     void Start()
     {
-        originalScale = character.transform.localScale; // store the original scale
-        characterRb = character.GetComponent<Rigidbody>(); // get the rigidbody
-        characterRb.drag = drag; // set the drag for the character's movement
-        characterRb.useGravity = false; // disable gravity for the character
-        playerInput = FindObjectOfType<PlayerInput>(); // get the player input
+        originalScale = character.transform.localScale;
+        characterRb = character.GetComponent<Rigidbody>();
+        characterRb.drag = drag;
+        characterRb.useGravity = false;
+        playerInput = FindObjectOfType<PlayerInput>();
+        thirdPersonFollow = virtualCamera.GetCinemachineComponent<Cinemachine3rdPersonFollow>();
+        if (thirdPersonFollow != null)
+        {
+            originalCameraDistance = thirdPersonFollow.CameraDistance;
+        }
     }
 
-    void Update()
+    private void Update()
     {
-        if (Input.GetMouseButtonDown(0)) // LMB
+        if (playerInput.movingForward && !playerInput.prevMovingForward)
         {
             StartInhaling();
         }
 
-        if (Input.GetMouseButtonUp(0)) // LMB
+        if (!playerInput.movingForward && playerInput.prevMovingForward)
         {
             StartExhaling();
         }
 
-        if (Input.GetMouseButton(1)) // RMB
+        if (playerInput.aiming)
         {
             AlignWithCamera();
         }
         else
         {
-            isAligningWithCamera = false; // stop aligning when RMB is released
+            isAligningWithCamera = false;
+            RestoreOriginalCameraDistance();
         }
     }
 
+
     void FixedUpdate()
     {
+
         if (isInhaling)
         {
             Inhale();
         }
 
-        // handle turning and movement based on WASD input
-        HandleTurning();
+        //HandleTurning();
 
         // handle exhaling process
         if (exhaleTimeLeft > 0f)
@@ -84,13 +102,6 @@ public class SpringController : MonoBehaviour
         else
         {
             isExhaling = false;
-        }
-
-        // smoothly rotate to the target direction if aligning
-        if (isAligningWithCamera)
-        {
-            characterRb.MoveRotation(Quaternion.Lerp(characterRb.rotation, targetRotation, lerpSpeed * Time.fixedDeltaTime));
-            characterRb.angularVelocity = Vector3.zero; // clear all angular acceleration
         }
     }
 
@@ -140,14 +151,14 @@ public class SpringController : MonoBehaviour
         }
     }
 
-    // handle turning based on WASD keys
+    // TODO: Think about whether or not to keep this
     void HandleTurning()
     {
         Vector3 moveDirection = Vector3.zero;
         bool isMoving = false;
 
         // Forward tilt (up direction)
-        if (playerInput.movingForward)
+        if (playerInput.look.y < 0f)
         {
             Quaternion targetTilt = Quaternion.Euler(-90, characterRb.rotation.eulerAngles.y, 0);
             characterRb.MoveRotation(Quaternion.Slerp(characterRb.rotation, targetTilt, turnSpeed * Time.fixedDeltaTime));
@@ -155,7 +166,7 @@ public class SpringController : MonoBehaviour
             isMoving = true;
         }
         // Backward tilt (down direction)
-        else if (playerInput.movingBackward)
+        else if (playerInput.look.y > 0f)
         {
             Quaternion targetTilt = Quaternion.Euler(90, characterRb.rotation.eulerAngles.y, 0);
             characterRb.MoveRotation(Quaternion.Slerp(characterRb.rotation, targetTilt, turnSpeed * Time.fixedDeltaTime));
@@ -163,19 +174,19 @@ public class SpringController : MonoBehaviour
             isMoving = true;
         }
         // Left tilt (around y-axis)
-        else if (playerInput.movingLeft)
+        else if (playerInput.look.x < 0f)
         {
-            Quaternion targetTilt = Quaternion.Euler(characterRb.rotation.eulerAngles.x, 90, 0);
+            Quaternion targetTilt = Quaternion.Euler(characterRb.rotation.eulerAngles.x, characterRb.rotation.eulerAngles.y - 90, 0);
             characterRb.MoveRotation(Quaternion.Slerp(characterRb.rotation, targetTilt, turnSpeed * Time.fixedDeltaTime));
-            moveDirection -= character.transform.right;
+            moveDirection -= character.transform.right;  // Keep moving in the character's right direction
             isMoving = true;
         }
-        // Right tilt (around y-axis)
-        else if (playerInput.movingRight)
+        // Right tilt (turning right)
+        else if (playerInput.look.x > 0f)
         {
-            Quaternion targetTilt = Quaternion.Euler(characterRb.rotation.eulerAngles.x, -90, 0);
+            Quaternion targetTilt = Quaternion.Euler(characterRb.rotation.eulerAngles.x, characterRb.rotation.eulerAngles.y + 90, 0);
             characterRb.MoveRotation(Quaternion.Slerp(characterRb.rotation, targetTilt, turnSpeed * Time.fixedDeltaTime));
-            moveDirection += character.transform.right;
+            moveDirection += character.transform.right;  // Keep moving in the character's right direction
             isMoving = true;
         }
 
@@ -188,12 +199,30 @@ public class SpringController : MonoBehaviour
         }
     }
 
-
     // align character with camera direction
     void AlignWithCamera()
     {
         Vector3 cameraForward = playerCamera.transform.forward;
         targetRotation = Quaternion.LookRotation(cameraForward); // set target rotation based on camera direction
         isAligningWithCamera = true; // start aligning
+        characterRb.MoveRotation(Quaternion.Lerp(characterRb.rotation, targetRotation, lerpSpeed * Time.fixedDeltaTime));
+        characterRb.angularVelocity = Vector3.zero; // clear all angular acceleration
+
+        // Smoothly zoom in the camera
+        if (thirdPersonFollow != null)
+        {
+            thirdPersonFollow.CameraDistance = Mathf.Lerp(thirdPersonFollow.CameraDistance, zoomedInDistance, lerpSpeed * Time.fixedDeltaTime);
+        }
+    }
+
+    private void RestoreOriginalCameraDistance()
+    {
+        isAligningWithCamera = false;
+
+        // Smoothly restore the original camera distance
+        if (thirdPersonFollow != null)
+        {
+            thirdPersonFollow.CameraDistance = Mathf.Lerp(thirdPersonFollow.CameraDistance, originalCameraDistance, lerpSpeed * Time.fixedDeltaTime);
+        }
     }
 }
