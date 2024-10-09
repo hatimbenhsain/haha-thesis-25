@@ -84,6 +84,8 @@ public class Swimmer : MonoBehaviour
     public float cameraBoostFov=90f;
     private float cameraBaseFov;
 
+    public GameObject trail;
+
 
     private Vector3 prevVelocity;
 
@@ -116,6 +118,7 @@ public class Swimmer : MonoBehaviour
             playerInput.movedForwardTrigger=false;
         }
         UpdateCamera();
+        UpdateTrail();
     }
 
     void FixedUpdate()
@@ -348,6 +351,16 @@ public class Swimmer : MonoBehaviour
 
     void BoostAnimation(){
         cameraTargetFov=cameraBoostFov;
+    }
+
+    void UpdateTrail(){
+        ParticleSystem ps=trail.GetComponent<ParticleSystem>();
+        var emission=ps.emission;
+        float minSpeed=1.5f;
+        float maxSpeed=3f;
+        var r=Mathf.Clamp(body.velocity.magnitude,minSpeed,maxSpeed);
+        r=(r-minSpeed)/(maxSpeed-minSpeed);
+        emission.rateOverTime=Mathf.Clamp(r*10f,0,10);
     }
 
     void UpdateCamera(){
