@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.07924773, g: 0.07924773, b: 0.07924773, a: 1}
+  m_IndirectSpecularColor: {r: 0.07924773, g: 0.07738904, b: 0.073937945, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -34808,6 +34808,12 @@ Mesh:
     offset: 0
     size: 0
     path: 
+--- !u!20 &932957140 stripped
+Camera:
+  m_CorrespondingSourceObject: {fileID: 9083463897689427822, guid: 1c8ad2b2d7ff68c45b5eee5039926f9d,
+    type: 3}
+  m_PrefabInstance: {fileID: 1355850716}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &960289503 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: eedc4ec913db0024caaf70365e7773b4,
@@ -46656,7 +46662,18 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    - target: {fileID: 2631372478074727883, guid: 1c8ad2b2d7ff68c45b5eee5039926f9d,
+        type: 3}
+      propertyPath: camera
+      value: 
+      objectReference: {fileID: 932957140}
+    - target: {fileID: 2631372478074727883, guid: 1c8ad2b2d7ff68c45b5eee5039926f9d,
+        type: 3}
+      propertyPath: cameraFovChangeSpeed
+      value: 2
+      objectReference: {fileID: 0}
+    m_RemovedComponents:
+    - {fileID: 4714216204355016534, guid: 1c8ad2b2d7ff68c45b5eee5039926f9d, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []

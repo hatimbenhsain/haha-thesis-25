@@ -71,12 +71,18 @@ public class Swimmer : MonoBehaviour
     private float cameraPauseTimer=0f;
 
     [Header("Misc.")]
+    public Camera camera;
     public Transform cameraTarget;
     
     
     //Camera things
     private Vector3 targetRotation;
     private Vector3 cameraRotationVelocity;
+    public float cameraFovChangeSpeed=1f;
+    public float cameraFovRestoreSpeed=1f;
+    public float cameraTargetFov=80f;
+    public float cameraBoostFov=90f;
+    private float cameraBaseFov;
 
 
     private Vector3 prevVelocity;
@@ -99,6 +105,8 @@ public class Swimmer : MonoBehaviour
 
         Cursor.lockState = CursorLockMode.Locked;  // Locks the cursor to the center of the screen
 
+        cameraBaseFov=camera.fieldOfView;
+        cameraTargetFov=cameraBaseFov;
     }
 
     void Update(){
@@ -107,7 +115,7 @@ public class Swimmer : MonoBehaviour
             animator.SetTrigger("boostForward");
             playerInput.movedForwardTrigger=false;
         }
-        Camera();
+        UpdateCamera();
     }
 
     void FixedUpdate()
@@ -273,6 +281,7 @@ public class Swimmer : MonoBehaviour
         //Boosting player velocity at the end of the swimstroke
         if(boostTimer>boostTime && boostTimer-Time.fixedDeltaTime<=boostTime){
             playerVelocity+=transform.forward*boostSpeed;
+            BoostAnimation();
         }
 
         //Adding external forces, for e.g. from ring booster
@@ -332,11 +341,16 @@ public class Swimmer : MonoBehaviour
 
     }
 
+    // Boost can be from external effect for e.g. ring
     public void Boost(Vector3 force){
         forcesToAdd+=force;
     }
 
-    void Camera(){
+    void BoostAnimation(){
+        cameraTargetFov=cameraBoostFov;
+    }
+
+    void UpdateCamera(){
         cameraPauseTimer+=Time.deltaTime;
 
         Vector3 input=new Vector3(playerInput.rotation.y,playerInput.rotation.x,0f);
@@ -370,6 +384,8 @@ public class Swimmer : MonoBehaviour
         // Apply the smoothed rotation to the cameraRoot
         cameraTarget.localRotation = Quaternion.Euler(newRotation);
 
+        camera.fieldOfView=Mathf.Lerp(camera.fieldOfView,cameraTargetFov,cameraFovChangeSpeed*Time.deltaTime);
+        cameraTargetFov=Mathf.Lerp(cameraTargetFov,cameraBaseFov,cameraFovRestoreSpeed*Time.deltaTime);
     }
 
 
