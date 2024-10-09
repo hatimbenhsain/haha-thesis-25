@@ -6,7 +6,8 @@ public class ThirdPersonCamera : MonoBehaviour
 {
     public Transform cameraRoot;
     public float sensitivity = 100f;  // sensitivity for looking around
-    public float rotationSmoothTime = 0.1f; 
+    public float rotationSmoothTime = 0.1f;
+    public bool cameraLocked;
 
     private float xRotation = 0f;  // Current x-axis rotation
     private Vector3 currentRotation;
@@ -22,7 +23,11 @@ public class ThirdPersonCamera : MonoBehaviour
 
     void FixedUpdate()
     {
-        HandleMouseLook();
+        if (!cameraLocked)
+        {
+            HandleMouseLook();
+        }
+
     }
 
     void HandleMouseLook()

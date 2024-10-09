@@ -7,8 +7,11 @@ public class SexCameraManager : MonoBehaviour
 {
     public CameraSet[] cameraGroups; // array of sets of cameras
     public int currentGroupIndex = 0; // index to control which group is active
+    public GameObject targetObject; // The game object to monitor (e.g., Player)
+    public ThirdPersonCamera thirdPersonCamera;
 
     private int spacePressCount = 0; // count of space presses
+    private bool isObjectInsideTrigger = true; // assume the object starts inside the trigger
 
     void Start()
     {
@@ -18,8 +21,8 @@ public class SexCameraManager : MonoBehaviour
 
     void Update()
     {
-        // switch cameras based on space presses
-        if (Input.GetKeyDown(KeyCode.Space))
+        // switch cameras based on space presses only if target object is outside the trigger
+        if (Input.GetKeyDown(KeyCode.Space) && !isObjectInsideTrigger)
         {
             spacePressCount++;
             SwitchCameras();
@@ -33,11 +36,12 @@ public class SexCameraManager : MonoBehaviour
         {
             CameraSet currentSet = cameraGroups[currentGroupIndex];
 
-            // activate main camera, deactivate others
+            // Start with fixedPOV active by default
             currentSet.mainCamera.gameObject.SetActive(true);
-            currentSet.fixedPOV.gameObject.SetActive(false);
+            currentSet.fixedPOV.gameObject.SetActive(true);
             currentSet.followCamera.gameObject.SetActive(false);
         }
+        thirdPersonCamera.cameraLocked = true;
     }
 
     // switch cameras based on the count of space presses
@@ -73,6 +77,19 @@ public class SexCameraManager : MonoBehaviour
             currentGroupIndex = index;
             spacePressCount = 0; // reset the space press count
             InitializeCameras(); // initialize cameras for the new group
+        }
+    }
+
+
+    // Trigger detection when an object exits the volume
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.gameObject == targetObject) // check if the exited object is the targetObject
+        {
+            isObjectInsideTrigger = false;
+            CameraSet currentSet = cameraGroups[currentGroupIndex];
+            currentSet.fixedPOV.gameObject.SetActive(false);
+            thirdPersonCamera.cameraLocked = false;
         }
     }
 }
