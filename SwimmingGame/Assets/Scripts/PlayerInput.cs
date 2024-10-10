@@ -38,6 +38,12 @@ public class PlayerInput : MonoBehaviour
         playerInput = GetComponent<UnityEngine.InputSystem.PlayerInput>();
     }
 
+    void Update(){
+        if(Input.GetKeyDown(KeyCode.I)){
+            yAxisInverted=!yAxisInverted;
+        }
+    }
+
     void LateUpdate() {
         prevMovingForward=movingForward;
         prevMovingBackward=movingBackward;
