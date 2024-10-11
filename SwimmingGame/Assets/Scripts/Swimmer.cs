@@ -85,6 +85,7 @@ public class Swimmer : MonoBehaviour
     private float cameraBaseFov;
 
     public GameObject trail;
+    public float defaultRateOverTime=10f;
 
 
     private Vector3 prevVelocity;
@@ -360,7 +361,7 @@ public class Swimmer : MonoBehaviour
         float maxSpeed=3f;
         var r=Mathf.Clamp(body.velocity.magnitude,minSpeed,maxSpeed);
         r=(r-minSpeed)/(maxSpeed-minSpeed);
-        emission.rateOverTime=Mathf.Clamp(r*10f,0,10);
+        emission.rateOverTime=Mathf.Clamp(r*defaultRateOverTime,0,10);
     }
 
     void UpdateCamera(){
