@@ -60,10 +60,6 @@ public class PlayerInput : MonoBehaviour
 
     public void OnMoveForward(InputAction.CallbackContext value){
         MoveForwardInput(value.ReadValue<float>());
-        Debug.Log("on move forward");
-        if(value.performed) Debug.Log("performed");
-        if(value.started) Debug.Log("started");
-        Debug.Log(value.ReadValue<float>());
     }
 
     public void OnMoveForwardTrigger(InputAction.CallbackContext value){
@@ -170,7 +166,6 @@ public class PlayerInput : MonoBehaviour
         if(currentControlScheme=="KeyboardMouse"){
             rotation=rotation*mouseSensitivity/5000f;
         }
-        Debug.Log(rotation);
     }
 
     void InteractInput(bool b){
