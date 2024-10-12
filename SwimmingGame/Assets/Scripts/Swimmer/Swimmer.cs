@@ -29,6 +29,7 @@ public class Swimmer : MonoBehaviour
     private CharacterController controller;
     private Rigidbody body;
     private PlayerInput playerInput;
+    private SwimmerCamera swimmerCamera;
 
     [Header("Rotation")]
     public float rotationAcceleration=180f;
@@ -62,30 +63,7 @@ public class Swimmer : MonoBehaviour
     [Tooltip("Cap force of collision to make player rotate.")]
     public float maxCollisionForceToRotate=5f;
 
-    [Header("Camera")]
-    public float cameraRotationSmoothTime = 0.1f;  // Smoothing factor for the camera movement
-    public float maxCameraRotationAngle=60f;
-    public float cameraRotationSpeed=100f;
-    [Tooltip("If there is no input from player for this long, camera moves back to player.")]
-    public float cameraPauseLength=2f;
-    private float cameraPauseTimer=0f;
-
     [Header("Misc.")]
-    public Camera camera;
-    public Transform cameraTarget;
-    
-    
-    //Camera things
-    private Vector3 targetRotation;
-    private Vector3 cameraRotationVelocity;
-    public float cameraFovChangeSpeed=1f;
-    public float cameraFovRestoreSpeed=1f;
-    public float cameraTargetFov=80f;
-    public float cameraBoostFov=90f;
-    private float cameraBaseFov;
-
-    public GameObject trail;
-    public float defaultRateOverTime=10f;
 
 
     private Vector3 prevVelocity;
@@ -105,11 +83,11 @@ public class Swimmer : MonoBehaviour
         animator=GetComponent<Animator>();
         body=GetComponent<Rigidbody>();
         capsule=GetComponentInChildren<CapsuleCollider>();
+        swimmerCamera=GetComponent<SwimmerCamera>();
 
         Cursor.lockState = CursorLockMode.Locked;  // Locks the cursor to the center of the screen
 
-        cameraBaseFov=camera.fieldOfView;
-        cameraTargetFov=cameraBaseFov;
+
     }
 
     void Update(){
@@ -118,8 +96,6 @@ public class Swimmer : MonoBehaviour
             animator.SetTrigger("boostForward");
             playerInput.movedForwardTrigger=false;
         }
-        UpdateCamera();
-        UpdateTrail();
     }
 
     void FixedUpdate()
@@ -350,58 +326,10 @@ public class Swimmer : MonoBehaviour
         forcesToAdd+=force;
     }
 
+    //Things to animate right after boost happens
     void BoostAnimation(){
-        cameraTargetFov=cameraBoostFov;
+        swimmerCamera.BoostAnimation();
     }
-
-    void UpdateTrail(){
-        ParticleSystem ps=trail.GetComponent<ParticleSystem>();
-        var emission=ps.emission;
-        float minSpeed=1.5f;
-        float maxSpeed=3f;
-        var r=Mathf.Clamp(body.velocity.magnitude,minSpeed,maxSpeed);
-        r=(r-minSpeed)/(maxSpeed-minSpeed);
-        emission.rateOverTime=Mathf.Clamp(r*defaultRateOverTime,0,10);
-    }
-
-    void UpdateCamera(){
-        cameraPauseTimer+=Time.deltaTime;
-
-        Vector3 input=new Vector3(playerInput.rotation.y,playerInput.rotation.x,0f);
-
-        if(input.magnitude>=0.05f){
-            cameraPauseTimer=0f;
-        }
-
-        targetRotation+=input*Time.deltaTime*cameraRotationSpeed;
-
-        if(cameraPauseTimer>=cameraPauseLength){
-            targetRotation=Vector3.zero;
-        }
-
-        targetRotation.x=Mathf.Clamp(targetRotation.x,-maxCameraRotationAngle,maxCameraRotationAngle);
-        targetRotation.y=Mathf.Clamp(targetRotation.y,-maxCameraRotationAngle,maxCameraRotationAngle);
-
-        //Inverting current rotation values if they go over 180
-        Vector3 currentRotation=cameraTarget.localRotation.eulerAngles;
-        if(currentRotation.x>180f){
-            currentRotation.x-=360;
-        }
-        if(currentRotation.y>180f){
-            currentRotation.y-=360;
-        }
-
-        // Lerp the camera's rotation for a, heavier feel
-        Vector3 newRotation=Vector3.SmoothDamp(currentRotation, targetRotation, 
-        ref cameraRotationVelocity, cameraRotationSmoothTime);
-
-        // Apply the smoothed rotation to the cameraRoot
-        cameraTarget.localRotation = Quaternion.Euler(newRotation);
-
-        camera.fieldOfView=Mathf.Lerp(camera.fieldOfView,cameraTargetFov,cameraFovChangeSpeed*Time.deltaTime);
-        cameraTargetFov=Mathf.Lerp(cameraTargetFov,cameraBaseFov,cameraFovRestoreSpeed*Time.deltaTime);
-    }
-
 
     private void OnCollisionStay(Collision other) {
         ContactPoint[] myContacts = new ContactPoint[other.contactCount];
@@ -454,6 +382,10 @@ public class Swimmer : MonoBehaviour
 
         return movement;
 
+    }
+
+    public Vector3 GetVelocity(){
+        return body.velocity;
     }
 }
 
