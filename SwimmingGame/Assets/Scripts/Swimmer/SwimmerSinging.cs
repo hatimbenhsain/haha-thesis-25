@@ -4,6 +4,10 @@ using UnityEngine;
 using FMOD.Studio;
 using FMODUnity;
 using System.Runtime.InteropServices;
+using System.Dynamic;
+using UnityEditor.EditorTools;
+using System.Reflection;
+using UnityEngine.UI;
 
 public class SwimmerSinging : MonoBehaviour
 {
@@ -16,6 +20,9 @@ public class SwimmerSinging : MonoBehaviour
     [Tooltip("Keys that player can play.")]
     public string[] keys;
 
+    [Tooltip("Currently playable notes on the wheel.")]
+    public string[] possibleNotes;
+
     [Tooltip("The dot that moves on the canvas to signify singing")]
     public GameObject singingDot;
     private RectTransform singingDotRect;
@@ -23,12 +30,26 @@ public class SwimmerSinging : MonoBehaviour
     public float circleRadius=255f;
     private Vector2 rectTargetPosition;
     private Vector2 rectCenter;
+    [Tooltip("Images to affect opacity.")]
+    public Image[] images;
     public float noteLerpValue=10f;
-    public float rectDeadzone=0.1f;
 
     private PlayerInput playerInput;
 
-    private Vector2 singingNote;
+    [Tooltip("Current note being sung")]
+    public string singingNote;
+    private Vector2 singingNotePosition; // Relative position on the wheel
+
+    private float startingAngle=1.5f;
+
+    private Vector2 inputNote;
+
+    private float targetOpacity=0f;
+    public float imageOpacityLerpSpeed=1f;
+
+    public float mouseSensitivity=2f;
+
+    public bool singing;
 
     void Start()
     {
@@ -42,6 +63,11 @@ public class SwimmerSinging : MonoBehaviour
         singingDotRect=singingDot.GetComponent<RectTransform>();
         rectTargetPosition=singingDotRect.anchoredPosition;
         rectCenter=singingDotRect.anchoredPosition;
+
+        foreach(Image image in images){
+            Color c=image.color;
+            image.color=new Color(c.r,c.g,c.b,0f);
+        }
     }
 
     void Update()
@@ -50,27 +76,81 @@ public class SwimmerSinging : MonoBehaviour
             if(Input.GetKeyDown(KeyCode.B)){
                 ToggleNote("B4");
             }
-            Vector2 inputNote=playerInput.singingNote;
-            if(playerInput.currentControlScheme=="Gamepad"){
-                inputNote=Vector2.ClampMagnitude(inputNote/(1f-rectDeadzone),1f);
-            }
-            
-            singingNote=Vector2.Lerp(singingNote,inputNote,noteLerpValue*Time.deltaTime);
-            singingDotRect.anchoredPosition=rectCenter+singingNote*circleRadius;
 
-            if(IsPlaying("B4")){
-                SetVolume("B4",singingNote.magnitude);
+            if(playerInput.currentControlScheme=="Gamepad"){
+                inputNote=playerInput.singingNote;
+                if(inputNote.magnitude>0f){
+                    singing=true;
+                }else{
+                    singing=false;
+                }
+            }else if(playerInput.currentControlScheme=="Keyboard&Mouse" && playerInput.singing){
+                inputNote=playerInput.singingNote*Time.deltaTime*mouseSensitivity+inputNote;
+                Debug.Log("inputting mouse");
+                singing=true;
+            }else{
+                inputNote=Vector2.zero;
+                singing=false;
             }
+
+            inputNote=Vector2.ClampMagnitude(inputNote,1f);
+            
+            singingNotePosition=Vector2.Lerp(singingNotePosition,inputNote,noteLerpValue*Time.deltaTime);
+            singingDotRect.anchoredPosition=rectCenter+singingNotePosition*circleRadius;
+
+            float angle=Mathf.Atan2(singingNotePosition.y,singingNotePosition.x)/Mathf.PI+1;
+
+            string note="";
+
+            for(var i=0;i<possibleNotes.Length;i++){
+                float minAngle=(startingAngle-((i*2f+1f)/possibleNotes.Length)+2f)%2f;
+                float maxAngle=(startingAngle-((i*2f-1f)/possibleNotes.Length)+2f)%2f;
+                if((angle<maxAngle && angle>=minAngle) ||
+                (angle<maxAngle && angle>=0 && maxAngle<minAngle) || (angle<=2 && angle>=minAngle && maxAngle<minAngle)){
+                    note=possibleNotes[i];
+                    break;
+                }
+            }
+
+            if(singingNote!=note){
+                if(singingNote!=""){
+                    StopNote(singingNote);
+                }
+                if(note!=""){
+                    PlayNote(note);
+                }
+                singingNote=note;
+            }
+
+            if(singingNote!=""){
+                SetVolume(singingNote,singingNotePosition.magnitude);
+            }
+
+            if(singing){
+                targetOpacity=1f;
+            }else{
+                targetOpacity=0f;
+            }
+
+            foreach(Image image in images){
+                Color c=image.color;
+                float a=Mathf.Lerp(c.a,targetOpacity,imageOpacityLerpSpeed*Time.deltaTime);
+                image.color=new Color(c.r,c.g,c.b,a);
+            }
+
         }
 
     }
 
+    void StopAllNotes(){
+        foreach(var note in possibleNotes){
+            StopNote(note);
+        }
+    }
+
     void PlayNote(string note){
-        Debug.Log("play note");
         EventInstance instance=events[note];
-        instance.stop(FMOD.Studio.STOP_MODE.IMMEDIATE);
         instance.start();
-        SetVolume(note,1f);
     }
 
     void SetVolume(string note,float v){
@@ -81,7 +161,6 @@ public class SwimmerSinging : MonoBehaviour
     void StopNote(string note){
         EventInstance instance=events[note];
         instance.stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
-        Debug.Log("stop note");
     }
 
     void ToggleNote(string note){
