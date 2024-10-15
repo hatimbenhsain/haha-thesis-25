@@ -10,6 +10,7 @@ using UnityEngine.Rendering.Universal;
 
 public class SwimmerCamera : MonoBehaviour
 {
+    public bool cameraControl=false;
     public Camera camera;
     public Transform target;
 
@@ -130,38 +131,40 @@ public class SwimmerCamera : MonoBehaviour
 
     void Update()
     {
-        pauseTimer+=Time.deltaTime;
+        if(cameraControl){
+            pauseTimer+=Time.deltaTime;
 
-        Vector3 input=new Vector3(playerInput.rotation.y,playerInput.rotation.x,0f);
+            Vector3 input=new Vector3(playerInput.rotation.y,playerInput.rotation.x,0f);
 
-        if(input.magnitude>=0.05f){
-            pauseTimer=0f;
+            if(input.magnitude>=0.05f){
+                pauseTimer=0f;
+            }
+
+            targetRotation+=input*Time.deltaTime*rotationSpeed;
+
+            if(pauseTimer>=pauseLength){
+                targetRotation=Vector3.zero;
+            }
+
+            targetRotation.x=Mathf.Clamp(targetRotation.x,-maxRotationationAngle,maxRotationationAngle);
+            targetRotation.y=Mathf.Clamp(targetRotation.y,-maxRotationationAngle,maxRotationationAngle);
+
+            //Inverting current rotation values if they go over 180
+            Vector3 currentRotation=target.localRotation.eulerAngles;
+            if(currentRotation.x>180f){
+                currentRotation.x-=360;
+            }
+            if(currentRotation.y>180f){
+                currentRotation.y-=360;
+            }
+
+            // Lerp the camera's rotation for a, heavier feel
+            Vector3 newRotation=Vector3.SmoothDamp(currentRotation, targetRotation, 
+            ref rotationVelocity, rotationSmoothTime);
+
+            // Apply the smoothed rotation to the cameraRoot
+            target.localRotation = Quaternion.Euler(newRotation);
         }
-
-        targetRotation+=input*Time.deltaTime*rotationSpeed;
-
-        if(pauseTimer>=pauseLength){
-            targetRotation=Vector3.zero;
-        }
-
-        targetRotation.x=Mathf.Clamp(targetRotation.x,-maxRotationationAngle,maxRotationationAngle);
-        targetRotation.y=Mathf.Clamp(targetRotation.y,-maxRotationationAngle,maxRotationationAngle);
-
-        //Inverting current rotation values if they go over 180
-        Vector3 currentRotation=target.localRotation.eulerAngles;
-        if(currentRotation.x>180f){
-            currentRotation.x-=360;
-        }
-        if(currentRotation.y>180f){
-            currentRotation.y-=360;
-        }
-
-        // Lerp the camera's rotation for a, heavier feel
-        Vector3 newRotation=Vector3.SmoothDamp(currentRotation, targetRotation, 
-        ref rotationVelocity, rotationSmoothTime);
-
-        // Apply the smoothed rotation to the cameraRoot
-        target.localRotation = Quaternion.Euler(newRotation);
 
         camera.fieldOfView=Mathf.Lerp(camera.fieldOfView,targetFov,boostEffectChangeSpeed*Time.deltaTime);
         targetFov=Mathf.Lerp(targetFov,baseFov,boostEffectRestoreSpeed*Time.deltaTime);

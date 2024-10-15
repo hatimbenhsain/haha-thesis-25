@@ -14880,16 +14880,6 @@ MonoBehaviour:
   maxCollisionRotationAmount: 1
   minCollisionForceToRotate: 0.01
   maxCollisionForceToRotate: 5
-  cameraRotationSmoothTime: 1
-  maxCameraRotationAngle: 45
-  cameraRotationSpeed: 60
-  cameraPauseLength: 2
-  camera: {fileID: 9083463897689427822}
-  cameraTarget: {fileID: 3267969076799174377}
-  cameraFovChangeSpeed: 2
-  cameraFovRestoreSpeed: 1
-  cameraTargetFov: 80
-  cameraBoostFov: 90
 --- !u!95 &5373492974550926125
 Animator:
   serializedVersion: 5
@@ -24792,6 +24782,7 @@ GameObject:
   - component: {fileID: 2476317814662916276}
   - component: {fileID: 7045096232581742838}
   - component: {fileID: 6217277459209938169}
+  - component: {fileID: -8387360030683456268}
   m_Layer: 0
   m_Name: Camera
   m_TagString: Untagged
@@ -24987,6 +24978,19 @@ MonoBehaviour:
   m_Damping: 0
   m_DampingWhenOccluded: 0
   m_OptimalTargetDistance: 0
+--- !u!114 &-8387360030683456268
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8896260278929868894}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 86c6556701af9e04380698b89f691b6e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  attenuationObject: {fileID: 0}
 --- !u!1 &9051456595259829217
 GameObject:
   m_ObjectHideFlags: 0
