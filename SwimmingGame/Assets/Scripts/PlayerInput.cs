@@ -8,6 +8,7 @@ public class PlayerInput : MonoBehaviour
 {
     public Vector2 look;
     public Vector2 rotation;
+    public Vector2 singingNote;
 
     public bool movingForward;
     public float movingForwardValue;
@@ -19,11 +20,12 @@ public class PlayerInput : MonoBehaviour
     public bool boosting;
     public bool interacting;
     public bool aiming;
+    public bool singing;
 
     public bool yAxisInverted=false;
 
     //[HideInInspector]
-    public bool prevMovingForward, prevMovingBackward, prevMovingLeft, prevMovingRight, prevMovingUp, prevMovingDown, prevBoosting, prevInteracting, prevAiming;
+    public bool prevMovingForward, prevMovingBackward, prevMovingLeft, prevMovingRight, prevMovingUp, prevMovingDown, prevBoosting, prevInteracting, prevAiming, prevSinging;
 
     public bool movedForwardTrigger;
 
@@ -55,6 +57,7 @@ public class PlayerInput : MonoBehaviour
         prevBoosting=boosting;
         prevInteracting=interacting;
         prevAiming=aiming;
+        prevSinging=singing;
         currentControlScheme=playerInput.currentControlScheme;
     }
 
@@ -91,6 +94,10 @@ public class PlayerInput : MonoBehaviour
         BoostInput(value.performed || value.started);
     }
 
+    public void OnSing(InputAction.CallbackContext value){
+        SingInput(value.performed || value.started);
+    }
+
     public void OnLook(InputAction.CallbackContext value)
     {
         LookInput(value.ReadValue<Vector2>());
@@ -109,7 +116,9 @@ public class PlayerInput : MonoBehaviour
         AimInput(value.performed || value.started);
     }
 
-
+    public void OnSingingNote(InputAction.CallbackContext value){
+        SingingNoteInput(value.ReadValue<Vector2>());
+    }
 
     void MoveForwardInput(float f){
         bool b;
@@ -150,6 +159,10 @@ public class PlayerInput : MonoBehaviour
         boosting=b;
     }
 
+    void SingInput(bool b){
+        singing=b;
+    }
+
     public void LookInput(Vector2 newLookDirection){
         look=newLookDirection;
         if(yAxisInverted){
@@ -175,5 +188,12 @@ public class PlayerInput : MonoBehaviour
     void AimInput(bool b)
     {
         aiming = b;
+    }
+
+    void SingingNoteInput(Vector2 newSingNote){
+        singingNote=newSingNote;
+        if(currentControlScheme=="KeyboardMouse"){
+            singingNote=singingNote*mouseSensitivity/5000f;
+        }
     }
 }
