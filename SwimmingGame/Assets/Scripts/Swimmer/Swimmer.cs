@@ -25,6 +25,10 @@ public class Swimmer : MonoBehaviour
     public float boostTimer=0f;
     [Tooltip("Total time it takes before boost takes effect")]
     public float boostTime=1f;     //time before boost takes effect
+    [Tooltip("Max speed gained from kicking wall")]
+    public float wallBoost=1.5f;
+    [Tooltip("Number to multiply the capsule radius when checking for walls")]
+    public float wallCheckCapsuleRadiusMultiplier=1.5f;
 
     private CharacterController controller;
     private Rigidbody body;
@@ -64,8 +68,7 @@ public class Swimmer : MonoBehaviour
     public float maxCollisionForceToRotate=5f;
 
     [Header("Misc.")]
-
-
+    public GameObject dustCloudPrefab;
     private Vector3 prevVelocity;
 
     ArrayList allHits=new ArrayList();
@@ -95,6 +98,9 @@ public class Swimmer : MonoBehaviour
             boostTimer=0f;
             animator.SetTrigger("boostForward");
             playerInput.movedForwardTrigger=false;
+            forcesToAdd+=CheckForWallAndKick(Vector3.forward);
+        }else if(playerInput.movingBackward && !playerInput.prevMovingBackward){
+            forcesToAdd+=CheckForWallAndKick(-Vector3.forward);
         }
     }
 
@@ -332,11 +338,13 @@ public class Swimmer : MonoBehaviour
     }
 
     private void OnCollisionStay(Collision other) {
-        ContactPoint[] myContacts = new ContactPoint[other.contactCount];
-        for(int i = 0; i < myContacts.Length; i++)
-        {
-            myContacts[i] = other.GetContact(i);
-            allHits.Add(myContacts[i]);
+        if(other.collider.gameObject.tag!="Player"){
+            ContactPoint[] myContacts = new ContactPoint[other.contactCount];
+            for(int i = 0; i < myContacts.Length; i++)
+            {
+                myContacts[i] = other.GetContact(i);
+                allHits.Add(myContacts[i]);
+            }
         }
     }
 
@@ -365,7 +373,7 @@ public class Swimmer : MonoBehaviour
         int tries=0;
         Vector3 movement=Vector3.zero; //Amount to move the collider 
 
-        LayerMask mask = LayerMask.GetMask("Default");
+        LayerMask mask = LayerMask.GetMask("Default","Wall");
 
         while(colliding && tries<maxMoveoutEffort){
             hits=Physics.CapsuleCastAll(point1+movement,point2+movement,capsule.radius+skinWidth,normal,0f,mask,QueryTriggerInteraction.Ignore);
@@ -382,6 +390,95 @@ public class Swimmer : MonoBehaviour
 
         return movement;
 
+    }
+
+    private Vector3 CheckForWallAndKick(Vector3 direction){
+        Vector3 prevVelocity=body.velocity;
+
+        Vector3 dir=new Vector3();
+        switch(capsule.direction){
+            case 0:
+                dir=transform.right;
+                break;
+            case 1:
+                dir=transform.up;
+                break;
+            case 2:
+                dir=transform.forward;
+                break;
+        }
+        float radius=capsule.radius*wallCheckCapsuleRadiusMultiplier;
+        Vector3 point1=body.position+capsule.center+dir*(capsule.height/2f-radius);
+        Vector3 point2=body.position+capsule.center-dir*(capsule.height/2f-radius);
+        RaycastHit[] hits;
+
+        LayerMask mask = LayerMask.GetMask("Wall");
+
+        Vector3 forward=transform.rotation*direction;
+
+        hits=Physics.CapsuleCastAll(point1,point2,radius+skinWidth,-forward,0f,mask,QueryTriggerInteraction.Ignore);
+
+        Vector3 totalForce=Vector3.zero;
+
+        GameObject dustCloud=null;
+
+        foreach(RaycastHit hit in hits){
+            if(hit.collider.gameObject.tag!="Player"){
+                RaycastHit hit2=CreateRaycastHitFromCollider(body.position+capsule.center,hit.collider);
+                Vector3 normal=hit2.normal;
+                if(Vector3.Angle(normal,forward)<90f){
+                    Vector3 force=Vector3.Project(forward,normal)*wallBoost;
+                    force=forward*force.magnitude;
+                    Debug.DrawRay(body.position,normal*3f, Color.magenta, 3f);
+                    Debug.DrawRay(body.position,force*3f, Color.green, 3f);
+                    totalForce+=force;
+                    Debug.Log("found wall");
+                    Debug.Log(normal);
+                    Debug.Log(hit.collider.gameObject);
+                    if(dustCloud==null){
+                        dustCloud=Instantiate(dustCloudPrefab,transform.parent);
+                        dustCloud.transform.position=hit2.point+normal*0.2f;
+                    }
+                }
+            }
+        }
+
+        totalForce=Vector3.ClampMagnitude(totalForce,wallBoost);
+
+        Debug.Log(totalForce);
+        Debug.Log(totalForce.magnitude);
+
+        return totalForce;
+    }
+
+    // Function borrowed from https://discussions.unity.com/t/how-do-i-obtain-the-surface-normal-for-a-point-on-a-collider-cant-use-raycasthit-normal/16223/4
+    public static RaycastHit CreateRaycastHitFromCollider(Vector3 _rayOrigin, Collider _collider)
+    {
+        var colliderTr = _collider.transform;
+
+        // Returns a point on the given collider that is closest to the specified location.
+        // Note that in case the specified location is inside the collider, or exactly on the boundary of it, the input location is returned instead.
+        // The collider can only be BoxCollider, SphereCollider, CapsuleCollider or a convex MeshCollider.
+        var closestPoint = Physics.ClosestPoint(_rayOrigin, _collider, colliderTr.position, colliderTr.rotation);
+  
+        if (_collider is MeshCollider {convex: false} meshCollider)
+        {
+            Debug.LogWarning($"do not use convex mesh-colliders as it does not deal well with physics at all. " +
+                             $"There are solutions provided in the asset store to automatically transform non-convex meshes to convex meshes. The problematic mesh: {_collider.transform} meshName:{meshCollider.sharedMesh.name}");
+            // This is not great. If we have complex meshColliders we will encounter issues.
+            closestPoint = _collider.ClosestPointOnBounds(_rayOrigin);
+        }
+        
+        var dir = (closestPoint - _rayOrigin).normalized;
+        var ray = new Ray(_rayOrigin, dir);
+        var hasHit = _collider.Raycast(ray, out var hitInfo, float.MaxValue);
+        
+        if (hasHit == false)
+        {
+            Debug.LogError($"This case will never happen!");
+        }
+
+        return hitInfo;
     }
 
     public Vector3 GetVelocity(){
