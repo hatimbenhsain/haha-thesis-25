@@ -14943,6 +14943,8 @@ MonoBehaviour:
   coastingSpeed: 2
   boostTimer: 0
   boostTime: 0.3
+  wallBoost: 3
+  wallCheckCapsuleRadiusMultiplier: 3
   rotationAcceleration: 120
   rotationMaxVelocity: 90
   rotationDeceleration: 60
@@ -14958,6 +14960,8 @@ MonoBehaviour:
   maxCollisionRotationAmount: 1
   minCollisionForceToRotate: 0.01
   maxCollisionForceToRotate: 5
+  dustCloudPrefab: {fileID: 370314148431843922, guid: c47a4576db49249499759d45799965cc,
+    type: 3}
 --- !u!95 &5373492974550926125
 Animator:
   serializedVersion: 5
@@ -24807,6 +24811,8 @@ MonoBehaviour:
   - B4
   - C#5
   - D#5
+  - E5
+  - F#5
   - G#5
   possibleNotes:
   - A4
@@ -24902,11 +24908,11 @@ MonoBehaviour:
   CameraDistance: 2
   CameraCollisionFilter:
     serializedVersion: 2
-    m_Bits: 1
+    m_Bits: 9
   IgnoreTag: Player
   CameraRadius: 0.2
-  DampingIntoCollision: 2
-  DampingFromCollision: 2
+  DampingIntoCollision: 1
+  DampingFromCollision: 1
 --- !u!1 &7945293079994831286
 GameObject:
   m_ObjectHideFlags: 0
@@ -25132,7 +25138,7 @@ GameObject:
   - component: {fileID: -8387360030683456268}
   m_Layer: 0
   m_Name: Camera
-  m_TagString: Untagged
+  m_TagString: MainCamera
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -25301,7 +25307,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_CollideAgainst:
     serializedVersion: 2
-    m_Bits: 1
+    m_Bits: 9
   m_IgnoreTag: 
   m_TransparentLayers:
     serializedVersion: 2
