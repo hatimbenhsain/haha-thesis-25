@@ -9,19 +9,9 @@ using UnityEditor.EditorTools;
 using System.Reflection;
 using UnityEngine.UI;
 
-public class SwimmerSinging : MonoBehaviour
+public class SwimmerSinging : Singing
 {
     public bool canSing=false;
-    private EventInstance  a4Event;
-    private EventInstance b4Event;
-
-    public Dictionary<string,EventInstance> events;
-
-    [Tooltip("Keys that player can play.")]
-    public string[] keys;
-
-    [Tooltip("Currently playable notes on the wheel.")]
-    public string[] possibleNotes;
 
     [Tooltip("The dot that moves on the canvas to signify singing")]
     public GameObject singingDot;
@@ -36,8 +26,6 @@ public class SwimmerSinging : MonoBehaviour
 
     private PlayerInput playerInput;
 
-    [Tooltip("Current note being sung")]
-    public string singingNote;
     private Vector2 singingNotePosition; // Relative position on the wheel
 
     private float startingAngle=1.5f;
@@ -53,12 +41,6 @@ public class SwimmerSinging : MonoBehaviour
 
     void Start()
     {
-        events=new Dictionary<string,EventInstance>();
-        foreach(string key in keys){
-            EventInstance instance=FMODUnity.RuntimeManager.CreateInstance("event:/Singing/Swimmer/"+key.ToUpper());
-            events.Add(key,instance);
-        }
-
         playerInput=FindObjectOfType<PlayerInput>();
         singingDotRect=singingDot.GetComponent<RectTransform>();
         rectTargetPosition=singingDotRect.anchoredPosition;
@@ -68,15 +50,14 @@ public class SwimmerSinging : MonoBehaviour
             Color c=image.color;
             image.color=new Color(c.r,c.g,c.b,0f);
         }
+
+        SingingStart();
     }
 
     void Update()
     {
         if(canSing){
-            if(Input.GetKeyDown(KeyCode.B)){
-                ToggleNote("B4");
-            }
-
+            
             if(playerInput.currentControlScheme=="Gamepad"){
                 inputNote=playerInput.singingNote;
                 if(inputNote.magnitude>0f){
@@ -98,13 +79,15 @@ public class SwimmerSinging : MonoBehaviour
             singingNotePosition=Vector2.Lerp(singingNotePosition,inputNote,noteLerpValue*Time.deltaTime);
             singingDotRect.anchoredPosition=rectCenter+singingNotePosition*circleRadius;
 
+            singingVolume=singingNotePosition.magnitude;
+
             float angle=Mathf.Atan2(singingNotePosition.y,singingNotePosition.x)/Mathf.PI+1;
 
             string note="";
 
-            for(var i=0;i<possibleNotes.Length;i++){
-                float minAngle=(startingAngle-((i*2f+1f)/possibleNotes.Length)+2f)%2f;
-                float maxAngle=(startingAngle-((i*2f-1f)/possibleNotes.Length)+2f)%2f;
+            for(var i=0;i<possibleNotes.Count;i++){
+                float minAngle=(startingAngle-((i*2f+1f)/possibleNotes.Count)+2f)%2f;
+                float maxAngle=(startingAngle-((i*2f-1f)/possibleNotes.Count)+2f)%2f;
                 if((angle<maxAngle && angle>=minAngle) ||
                 (angle<maxAngle && angle>=0 && maxAngle<minAngle) || (angle<=2 && angle>=minAngle && maxAngle<minAngle)){
                     note=possibleNotes[i];
@@ -117,14 +100,13 @@ public class SwimmerSinging : MonoBehaviour
                     StopNote(singingNote);
                 }
                 if(note!=""){
+                    Debug.Log(note);
                     PlayNote(note);
                 }
                 singingNote=note;
             }
 
-            if(singingNote!=""){
-                SetVolume(singingNote,singingNotePosition.magnitude);
-            }
+            SingingUpdate();
 
             if(singing){
                 targetOpacity=1f;
@@ -142,49 +124,4 @@ public class SwimmerSinging : MonoBehaviour
 
     }
 
-    void StopAllNotes(){
-        foreach(var note in possibleNotes){
-            StopNote(note);
-        }
-    }
-
-    void PlayNote(string note){
-        EventInstance instance=events[note];
-        instance.start();
-    }
-
-    void SetVolume(string note,float v){
-        EventInstance instance=events[note];
-        instance.setParameterByName("Volume",v);
-    }
-
-    void StopNote(string note){
-        EventInstance instance=events[note];
-        instance.stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
-    }
-
-    void ToggleNote(string note){
-        if(!IsPlaying(note)){
-            PlayNote(note);
-        }else{
-            StopNote(note);
-        }
-    }
-
-    bool IsPlaying(string note){
-        EventInstance instance=events[note];
-        PLAYBACK_STATE state;
-        instance.getPlaybackState(out state);
-        if(state==PLAYBACK_STATE.STOPPED){
-            return false;
-        }else{
-            return true;
-        }
-    }
-
-    private void OnDestroy() {
-        foreach(var e in events.Values){
-            e.release();
-        }
-    }
 }
