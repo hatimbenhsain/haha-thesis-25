@@ -18,7 +18,7 @@ public class ThirdPersonCamera : MonoBehaviour
     void Start()
     {
         Cursor.lockState = CursorLockMode.Locked;  // Locks the cursor to the center of the screen
-        playerInput = FindObjectOfType<PlayerInput>(); 
+        playerInput = FindObjectOfType<PlayerInput>();
     }
 
     void FixedUpdate()
@@ -27,7 +27,6 @@ public class ThirdPersonCamera : MonoBehaviour
         {
             HandleMouseLook();
         }
-
     }
 
     void HandleMouseLook()
@@ -36,18 +35,23 @@ public class ThirdPersonCamera : MonoBehaviour
         float mouseX = playerInput.rotation.x * sensitivity * Time.deltaTime;
         float mouseY = playerInput.rotation.y * sensitivity * Time.deltaTime;
 
-        // Calculate target rotations based on mouse input
-        targetRotation.y += mouseX;  // Horizontal rotation
-        xRotation -= mouseY;  // Vertical rotation
+        // Get look input
+        float lookX = playerInput.look.x * sensitivity * Time.deltaTime;
+        float lookY = playerInput.look.y * sensitivity * Time.deltaTime;
+
+        // Combine mouse input and look input
+        targetRotation.y += mouseX + lookX;  // Horizontal rotation (combined)
+        xRotation -= (mouseY + lookY);       // Vertical rotation (combined)
         xRotation = Mathf.Clamp(xRotation, -80f, 80f);  // Clamp vertical rotation to prevent flipping
 
         // Set the target rotation for the cameraRoot
         targetRotation.x = xRotation;
 
-        // Lerp the camera's rotation for a, heavier feel
+        // Smoothly interpolate the camera's rotation for a smooth look
         currentRotation = Vector3.SmoothDamp(currentRotation, targetRotation, ref rotationVelocity, rotationSmoothTime);
 
         // Apply the smoothed rotation to the cameraRoot
         cameraRoot.localRotation = Quaternion.Euler(currentRotation.x, currentRotation.y, 0f);
     }
 }
+
