@@ -34,6 +34,9 @@
 		<relationship name="parameters">
 			<destination>{c1a4df13-7e20-4afe-a8e6-827acf81c74f}</destination>
 		</relationship>
+		<relationship name="banks">
+			<destination>{e2b39cc3-fab1-490a-b529-14a3978cb7f8}</destination>
+		</relationship>
 	</object>
 	<object class="EventMixer" id="{e40f1eae-1893-4ae7-91c7-bcdd94aa43e1}">
 		<relationship name="masterBus">
@@ -176,7 +179,10 @@
 			<value>-80</value>
 		</property>
 		<property name="attackTime">
-			<value>120</value>
+			<value>480</value>
+		</property>
+		<property name="sustainValue">
+			<value>-3</value>
 		</property>
 		<property name="releaseTime">
 			<value>500</value>
