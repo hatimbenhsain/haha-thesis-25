@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.07924773, g: 0.07924773, b: 0.07924773, a: 1}
+  m_IndirectSpecularColor: {r: 0.07924773, g: 0.07738904, b: 0.073937945, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -9508,6 +9508,7 @@ GameObject:
   m_Component:
   - component: {fileID: 247246346}
   - component: {fileID: 247246347}
+  - component: {fileID: 247246348}
   m_Layer: 0
   m_Name: singingTraces_0
   m_TagString: Untagged
@@ -9582,6 +9583,18 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &247246348
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 247246345}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7a525ff6a91343e4ea70af0a1a435e0f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &260927043 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 2df53a344e5db70449f46e6b86c35a81,
@@ -9673,6 +9686,10 @@ MonoBehaviour:
   imageOpacityLerpSpeed: 7
   maxOpacity: 0.4
   singing: 0
+  maxSwimmerDistance: 2
+  harmonyValue: 0
+  harmonyMaxValue: 1
+  canSing: 1
 --- !u!4 &260927047 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 2df53a344e5db70449f46e6b86c35a81,
@@ -46407,6 +46424,21 @@ PrefabInstance:
         type: 3}
       propertyPath: name
       value: Swimmer
+      objectReference: {fileID: 0}
+    - target: {fileID: 2840115365793633242, guid: 1c8ad2b2d7ff68c45b5eee5039926f9d,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 2.66
+      objectReference: {fileID: 0}
+    - target: {fileID: 2840115365793633242, guid: 1c8ad2b2d7ff68c45b5eee5039926f9d,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 1.82
+      objectReference: {fileID: 0}
+    - target: {fileID: 2840115365793633242, guid: 1c8ad2b2d7ff68c45b5eee5039926f9d,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -1.3299999
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
