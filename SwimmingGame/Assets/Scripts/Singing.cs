@@ -85,3 +85,9 @@ public class Singing : MonoBehaviour
         }
     }
 }
+
+[System.Serializable]
+public struct MusicalEvent{
+    public string musicNote;
+    public float length;
+}

@@ -11,11 +11,10 @@ public class NPCSinging : Singing
     public SpriteRenderer singingTraceSpriteRenderer;
     public Sprite[] singingTraceSprites;
 
+    [Tooltip("Musical sequence")]
+    public List<MusicalEvent> sequence;
+    public int sequenceIndex=0;
 
-    [Tooltip("How long to pause between notes (seconds).")]
-    public float pauseLength=2f;
-    [Tooltip("How long to sing for (seconds).")]
-    public float singingLength=2f;
 
     [Tooltip("Can set starting time here for offset")]
     public float timer=0f;
@@ -50,21 +49,26 @@ public class NPCSinging : Singing
 
     void Update()
     {
-        if(canSing){
+        if(canSing && sequence.Count>=0){
             timer+=Time.deltaTime;
-            timer=timer%(pauseLength+singingLength);
+            if(timer>=sequence[sequenceIndex].length){
+                sequenceIndex+=1;
+                sequenceIndex=sequenceIndex%sequence.Count;
+                timer=0f;
+            }
 
             bool prevSinging=singing;
 
-            if(timer<=singingLength){
-                singing=true;
-                singingVolume=1f;
-            }else{
+            if(sequence[sequenceIndex].musicNote=="" || sequence[sequenceIndex].musicNote=="0" || sequence[sequenceIndex].musicNote.ToLower()=="pause"){
                 singing=false;
                 singingVolume=0f;
+            }else{
+                singing=true;
+                singingVolume=1f;
+                singingNote=sequence[sequenceIndex].musicNote;
             }
 
-            if(singing && !prevSinging){
+            if(singing && timer==0f){
                 StopAllNotes();
                 PlayNote(singingNote);
                 targetOpacity=1f;
