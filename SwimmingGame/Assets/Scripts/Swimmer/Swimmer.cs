@@ -46,6 +46,12 @@ public class Swimmer : MonoBehaviour
     public float angleTiltSpeed=1f; //speed to tile when moving laterally
 
     private Animator animator;
+    private Quaternion targetRotationOverride;
+    private bool overridingRotation=false;
+    [Tooltip("Rotation speed when a rotation is forced on the player, like after a kick back")]
+    public float rotationOverrideSpeed=1f;
+    [Tooltip("Speed at which to restore rotation back to clamped value after kicking back")]
+    public float rotationOverrideRestoreSpeed=1f;
 
     [Header("Collision")]
     [Tooltip("Factor to multiply anti-collision vector to mess with bounce. Usually 1.")]
@@ -78,6 +84,10 @@ public class Swimmer : MonoBehaviour
 
     private Vector3 forcesToAdd; //Forces to add at the beginning of the next frame; this is used for e.g. for ring boosts
 
+    [Tooltip("Maximum time before the player lets go of the moving backwards button before a camera adjustment is triggered.")]
+    public float maxKickbackPressingTime=0.3f;
+    private float kickbackTimer=10f; //Timer to check how long it's been since we kicked back against a wall for the purpose of rotating camera
+
 
     void Start()
     {
@@ -100,7 +110,11 @@ public class Swimmer : MonoBehaviour
             playerInput.movedForwardTrigger=false;
             forcesToAdd+=CheckForWallAndKick(Vector3.forward);
         }else if(playerInput.movingBackward && !playerInput.prevMovingBackward){
-            forcesToAdd+=CheckForWallAndKick(-Vector3.forward);
+            Vector3 force=CheckForWallAndKick(-Vector3.forward);
+            forcesToAdd+=force;
+            if(force!=Vector3.zero){
+                kickbackTimer=0f;
+            }
         }
     }
 
@@ -113,54 +127,74 @@ public class Swimmer : MonoBehaviour
         Vector3 currentVelocity=new Vector3(body.velocity.x,body.velocity.y,body.velocity.z);
         Vector3 playerVelocity=currentVelocity;
 
-        //Deceleration of rotation speed
-        Vector3 antiRotationVector=rotationVelocity;
-        Vector3 prevRotationVelocity=rotationVelocity;
-        antiRotationVector=antiRotationVector.normalized*rotationDeceleration*Time.fixedDeltaTime;
-
-        rotationVelocity=rotationVelocity-=antiRotationVector;
-
-        //Cancel rotation deceleration if it goes past the direction
-        if(playerInput.look==Vector2.zero){
-            if(rotationVelocity.x/Mathf.Abs(rotationVelocity.x)!=prevRotationVelocity.x/Mathf.Abs(prevRotationVelocity.x)){
-                rotationVelocity.x=0;
-            }
-            if(rotationVelocity.y/Mathf.Abs(rotationVelocity.y)!=prevRotationVelocity.y/Mathf.Abs(prevRotationVelocity.y)){
-                rotationVelocity.y=0;
-            }
-            if(rotationVelocity.z/Mathf.Abs(rotationVelocity.z)!=prevRotationVelocity.z/Mathf.Abs(prevRotationVelocity.z)){
-                rotationVelocity.z=0;
-            }
+        //Overriding rotation if a kickback just happened
+        if(kickbackTimer<=maxKickbackPressingTime && playerInput.look==Vector2.zero && !playerInput.movingBackward && !overridingRotation){
+            overridingRotation=true;
+            targetRotationOverride=Quaternion.LookRotation(playerVelocity,Vector3.up);
+            Debug.Log("Override rotation!");
+        }else if(overridingRotation && (playerInput.look!=Vector2.zero || Quaternion.Angle(targetRotationOverride,transform.rotation)<=1f)){
+            overridingRotation=false;
+            rotationVelocity=(Quaternion.Lerp(body.rotation,targetRotationOverride,rotationOverrideSpeed*Time.fixedDeltaTime).eulerAngles-body.rotation.eulerAngles)/Time.fixedDeltaTime;
+            rotationVelocity.z=0f;
+            Debug.Log("Stop overriding rotation!");
         }
+        kickbackTimer+=Time.fixedDeltaTime;
 
-        if(playerInput.look!=Vector2.zero){//Setting rotation speed
-            rotationVelocity+=new Vector3(playerInput.look.y,playerInput.look.x,0f)*rotationAcceleration*Time.fixedDeltaTime;
-            rotationVelocity=Vector3.ClampMagnitude(rotationVelocity,rotationMaxVelocity);
-        }
+        Quaternion newRotationQ;
+        if(!overridingRotation){
+            //Deceleration of rotation speed
+            Vector3 antiRotationVector=rotationVelocity;
+            Vector3 prevRotationVelocity=rotationVelocity;
+            antiRotationVector=antiRotationVector.normalized*rotationDeceleration*Time.fixedDeltaTime;
 
-        //Finding rotation to do
-        Vector3 newRotation=body.rotation.eulerAngles;
-        newRotation+=rotationVelocity*Time.fixedDeltaTime;
-        //Clamping x rotation
-        if(newRotation.x<180f){
-            newRotation.x=Mathf.Clamp(newRotation.x,-maxRotationXAngle,maxRotationXAngle);
+            rotationVelocity=rotationVelocity-=antiRotationVector;
+
+            //Cancel rotation deceleration if it goes past the direction
+            if(playerInput.look==Vector2.zero){
+                if(rotationVelocity.x/Mathf.Abs(rotationVelocity.x)!=prevRotationVelocity.x/Mathf.Abs(prevRotationVelocity.x)){
+                    rotationVelocity.x=0;
+                }
+                if(rotationVelocity.y/Mathf.Abs(rotationVelocity.y)!=prevRotationVelocity.y/Mathf.Abs(prevRotationVelocity.y)){
+                    rotationVelocity.y=0;
+                }
+                if(rotationVelocity.z/Mathf.Abs(rotationVelocity.z)!=prevRotationVelocity.z/Mathf.Abs(prevRotationVelocity.z)){
+                    rotationVelocity.z=0;
+                }
+            }
+
+            if(playerInput.look!=Vector2.zero){//Setting rotation speed
+                rotationVelocity+=new Vector3(playerInput.look.y,playerInput.look.x,0f)*rotationAcceleration*Time.fixedDeltaTime;
+                if(kickbackTimer>=1f) rotationVelocity=Vector3.ClampMagnitude(rotationVelocity,rotationMaxVelocity);
+                else rotationVelocity=Vector3.Lerp(rotationVelocity,Vector3.ClampMagnitude(rotationVelocity,rotationMaxVelocity),Time.fixedDeltaTime*rotationOverrideRestoreSpeed);
+            }
+
+            //Finding rotation to do
+            Vector3 newRotation=body.rotation.eulerAngles;
+            newRotation+=rotationVelocity*Time.fixedDeltaTime;
+            //Clamping x rotation
+            if(newRotation.x<180f){
+                newRotation.x=Mathf.Clamp(newRotation.x,-maxRotationXAngle,maxRotationXAngle);
+            }else{
+                newRotation.x=Mathf.Clamp(newRotation.x,360f-maxRotationXAngle,360f+maxRotationXAngle);
+            }
+
+            //Tilt player if moving laterally
+            float targetRotationZ=0f;
+            if(playerInput.movingLeft && !playerInput.movingRight){
+                targetRotationZ=maxTiltAngle;
+            }else if(playerInput.movingRight && !playerInput.movingLeft){
+                targetRotationZ=-maxTiltAngle;
+            }
+            if(newRotation.z>=180f){
+                targetRotationZ=360f+targetRotationZ;
+            }
+            newRotation.z=Mathf.Lerp(newRotation.z,targetRotationZ,Time.fixedDeltaTime*angleTiltSpeed);
+            newRotationQ=Quaternion.Euler(newRotation);
         }else{
-            newRotation.x=Mathf.Clamp(newRotation.x,360f-maxRotationXAngle,360f+maxRotationXAngle);
+            newRotationQ=Quaternion.Lerp(body.rotation,targetRotationOverride,rotationOverrideSpeed*Time.fixedDeltaTime);
         }
 
-        //Tilt player if moving laterally
-        float targetRotationZ=0f;
-        if(playerInput.movingLeft && !playerInput.movingRight){
-            targetRotationZ=maxTiltAngle;
-        }else if(playerInput.movingRight && !playerInput.movingLeft){
-            targetRotationZ=-maxTiltAngle;
-        }
-        if(newRotation.z>=180f){
-            targetRotationZ=360f+targetRotationZ;
-        }
-        newRotation.z=Mathf.Lerp(newRotation.z,targetRotationZ,Time.fixedDeltaTime*angleTiltSpeed);
-
-        Quaternion newRotationQ=Quaternion.Euler(newRotation);
+        
 
         //Deceleration
         Vector3 decelerationVector=currentVelocity;
@@ -245,11 +279,8 @@ public class Swimmer : MonoBehaviour
                 Vector3 force=relativeVelocity-Vector3.Project(relativeVelocity,normal)*collisionSpeedFactor;
 
                 force=Vector3.ClampMagnitude(force,((Vector3)collisionImpulses[i]).magnitude*physicsObject.friction);
-                Debug.Log("friction");
-                Debug.Log(force);
 
                 frictionImpulses.Add(force);
-                Debug.DrawRay(body.position,force*3f, Color.red, 1f);
             }
         }
 
@@ -432,9 +463,6 @@ public class Swimmer : MonoBehaviour
                     Debug.DrawRay(body.position,normal*3f, Color.magenta, 3f);
                     Debug.DrawRay(body.position,force*3f, Color.green, 3f);
                     totalForce+=force;
-                    Debug.Log("found wall");
-                    Debug.Log(normal);
-                    Debug.Log(hit.collider.gameObject);
                     if(dustCloud==null){
                         dustCloud=Instantiate(dustCloudPrefab,transform.parent);
                         dustCloud.transform.position=hit2.point+normal*0.2f;
@@ -444,10 +472,6 @@ public class Swimmer : MonoBehaviour
         }
 
         totalForce=Vector3.ClampMagnitude(totalForce,wallBoost);
-
-        Debug.Log(totalForce);
-        Debug.Log(totalForce.magnitude);
-
         return totalForce;
     }
 
