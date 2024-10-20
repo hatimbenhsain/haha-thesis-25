@@ -18,7 +18,9 @@ public class NPCOverworld : MonoBehaviour
         public MovementBehavior movementBehavior;
         public bool waitForPlayer=false;
         [Tooltip("Max distance between self and player before pausing.")]
-        public float maxDistanceFromPlayer;
+        public float maxDistanceFromPlayer=10f;
+        [Tooltip("If npc has stopped, Player has to get this close to start again.")]
+        public float minDistanceFromPlayer=8f;
         [Tooltip("How often NPC makes a swimming stroke in seconds.")]
         public float strokeFrequency=1f;
         public bool loopingPath=true;
@@ -53,6 +55,8 @@ public class NPCOverworld : MonoBehaviour
     private Vector3 targetPosition;
     private Quaternion targetRotation;
     private bool pausing=false;
+    private bool currentlyWaitingForPlayer=false;
+
 
     void Start()
     {
@@ -79,8 +83,14 @@ public class NPCOverworld : MonoBehaviour
         pausing=false;
         GetTarget();
         if(waitForPlayer && Vector3.Distance(transform.position,player.transform.position)>=maxDistanceFromPlayer){
+            currentlyWaitingForPlayer=true;
+        }
+        if(currentlyWaitingForPlayer){
             pausing=true;
             boostTimer=0f;
+            if(Vector3.Distance(transform.position,player.transform.position)<minDistanceFromPlayer){
+                currentlyWaitingForPlayer=false;
+            }
         }
         bool movingForward=!pausing;
         bool boosting=false;
@@ -194,7 +204,7 @@ public class NPCOverworld : MonoBehaviour
                 if(Vector3.Distance(targetPosition,transform.position)<maxNodeDistance && path[pathIndex].type==PathNodeType.Continue){
                     pathIndex+=1;
                     pauseTimer=0f;
-                }else if(path[pathIndex].type==PathNodeType.Pause){
+                }else if(Vector3.Distance(targetPosition,transform.position)<maxNodeDistance && path[pathIndex].type==PathNodeType.Pause){
                     pausing=true;
                     pauseTimer+=Time.fixedDeltaTime;
                     if(pauseTimer>=path[pathIndex].pauseLength){
