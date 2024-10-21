@@ -4,32 +4,60 @@ using UnityEngine;
 
 public class TouchController : MonoBehaviour
 {
-    public float moveSpeed = 5f;  
+    public float moveSpeed = 5f;
+    public float rubRadius = 0.2f; // radius for rubbing movement
     public LayerMask sexPartnerMask;
+    public float lerpSpeed = 1.0f;
 
     private PlayerInput playerInput;
+    private Vector3 targetPosition; // the target position for Lerp movement
+    private Vector3 rubOffset; // the offset for the circular rubbing motion
 
     private void Start()
     {
         playerInput = FindObjectOfType<PlayerInput>();
+        targetPosition = transform.position;
     }
 
     void Update()
     {
-        float moveX = playerInput.look.x;
-        float moveZ = playerInput.look.y;
-        Vector3 move = new Vector3(moveX, 0, moveZ) * moveSpeed * Time.deltaTime;
-        transform.Translate(move);
-
-        // raycast from above the character to detect the highest object below
+        Moving();
+        //Rubbing();
         AdjustYPosition();
     }
 
+    // handle movement of the character around
+    void Moving()
+    {
+        float moveX = playerInput.look.x;
+        float moveZ = playerInput.look.y;
+
+        // calculate the target position based on input
+        Vector3 move = new Vector3(moveX, 0, moveZ) * moveSpeed * Time.deltaTime;
+        targetPosition = transform.position + move;
+
+        transform.position = Vector3.Lerp(transform.position, targetPosition, lerpSpeed * Time.deltaTime);
+    }
+
+    // handle smaller circular rubbing movement
+    void Rubbing()
+    {
+        float rubX = Mathf.Cos(Time.time * playerInput.rotation.x) * rubRadius;
+        float rubY = Mathf.Sin(Time.time * playerInput.rotation.y) * rubRadius;
+
+        // apply the circular offset to the position
+        rubOffset = new Vector3(rubX, 0, rubY);
+
+        // add the rubbing effect to the main movement position
+        transform.position += rubOffset;
+    }
+
+    // raycast to adjust Y position based on the highest object below
     void AdjustYPosition()
     {
         RaycastHit hit;
 
-        // casting a ray downward from infinite
+        // casting a ray downward to find the highest object
         if (Physics.Raycast(new Vector3(transform.position.x, 100f, transform.position.z), Vector3.down, out hit, Mathf.Infinity, sexPartnerMask))
         {
             // set Y position to the top of the hit object
