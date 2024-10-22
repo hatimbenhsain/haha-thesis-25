@@ -7,7 +7,9 @@ public class TouchController : MonoBehaviour
     public float moveSpeed = 5f;
     public float rubRadius = 0.2f; // radius for rubbing movement
     public LayerMask sexPartnerMask;
-    public float lerpSpeed = 1.0f;
+    public float lerpSpeed = 1.0f; // the lerping speed for XZ movement
+    public float yLerpSpeed = 1.0f; // the lerping speed for Y matching movement
+    public float yOffset = 1.0f; // offset of the character from the top of touching objects
 
     private PlayerInput playerInput;
     private Vector3 targetPosition; // the target position for Lerp movement
@@ -22,7 +24,6 @@ public class TouchController : MonoBehaviour
     void Update()
     {
         Moving();
-        //Rubbing();
         AdjustYPosition();
     }
 
@@ -32,25 +33,27 @@ public class TouchController : MonoBehaviour
         float moveX = playerInput.look.x;
         float moveZ = playerInput.look.y;
 
+
         // calculate the target position based on input
         Vector3 move = new Vector3(moveX, 0, moveZ) * moveSpeed * Time.deltaTime;
-        targetPosition = transform.position + move;
+
+        //rubbing
+        float rubX = Mathf.Cos(playerInput.rotation.x) * rubRadius;
+        float rubY = Mathf.Sin(playerInput.rotation.y) * rubRadius;
+        // apply the circular offset to the position
+        rubOffset = new Vector3(rubX, 0, rubY);
+
+        // add the rubbing effect to the main movement position
+        //transform.position += rubOffset;
+
+        // lerping the character to target position
+        targetPosition = transform.position + move; // + rubOffset;
 
         transform.position = Vector3.Lerp(transform.position, targetPosition, lerpSpeed * Time.deltaTime);
     }
 
     // handle smaller circular rubbing movement
-    void Rubbing()
-    {
-        float rubX = Mathf.Cos(Time.time * playerInput.rotation.x) * rubRadius;
-        float rubY = Mathf.Sin(Time.time * playerInput.rotation.y) * rubRadius;
 
-        // apply the circular offset to the position
-        rubOffset = new Vector3(rubX, 0, rubY);
-
-        // add the rubbing effect to the main movement position
-        transform.position += rubOffset;
-    }
 
     // raycast to adjust Y position based on the highest object below
     void AdjustYPosition()
@@ -61,7 +64,8 @@ public class TouchController : MonoBehaviour
         if (Physics.Raycast(new Vector3(transform.position.x, 100f, transform.position.z), Vector3.down, out hit, Mathf.Infinity, sexPartnerMask))
         {
             // set Y position to the top of the hit object
-            transform.position = new Vector3(transform.position.x, hit.point.y, transform.position.z);
+            Vector3 targetPosition = new Vector3(transform.position.x, hit.point.y + yOffset, transform.position.z);
+            transform.position = Vector3.Lerp(transform.position, targetPosition, yLerpSpeed * Time.deltaTime);
         }
     }
 }
