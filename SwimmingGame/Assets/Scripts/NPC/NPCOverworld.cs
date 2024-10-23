@@ -42,20 +42,22 @@ public class NPCOverworld : MonoBehaviour
         [Tooltip("Total time it takes before boost takes effect")]
         public float boostTime=0.3f;     //time before boost takes effect
         [Tooltip("Max speed gained from kicking wall")]
-        public float wallBoost=3f;
-        [Tooltip("Number to multiply the capsule radius when checking for walls")]
-        public float wallCheckCapsuleRadiusMultiplier=3f;
         public float rotationAcceleration=120f;
         public float rotationMaxVelocity=90f;
         private Vector3 rotationVelocity=Vector3.zero;
         public float rotationDeceleration=60;
         [Tooltip("Distance between self and path node before moving on to the next node")]
         public float maxNodeDistance=0.1f;
-
+        [Tooltip("Factor to multiply anti-collision vector to mess with bounce. Usually 1.")]
+        public float collisionSpeedFactor=1f;
+        [Tooltip("Min reaction speed when reacting with anything even if the relative velocity is 0.")]
+        public float minCollisionSpeed=0.01f;
     private Vector3 targetPosition;
     private Quaternion targetRotation;
     private bool pausing=false;
     private bool currentlyWaitingForPlayer=false;
+
+    ArrayList allHits=new ArrayList();
 
 
     void Start()
@@ -160,6 +162,44 @@ public class NPCOverworld : MonoBehaviour
 
         //THIS IS WHERE COLLISION CODE WOULD HAPPEN; FOR NOW WE'RE IGNORING IT
 
+                //Deal with collisions
+        //The way this works: find normal of every collision, project the player's velocity on it, move the player by that much
+        ArrayList collisionImpulses=new ArrayList();
+        foreach (ContactPoint hit in allHits)
+        {
+            Vector3 collisionPoint=hit.point;
+            Vector3 normal=hit.normal;
+            Vector3 relativeVelocity;
+            if(hit.otherCollider.TryGetComponent<Rigidbody>(out Rigidbody otherBody)){
+                relativeVelocity=otherBody.velocity;
+            }
+            else{
+                relativeVelocity=Vector3.zero;
+            }
+            relativeVelocity=relativeVelocity-velocity;
+            Vector3 force=normal*relativeVelocity.magnitude*collisionSpeedFactor;
+            //Projection of relative velocity on normal
+            force=Vector3.Project(relativeVelocity,normal)*collisionSpeedFactor;
+            if(Vector3.Angle(force,normal)>=90){
+                force=Vector3.zero;
+            }
+            if(force==Vector3.zero){
+                force+=normal*minCollisionSpeed;
+            }
+
+            //Dividing force by number of contacts
+            force=force/allHits.Count;
+
+            collisionImpulses.Add(force);
+
+        }
+
+        allHits.Clear();
+
+        foreach(Vector3 force in collisionImpulses){
+            velocity+=force;
+        }
+
         boostTimer+=Time.fixedDeltaTime;
 
         //Boosting player velocity at the end of the swimstroke
@@ -242,6 +282,17 @@ public class NPCOverworld : MonoBehaviour
             targetPosition=path[pathIndex].transform.position;
             targetRotation=Quaternion.LookRotation(targetPosition-transform.position);
         }
+    }
+
+    private void OnCollisionStay(Collision other) {
+    if(other.collider.gameObject.tag!="Player"){
+        ContactPoint[] myContacts = new ContactPoint[other.contactCount];
+        for(int i = 0; i < myContacts.Length; i++)
+        {
+            myContacts[i] = other.GetContact(i);
+            allHits.Add(myContacts[i]);
+        }
+    }
     }
 }
 

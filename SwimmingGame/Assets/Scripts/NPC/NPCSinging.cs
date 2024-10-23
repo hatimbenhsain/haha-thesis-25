@@ -35,6 +35,10 @@ public class NPCSinging : Singing
 
     public bool canSing=true;
 
+    [Tooltip("To humanize the singing every singing event's duration is randomized by a maximum of this value.")]
+    public float timerMaxVariationLength=0.2f;
+    private float currentEventLength;
+
 
     void Start()
     {
@@ -45,15 +49,18 @@ public class NPCSinging : Singing
         }
 
         swimmerSinging=FindObjectOfType<SwimmerSinging>();
+
+        currentEventLength=sequence[sequenceIndex].length;
     }
 
     void Update()
     {
         if(canSing && sequence.Count>=0){
             timer+=Time.deltaTime;
-            if(timer>=sequence[sequenceIndex].length){
+            if(timer>=currentEventLength){
                 sequenceIndex+=1;
                 sequenceIndex=sequenceIndex%sequence.Count;
+                currentEventLength=sequence[sequenceIndex].length+Random.Range(-timerMaxVariationLength,timerMaxVariationLength);
                 timer=0f;
             }
 
