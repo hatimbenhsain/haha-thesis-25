@@ -14940,7 +14940,7 @@ MonoBehaviour:
   lateralAcceleration: 3
   lateralMaxVelocity: 1.5
   boostSpeed: 1.5
-  coastingSpeed: 2
+  coastingSpeed: 1.75
   boostTimer: 0
   boostTime: 0.3
   wallBoost: 3
@@ -14951,6 +14951,8 @@ MonoBehaviour:
   maxRotationXAngle: 80
   maxTiltAngle: 10
   angleTiltSpeed: 1
+  rotationOverrideSpeed: 4
+  rotationOverrideRestoreSpeed: 3
   collisionSpeedFactor: 1
   minCollisionSpeed: 0.01
   minMoveoutStep: 0.001
@@ -14962,6 +14964,7 @@ MonoBehaviour:
   maxCollisionForceToRotate: 5
   dustCloudPrefab: {fileID: 370314148431843922, guid: c47a4576db49249499759d45799965cc,
     type: 3}
+  maxKickbackPressingTime: 0.3
 --- !u!95 &5373492974550926125
 Animator:
   serializedVersion: 5
@@ -24805,7 +24808,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b3e6aec3cd85f3a4cbd4fc41b5f3eb70, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  canSing: 1
+  name: Swimmer
   keys:
   - A4
   - B4
@@ -24820,13 +24823,16 @@ MonoBehaviour:
   - C#5
   - D#5
   - G#5
+  singingNote: 
+  singingVolume: 0
+  maxSingingVolume: 1
+  canSing: 1
   singingDot: {fileID: 520914219197827175}
   circleRadius: 300
   images:
   - {fileID: 3513436464221187772}
   - {fileID: 6772841630777993061}
   noteLerpValue: 10
-  singingNote: 
   imageOpacityLerpSpeed: 10
   mouseSensitivity: 2
   singing: 0
