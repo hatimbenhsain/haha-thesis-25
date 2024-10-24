@@ -7,9 +7,14 @@ public class PathNode : MonoBehaviour
     public PathNodeType type;
     public float pauseLength=0f;
 
+    public bool active=false;
+
     void OnDrawGizmos(){
 
         Gizmos.color = Color.cyan;
+        if(active){
+            Gizmos.color=Color.red;
+        }
         Gizmos.DrawSphere(transform.position, 0.5f);
         int childCount=transform.parent.childCount;
         int index=transform.GetSiblingIndex();

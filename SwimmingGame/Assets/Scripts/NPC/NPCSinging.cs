@@ -4,6 +4,7 @@ using UnityEngine;
 using FMOD.Studio;
 using FMODUnity;
 using UnityEditor.EditorTools;
+using Obi;
 
 public class NPCSinging : Singing
 {
@@ -39,23 +40,35 @@ public class NPCSinging : Singing
     public float timerMaxVariationLength=0.2f;
     private float currentEventLength;
 
+    private NPCOverworld npcBrain;
+
+    public HarmonyTypes harmonyType=HarmonyTypes.Triangle;
+
+    private bool prevCanSing;
+
 
     void Start()
     {
         SingingStart();
 
         foreach(var e in events.Values){
-            RuntimeManager.AttachInstanceToGameObject(e,transform,GetComponent<Rigidbody>());
+            Rigidbody body;
+            if(!TryGetComponent<Rigidbody>(out body)){
+                body=GetComponentInParent<Rigidbody>();
+            }
+            RuntimeManager.AttachInstanceToGameObject(e,transform,body);
         }
 
         swimmerSinging=FindObjectOfType<SwimmerSinging>();
 
         currentEventLength=sequence[sequenceIndex].length;
+
+        npcBrain=GetComponent<NPCOverworld>();
     }
 
     void Update()
     {
-        if(canSing && sequence.Count>=0){
+        if(canSing && sequence.Count>0){
             timer+=Time.deltaTime;
             if(timer>=currentEventLength){
                 sequenceIndex+=1;
@@ -95,35 +108,68 @@ public class NPCSinging : Singing
                     harmonyValue+=Time.deltaTime;
                 }
                 if(harmonyValue>=harmonyMaxValue){
-                    DialogueStart();
+                    Harmonized();
                 }
             }else if(singing){
                 harmonyValue-=Time.deltaTime/2f;
             }
 
             harmonyValue=Mathf.Clamp(harmonyValue,0f,harmonyMaxValue);
+        }else if(sequence.Count>0 && prevCanSing){
+            StopAllNotes();
         }
 
         
         Color c=singingTraceSpriteRenderer.color;
         float a=Mathf.Lerp(c.a,targetOpacity,imageOpacityLerpSpeed*Time.deltaTime);
         singingTraceSpriteRenderer.color=new Color(c.r,c.g,c.b,a);
+
+        prevCanSing=canSing;
     }
 
     bool isHarmonizing(Singing s){
         string otherNote=s.singingNote;
         int index=possibleNotes.IndexOf(singingNote);
-        if(otherNote==possibleNotes[(index+2)%possibleNotes.Count] || otherNote==possibleNotes[(index+possibleNotes.Count-2)%possibleNotes.Count]){
-            return true;
+        bool harmonizing=false;
+        switch(harmonyType){
+            case HarmonyTypes.Triangle:
+                if(otherNote==possibleNotes[(index+2)%possibleNotes.Count] || otherNote==possibleNotes[(index+possibleNotes.Count-2)%possibleNotes.Count]){
+                    harmonizing=true;
+                }
+                break;
+            case HarmonyTypes.NextNote:
+                if(otherNote==possibleNotes[(index+1)%possibleNotes.Count] || otherNote==possibleNotes[(index+possibleNotes.Count-1)%possibleNotes.Count]){
+                    harmonizing=true;
+                }
+                break;
+            case HarmonyTypes.SameNote:
+                if(otherNote==possibleNotes[index]){
+                    harmonizing=true;
+                }
+                break;
+            case HarmonyTypes.Anything:
+                harmonizing=true;
+                break;
+            case HarmonyTypes.None:
+                break;
         }
-        return false;
+        return harmonizing;
     }
 
-    void DialogueStart(){
+    void Harmonized(){
         StopAllNotes();
         canSing=false;
         harmonyValue=0f;
         targetOpacity=0f;
-        Debug.Log("Start dialogue!");
+        npcBrain.Harmonized();
     }
+
+}
+
+public enum HarmonyTypes{
+    Triangle,   //Harmony note is on either extreme edge of the pentacle (~3rd/5th)
+    SameNote,   //Singing the same note
+    Anything,   //Singing whatever
+    NextNote,   //Singing the next note up or down on the pentacle
+    None        //Never harmonizes
 }

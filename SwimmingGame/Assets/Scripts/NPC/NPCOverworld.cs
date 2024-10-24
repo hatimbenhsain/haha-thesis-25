@@ -57,40 +57,76 @@ public class NPCOverworld : MonoBehaviour
     private bool pausing=false;
     private bool currentlyWaitingForPlayer=false;
 
-    ArrayList allHits=new ArrayList();
+    [System.NonSerialized]
+    public ArrayList allHits=new ArrayList();
 
+    private NPCSinging singer;
 
     void Start()
     {
-        body=GetComponent<Rigidbody>();
+        if(TryGetComponent<Rigidbody>(out body)==false){
+            body=GetComponentInParent<Rigidbody>();
+        }
         player=FindObjectOfType<Swimmer>();
-        FindPath();
-        //Changing path's parent so it doesn't move with self
-        pathParent.parent=transform.parent;
+
+        if(pathParent!=null){
+            FindPath();
+            //Changing path's parent so it doesn't move with self
+            if(pathParent.parent==transform || pathParent.parent==transform.parent) pathParent.parent=body.transform.parent;
+        }
+
+        TryGetComponent<NPCSinging>(out singer);
     }
 
     void FixedUpdate()
     {
         switch(currentState){
+            case NPCStates.Singing:
+                Sing();
+                break;
             case NPCStates.Swimming:
                 Swim();
                 break;
             case NPCStates.SwimmingAndSinging:
+                Sing();
+                Swim();
+                break;
+            case NPCStates.SexSwimmingAndSinging:
+                Sing();
                 Swim();
                 break;
         }
     }
 
+    private void OnEnable() {
+        // Resetting current active path node
+        if(movementBehavior==MovementBehavior.FollowPath){
+            for(int i=0;i<path.Length;i++){
+                if(path[i].active){
+                    pathIndex=i;
+                }
+            }
+        }
+    }
+
+    void Sing(){
+        singer.canSing=true;
+    }
+
+    void StopSinging(){
+        singer.canSing=false;
+    }
+
     void Swim(){
         pausing=false;
         GetTarget();
-        if(waitForPlayer && Vector3.Distance(transform.position,player.transform.position)>=maxDistanceFromPlayer){
+        if(waitForPlayer && Vector3.Distance(body.transform.position,player.transform.position)>=maxDistanceFromPlayer){
             currentlyWaitingForPlayer=true;
         }
         if(currentlyWaitingForPlayer){
             pausing=true;
             boostTimer=0f;
-            if(Vector3.Distance(transform.position,player.transform.position)<minDistanceFromPlayer){
+            if(Vector3.Distance(body.transform.position,player.transform.position)<minDistanceFromPlayer){
                 currentlyWaitingForPlayer=false;
             }
         }
@@ -130,7 +166,7 @@ public class NPCOverworld : MonoBehaviour
         // newRotation+=rotationVelocity*Time.fixedDeltaTime;
 
         //Quaternion newRotationQ=Quaternion.Euler(newRotation);
-        Quaternion newRotationQ=Quaternion.Lerp(transform.rotation,targetRotation,rotationMaxVelocity*Time.fixedDeltaTime);
+        Quaternion newRotationQ=Quaternion.Lerp(body.transform.rotation,targetRotation,rotationMaxVelocity*Time.fixedDeltaTime);
         //Rotating self
         body.MoveRotation(newRotationQ);
 
@@ -204,8 +240,8 @@ public class NPCOverworld : MonoBehaviour
 
         //Boosting player velocity at the end of the swimstroke
         if(boostTimer>boostTime && boostTimer-Time.fixedDeltaTime<=boostTime){
-            if(Quaternion.Angle(transform.rotation,targetRotation)<=45f){
-                velocity+=transform.forward*boostSpeed;
+            if(Quaternion.Angle(body.transform.rotation,targetRotation)<=45f){
+                velocity+=body.transform.forward*boostSpeed;
             }
             else{
                 boostTimer-=Time.fixedDeltaTime;
@@ -219,10 +255,10 @@ public class NPCOverworld : MonoBehaviour
 
         //Adding velocity from swimming
         if(movingForward){
-            if(velocity.magnitude<coastingSpeed || Vector3.Angle(velocity,transform.forward)>=90f){
+            if(velocity.magnitude<coastingSpeed || Vector3.Angle(velocity,body.transform.forward)>=90f){
                 //Limiting speed if difference between current direction & target is too big
-                float modifier=1-(Mathf.Clamp(Quaternion.Angle(transform.rotation,targetRotation)-25f,0f,45f)/45f);
-                velocity+=transform.forward*acceleration*Time.fixedDeltaTime*modifier;
+                float modifier=1-(Mathf.Clamp(Quaternion.Angle(body.transform.rotation,targetRotation)-25f,0f,45f)/45f);
+                velocity+=body.transform.forward*acceleration*Time.fixedDeltaTime*modifier;
             }
             //animator.SetBool("swimmingForward",true);
         }else{
@@ -241,15 +277,17 @@ public class NPCOverworld : MonoBehaviour
     void GetTarget(){
         switch(movementBehavior){
             case MovementBehavior.FollowPath:
-                if(Vector3.Distance(targetPosition,transform.position)<maxNodeDistance && path[pathIndex].type==PathNodeType.Continue){
+                if(Vector3.Distance(targetPosition,body.transform.position)<maxNodeDistance && path[pathIndex].type==PathNodeType.Continue){
+                    path[pathIndex].active=false;
                     pathIndex+=1;
                     pauseTimer=0f;
-                }else if(Vector3.Distance(targetPosition,transform.position)<maxNodeDistance && path[pathIndex].type==PathNodeType.Pause){
+                }else if(Vector3.Distance(targetPosition,body.transform.position)<maxNodeDistance && path[pathIndex].type==PathNodeType.Pause){
                     pausing=true;
                     pauseTimer+=Time.fixedDeltaTime;
                     if(pauseTimer>=path[pathIndex].pauseLength){
                         pauseTimer+=1;
                         pathIndex+=1;
+                        path[pathIndex].active=false;
                     }
                 }
                 if(loopingPath){    //Wrap around path if NPC is looping
@@ -259,9 +297,10 @@ public class NPCOverworld : MonoBehaviour
                     return;
                 }
                 targetPosition=path[pathIndex].transform.position;
-                targetRotation=Quaternion.LookRotation(targetPosition-transform.position,Vector3.up);
+                targetRotation=Quaternion.LookRotation(targetPosition-body.transform.position,Vector3.up);
 
-                Debug.DrawRay(transform.position,targetRotation*Vector3.forward,Color.green,3f);
+                Debug.DrawRay(body.transform.position,targetRotation*Vector3.forward,Color.green,3f);
+                path[pathIndex].active=true;
                 break;
         }
     }
@@ -280,12 +319,16 @@ public class NPCOverworld : MonoBehaviour
         }
         if(path.Length>0){
             targetPosition=path[pathIndex].transform.position;
-            targetRotation=Quaternion.LookRotation(targetPosition-transform.position);
+            targetRotation=Quaternion.LookRotation(targetPosition-body.transform.position);
+        }
+        for(int i=0;i<path.Length;i++){
+            if(path[i].active){
+                pathIndex=i;
+            }
         }
     }
 
     private void OnCollisionStay(Collision other) {
-    if(other.collider.gameObject.tag!="Player"){
         ContactPoint[] myContacts = new ContactPoint[other.contactCount];
         for(int i = 0; i < myContacts.Length; i++)
         {
@@ -293,6 +336,28 @@ public class NPCOverworld : MonoBehaviour
             allHits.Add(myContacts[i]);
         }
     }
+
+    //This function is triggered by NPCSinging when player has harmonized for long enough duration
+    public void Harmonized(){
+        switch(currentState){
+            case NPCStates.SexSwimmingAndSinging:
+                NPCSequencer npcSequencer;
+                //Go to the next brain/behavior
+                if(transform.parent.TryGetComponent<NPCSequencer>(out npcSequencer)){
+                    npcSequencer.NextBrain();
+                }
+                break;
+            case NPCStates.SwimmingAndSinging:
+                DialogueStart();
+                break;
+            case NPCStates.Singing:
+                DialogueStart();
+                break;
+        }
+    }
+
+    void DialogueStart(){
+        Debug.Log("Start dialogue!");
     }
 }
 
@@ -300,6 +365,7 @@ public enum NPCStates{
     Swimming,
     Singing,
     SwimmingAndSinging,
+    SexSwimmingAndSinging,
     Idle
 }
 
