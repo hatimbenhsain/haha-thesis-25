@@ -17,6 +17,8 @@ public class NPCOverworld : MonoBehaviour
         public NPCStates currentState;
         public MovementBehavior movementBehavior;
         public bool waitForPlayer=false;
+        [Tooltip("Does the npc face the player while waiting for them?")]
+        public bool facePlayerWhenWaiting=false;
         [Tooltip("Max distance between self and player before pausing.")]
         public float maxDistanceFromPlayer=10f;
         [Tooltip("If npc has stopped, Player has to get this close to start again.")]
@@ -26,7 +28,6 @@ public class NPCOverworld : MonoBehaviour
         public bool loopingPath=true;
         [Tooltip("If true the starting point is the closest node to the player.")]
         public bool findClosestPathNode=false;
-
 
     [Header("Movement")]
         public float acceleration=4f;
@@ -122,13 +123,20 @@ public class NPCOverworld : MonoBehaviour
         pausing=false;
         GetTarget();
         if(waitForPlayer && Vector3.Distance(body.transform.position,player.transform.position)>=maxDistanceFromPlayer){
+            if(!currentlyWaitingForPlayer){
+                pauseTimer=0f;
+            }
             currentlyWaitingForPlayer=true;
         }
         if(currentlyWaitingForPlayer){
+            pauseTimer+=Time.deltaTime;
             pausing=true;
             boostTimer=0f;
             if(Vector3.Distance(body.transform.position,player.transform.position)<minDistanceFromPlayer){
                 currentlyWaitingForPlayer=false;
+            }
+            if(pauseTimer>=2f){
+                targetRotation=Quaternion.LookRotation(player.transform.position-body.transform.position,Vector3.up);
             }
         }
         bool movingForward=!pausing;

@@ -55652,7 +55652,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1305129192
 RectTransform:
   m_ObjectHideFlags: 0
@@ -62681,8 +62681,9 @@ MonoBehaviour:
   currentState: 3
   movementBehavior: 0
   waitForPlayer: 1
-  maxDistanceFromPlayer: 5
-  minDistanceFromPlayer: 8
+  facePlayerWhenWaiting: 1
+  maxDistanceFromPlayer: 8
+  minDistanceFromPlayer: 5
   strokeFrequency: 1.5
   loopingPath: 1
   findClosestPathNode: 0
@@ -62694,7 +62695,7 @@ MonoBehaviour:
   boostTimer: 0
   boostTime: 0.3
   rotationAcceleration: 120
-  rotationMaxVelocity: 1
+  rotationMaxVelocity: 3
   rotationDeceleration: 60
   maxNodeDistance: 2
   collisionSpeedFactor: 1
@@ -62850,8 +62851,9 @@ MonoBehaviour:
   currentState: 3
   movementBehavior: 0
   waitForPlayer: 1
-  maxDistanceFromPlayer: 5
-  minDistanceFromPlayer: 8
+  facePlayerWhenWaiting: 1
+  maxDistanceFromPlayer: 8
+  minDistanceFromPlayer: 5
   strokeFrequency: 1
   loopingPath: 1
   findClosestPathNode: 1
@@ -62863,7 +62865,7 @@ MonoBehaviour:
   boostTimer: 0
   boostTime: 0.3
   rotationAcceleration: 120
-  rotationMaxVelocity: 1
+  rotationMaxVelocity: 3
   rotationDeceleration: 60
   maxNodeDistance: 2
   collisionSpeedFactor: 1
@@ -70267,8 +70269,9 @@ MonoBehaviour:
   currentState: 3
   movementBehavior: 0
   waitForPlayer: 1
-  maxDistanceFromPlayer: 5
-  minDistanceFromPlayer: 8
+  facePlayerWhenWaiting: 1
+  maxDistanceFromPlayer: 8
+  minDistanceFromPlayer: 5
   strokeFrequency: 5
   loopingPath: 1
   findClosestPathNode: 1
@@ -70280,7 +70283,7 @@ MonoBehaviour:
   boostTimer: 0
   boostTime: 0.3
   rotationAcceleration: 120
-  rotationMaxVelocity: 1
+  rotationMaxVelocity: 3
   rotationDeceleration: 60
   maxNodeDistance: 2
   collisionSpeedFactor: 1
@@ -83089,6 +83092,16 @@ PrefabInstance:
       propertyPath: currentState
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5729202771288997189, guid: b1f8fe9778a6ffa4c8c93cd5747b6832,
+        type: 3}
+      propertyPath: maxDistanceFromPlayer
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 5729202771288997189, guid: b1f8fe9778a6ffa4c8c93cd5747b6832,
+        type: 3}
+      propertyPath: minDistanceFromPlayer
+      value: 5
+      objectReference: {fileID: 0}
     - target: {fileID: 7440094044631570832, guid: b1f8fe9778a6ffa4c8c93cd5747b6832,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -92697,6 +92710,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_IsActive
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5729202771288997189, guid: b1f8fe9778a6ffa4c8c93cd5747b6832,
+        type: 3}
+      propertyPath: maxDistanceFromPlayer
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 5729202771288997189, guid: b1f8fe9778a6ffa4c8c93cd5747b6832,
+        type: 3}
+      propertyPath: minDistanceFromPlayer
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 7440094044631570832, guid: b1f8fe9778a6ffa4c8c93cd5747b6832,
         type: 3}
