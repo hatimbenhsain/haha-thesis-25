@@ -69,6 +69,8 @@ public class NPCSinging : Singing
     void Update()
     {
         if(canSing && sequence.Count>0){
+            float distanceFromPlayer=Vector3.Distance(transform.position,swimmerSinging.transform.position);
+
             timer+=Time.deltaTime;
             if(timer>=currentEventLength){
                 sequenceIndex+=1;
@@ -91,7 +93,14 @@ public class NPCSinging : Singing
             if(singing && timer==0f){
                 StopAllNotes();
                 PlayNote(singingNote);
-                targetOpacity=1f;
+                Debug.Log(distanceFromPlayer);
+                Debug.Log(maxSwimmerDistance);
+                if(distanceFromPlayer>maxSwimmerDistance){
+                    targetOpacity=0.1f;
+                }else{
+                    targetOpacity=1f;
+                }
+                
                 RuntimeManager.AttachInstanceToGameObject(events[singingNote],transform);
             }else if(!singing && timer==0f){
                 StopAllNotes();
@@ -104,7 +113,7 @@ public class NPCSinging : Singing
 
             // Checking harmony and starting dialogue if harmony is achieved
             // Right now harmony only goes up/down if the npc is currently
-            if(singing && swimmerSinging.singing && Vector3.Distance(transform.position,swimmerSinging.transform.position)<=maxSwimmerDistance){
+            if(singing && swimmerSinging.singing && distanceFromPlayer<=maxSwimmerDistance){
                 if(isHarmonizing(swimmerSinging)){
                     harmonyValue+=Time.deltaTime;
                 }
