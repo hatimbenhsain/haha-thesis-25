@@ -92,7 +92,8 @@ public class NPCSinging : Singing
                 StopAllNotes();
                 PlayNote(singingNote);
                 targetOpacity=1f;
-            }else if(!singing){
+                RuntimeManager.AttachInstanceToGameObject(events[singingNote],transform);
+            }else if(!singing && timer==0f){
                 StopAllNotes();
                 targetOpacity=0f;
             }

@@ -58157,6 +58157,11 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: -8387360030683456268, guid: 1c8ad2b2d7ff68c45b5eee5039926f9d,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 217487523840787610, guid: 1c8ad2b2d7ff68c45b5eee5039926f9d,
         type: 3}
       propertyPath: m_Name
@@ -58215,7 +58220,11 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 3576245318935648849, guid: 1c8ad2b2d7ff68c45b5eee5039926f9d,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 2132038115}
   m_SourcePrefab: {fileID: 100100000, guid: 1c8ad2b2d7ff68c45b5eee5039926f9d, type: 3}
 --- !u!43 &1359382538
 Mesh:
@@ -62414,6 +62423,121 @@ Transform:
   - {fileID: 765736190}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1510457163
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1510457164}
+  - component: {fileID: 1510457166}
+  - component: {fileID: 1510457165}
+  m_Layer: 0
+  m_Name: Brain 2 (1)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
+--- !u!4 &1510457164
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1510457163}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 7440094043990009194}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1510457165
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1510457163}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d02b7b7658607244db710fde9df1fcd3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  pathParent: {fileID: 4354076328749768729}
+  path: []
+  pathIndex: 0
+  pauseTimer: 0
+  currentState: 3
+  movementBehavior: 0
+  waitForPlayer: 1
+  maxDistanceFromPlayer: 5
+  minDistanceFromPlayer: 8
+  strokeFrequency: 1
+  loopingPath: 1
+  acceleration: 4
+  maxVelocity: 3
+  deceleration: 1.5
+  boostSpeed: 1.5
+  coastingSpeed: 1.5
+  boostTimer: 0
+  boostTime: 0.3
+  rotationAcceleration: 120
+  rotationMaxVelocity: 1
+  rotationDeceleration: 60
+  maxNodeDistance: 2
+  collisionSpeedFactor: 1
+  minCollisionSpeed: 0.01
+--- !u!114 &1510457166
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1510457163}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2c4f3513be819b14c983225610aa77a2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  name: NPC1
+  keys: []
+  possibleNotes:
+  - A4
+  - B4
+  - C#5
+  - D#5
+  - G#5
+  singingNote: B4
+  singingVolume: 0
+  maxSingingVolume: 1
+  singingTraceSpriteRenderer: {fileID: 6267489072490074878}
+  singingTraceSprites:
+  - {fileID: -564246579, guid: 9eaabeef8a2711f46980fb51160fd866, type: 3}
+  - {fileID: 922491493, guid: 9eaabeef8a2711f46980fb51160fd866, type: 3}
+  - {fileID: -335704537, guid: 9eaabeef8a2711f46980fb51160fd866, type: 3}
+  - {fileID: -401761717, guid: 9eaabeef8a2711f46980fb51160fd866, type: 3}
+  - {fileID: 607537459, guid: 9eaabeef8a2711f46980fb51160fd866, type: 3}
+  sequence:
+  - musicNote: G#5
+    length: 10
+  - musicNote: 
+    length: 5
+  sequenceIndex: 0
+  timer: 0
+  imageOpacityLerpSpeed: 7
+  maxOpacity: 0.4
+  singing: 0
+  maxSwimmerDistance: 2
+  harmonyValue: 0
+  harmonyMaxValue: 1
+  canSing: 1
+  timerMaxVariationLength: 0.2
+  harmonyType: 0
 --- !u!1001 &1520363437
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -82723,10 +82847,25 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 3785317371611452016, guid: b1f8fe9778a6ffa4c8c93cd5747b6832,
+        type: 3}
+      propertyPath: sequence.Array.data[0].musicNote
+      value: D#5
+      objectReference: {fileID: 0}
+    - target: {fileID: 3785317371611452016, guid: b1f8fe9778a6ffa4c8c93cd5747b6832,
+        type: 3}
+      propertyPath: sequence.Array.data[2].musicNote
+      value: B4
+      objectReference: {fileID: 0}
     - target: {fileID: 4720774764992607001, guid: b1f8fe9778a6ffa4c8c93cd5747b6832,
         type: 3}
       propertyPath: m_Name
       value: NPC1 (2)
+      objectReference: {fileID: 0}
+    - target: {fileID: 4720774764992607001, guid: b1f8fe9778a6ffa4c8c93cd5747b6832,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5729202771288997189, guid: b1f8fe9778a6ffa4c8c93cd5747b6832,
         type: 3}
@@ -82736,7 +82875,7 @@ PrefabInstance:
     - target: {fileID: 5729202771288997189, guid: b1f8fe9778a6ffa4c8c93cd5747b6832,
         type: 3}
       propertyPath: currentState
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7440094044631570832, guid: b1f8fe9778a6ffa4c8c93cd5747b6832,
         type: 3}
@@ -91919,6 +92058,25 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f69a97ac0a481c34ab885be5cfc97b3f, type: 3}
+--- !u!1 &2132038108 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3576245318935648849, guid: 1c8ad2b2d7ff68c45b5eee5039926f9d,
+    type: 3}
+  m_PrefabInstance: {fileID: 1355850716}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &2132038115
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2132038108}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 86c6556701af9e04380698b89f691b6e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  attenuationObject: {fileID: 0}
 --- !u!1 &2139843101
 GameObject:
   m_ObjectHideFlags: 0
@@ -92275,6 +92433,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: NPC1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4720774764992607001, guid: b1f8fe9778a6ffa4c8c93cd5747b6832,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7440094044631570832, guid: b1f8fe9778a6ffa4c8c93cd5747b6832,
         type: 3}
@@ -92935,6 +93098,7 @@ Transform:
   - {fileID: 4354076328749768729}
   - {fileID: 1677738654}
   - {fileID: 1499037355}
+  - {fileID: 1510457164}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!23 &7488942618797275425
