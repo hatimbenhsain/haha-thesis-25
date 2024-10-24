@@ -71,7 +71,7 @@ public class SpringController : MonoBehaviour
             StartExhaling();
         }
 
-        if (playerInput.aiming)
+        if (!playerInput.aiming)
         {
             AlignWithCamera();
         }
@@ -91,7 +91,7 @@ public class SpringController : MonoBehaviour
             Inhale();
         }
 
-        //HandleTurning();
+        HandleTurning();
 
         // handle exhaling process
         if (exhaleTimeLeft > 0f)
@@ -195,7 +195,7 @@ public class SpringController : MonoBehaviour
         {
             Vector3 targetVelocity = moveDirection.normalized * movementMultiplier;
             currentVelocity = Vector3.Lerp(currentVelocity, targetVelocity, Time.fixedDeltaTime * movementLerpSpeed);
-            characterRb.AddForce(currentVelocity, ForceMode.Acceleration);
+            //characterRb.AddForce(currentVelocity, ForceMode.Acceleration);
         }
     }
 
