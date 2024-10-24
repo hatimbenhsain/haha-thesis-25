@@ -24,7 +24,8 @@ public class NPCOverworld : MonoBehaviour
         [Tooltip("How often NPC makes a swimming stroke in seconds.")]
         public float strokeFrequency=1f;
         public bool loopingPath=true;
-        
+        [Tooltip("If true the starting point is the closest node to the player.")]
+        public bool findClosestPathNode=false;
 
 
     [Header("Movement")]
@@ -324,6 +325,16 @@ public class NPCOverworld : MonoBehaviour
         for(int i=0;i<path.Length;i++){
             if(path[i].active){
                 pathIndex=i;
+            }
+        }
+        float minDistance=100f;
+        if(findClosestPathNode){
+            for(int i=0;i<path.Length;i++){
+                float distance=Vector3.Distance(body.transform.position,path[i].transform.position);
+                if(distance<minDistance){
+                    minDistance=distance;
+                    pathIndex=i;
+                }
             }
         }
     }

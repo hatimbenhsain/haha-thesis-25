@@ -9,7 +9,7 @@ public class PathNode : MonoBehaviour
 
     public bool active=false;
 
-    void OnDrawGizmos(){
+    void OnDrawGizmosSelected(){
 
         Gizmos.color = Color.cyan;
         if(active){

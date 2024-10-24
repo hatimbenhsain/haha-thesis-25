@@ -14,8 +14,8 @@ public class SwimmerSinging : Singing
     public bool canSing=false;
 
     [Tooltip("The dot that moves on the canvas to signify singing")]
-    public GameObject singingDot;
-    private RectTransform singingDotRect;
+    public GameObject[] singingDots;
+    private RectTransform[] singingDotRects;
     [Tooltip("Radius of singing circle on canvas.")]
     public float circleRadius=255f;
     private Vector2 rectTargetPosition;
@@ -42,9 +42,12 @@ public class SwimmerSinging : Singing
     void Start()
     {
         playerInput=FindObjectOfType<PlayerInput>();
-        singingDotRect=singingDot.GetComponent<RectTransform>();
-        rectTargetPosition=singingDotRect.anchoredPosition;
-        rectCenter=singingDotRect.anchoredPosition;
+        singingDotRects=new RectTransform[singingDots.Length];
+        for(int i=0;i<singingDots.Length;i++){
+            singingDotRects[i]=singingDots[i].GetComponent<RectTransform>();
+        }
+        rectTargetPosition=singingDotRects[0].anchoredPosition;
+        rectCenter=singingDotRects[0].anchoredPosition;
 
         foreach(Image image in images){
             Color c=image.color;
@@ -77,7 +80,9 @@ public class SwimmerSinging : Singing
             inputNote=Vector2.ClampMagnitude(inputNote,1f);
             
             singingNotePosition=Vector2.Lerp(singingNotePosition,inputNote,noteLerpValue*Time.deltaTime);
-            singingDotRect.anchoredPosition=rectCenter+singingNotePosition*circleRadius;
+            foreach(RectTransform singingDotRect in singingDotRects){
+                singingDotRect.anchoredPosition=rectCenter+singingNotePosition*circleRadius;
+            }
 
             singingVolume=singingNotePosition.magnitude;
 
