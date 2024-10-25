@@ -92,6 +92,7 @@ public class NPCSinging : Singing
                 StopAllNotes();
                 PlayNote(singingNote);
                 targetOpacity=1f;
+                //FMOD stops sounds attachment to bodies sometimes to we gotta update it
                 RuntimeManager.AttachInstanceToGameObject(events[singingNote],transform);
             }else if(!singing && timer==0f){
                 StopAllNotes();
