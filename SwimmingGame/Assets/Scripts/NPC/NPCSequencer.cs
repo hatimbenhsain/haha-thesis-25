@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using JetBrains.Annotations;
 using UnityEngine;
 
 //This script is for sequencing between different brains for the NPC; for example one where they sing A B A and swim slow, then one where the sing C# D# and swim very fast, etc.
@@ -7,12 +8,20 @@ using UnityEngine;
 public class NPCSequencer : MonoBehaviour
 {
     public GameObject[] brains;
+    public Transform[] pathTransforms;
     public int brainIndex=0;
     private int prevIndex=0;
 
     public bool nextBrainTrigger=false;
 
     public bool looping=false;
+
+    void Awake(){
+        //Changing path's parent so it doesn't move with self
+        foreach(Transform pathTransform in pathTransforms){
+            if(pathTransform.parent==transform) pathTransform.parent=transform.parent;
+        }
+    }
 
     void Update()
     {

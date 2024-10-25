@@ -17,6 +17,8 @@ public class NPCOverworld : MonoBehaviour
         public NPCStates currentState;
         public MovementBehavior movementBehavior;
         public bool waitForPlayer=false;
+        [Tooltip("Does the npc face the player while waiting for them?")]
+        public bool facePlayerWhenWaiting=false;
         [Tooltip("Max distance between self and player before pausing.")]
         public float maxDistanceFromPlayer=10f;
         [Tooltip("If npc has stopped, Player has to get this close to start again.")]
@@ -24,8 +26,8 @@ public class NPCOverworld : MonoBehaviour
         [Tooltip("How often NPC makes a swimming stroke in seconds.")]
         public float strokeFrequency=1f;
         public bool loopingPath=true;
-        
-
+        [Tooltip("If true the starting point is the closest node to the player.")]
+        public bool findClosestPathNode=false;
 
     [Header("Movement")]
         public float acceleration=4f;
@@ -106,6 +108,16 @@ public class NPCOverworld : MonoBehaviour
                     pathIndex=i;
                 }
             }
+            float minDistance=1000f;
+            if(findClosestPathNode){
+                for(int i=0;i<path.Length;i++){
+                    float distance=Vector3.Distance(body.transform.position,path[i].transform.position);
+                    if(distance<minDistance){
+                        minDistance=distance;
+                        pathIndex=i;
+                    }
+                }
+            }
         }
     }
 
@@ -121,13 +133,20 @@ public class NPCOverworld : MonoBehaviour
         pausing=false;
         GetTarget();
         if(waitForPlayer && Vector3.Distance(body.transform.position,player.transform.position)>=maxDistanceFromPlayer){
+            if(!currentlyWaitingForPlayer){
+                pauseTimer=0f;
+            }
             currentlyWaitingForPlayer=true;
         }
         if(currentlyWaitingForPlayer){
+            pauseTimer+=Time.deltaTime;
             pausing=true;
             boostTimer=0f;
             if(Vector3.Distance(body.transform.position,player.transform.position)<minDistanceFromPlayer){
                 currentlyWaitingForPlayer=false;
+            }
+            if(pauseTimer>=2f){
+                targetRotation=Quaternion.LookRotation(player.transform.position-body.transform.position,Vector3.up);
             }
         }
         bool movingForward=!pausing;
@@ -324,6 +343,16 @@ public class NPCOverworld : MonoBehaviour
         for(int i=0;i<path.Length;i++){
             if(path[i].active){
                 pathIndex=i;
+            }
+        }
+        float minDistance=100f;
+        if(findClosestPathNode){
+            for(int i=0;i<path.Length;i++){
+                float distance=Vector3.Distance(body.transform.position,path[i].transform.position);
+                if(distance<minDistance){
+                    minDistance=distance;
+                    pathIndex=i;
+                }
             }
         }
     }
