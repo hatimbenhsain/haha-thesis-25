@@ -38542,6 +38542,74 @@ Transform:
   - {fileID: 1136771155}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1001 &793626571
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 1528510546292126806, guid: 2aa108b2b25222c4baa855e54007b8d2,
+        type: 3}
+      propertyPath: m_Name
+      value: Dialogue Pack
+      objectReference: {fileID: 0}
+    - target: {fileID: 7260195915705772074, guid: 2aa108b2b25222c4baa855e54007b8d2,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 11.423985
+      objectReference: {fileID: 0}
+    - target: {fileID: 7260195915705772074, guid: 2aa108b2b25222c4baa855e54007b8d2,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -0.73641205
+      objectReference: {fileID: 0}
+    - target: {fileID: 7260195915705772074, guid: 2aa108b2b25222c4baa855e54007b8d2,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 29.693817
+      objectReference: {fileID: 0}
+    - target: {fileID: 7260195915705772074, guid: 2aa108b2b25222c4baa855e54007b8d2,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7260195915705772074, guid: 2aa108b2b25222c4baa855e54007b8d2,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7260195915705772074, guid: 2aa108b2b25222c4baa855e54007b8d2,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7260195915705772074, guid: 2aa108b2b25222c4baa855e54007b8d2,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7260195915705772074, guid: 2aa108b2b25222c4baa855e54007b8d2,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7260195915705772074, guid: 2aa108b2b25222c4baa855e54007b8d2,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7260195915705772074, guid: 2aa108b2b25222c4baa855e54007b8d2,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 2aa108b2b25222c4baa855e54007b8d2, type: 3}
 --- !u!1 &795989857
 GameObject:
   m_ObjectHideFlags: 0
@@ -62687,6 +62755,8 @@ MonoBehaviour:
   strokeFrequency: 1.5
   loopingPath: 1
   findClosestPathNode: 0
+  knotName: 
+  inkJSONAsset: {fileID: 0}
   acceleration: 4
   maxVelocity: 3
   deceleration: 1.5
@@ -62700,6 +62770,7 @@ MonoBehaviour:
   maxNodeDistance: 2
   collisionSpeedFactor: 1
   minCollisionSpeed: 0.01
+  kinematic: 0
 --- !u!114 &1499037354
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -62857,6 +62928,8 @@ MonoBehaviour:
   strokeFrequency: 1
   loopingPath: 1
   findClosestPathNode: 1
+  knotName: 
+  inkJSONAsset: {fileID: 0}
   acceleration: 4
   maxVelocity: 5
   deceleration: 1.5
@@ -62870,6 +62943,7 @@ MonoBehaviour:
   maxNodeDistance: 2
   collisionSpeedFactor: 1
   minCollisionSpeed: 0.01
+  kinematic: 0
 --- !u!114 &1510457166
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -70275,6 +70349,8 @@ MonoBehaviour:
   strokeFrequency: 5
   loopingPath: 1
   findClosestPathNode: 1
+  knotName: 
+  inkJSONAsset: {fileID: 0}
   acceleration: 4
   maxVelocity: 3
   deceleration: 1.5
@@ -70288,6 +70364,7 @@ MonoBehaviour:
   maxNodeDistance: 2
   collisionSpeedFactor: 1
   minCollisionSpeed: 0.01
+  kinematic: 0
 --- !u!114 &1677738656
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -83080,7 +83157,12 @@ PrefabInstance:
     - target: {fileID: 4720774764992607001, guid: b1f8fe9778a6ffa4c8c93cd5747b6832,
         type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5729202771288997189, guid: b1f8fe9778a6ffa4c8c93cd5747b6832,
+        type: 3}
+      propertyPath: knotName
+      value: beginning
       objectReference: {fileID: 0}
     - target: {fileID: 5729202771288997189, guid: b1f8fe9778a6ffa4c8c93cd5747b6832,
         type: 3}
@@ -83090,7 +83172,7 @@ PrefabInstance:
     - target: {fileID: 5729202771288997189, guid: b1f8fe9778a6ffa4c8c93cd5747b6832,
         type: 3}
       propertyPath: currentState
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5729202771288997189, guid: b1f8fe9778a6ffa4c8c93cd5747b6832,
         type: 3}
@@ -93661,3 +93743,4 @@ SceneRoots:
   - {fileID: 99872490}
   - {fileID: 1918278041}
   - {fileID: 534852199}
+  - {fileID: 793626571}
