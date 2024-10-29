@@ -15,7 +15,8 @@ public class FingerTipsController : MonoBehaviour
 
     private PlayerInput playerInput;
     private Vector3 startLocalPosition; 
-    private Vector3 velocity; 
+    private Vector3 velocity;
+    private Vector2 movementVector;
 
     private void Start()
     {
@@ -25,21 +26,32 @@ public class FingerTipsController : MonoBehaviour
 
     void Update()
     {
+        ConvertMovementInput(playerInput.movingForward, playerInput.movingBackward, playerInput.movingLeft, playerInput.movingRight);
         Moving();
         AdjustYPosition();
+    }
+
+    void ConvertMovementInput(bool movingForward, bool movingBackward, bool movingLeft, bool movingRight)
+    {
+        if (movingForward) { movementVector.x += 1; }
+        if (movingBackward) { movementVector.x += -1; }
+        if (movingLeft) { movementVector.y += 1; }
+        if (movingRight) { movementVector.y += -1; }
+        movementVector = movementVector.normalized;
+        //Debug.Log(movementVector);
     }
 
     // handle movement of the character around, constrained within a small circle in XZ plane
     void Moving()
     {
         // get input direction from mouse or joystick
-        float moveX = playerInput.rotation.x;
-        float moveZ = playerInput.rotation.y;
+        float moveX = -movementVector.x;
+        float moveY = -movementVector.y;
 
         // if there is input, update velocity based on input direction
-        if (Mathf.Abs(moveX) > 0.01f || Mathf.Abs(moveZ) > 0.01f)
+        if (Mathf.Abs(moveX) > 0.01f || Mathf.Abs(moveY) > 0.01f)
         {
-            Vector3 inputDirection = new Vector3(moveX, 0, moveZ).normalized;
+            Vector3 inputDirection = new Vector3(moveX, moveY, 0).normalized;
             velocity = inputDirection * moveSpeed * Time.deltaTime;
         }
         else
