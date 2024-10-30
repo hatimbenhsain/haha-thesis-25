@@ -200,4 +200,8 @@ public class PlayerInput : MonoBehaviour
     public void SwitchMap(string actionMap){
         playerInput.SwitchCurrentActionMap(actionMap);
     }
+
+    public void RestoreDefaultMap(){
+        playerInput.SwitchCurrentActionMap(playerInput.defaultActionMap);
+    }
 }

@@ -406,12 +406,14 @@ public class NPCOverworld : MonoBehaviour
 
     void DialogueStart(){
         Debug.Log("Start dialogue!");
-        FindObjectOfType<Dialogue>().StartDialogue(inkJSONAsset,knotName);
+        FindObjectOfType<Dialogue>().StartDialogue(inkJSONAsset,knotName,this);
     }
 
     public void FinishedDialogue(){
         ChangeState(pastState);
+        Debug.Log("Finished dialogue");
     }
+
 }
 
 public enum NPCStates{
