@@ -11,12 +11,15 @@ public class FingerTipsController : MonoBehaviour
     public float lerpSpeed = 1.0f; // the lerping speed for XZ movement
     public float yLerpSpeed = 1.0f; // the lerping speed for Y matching movement
     public float yOffset = 1.0f; // offset of the character from the top of touching objects
-
+    public float circleDuration = 1.0f; // duration for completing one full circle
+    public GameObject reference;
 
     private PlayerInput playerInput;
-    private Vector3 startLocalPosition; 
+    private Vector3 startLocalPosition;
     private Vector3 velocity;
     private Vector2 movementVector;
+    private float yPos; // y position after raycast
+    private bool isCircling = false; // flag to check if circular movement is in progress
 
     private void Start()
     {
@@ -26,29 +29,30 @@ public class FingerTipsController : MonoBehaviour
 
     void Update()
     {
-        ConvertMovementInput(playerInput.movingForward, playerInput.movingBackward, playerInput.movingLeft, playerInput.movingRight);
-        Moving();
-        AdjustYPosition();
-    }
+        // Start circular movement if space is pressed and we're not already circling
+        if (Input.GetKeyDown(KeyCode.Space) && !isCircling)
+        {
+            yPos = transform.position.y;
+            StartCoroutine(CircularMovement());
+        }
 
-    void ConvertMovementInput(bool movingForward, bool movingBackward, bool movingLeft, bool movingRight)
-    {
-        if (movingForward) { movementVector.x += 1; }
-        if (movingBackward) { movementVector.x += -1; }
-        if (movingLeft) { movementVector.y += 1; }
-        if (movingRight) { movementVector.y += -1; }
-        movementVector = movementVector.normalized;
-        //Debug.Log(movementVector);
+        // Only process movement if not in circular mode
+        if (!isCircling)
+        {
+            Moving();
+            Debug.Log(DetectDialogueOption());
+
+        }
+
+        AdjustYPosition();
     }
 
     // handle movement of the character around, constrained within a small circle in XZ plane
     void Moving()
     {
-        // get input direction from mouse or joystick
-        float moveX = -movementVector.x;
-        float moveY = -movementVector.y;
+        float moveX = -playerInput.look.y;
+        float moveY = playerInput.look.x;
 
-        // if there is input, update velocity based on input direction
         if (Mathf.Abs(moveX) > 0.01f || Mathf.Abs(moveY) > 0.01f)
         {
             Vector3 inputDirection = new Vector3(moveX, moveY, 0).normalized;
@@ -56,7 +60,6 @@ public class FingerTipsController : MonoBehaviour
         }
         else
         {
-            // apply damping to slow down velocity when there is no input
             velocity *= dampingFactor;
         }
 
@@ -64,26 +67,88 @@ public class FingerTipsController : MonoBehaviour
         Vector3 localOffsetFromCenter = localPosition - startLocalPosition;
         if (localOffsetFromCenter.magnitude > maxMoveRadius)
         {
-            // scale the offset back to the maximum radius
             localOffsetFromCenter = localOffsetFromCenter.normalized * maxMoveRadius;
             localPosition = startLocalPosition + localOffsetFromCenter;
         }
 
-        // lerp the character to the target local position within the radius
         transform.localPosition = Vector3.Lerp(transform.localPosition, localPosition, lerpSpeed * Time.deltaTime);
     }
+
+    // Coroutine to perform a circular movement around the radius
+    IEnumerator CircularMovement()
+    {
+        // Store the initial local position
+        startLocalPosition = transform.localPosition;
+        isCircling = true;
+        float elapsedTime = 0f;
+
+        // Store the original local z position
+        float originalZ = transform.localPosition.z;
+
+        while (elapsedTime < circleDuration)
+        {
+            // Calculate the angle for each point in the circle
+            float angle = Mathf.Lerp(0f, 2f * Mathf.PI, elapsedTime / circleDuration);
+            float x = Mathf.Cos(angle) * maxMoveRadius;
+            float y = Mathf.Sin(angle) * maxMoveRadius;
+
+            // Set the position based on the circle path, keeping the original z value
+            Vector3 circularPosition = startLocalPosition + new Vector3(x, y, originalZ);
+            transform.localPosition = Vector3.Lerp(transform.localPosition, circularPosition, lerpSpeed * Time.deltaTime);
+
+            elapsedTime += Time.deltaTime;
+            yield return null;
+        }
+
+        // Lerp to the reference object's absolute position after the circle is complete
+        Vector3 referenceWorldPosition = reference.transform.position;
+        float returnElapsedTime = 0f;
+        while (returnElapsedTime < (circleDuration * 0.3f))
+        {
+            // Lerp to the reference object's world position
+            transform.position = Vector3.Lerp(transform.position, referenceWorldPosition, lerpSpeed * Time.deltaTime * 2);
+            returnElapsedTime += Time.deltaTime;
+            yield return null;
+        }
+
+        // Update the start local position to the current local position
+        startLocalPosition = transform.localPosition;
+        isCircling = false;
+    }
+
 
     // raycast to adjust Y position based on the highest object below
     void AdjustYPosition()
     {
         RaycastHit hit;
-
-        // casting a ray downward to find the highest object
         if (Physics.Raycast(new Vector3(transform.position.x, 100f, transform.position.z), Vector3.down, out hit, Mathf.Infinity, sexPartnerMask))
         {
-            // set Y position to the top of the hit object
             Vector3 targetPosition = new Vector3(transform.position.x, hit.point.y + yOffset, transform.position.z);
             transform.position = Vector3.Lerp(transform.position, targetPosition, yLerpSpeed * Time.deltaTime);
         }
+    }
+
+    // Lerp the fingertip object to be offset from the reference object's position
+    public void LerpToReference(Transform referenceObject, Vector3 offset)
+    {
+        // Calculate the target position based on the reference object's position and the offset
+        Vector3 targetPosition = referenceObject.position + offset;
+
+        // Lerp the fingertip's position to the target position
+        transform.position = Vector3.Lerp(transform.position, targetPosition, lerpSpeed * Time.deltaTime);
+
+        // Reset localPosition after lerping
+        transform.localPosition = startLocalPosition;
+    }
+
+    public string DetectDialogueOption()
+    {
+        Collider[] hitColliders = Physics.OverlapSphere(transform.position, 0.1f, LayerMask.GetMask("DialogueOption"));
+        foreach (var hitCollider in hitColliders)
+        {
+            // Return the name of the GameObject with the trigger box
+            return hitCollider.gameObject.name;
+        }
+        return "Null option"; // No object detected
     }
 }
