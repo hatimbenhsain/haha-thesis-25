@@ -17,8 +17,6 @@ public class FingerTipsController : MonoBehaviour
     private PlayerInput playerInput;
     private Vector3 startLocalPosition;
     private Vector3 velocity;
-    private Vector2 movementVector;
-    private float yPos; // y position after raycast
     private bool isCircling = false; // flag to check if circular movement is in progress
 
     private void Start()
@@ -29,14 +27,12 @@ public class FingerTipsController : MonoBehaviour
 
     void Update()
     {
-        // Start circular movement if space is pressed and we're not already circling
-        if (Input.GetKeyDown(KeyCode.Space) && !isCircling)
+        if (playerInput.boosting && !isCircling)
         {
-            yPos = transform.position.y;
             StartCoroutine(CircularMovement());
         }
 
-        // Only process movement if not in circular mode
+        // Only process movement if not in circling
         if (!isCircling)
         {
             Moving();
@@ -133,8 +129,6 @@ public class FingerTipsController : MonoBehaviour
     {
         // Calculate the target position based on the reference object's position and the offset
         Vector3 targetPosition = referenceObject.position + offset;
-
-        // Lerp the fingertip's position to the target position
         transform.position = Vector3.Lerp(transform.position, targetPosition, lerpSpeed * Time.deltaTime);
 
         // Reset localPosition after lerping
