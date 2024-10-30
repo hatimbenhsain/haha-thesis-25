@@ -33,6 +33,7 @@ public class NPCOverworld : MonoBehaviour
         public string knotName="";
         [Tooltip("Text asset to pull dialogue from. Default takes it from room.")]
         public TextAsset inkJSONAsset=null;
+        public bool startDialogueOnEnable=false;
 
     [Header("Movement")]
         public float acceleration=4f;
@@ -127,6 +128,10 @@ public class NPCOverworld : MonoBehaviour
                     }
                 }
             }
+        }
+
+        if(startDialogueOnEnable){
+            DialogueStart();
         }
     }
 
@@ -385,6 +390,7 @@ public class NPCOverworld : MonoBehaviour
                 //Go to the next brain/behavior
                 if(transform.parent.TryGetComponent<NPCSequencer>(out npcSequencer)){
                     npcSequencer.NextBrain();
+                    singer.StopAllNotes();
                 }
                 break;
             case NPCStates.SwimmingAndSinging:

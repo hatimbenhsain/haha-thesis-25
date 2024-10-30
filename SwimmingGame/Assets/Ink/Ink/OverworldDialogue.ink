@@ -15,10 +15,10 @@ I'm going to the party next.
 
 === ambientDialogue ===
 # ambient
-Teacher: I like this. <br>Do you? # time: 2
-~ pause(2)
-Teacher: Do you? # time: 2
-~ pause(2)
-MC: Feels pretty good. #time: 2
+Teacher: I like this. # time: 3
+~ pause(4)
+Teacher: Do you? # time: 3
+~ pause(4)
+MC: Feels pretty good. #time: 3
 -> END
 
