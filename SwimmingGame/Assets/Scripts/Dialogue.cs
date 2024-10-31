@@ -85,6 +85,9 @@ public class Dialogue : MonoBehaviour
                     }else{
                         EndDialogue();
                     }
+                    if(displayText=="" && !story.canContinue){
+                        EndDialogue();
+                    }
                 }
 
                 //Handling player input: picking choice
@@ -233,6 +236,7 @@ public class Dialogue : MonoBehaviour
     }
 
     public void EndDialogue(){
+        Debug.Log("End dialogue");
         inDialogue=false;
         HideText();
         playerInput.RestoreDefaultMap();
@@ -327,11 +331,14 @@ public class Dialogue : MonoBehaviour
         story.BindExternalFunction("restartSinging",()=>{
             RestartSinging();
         });
-        story.BindExternalFunction("LoadLevel",(string destinationScene)=>{
+        story.BindExternalFunction("loadLevel",(string destinationScene)=>{
             LoadLevel(destinationScene);
         });
         story.BindExternalFunction("goToNextLevel",()=>{
             GoToNextLevel();
+        });
+        story.BindExternalFunction("nextBrain",()=>{
+            NextBrain();
         });
     }
 
@@ -371,6 +378,13 @@ public class Dialogue : MonoBehaviour
     void GoToNextLevel(){
         if(npcInterlocutor!=null){
             FindObjectOfType<LevelLoader>().LoadLevel();
+        }
+    }
+
+    void NextBrain(){
+        NPCSequencer npcSequencer;
+        if(npcInterlocutor!=null && npcInterlocutor.transform.parent.TryGetComponent<NPCSequencer>(out npcSequencer)){
+            npcSequencer.NextBrain();
         }
     }
 

@@ -84,6 +84,10 @@ public class Singing : MonoBehaviour
             e.release();
         }
     }
+
+    private void OnDisable() {
+        StopAllNotes();
+    }
 }
 
 [System.Serializable]
