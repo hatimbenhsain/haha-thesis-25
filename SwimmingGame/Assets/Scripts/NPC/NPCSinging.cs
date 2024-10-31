@@ -32,7 +32,7 @@ public class NPCSinging : Singing
 
     public float harmonyValue;
     [Tooltip("If player is harmonizing for this long (in seconds) the dialogue may start.")]
-    public float harmonyMaxValue=1f;
+    public float harmonyTargetValue=1f;
 
     public bool canSing=true;
 
@@ -45,6 +45,8 @@ public class NPCSinging : Singing
     public HarmonyTypes harmonyType=HarmonyTypes.Triangle;
 
     private bool prevCanSing;
+
+    private bool harmonized=false;
 
 
     void Start()
@@ -77,56 +79,73 @@ public class NPCSinging : Singing
                 sequenceIndex=sequenceIndex%sequence.Count;
                 currentEventLength=sequence[sequenceIndex].length+Random.Range(-timerMaxVariationLength,timerMaxVariationLength);
                 timer=0f;
+
+                if(harmonized){ //Only do harmonized effects at the end of a singing event, so there's no abrupt cutoff
+                    StopAllNotes();
+                    //canSing=false;
+                    harmonyValue=0f;
+                    targetOpacity=0f;
+                    npcBrain.Harmonized();
+                    harmonized=false;
+                }
             }
 
-            bool prevSinging=singing;
+            if(canSing){
+                bool prevSinging=singing;
 
-            if(sequence[sequenceIndex].musicNote=="" || sequence[sequenceIndex].musicNote=="0" || sequence[sequenceIndex].musicNote.ToLower()=="pause"){
-                singing=false;
-                singingVolume=0f;
-            }else{
-                singing=true;
-                singingVolume=1f;
-                singingNote=sequence[sequenceIndex].musicNote;
-            }
-
-            if(singing && timer==0f){
-                StopAllNotes();
-                PlayNote(singingNote);
-
-                Debug.Log(distanceFromPlayer);
-                Debug.Log(maxSwimmerDistance);
-                if(distanceFromPlayer>maxSwimmerDistance){
-                    targetOpacity=0.1f;
+                if(sequence[sequenceIndex].musicNote=="" || sequence[sequenceIndex].musicNote=="0" || sequence[sequenceIndex].musicNote.ToLower()=="pause"){
+                    singing=false;
+                    singingVolume=0f;
                 }else{
-                    targetOpacity=1f;
+                    singing=true;
+                    singingVolume=1f;
+                    singingNote=sequence[sequenceIndex].musicNote;
                 }
-                
 
-                RuntimeManager.AttachInstanceToGameObject(events[singingNote],transform);
-            }else if(!singing && timer==0f){
-                StopAllNotes();
-                targetOpacity=0f;
+                if(singing && timer==0f){
+                    StopAllNotes();
+                    PlayNote(singingNote);           
+
+                    RuntimeManager.AttachInstanceToGameObject(events[singingNote],transform);
+                }else if(!singing && timer==0f){
+                    StopAllNotes();
+                    targetOpacity=0f;
+                }
+
+                //singingTraceSpriteRenderer.sprite=singingTraceSprites[possibleNotes.IndexOf(singingNote)];
+                singingTraceSpriteRenderer.GetComponent<Animator>().SetInteger("note",possibleNotes.IndexOf(singingNote));
+
+                SingingUpdate();
+
+                if(singing && distanceFromPlayer>maxSwimmerDistance){
+                    targetOpacity=0.1f;
+                }else if(singing){
+                    targetOpacity=0.25f;
+                }
+
+                // Checking harmony and starting dialogue if harmony is achieved
+                // Right now harmony only goes up/down if the npc is currently
+                if(singing && swimmerSinging.singing && distanceFromPlayer<=maxSwimmerDistance){
+                    if(isHarmonizing(swimmerSinging) || harmonized){
+                        harmonyValue+=Time.deltaTime;
+                        targetOpacity=1f;
+                    }
+                    if(harmonyValue>=harmonyTargetValue){
+                        Harmonized();
+                    }
+                }else if(singing){
+                    harmonyValue-=Time.deltaTime/2f;
+                }
+
+                if(singing && swimmerSinging.singing && isHarmonizing(swimmerSinging)){
+                    singingTraceSpriteRenderer.GetComponent<Animator>().SetBool("growing",true);
+                }else{
+                    singingTraceSpriteRenderer.GetComponent<Animator>().SetBool("growing",false);
+                }
+
+
+                harmonyValue=Mathf.Clamp(harmonyValue,0f,harmonyTargetValue);
             }
-
-            singingTraceSpriteRenderer.sprite=singingTraceSprites[possibleNotes.IndexOf(singingNote)];
-
-            SingingUpdate();
-
-            // Checking harmony and starting dialogue if harmony is achieved
-            // Right now harmony only goes up/down if the npc is currently
-            if(singing && swimmerSinging.singing && distanceFromPlayer<=maxSwimmerDistance){
-                if(isHarmonizing(swimmerSinging)){
-                    harmonyValue+=Time.deltaTime;
-                }
-                if(harmonyValue>=harmonyMaxValue){
-                    Harmonized();
-                }
-            }else if(singing){
-                harmonyValue-=Time.deltaTime/2f;
-            }
-
-            harmonyValue=Mathf.Clamp(harmonyValue,0f,harmonyMaxValue);
         }else if(sequence.Count>0 && prevCanSing){
             StopAllNotes();
         }
@@ -169,11 +188,22 @@ public class NPCSinging : Singing
     }
 
     void Harmonized(){
-        StopAllNotes();
+        harmonized=true;
+    }
+
+    public void StopSinging(){
         canSing=false;
-        harmonyValue=0f;
         targetOpacity=0f;
-        npcBrain.Harmonized();
+    }
+
+    public void ContinueSinging(){
+        canSing=true;
+    }
+
+    public void RestartSinging(){
+        canSing=true;
+        sequenceIndex=0;
+        timer=0f;
     }
 
 }

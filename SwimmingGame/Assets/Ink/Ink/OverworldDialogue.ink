@@ -1,6 +1,12 @@
 EXTERNAL pause(time)
+EXTERNAL stopSinging()
+EXTERNAL continueSinging()
+EXTERNAL restartSinging()
+EXTERNAL loadLevel(destination)
+EXTERNAL goToNextLevel()
 
 === beginning ===
+~ stopSinging()
 Teacher: Hey. How's the current for you?
 +   [Fine.]
     MC: I think it's fine.
@@ -9,7 +15,9 @@ Teacher: Hey. How's the current for you?
 +   [Too cold.]
     MC: Really cold.
 - Teacher: I see.
+~ stopSinging()
 I don't think I agree.
+~ continueSinging()
 I'm going to the party next.
 -> END
 

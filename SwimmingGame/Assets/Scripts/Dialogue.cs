@@ -47,8 +47,7 @@ public class Dialogue : MonoBehaviour
     private bool choicePicked=false;
 
     public NPCOverworld npcInterlocutor;
-
-
+    private Swimmer swimmer;
 
 
     void Awake()
@@ -66,6 +65,8 @@ public class Dialogue : MonoBehaviour
 
         HideText();
         HideChoices();
+
+        swimmer=FindObjectOfType<Swimmer>();
     }
 
     void Update(){
@@ -196,7 +197,16 @@ public class Dialogue : MonoBehaviour
         }
     }
 
+    //Only happens if not currently in dialogue
+    public void TryStartDialogue(TextAsset textAsset=null,string knotName="",NPCOverworld interlocutor=null){
+        if(!inDialogue){
+            StartDialogue(textAsset,knotName,interlocutor);
+        }
+    }
+
     public void StartDialogue(TextAsset textAsset=null,string knotName="",NPCOverworld interlocutor=null){
+        npcInterlocutor=interlocutor;
+
         if(textAsset==null){
             textAsset=inkJSONAsset;
         }
@@ -218,7 +228,8 @@ public class Dialogue : MonoBehaviour
             isAmbient=false;
         }
         if(!isAmbient) playerInput.SwitchMap("UI");
-        npcInterlocutor=interlocutor;
+
+        swimmer.StartedDialogue(isAmbient);
     }
 
     public void EndDialogue(){
@@ -226,8 +237,10 @@ public class Dialogue : MonoBehaviour
         HideText();
         playerInput.RestoreDefaultMap();
         if(npcInterlocutor!=null){
-            npcInterlocutor.FinishedDialogue();
+            npcInterlocutor.FinishedDialogue(isAmbient);
         }
+        swimmer.FinishedDialogue(isAmbient);
+        displayText="";
     }
 
     public void StartStory () {
@@ -305,11 +318,61 @@ public class Dialogue : MonoBehaviour
         story.BindExternalFunction("pause",(float time)=>{
             Pause(time);
         });
+        story.BindExternalFunction("stopSinging",()=>{
+            StopSinging();
+        });
+        story.BindExternalFunction("continueSinging",()=>{
+            ContinueSinging();
+        });
+        story.BindExternalFunction("restartSinging",()=>{
+            RestartSinging();
+        });
+        story.BindExternalFunction("LoadLevel",(string destinationScene)=>{
+            LoadLevel(destinationScene);
+        });
+        story.BindExternalFunction("goToNextLevel",()=>{
+            GoToNextLevel();
+        });
     }
+
+    // EXTERNAL FUNCTIONS
 
     void Pause(float time){
         pauseTimer=time;
         HideText();
         Debug.Log("Pause");
     }
+
+    void StopSinging(){
+        Debug.Log("stop siinging 1");
+        if(npcInterlocutor!=null){
+            npcInterlocutor.GetComponent<NPCSinging>().StopSinging();
+        }
+    }
+
+    void ContinueSinging(){
+        if(npcInterlocutor!=null){
+            npcInterlocutor.GetComponent<NPCSinging>().ContinueSinging();
+        }
+    }
+
+    void RestartSinging(){
+        if(npcInterlocutor!=null){
+            npcInterlocutor.GetComponent<NPCSinging>().RestartSinging();
+        }
+    }
+
+    void LoadLevel(string destinationScene){
+        if(npcInterlocutor!=null){
+            FindObjectOfType<LevelLoader>().LoadLevel(destinationScene);
+        }
+    }
+
+    void GoToNextLevel(){
+        if(npcInterlocutor!=null){
+            FindObjectOfType<LevelLoader>().LoadLevel();
+        }
+    }
+
+
 }

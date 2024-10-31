@@ -46,6 +46,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   type: 0
   pauseLength: 0
+  active: 0
 --- !u!1 &620273395401785859
 GameObject:
   m_ObjectHideFlags: 0
@@ -198,6 +199,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   type: 0
   pauseLength: 0
+  active: 0
 --- !u!1 &1527347280202985378
 GameObject:
   m_ObjectHideFlags: 0
@@ -327,6 +329,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   type: 0
   pauseLength: 0
+  active: 0
 --- !u!1 &2995025831441889520
 GameObject:
   m_ObjectHideFlags: 0
@@ -609,8 +612,10 @@ MonoBehaviour:
   singing: 0
   maxSwimmerDistance: 2
   harmonyValue: 0
-  harmonyMaxValue: 1
+  harmonyTargetValue: 1
   canSing: 1
+  timerMaxVariationLength: 0.2
+  harmonyType: 0
 --- !u!114 &5729202771288997189
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -630,10 +635,15 @@ MonoBehaviour:
   currentState: 0
   movementBehavior: 0
   waitForPlayer: 1
+  facePlayerWhenWaiting: 0
   maxDistanceFromPlayer: 5
   minDistanceFromPlayer: 8
   strokeFrequency: 1.5
   loopingPath: 1
+  findClosestPathNode: 0
+  knotName: 
+  inkJSONAsset: {fileID: 0}
+  startDialogueOnEnable: 0
   acceleration: 4
   maxVelocity: 3
   deceleration: 1.5
@@ -641,12 +651,13 @@ MonoBehaviour:
   coastingSpeed: 1.5
   boostTimer: 0
   boostTime: 0.3
-  wallBoost: 3
-  wallCheckCapsuleRadiusMultiplier: 3
   rotationAcceleration: 120
   rotationMaxVelocity: 1
   rotationDeceleration: 60
   maxNodeDistance: 2
+  collisionSpeedFactor: 1
+  minCollisionSpeed: 0.01
+  kinematic: 1
 --- !u!1 &4769570665370251568
 GameObject:
   m_ObjectHideFlags: 0
@@ -658,6 +669,7 @@ GameObject:
   - component: {fileID: 8938570445097459788}
   - component: {fileID: 6267489071244537348}
   - component: {fileID: 1175050590036613260}
+  - component: {fileID: 9067979356776709212}
   m_Layer: 0
   m_Name: singingTraces_0
   m_TagString: Untagged
@@ -744,6 +756,27 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7a525ff6a91343e4ea70af0a1a435e0f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!95 &9067979356776709212
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4769570665370251568}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 002bcaaa402099d438fba15857f4ae5c, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &5806430599397694166
 GameObject:
   m_ObjectHideFlags: 0
@@ -790,6 +823,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   type: 0
   pauseLength: 0
+  active: 0
 --- !u!1 &6297584611824266950
 GameObject:
   m_ObjectHideFlags: 0
@@ -836,6 +870,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   type: 0
   pauseLength: 0
+  active: 0
 --- !u!1 &6497177815219782284
 GameObject:
   m_ObjectHideFlags: 0
@@ -882,6 +917,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   type: 1
   pauseLength: 2
+  active: 0
 --- !u!1 &6895360321938863093
 GameObject:
   m_ObjectHideFlags: 0
@@ -928,6 +964,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   type: 0
   pauseLength: 0
+  active: 0
 --- !u!1 &9021575455185882817
 GameObject:
   m_ObjectHideFlags: 0
@@ -974,3 +1011,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   type: 0
   pauseLength: 0
+  active: 0

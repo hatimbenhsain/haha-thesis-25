@@ -33,6 +33,7 @@ public class NPCOverworld : MonoBehaviour
         public string knotName="";
         [Tooltip("Text asset to pull dialogue from. Default takes it from room.")]
         public TextAsset inkJSONAsset=null;
+        [Tooltip("Start assigned dialogue as soon as this component is enabled.")]
         public bool startDialogueOnEnable=false;
 
     [Header("Movement")]
@@ -88,6 +89,8 @@ public class NPCOverworld : MonoBehaviour
         TryGetComponent<NPCSinging>(out singer);
 
         StopSinging();
+
+        pastState=currentState;
     }
 
     void FixedUpdate()
@@ -412,12 +415,13 @@ public class NPCOverworld : MonoBehaviour
 
     void DialogueStart(){
         Debug.Log("Start dialogue!");
-        FindObjectOfType<Dialogue>().StartDialogue(inkJSONAsset,knotName,this);
+        FindObjectOfType<Dialogue>().TryStartDialogue(inkJSONAsset,knotName,this);
     }
 
-    public void FinishedDialogue(){
-        ChangeState(pastState);
-        Debug.Log("Finished dialogue");
+    public void FinishedDialogue(bool isAmbient=false){
+        if(!isAmbient){ //If this dialogue isn't ambient NPC returns to their previous state
+            ChangeState(pastState);
+        }
     }
 
 }

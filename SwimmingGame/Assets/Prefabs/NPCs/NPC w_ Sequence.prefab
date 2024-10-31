@@ -634,6 +634,7 @@ GameObject:
   - component: {fileID: 1523054692240822478}
   - component: {fileID: 5064703955984463727}
   - component: {fileID: 9081861895196162473}
+  - component: {fileID: 3697122202165206580}
   m_Layer: 0
   m_Name: singingTraces_0
   m_TagString: Untagged
@@ -652,7 +653,7 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -0, y: 1.121, z: 0.59}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
+  m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 2348513777961640601}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -697,7 +698,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: -564246579, guid: 9eaabeef8a2711f46980fb51160fd866, type: 3}
+  m_Sprite: {fileID: -268165911, guid: 3515f0f2a3669e84aa2ab04fb69122ee, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 0.4117647}
   m_FlipX: 0
   m_FlipY: 0
@@ -720,6 +721,27 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7a525ff6a91343e4ea70af0a1a435e0f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!95 &3697122202165206580
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2555411267168961818}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 002bcaaa402099d438fba15857f4ae5c, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &2598769840866763160
 GameObject:
   m_ObjectHideFlags: 0
@@ -826,6 +848,7 @@ MonoBehaviour:
   findClosestPathNode: 1
   knotName: 
   inkJSONAsset: {fileID: 0}
+  startDialogueOnEnable: 0
   acceleration: 4
   maxVelocity: 5
   deceleration: 1.5
@@ -1775,6 +1798,7 @@ MonoBehaviour:
   findClosestPathNode: 1
   knotName: 
   inkJSONAsset: {fileID: 0}
+  startDialogueOnEnable: 0
   acceleration: 4
   maxVelocity: 3
   deceleration: 1.5
@@ -2927,6 +2951,7 @@ MonoBehaviour:
   findClosestPathNode: 0
   knotName: 
   inkJSONAsset: {fileID: 0}
+  startDialogueOnEnable: 0
   acceleration: 4
   maxVelocity: 3
   deceleration: 1.5
