@@ -79,7 +79,25 @@ Teacher: Let's go somewhere else. #time: 4
 -> END
 
 
+=== teacherDuringAftercare1 ===
+# ambient
+Teacher: So what did you think?
+MC: What did I think?
+Teacher: How was it for you?
+~pause(5)
+MC: Good? # time:4
+MC: Was it good for you?
+Teacher: Yeah.
+Teacher: I mean, you're a bit inexperienced.
+MC: You're not?
+Teacher: I've done it a few times.
+~pause(5)
+MC: I'm sorry if I let you down.
+Teacher: Oh no! Not at all.
+Teacher: It was sweet.
+MC: Thanks.
 
+-> END
 
 
 
