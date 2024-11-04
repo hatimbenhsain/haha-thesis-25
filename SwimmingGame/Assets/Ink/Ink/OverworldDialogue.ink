@@ -65,7 +65,7 @@ MC: I'm fine. # time: 2
 Teacher: Do you feel it building? # time: 2
 MC: Feel what? # time: 2
 Teacher: Oh. Sorry. I wasn't thinking... # time: 4
-MC: Oh! No, I get it. I think I do.
+MC: Oh! No, I get it. I think.. I do. # time: 5
 -> END
 
 === teacherDuringRace3 ===
