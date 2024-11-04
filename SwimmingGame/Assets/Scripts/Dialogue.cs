@@ -233,6 +233,7 @@ public class Dialogue : MonoBehaviour
 
     //Remove choice UI elements
     void HideChoices(){
+        
         for(int i=0;i<choiceTextBoxes.Length;i++){
             choiceTextBoxes[i].gameObject.SetActive(false);
         }
