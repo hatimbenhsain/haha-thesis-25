@@ -11,6 +11,7 @@ public class TouchController : MonoBehaviour
     public float yOffset = 1.0f; // offset of the character from the top of touching objects
     public Quaternion rotationOffset; // offset the rotation after timing normal
 
+
     private PlayerInput playerInput;
     private Vector3 targetPosition;
     private Quaternion initialRotation;

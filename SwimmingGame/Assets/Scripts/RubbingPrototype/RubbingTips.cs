@@ -21,18 +21,29 @@ public class RubbingTips : MonoBehaviour
     {
         ConvertMovementInput(playerInput.movingForward, playerInput.movingBackward, playerInput.movingLeft, playerInput.movingRight);
         ApplyMovement(object1, playerInput.look.x, playerInput.look.y);
-        ApplyMovement(object2, movementVector.x, movementVector.y);
+        ApplyMovement(object2, -movementVector.y, movementVector.x);
     }
 
     void ConvertMovementInput(bool movingForward, bool movingBackward, bool movingLeft, bool movingRight)
     {
+        // Reset movementVector before accumulating input
+        movementVector.x = 0f;
+        movementVector.y = 0f;
+
+        // Determine movement direction based on input
         if (movingForward) { movementVector.x += 1; }
         if (movingBackward) { movementVector.x += -1; }
         if (movingLeft) { movementVector.y += 1; }
         if (movingRight) { movementVector.y += -1; }
-        movementVector = movementVector.normalized;
-    }
 
+        // Normalize the vector only if it has a non-zero length
+        if (movementVector.magnitude > 1f)
+        {
+            movementVector.Normalize();
+        }
+
+        //Debug.Log(movementVector);
+    }
     // Apply force-based movement based on input
     void ApplyMovement(Rigidbody rb, float inputX, float inputY)
     {
