@@ -8,18 +8,18 @@ EXTERNAL nextBrain()  //Switch the brain/behavior used by NPC
 
 === beginning ===
 ~ stopSinging()
-Teacher: Hey. How's the current for you?
+Teacher: Hey. \\pause\\pause\\pauseHow's the current for you? #speed: 50
 +   [Fine.]
     MC: I think it's fine.
 +   [Too hot.]
     MC: Way too hot.
 +   [Too cold.]
     MC: Really cold.
-- Teacher: I see.
+- Teacher: I see. #speed: slow
 ~ stopSinging()
-I don't think I agree.
+I don't think I agree. #speed: fast
 ~ continueSinging()
-I'm going to the party next.
+I'm going to the party next. #speed: normal
 -> END
 
 === ambientDialogue ===
@@ -79,7 +79,25 @@ Teacher: Let's go somewhere else. #time: 4
 -> END
 
 
+=== teacherDuringAftercare1 ===
+# ambient
+Teacher: So what did you think?
+MC: What did I think?
+Teacher: How was it for you?
+~pause(5)
+MC: Good? # time:4
+MC: Was it good for you?
+Teacher: Yeah.
+Teacher: I mean, you're a bit inexperienced.
+MC: You're not?
+Teacher: I've done it a few times.
+~pause(5)
+MC: I'm sorry if I let you down.
+Teacher: Oh no! Not at all.
+Teacher: It was sweet.
+MC: Thanks.
 
+-> END
 
 
 

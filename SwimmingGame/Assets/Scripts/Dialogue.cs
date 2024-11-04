@@ -39,7 +39,7 @@ public class Dialogue : MonoBehaviour
     public GameObject[] choiceTextBoxes;
     private TMP_Text[] choiceTMPs;
 
-    private PlayerInput playerInput;
+    private PlayerInput playerInput;   
 
     public bool startStoryTrigger;
 
@@ -49,6 +49,18 @@ public class Dialogue : MonoBehaviour
     public NPCOverworld npcInterlocutor;
     private Swimmer swimmer;
 
+    [Header("Misc.")]
+    public float dialogueSpeedSlow=10f;
+    public float dialogueSpeedNormal=30f;
+    public float dialogueSpeedFast=80f;
+
+    //Index of progress in showing the current line
+    private float currentCharacterIndex=0f;
+    private float currentTextSpeed=1f;
+
+    //Inline pause: pausing in the middle of a line when writing \pause
+    public float inlinePauseLength=1f; //in seconds
+    private float inlinePauseTimer=0f;
 
     void Awake()
     {
@@ -72,26 +84,52 @@ public class Dialogue : MonoBehaviour
     void Update(){
         if(inDialogue){
             if(!isAmbient && pauseTimer<=0f){
+                if(inlinePauseTimer<=0f){
+                    currentCharacterIndex+=currentTextSpeed*Time.deltaTime;
+                    currentCharacterIndex=Mathf.Clamp(currentCharacterIndex,0f,displayText.Length);
+                }else{
+                    inlinePauseTimer-=Time.deltaTime;
+                }
+
+                //Looking for inline pause
+                if(displayText.Substring(0,
+                Mathf.Min(Mathf.FloorToInt(currentCharacterIndex)+5,displayText.Length)).Contains("\\pause")){
+                    currentCharacterIndex=displayText.IndexOf("\\pause");
+                    inlinePauseTimer=inlinePauseLength;
+                    displayText=displayText.Replace("\\pause","");
+                }
+
+                if(displayText.Length-currentCharacterIndex>="\\pause".Length &&
+                displayText.Substring(Mathf.FloorToInt(currentCharacterIndex+1),"\\pause".Length).ToLower()==
+                "\\pause"){
+                    inlinePauseTimer=inlinePauseLength;
+                    displayText=displayText.Replace("\\pause","");
+                }
+
                 //Handling player input: Continuing/Picking
                 if(playerInput.interacting && !playerInput.prevInteracting){
-                    if(story.canContinue){
-                        Continue();
-                        if(story.currentChoices.Count==0){
-                            HideChoices();
-                        }
-                    }else if(story.currentChoices.Count>0 && currentChoiceIndex<=story.currentChoices.Count 
-                        && currentChoiceIndex>=0){
-                        PickChoice(currentChoiceIndex);
+                    if(currentCharacterIndex<displayText.Length){
+                        currentCharacterIndex=displayText.Length;
                     }else{
-                        EndDialogue();
-                    }
-                    if(displayText=="" && !story.canContinue){
-                        EndDialogue();
+                        if(story.canContinue){
+                            Continue();
+                            if(story.currentChoices.Count==0){
+                                HideChoices();
+                            }
+                        }else if(story.currentChoices.Count>0 && currentChoiceIndex<=story.currentChoices.Count 
+                            && currentChoiceIndex>=0){
+                            PickChoice(currentChoiceIndex);
+                        }else{
+                            EndDialogue();
+                        }
+                        if(displayText=="" && !story.canContinue){
+                            EndDialogue();
+                        }
                     }
                 }
 
                 //Handling player input: picking choice
-                if(story.currentChoices.Count>0){
+                if(story.currentChoices.Count>0 && currentCharacterIndex>=displayText.Length){
                     if((playerInput.movingDown && !playerInput.prevMovingDown) || 
                         (playerInput.movingRight && !playerInput.prevMovingRight)){
                         currentChoiceIndex+=1;
@@ -119,7 +157,7 @@ public class Dialogue : MonoBehaviour
                 //Showing/Hiding text
                 if(inDialogue){
                     ShowText();
-                    if(story.currentChoices.Count>0){
+                    if(story.currentChoices.Count>0 && currentCharacterIndex>=displayText.Length){
                         ShowChoices();
                     }else{
 
@@ -163,7 +201,7 @@ public class Dialogue : MonoBehaviour
     //Show spoken text (not choices) on UI
     void ShowText(){
         textBox.SetActive(true);
-        lineTMP.text=displayText;
+        lineTMP.text=displayText.Substring(0,Mathf.FloorToInt(currentCharacterIndex));
         canvasParent.SetActive(true);
     }
 
@@ -231,8 +269,8 @@ public class Dialogue : MonoBehaviour
             isAmbient=false;
         }
         if(!isAmbient) playerInput.SwitchMap("UI");
-
-        swimmer.StartedDialogue(isAmbient);
+        
+        if(swimmer!=null) swimmer.StartedDialogue(isAmbient);
     }
 
     public void EndDialogue(){
@@ -243,7 +281,7 @@ public class Dialogue : MonoBehaviour
         if(npcInterlocutor!=null){
             npcInterlocutor.FinishedDialogue(isAmbient);
         }
-        swimmer.FinishedDialogue(isAmbient);
+        if(swimmer!=null) swimmer.FinishedDialogue(isAmbient);
         displayText="";
     }
 
@@ -263,7 +301,7 @@ public class Dialogue : MonoBehaviour
             while(displayText=="" && story.canContinue){
                 displayText=story.Continue().Trim();
             }
-            displayText=FindTalker(displayText);
+            displayText=FindTalker(displayText); //Remove "NPC: " from display text
             GameObject prevTextBox=textBox;
             if(talker=="MC"){
                 textBox=playerTextBox;
@@ -275,12 +313,41 @@ public class Dialogue : MonoBehaviour
             if(textBox!=prevTextBox){
                 HideText();
             }
+
+            // PARSING INLINE TAGS:
+
             //Get text display time length
             if(ContainsTag(story.currentTags,"time")){
                 string tag=GetTag(story.currentTags,"time");
                 ambientTimer=float.Parse(tag.Replace("time:","").Trim());
             }
+
+            //Get text speed
+            currentTextSpeed=GetTextSpeed(story.currentTags);
+
+            currentCharacterIndex=0;
 		}
+    }
+
+    //Get speed that we are displaying text (typerwriter effect)
+    float GetTextSpeed(List<string> tags){
+        float speed=dialogueSpeedNormal;
+        if(ContainsTag(story.currentTags,"speed")){
+            Debug.Log("Found tag");
+            string tag=GetTag(story.currentTags,"speed");
+            tag=tag.Replace("speed:","").Trim().ToLower();
+            if(tag=="slow"){
+                speed=dialogueSpeedSlow;
+            }else if(tag=="fast"){
+                speed=dialogueSpeedFast;
+            }else if(tag=="normal"){
+                speed=dialogueSpeedNormal;
+            }else{
+                speed=float.Parse(tag);
+            }
+        }
+        Debug.Log(speed);
+        return speed;
     }
 
     //Removes "NPC:" from text and sets talker, returns the line without talker
