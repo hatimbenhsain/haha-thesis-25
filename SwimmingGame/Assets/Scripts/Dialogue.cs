@@ -84,27 +84,7 @@ public class Dialogue : MonoBehaviour
     void Update(){
         if(inDialogue){
             if(!isAmbient && pauseTimer<=0f){
-                if(inlinePauseTimer<=0f){
-                    currentCharacterIndex+=currentTextSpeed*Time.deltaTime;
-                    currentCharacterIndex=Mathf.Clamp(currentCharacterIndex,0f,displayText.Length);
-                }else{
-                    inlinePauseTimer-=Time.deltaTime;
-                }
-
-                //Looking for inline pause
-                if(displayText.Substring(0,
-                Mathf.Min(Mathf.FloorToInt(currentCharacterIndex)+5,displayText.Length)).Contains("\\pause")){
-                    currentCharacterIndex=displayText.IndexOf("\\pause");
-                    inlinePauseTimer=inlinePauseLength;
-                    displayText=displayText.Replace("\\pause","");
-                }
-
-                if(displayText.Length-currentCharacterIndex>="\\pause".Length &&
-                displayText.Substring(Mathf.FloorToInt(currentCharacterIndex+1),"\\pause".Length).ToLower()==
-                "\\pause"){
-                    inlinePauseTimer=inlinePauseLength;
-                    displayText=displayText.Replace("\\pause","");
-                }
+                TypeWriter();
 
                 //Handling player input: Continuing/Picking
                 if(playerInput.interacting && !playerInput.prevInteracting){
@@ -170,6 +150,8 @@ public class Dialogue : MonoBehaviour
                     ShowText();
                 }
             }else if(isAmbient){ //Dialogue is ambient if it just appears without player control
+                TypeWriter();
+                
                 ambientTimer-=Time.deltaTime;
                 if(ambientTimer<=0f){
                     if(story.canContinue){
@@ -233,9 +215,34 @@ public class Dialogue : MonoBehaviour
 
     //Remove choice UI elements
     void HideChoices(){
-        
+
         for(int i=0;i<choiceTextBoxes.Length;i++){
             choiceTextBoxes[i].gameObject.SetActive(false);
+        }
+    }
+    
+    //Progress text writing and watch for pauses
+    void TypeWriter(){
+        if(inlinePauseTimer<=0f){
+            currentCharacterIndex+=currentTextSpeed*Time.deltaTime;
+            currentCharacterIndex=Mathf.Clamp(currentCharacterIndex,0f,displayText.Length);
+        }else{
+            inlinePauseTimer-=Time.deltaTime;
+        }
+
+        //Looking for inline pause
+        if(displayText.Substring(0,
+        Mathf.Min(Mathf.FloorToInt(currentCharacterIndex)+5,displayText.Length)).Contains("\\pause")){
+            currentCharacterIndex=displayText.IndexOf("\\pause");
+            inlinePauseTimer=inlinePauseLength;
+            displayText=displayText.Replace("\\pause","");
+        }
+
+        if(displayText.Length-currentCharacterIndex>="\\pause".Length &&
+        displayText.Substring(Mathf.FloorToInt(currentCharacterIndex+1),"\\pause".Length).ToLower()==
+        "\\pause"){
+            inlinePauseTimer=inlinePauseLength;
+            displayText=displayText.Replace("\\pause","");
         }
     }
 

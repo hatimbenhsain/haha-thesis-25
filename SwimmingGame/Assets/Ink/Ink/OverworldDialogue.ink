@@ -96,10 +96,30 @@ MC: I'm sorry if I let you down.
 Teacher: Oh no! Not at all.
 Teacher: It was sweet.
 MC: Thanks.
-
+~pause(5)
+Teacher: So...
+Teacher: Are you excited for your transformation?
+MC: What transformation?
+Teacher: You know...
+Teacher: When we all get up there.
+MC: What?
+Teacher: What?
 -> END
 
-
+=== teacherAfterAftercare ===
+MC: What did you say?
+Teacher: When we all get up there?
+MC: What do you mean by that?
+Teacher: Well, you know...
+Teacher: They're saying that with all these changes to our bodies, we'll soon be able to move to the over-world.
+Teacher: I'm sure you've heard that too, right? Some of us have already gone up there.
+MC: I... Why would I want that?!
+Teacher: What...? I didn't say that you did..
+MC: Is this why you wanted to do this with me? To make us change?
+Teacher: No! I mean, maybe there is some sort of relationship between the two, but I just wanted to have some fun with you.
+MC: I...
+MC: I have to go.
+-> END
 
 
 
