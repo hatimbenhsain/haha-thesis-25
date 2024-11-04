@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<objects serializationModel="Studio.02.02.00">
+	<object class="MixerGroup" id="{db770411-8908-4b5a-b3c4-19270a49843f}">
+		<property name="name">
+			<value>Swimmer</value>
+		</property>
+		<relationship name="effectChain">
+			<destination>{16620e27-6811-4734-a5f5-925016c16722}</destination>
+		</relationship>
+		<relationship name="panner">
+			<destination>{e00c301a-df34-4c1c-a1af-c1a1b9aff744}</destination>
+		</relationship>
+		<relationship name="output">
+			<destination>{8aad12d0-6c71-45c9-969e-5f60cfc660ea}</destination>
+		</relationship>
+	</object>
+	<object class="MixerBusEffectChain" id="{16620e27-6811-4734-a5f5-925016c16722}">
+		<relationship name="effects">
+			<destination>{83666386-ee28-4f8d-a5af-4d18cd6bcec1}</destination>
+			<destination>{1c97fdc2-27e2-424f-8a8b-a5578083392e}</destination>
+		</relationship>
+	</object>
+	<object class="MixerBusPanner" id="{e00c301a-df34-4c1c-a1af-c1a1b9aff744}" />
+	<object class="MixerBusFader" id="{83666386-ee28-4f8d-a5af-4d18cd6bcec1}" />
+	<object class="DistortionEffect" id="{1c97fdc2-27e2-424f-8a8b-a5578083392e}">
+		<property name="level">
+			<value>0.474999994</value>
+		</property>
+	</object>
+</objects>

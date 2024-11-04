@@ -182,7 +182,7 @@ public class PlayerInput : MonoBehaviour
     }
 
     void InteractInput(bool b){
-        interacting=false;
+        interacting=b;
     }
 
     void AimInput(bool b)
@@ -195,5 +195,13 @@ public class PlayerInput : MonoBehaviour
         if(currentControlScheme=="KeyboardMouse"){
             singingNote=singingNote*mouseSensitivity/5000f;
         }
+    }
+
+    public void SwitchMap(string actionMap){
+        playerInput.SwitchCurrentActionMap(actionMap);
+    }
+
+    public void RestoreDefaultMap(){
+        playerInput.SwitchCurrentActionMap(playerInput.defaultActionMap);
     }
 }

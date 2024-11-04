@@ -22,6 +22,7 @@ public class SwimmerSinging : Singing
     private Vector2 rectCenter;
     [Tooltip("Images to affect opacity.")]
     public Image[] images;
+    private float[] maxOpacities; //max opacity for each image
     public float noteLerpValue=10f;
 
     private PlayerInput playerInput;
@@ -49,12 +50,16 @@ public class SwimmerSinging : Singing
         rectTargetPosition=singingDotRects[0].anchoredPosition;
         rectCenter=singingDotRects[0].anchoredPosition;
 
-        foreach(Image image in images){
+        maxOpacities=new float[images.Length];
+        for(int i=0;i<images.Length;i++){
+            Image image=images[i];
             Color c=image.color;
+            maxOpacities[i]=c.a;
             image.color=new Color(c.r,c.g,c.b,0f);
         }
 
         SingingStart();
+
     }
 
     void Update()
@@ -119,9 +124,10 @@ public class SwimmerSinging : Singing
                 targetOpacity=0f;
             }
 
-            foreach(Image image in images){
+            for(int i=0;i<images.Length;i++){
+                Image image=images[i];
                 Color c=image.color;
-                float a=Mathf.Lerp(c.a,targetOpacity,imageOpacityLerpSpeed*Time.deltaTime);
+                float a=Mathf.Lerp(c.a,targetOpacity*maxOpacities[i],imageOpacityLerpSpeed*Time.deltaTime);
                 image.color=new Color(c.r,c.g,c.b,a);
             }
 
