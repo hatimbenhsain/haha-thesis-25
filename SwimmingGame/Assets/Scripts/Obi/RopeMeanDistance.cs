@@ -4,7 +4,6 @@ using UnityEngine;
 using Obi;
 using TMPro;
 
-
 public class RopeMeanDistance : MonoBehaviour
 {
     public ObiRope ropeA;
@@ -13,24 +12,52 @@ public class RopeMeanDistance : MonoBehaviour
     public float proximityThreshold = 0.5f;
     public ObiSolver solver;
     public float meanDistance;
+    public int elementOffset;
 
+    private int firstParticleA;
+    private int firstParticleB;
+    private int lastParticleA;
+    private int lastParticleB;
 
+    [Range(0, 100)] public float ropeAStartPercentage = 0f;
+    [Range(0, 100)] public float ropeAEndPercentage = 100f;
+    [Range(0, 100)] public float ropeBStartPercentage = 0f;
+    [Range(0, 100)] public float ropeBEndPercentage = 100f;
+
+    private void Start()
+    {
+        // Initialize first and last particles for ropeA
+        firstParticleA = ropeA.elements[0].particle1;
+        lastParticleA = elementOffset + ropeA.elements[ropeA.elements.Count - 1].particle2;
+
+        // Initialize first and last particles for ropeB
+        firstParticleB = ropeB.elements[0].particle1;
+        lastParticleB = elementOffset + ropeB.elements[ropeB.elements.Count - 1].particle2;
+    }
 
     void Update()
     {
         List<float> closeDistances = new List<float>();
 
-        // Iterate over particles in both ropes
-        foreach (int indexA in ropeA.solverIndices)
-        {
-            Vector3 posA = solver.positions[indexA];
+        // Calculate the particle indices based on the percentage ranges for ropeA
+        int startParticleA = firstParticleA + Mathf.RoundToInt((lastParticleA - firstParticleA) * (ropeAStartPercentage / 100f));
+        int endParticleA = firstParticleA + Mathf.RoundToInt((lastParticleA - firstParticleA) * (ropeAEndPercentage / 100f));
 
-            foreach (int indexB in ropeB.solverIndices)
+        // Calculate the particle indices based on the percentage ranges for ropeB
+        int startParticleB = firstParticleB + Mathf.RoundToInt((lastParticleB - firstParticleB) * (ropeBStartPercentage / 100f));
+        int endParticleB = firstParticleB + Mathf.RoundToInt((lastParticleB - firstParticleB) * (ropeBEndPercentage / 100f));
+
+        // Iterate over particles within the specified ranges for both ropes
+        for (int i = startParticleA; i <= endParticleA; i++)
+        {
+            Vector3 posA = solver.positions[i];
+
+            for (int j = startParticleB; j <= endParticleB; j++)
             {
-                Vector3 posB = solver.positions[indexB];
+                Vector3 posB = solver.positions[j];
                 float distance = Vector3.Distance(posA, posB);
 
-                // Only consider distances within the threshold
+                // filterdistances within the threshold
                 if (distance <= proximityThreshold)
                 {
                     closeDistances.Add(distance);
@@ -38,10 +65,8 @@ public class RopeMeanDistance : MonoBehaviour
             }
         }
 
-        // Calculate the mean of close distances if any are found
+        // Calculate the mean of close distances
         meanDistance = closeDistances.Count > 0 ? CalculateMean(closeDistances) : 0;
-
-        // Display the mean distance in the TextMeshPro text
         distanceText.text = $"Mean Distance: {meanDistance:F2}";
     }
 
@@ -54,4 +79,5 @@ public class RopeMeanDistance : MonoBehaviour
         }
         return distances.Count > 0 ? sum / distances.Count : 0;
     }
+
 }
