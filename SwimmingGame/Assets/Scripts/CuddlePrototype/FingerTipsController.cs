@@ -20,6 +20,8 @@ public class FingerTipsController : MonoBehaviour
     private bool isCircling = false; // flag to check if circular movement is in progress
     private CuddleGameManager gameManager;
     public string lastDialogueOption = "Null option";
+    private bool isUsingGamepad;
+    private bool rubInput;
 
     private void Start()
     {
@@ -30,7 +32,18 @@ public class FingerTipsController : MonoBehaviour
 
     void Update()
     {
-        if (playerInput.boosting && !isCircling)
+        // handle input change
+        if (playerInput.currentControlScheme == "Gamepad")
+        {
+            isUsingGamepad = true;
+            rubInput = playerInput.interacting;
+        }
+        else
+        {
+            isUsingGamepad = false;
+            rubInput = playerInput.boosting;
+        }
+        if (rubInput && !isCircling)
         {
             StartCoroutine(CircularMovement());
             string currentOption = DetectDialogueOption();
@@ -45,7 +58,6 @@ public class FingerTipsController : MonoBehaviour
         if (!isCircling)
         {
             Moving();
-
         }
 
 
@@ -55,8 +67,21 @@ public class FingerTipsController : MonoBehaviour
     // handle movement of the character around, constrained within a small circle in XZ plane
     void Moving()
     {
-        float moveX = -playerInput.look.y;
-        float moveY = playerInput.look.x;
+        float moveX = 0f;
+        float moveY = 0f;
+        // using keyboard
+        if (isUsingGamepad == false)
+        {
+            moveX = -playerInput.look.y;
+            moveY = playerInput.look.x;
+        }
+        // using gamepad
+        else
+        {
+            moveX = -playerInput.rotation.y;
+            moveY = playerInput.rotation.x;
+        }
+
 
         if (Mathf.Abs(moveX) > 0.01f || Mathf.Abs(moveY) > 0.01f)
         {

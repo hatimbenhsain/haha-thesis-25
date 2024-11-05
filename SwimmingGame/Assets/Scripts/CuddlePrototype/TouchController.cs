@@ -16,6 +16,7 @@ public class TouchController : MonoBehaviour
     private Vector3 targetPosition;
     private Quaternion initialRotation;
     private Vector2 movementVector;
+    private bool isUsingGamepad;
 
     private void Start()
     {
@@ -28,16 +29,41 @@ public class TouchController : MonoBehaviour
 
     void Update()
     {
+        // handle input change
+        if (playerInput.currentControlScheme == "Gamepad")
+        {
+            isUsingGamepad = true;
+        }
+        else
+        {
+            isUsingGamepad = false;
+        }
         Moving();
-        ConvertMovementInput(playerInput.movingForward, playerInput.movingBackward, playerInput.movingLeft, playerInput.movingRight);
+        if (isUsingGamepad == false)
+        {
+            ConvertMovementInput(playerInput.movingForward, playerInput.movingBackward, playerInput.movingLeft, playerInput.movingRight);
+        }       
         AdjustPositionAndRotation();
     }
 
     // handle movement of the character around
     void Moving()
     {
-        float moveX = -movementVector.y;
-        float moveZ = movementVector.x;
+        float moveX = 0f;
+        float moveZ = 0f;
+        // using keyboard
+        if (isUsingGamepad == false)
+        {
+            moveX = -movementVector.y;
+            moveZ = movementVector.x;
+        }
+        // using gamepad
+        else
+        {
+            moveX = playerInput.look.x;
+            moveZ = playerInput.look.y;
+        }
+
 
         // calculate the target position based on input
         Vector3 move = new Vector3(moveX, 0, moveZ) * moveSpeed * Time.deltaTime;

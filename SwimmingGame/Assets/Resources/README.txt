@@ -27,8 +27,8 @@ The player may harmonize with an NPC by getting close to them and singing a note
 		   A
 		 /   \
 		/     \
-	      E         B
-	       \       /
+      E         B
+       \       /
 		\     /
 		 D---C
 
@@ -43,7 +43,61 @@ The player may harmonize with an NPC by getting close to them and singing a note
 *=== 3. SEX ===*
 After harmonizing several times, the protagonist and the NPC will be ready to engage in sex.
 
-*=== 4. CLIMAX ===*
+== Entangling ==
++ In this part of the game, the player want to get as close as the NPC body. 
++ The best way to do so is by entangle youself into them.
++ Once the player and the NPC are close enough, a meter builds up
++ When the player and the NPC seperates again, the meter goes down
++ The player complete the level by building the meter to 100
 
+== GAMEPAD CONTROLS ==
++ Left & Right Joystick to look & turn around
++ Right Trigger button to charge, release charge to go forward
++ Hold left trigger button to free camera
+  + While holding left trigger, right joystick to look around
+  + While holding left trigger, left joystick to turn character around
+
+== KEYBOARD AND MOUSE CONTROLS ==
++ Mouse and WASD to look & turn around
++ Right mouse button to charge, release charge to go forward
++ Hold left mouse button to free camera
+  + While holding left mouse button, mouse to look around
+  + While holding left mouse button, WASD to turn character around
+
+*=== 4. CLIMAX ===*
+After the two characters entangled into each other, they approach the climax of the main act of their sex.
+
+== Finishing Up ==
++ The two characters turned themselves into a big spiral
++ And all you have to do is control both characters to finish the final bit
++ When the 2 characters are close enough to each other, a meter builds up
++ The player complete the level by building the meter to 100
+
+== GAMEPAD CONTROLS ==
++ Left & Right Joystick to move 2 characters around
+
+== KEYBOARD AND MOUSE CONTROLS ==
++ Arrow Keys and WASD to move 2 characters around
 
 *=== 5. RUBBING/AFTERCARE ===*
++ After the main course ended, the characters go back to their merpeople forms
+
+== Pillowtalking ==
++ The protagonist tallk with their sex partners while touching them with their hand
++ Depending on the bodypart they rub their hands on, the player can choose from different dialogue options
++ Right now the player can rub the waist, thigh, and left hand of the sex partner
+  + Different dialogue will appear when the player rub those parts now
+  + Press P in this prototype to end the dialogue
+
+== GAMEPAD CONTROLS ==
++ Left joystick to move hand around
++ right joystick to move finger around
++ West Button to rub
+
+== KEYBOARD AND MOUSE CONTROLS ==
++ WASD to move hand around
++ Arrow keys to move finger around
++ Space Button to rub
+
+== TIP ==
++ In any level, press P to skip to the next level
