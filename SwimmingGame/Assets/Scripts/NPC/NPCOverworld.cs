@@ -15,6 +15,7 @@ public class NPCOverworld : MonoBehaviour
     
     [Header("Behavior")]
         public NPCStates currentState;
+        private NPCStates pastState; //State before any "ChangeState"
         public MovementBehavior movementBehavior;
         public bool waitForPlayer=false;
         [Tooltip("Does the npc face the player while waiting for them?")]
@@ -28,6 +29,12 @@ public class NPCOverworld : MonoBehaviour
         public bool loopingPath=true;
         [Tooltip("If true the starting point is the closest node to the player.")]
         public bool findClosestPathNode=false;
+        [Tooltip("Name of dialogue knot to start with.")]
+        public string knotName="";
+        [Tooltip("Text asset to pull dialogue from. Default takes it from room.")]
+        public TextAsset inkJSONAsset=null;
+        [Tooltip("Start assigned dialogue as soon as this component is enabled.")]
+        public bool startDialogueOnEnable=false;
 
     [Header("Movement")]
         public float acceleration=4f;
@@ -54,6 +61,8 @@ public class NPCOverworld : MonoBehaviour
         public float collisionSpeedFactor=1f;
         [Tooltip("Min reaction speed when reacting with anything even if the relative velocity is 0.")]
         public float minCollisionSpeed=0.01f;
+        [Tooltip("Supersedes rigidbody kinematic variable, would be true for swimming.")]
+        public bool kinematic=true;
     private Vector3 targetPosition;
     private Quaternion targetRotation;
     private bool pausing=false;
@@ -78,6 +87,10 @@ public class NPCOverworld : MonoBehaviour
         }
 
         TryGetComponent<NPCSinging>(out singer);
+
+        StopSinging();
+
+        pastState=currentState;
     }
 
     void FixedUpdate()
@@ -118,6 +131,10 @@ public class NPCOverworld : MonoBehaviour
                     }
                 }
             }
+        }
+
+        if(startDialogueOnEnable){
+            DialogueStart();
         }
     }
 
@@ -215,45 +232,47 @@ public class NPCOverworld : MonoBehaviour
 
         Vector3 positionDifference=targetPosition-body.position;    //For now I'm not using this for anything
 
-        //THIS IS WHERE COLLISION CODE WOULD HAPPEN; FOR NOW WE'RE IGNORING IT
+        //Deal with collisions
+        if(!kinematic){
+            ArrayList collisionImpulses=new ArrayList();
+            foreach (ContactPoint hit in allHits)
+            {
+                Vector3 collisionPoint=hit.point;
+                Vector3 normal=hit.normal;
+                Vector3 relativeVelocity;
+                if(hit.otherCollider.TryGetComponent<Rigidbody>(out Rigidbody otherBody)){
+                    relativeVelocity=otherBody.velocity;
+                }
+                else{
+                    relativeVelocity=Vector3.zero;
+                }
+                relativeVelocity=relativeVelocity-velocity;
+                Vector3 force=normal*relativeVelocity.magnitude*collisionSpeedFactor;
+                //Projection of relative velocity on normal
+                force=Vector3.Project(relativeVelocity,normal)*collisionSpeedFactor;
+                if(Vector3.Angle(force,normal)>=90){
+                    force=Vector3.zero;
+                }
+                if(force==Vector3.zero){
+                    force+=normal*minCollisionSpeed;
+                }
 
-                //Deal with collisions
-        //The way this works: find normal of every collision, project the player's velocity on it, move the player by that much
-        ArrayList collisionImpulses=new ArrayList();
-        foreach (ContactPoint hit in allHits)
-        {
-            Vector3 collisionPoint=hit.point;
-            Vector3 normal=hit.normal;
-            Vector3 relativeVelocity;
-            if(hit.otherCollider.TryGetComponent<Rigidbody>(out Rigidbody otherBody)){
-                relativeVelocity=otherBody.velocity;
-            }
-            else{
-                relativeVelocity=Vector3.zero;
-            }
-            relativeVelocity=relativeVelocity-velocity;
-            Vector3 force=normal*relativeVelocity.magnitude*collisionSpeedFactor;
-            //Projection of relative velocity on normal
-            force=Vector3.Project(relativeVelocity,normal)*collisionSpeedFactor;
-            if(Vector3.Angle(force,normal)>=90){
-                force=Vector3.zero;
-            }
-            if(force==Vector3.zero){
-                force+=normal*minCollisionSpeed;
+                //Dividing force by number of contacts
+                force=force/allHits.Count;
+
+                collisionImpulses.Add(force);
+
             }
 
-            //Dividing force by number of contacts
-            force=force/allHits.Count;
-
-            collisionImpulses.Add(force);
-
+            foreach(Vector3 force in collisionImpulses){
+                velocity+=force;
+            }
         }
+
 
         allHits.Clear();
 
-        foreach(Vector3 force in collisionImpulses){
-            velocity+=force;
-        }
+
 
         boostTimer+=Time.fixedDeltaTime;
 
@@ -312,7 +331,7 @@ public class NPCOverworld : MonoBehaviour
                 if(loopingPath){    //Wrap around path if NPC is looping
                     pathIndex=pathIndex%path.Length;
                 }else if(pathIndex>=path.Length){   //If not looping and reached destination NPC becomes idle
-                    currentState=NPCStates.Idle;
+                    ChangeState(NPCStates.Idle);
                     return;
                 }
                 targetPosition=path[pathIndex].transform.position;
@@ -374,20 +393,37 @@ public class NPCOverworld : MonoBehaviour
                 //Go to the next brain/behavior
                 if(transform.parent.TryGetComponent<NPCSequencer>(out npcSequencer)){
                     npcSequencer.NextBrain();
+                    singer.StopAllNotes();
                 }
                 break;
             case NPCStates.SwimmingAndSinging:
                 DialogueStart();
+                ChangeState(NPCStates.Idle);
                 break;
             case NPCStates.Singing:
                 DialogueStart();
+                ChangeState(NPCStates.Idle);
                 break;
         }
     }
 
+    //Always call this! Never change directly
+    public void ChangeState(NPCStates state){
+        pastState=currentState;
+        currentState=state;
+    }
+
     void DialogueStart(){
         Debug.Log("Start dialogue!");
+        FindObjectOfType<Dialogue>().TryStartDialogue(inkJSONAsset,knotName,this);
     }
+
+    public void FinishedDialogue(bool isAmbient=false){
+        if(!isAmbient){ //If this dialogue isn't ambient NPC returns to their previous state
+            ChangeState(pastState);
+        }
+    }
+
 }
 
 public enum NPCStates{
@@ -399,6 +435,8 @@ public enum NPCStates{
 }
 
 public enum MovementBehavior{
+    None,
     FollowPath, //NPC follow a predetermined path
+    ReachDestinationThenSwitch, //Reach the destination at the end of the path then switch the next brain (not implemented RN)
     //Possible other behaviors: go around player, random, etc.
 }

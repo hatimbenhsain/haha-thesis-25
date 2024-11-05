@@ -344,6 +344,9 @@ public class Swimmer : MonoBehaviour
             }else if(playerInput.movingDown && !playerInput.movingUp && Mathf.Abs((body.rotation*playerVelocity).y)<lateralMaxVelocity){
                 playerVelocity+=-transform.up*lateralAcceleration*Time.fixedDeltaTime;
             }
+        }else{
+            animator.SetBool("swimmingForward",false);
+            animator.SetBool("swimmingBackward",false);
         }
 
         playerVelocity=Vector3.ClampMagnitude(playerVelocity,maxVelocity);
@@ -516,6 +519,19 @@ public class Swimmer : MonoBehaviour
 
     public Vector3 GetVelocity(){
         return body.velocity;
+    }
+
+    public void StartedDialogue(bool isAmbient=false){
+        if(!isAmbient){
+            canMove=false;
+        }
+    }
+
+    public void FinishedDialogue(bool isAmbient=false){
+        if(!isAmbient){
+            canMove=true;
+            canRotate=true;
+        }
     }
 }
 
