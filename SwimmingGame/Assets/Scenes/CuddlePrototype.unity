@@ -509,6 +509,7 @@ MonoBehaviour:
   yOffset: 0.035
   circleDuration: 1
   reference: {fileID: 931859403}
+  lastDialogueOption: Null option
 --- !u!23 &430497236
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -963,7 +964,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 85.4, y: 171.6}
   m_SizeDelta: {x: 200, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &722802383
@@ -986,7 +987,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: New Text
+  m_text: When we all get up there?
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -1013,8 +1014,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 36
-  m_fontSizeBase: 36
+  m_fontSize: 25
+  m_fontSizeBase: 25
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -1214,9 +1215,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   levelLoader: {fileID: 1281890778}
   dialogueText: {fileID: 722802383}
-  dialogueResponse1: Thigh Dialogue Option
-  dialogueResponse2: Waist Dialogue Option
-  dialogueResponse3: Hand Dialogue Option
+  dialogueResponse1: 'What do you mean by that? '
+  dialogueResponse2: I don't know...
+  dialogueResponse3: Up where?
 --- !u!1 &806001240
 GameObject:
   m_ObjectHideFlags: 0
@@ -2718,6 +2719,7 @@ MonoBehaviour:
   yOffset: 0.035
   circleDuration: 1
   reference: {fileID: 1045026512}
+  lastDialogueOption: Null option
 --- !u!23 &1225149116
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -2855,6 +2857,16 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5661031363680635953, guid: 54ee2c803d46c6648878673f7fe5c681,
+        type: 3}
+      propertyPath: pressP
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5661031363680635953, guid: 54ee2c803d46c6648878673f7fe5c681,
+        type: 3}
+      propertyPath: destinationScene
+      value: SwimmerPrototype
+      objectReference: {fileID: 0}
     - target: {fileID: 7520034976802511986, guid: 54ee2c803d46c6648878673f7fe5c681,
         type: 3}
       propertyPath: m_Name
@@ -2974,6 +2986,7 @@ MonoBehaviour:
   yOffset: 0.035
   circleDuration: 1
   reference: {fileID: 592958336}
+  lastDialogueOption: Null option
 --- !u!23 &1409075600
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -4008,6 +4021,7 @@ MonoBehaviour:
   yOffset: 0.035
   circleDuration: 1
   reference: {fileID: 627607153}
+  lastDialogueOption: Null option
 --- !u!23 &2106402014
 MeshRenderer:
   m_ObjectHideFlags: 0

@@ -26,7 +26,7 @@ public class CuddleGameManager : MonoBehaviour
                 dialogueText.text = dialogueResponse3;
                 break;
             default:
-                dialogueText.text = "Did you like what we did";
+                dialogueText.text = "When we all get up there?";
                 Debug.LogWarning("Invalid dialogue option!");
                 break;
         }
