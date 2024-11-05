@@ -5,16 +5,30 @@ using UnityEngine;
 
 public class CuddleGameManager : MonoBehaviour
 {
-    public TMP_Text dialogueText;
     public LevelLoader levelLoader;
+    public TMP_Text dialogueText; 
+    public string dialogueResponse1; 
+    public string dialogueResponse2;
+    public string dialogueResponse3; 
 
-    private void Start()
+    // for proof of concept, can change later
+    public void UpdateDialogueText(string detectedOption)
     {
-
-    }
-
-    void Update()
-    {
-        dialogueText.text = "Dialogue stuff";
+        switch (detectedOption)
+        {
+            case "Thigh":
+                dialogueText.text = dialogueResponse1;
+                break;
+            case "Waist":
+                dialogueText.text = dialogueResponse2;
+                break;
+            case "Hand":
+                dialogueText.text = dialogueResponse3;
+                break;
+            default:
+                dialogueText.text = "Did you like what we did";
+                Debug.LogWarning("Invalid dialogue option!");
+                break;
+        }
     }
 }

@@ -18,11 +18,14 @@ public class FingerTipsController : MonoBehaviour
     private Vector3 startLocalPosition;
     private Vector3 velocity;
     private bool isCircling = false; // flag to check if circular movement is in progress
+    private CuddleGameManager gameManager;
+    public string lastDialogueOption = "Null option";
 
     private void Start()
     {
         playerInput = FindObjectOfType<PlayerInput>();
         startLocalPosition = transform.localPosition; // set the starting position in local space
+        gameManager = FindObjectOfType<CuddleGameManager>();
     }
 
     void Update()
@@ -30,15 +33,21 @@ public class FingerTipsController : MonoBehaviour
         if (playerInput.boosting && !isCircling)
         {
             StartCoroutine(CircularMovement());
+            string currentOption = DetectDialogueOption();
+            if (currentOption != lastDialogueOption)
+            {
+                lastDialogueOption = currentOption;
+                gameManager.UpdateDialogueText(currentOption);  // Send the detected option to GameManager
+            }
         }
 
         // Only process movement if not in circling
         if (!isCircling)
         {
             Moving();
-            Debug.Log(DetectDialogueOption());
 
         }
+
 
         AdjustYPosition();
     }
