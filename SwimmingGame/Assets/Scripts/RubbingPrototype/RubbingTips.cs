@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class RubbingTips : MonoBehaviour
 {
-    public Rigidbody object1;  // look
-    public Rigidbody object2;  // rotation
+    public Rigidbody object1;  
+    public Rigidbody object2;  
     public float moveForce = 10f;  // Force applied for movement
     public float dragFactor = 0.95f;  // Drag factor to slow down objects
 
@@ -18,7 +18,7 @@ public class RubbingTips : MonoBehaviour
         playerInput = FindObjectOfType<PlayerInput>();
     }
 
-    void Update()
+    void FixedUpdate()
     {
         // handle input change
         if (playerInput.currentControlScheme == "Gamepad")
