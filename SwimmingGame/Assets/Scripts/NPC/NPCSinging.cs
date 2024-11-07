@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using FMOD.Studio;
 using FMODUnity;
-using UnityEditor.EditorTools;
 using Obi;
 
 public class NPCSinging : Singing

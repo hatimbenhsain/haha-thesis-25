@@ -5,7 +5,6 @@ using FMOD.Studio;
 using FMODUnity;
 using System.Runtime.InteropServices;
 using System.Dynamic;
-using UnityEditor.EditorTools;
 using System.Reflection;
 using UnityEngine.UI;
 

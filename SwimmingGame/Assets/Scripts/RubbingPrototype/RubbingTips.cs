@@ -11,6 +11,7 @@ public class RubbingTips : MonoBehaviour
 
     private PlayerInput playerInput;
     private Vector2 movementVector;
+    private bool isUsingGamepad;
 
     private void Start()
     {
@@ -19,9 +20,21 @@ public class RubbingTips : MonoBehaviour
 
     void Update()
     {
-        ConvertMovementInput(playerInput.movingForward, playerInput.movingBackward, playerInput.movingLeft, playerInput.movingRight);
-        ApplyMovement(object1, playerInput.look.x, playerInput.look.y);
-        ApplyMovement(object2, -movementVector.y, movementVector.x);
+        // handle input change
+        if (playerInput.currentControlScheme == "Gamepad")
+        {
+            isUsingGamepad = true;
+            ApplyMovement(object1, playerInput.look.x, playerInput.look.y);
+            ApplyMovement(object2, playerInput.rotation.x, playerInput.rotation.x);
+        }
+        else
+        {
+            isUsingGamepad = false;
+            ConvertMovementInput(playerInput.movingForward, playerInput.movingBackward, playerInput.movingLeft, playerInput.movingRight);
+            ApplyMovement(object1, playerInput.look.x, playerInput.look.y);
+            ApplyMovement(object2, -movementVector.y, movementVector.x);
+        }
+
     }
 
     void ConvertMovementInput(bool movingForward, bool movingBackward, bool movingLeft, bool movingRight)
