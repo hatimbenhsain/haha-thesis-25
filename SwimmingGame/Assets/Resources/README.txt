@@ -2,6 +2,8 @@
 
 A 3D swimming and exploration game about obsession. Become part of a community of merpeople who are evolving to discover casual sex. This is a proof-of-concept build that is meant to showcase most of the game's gameplay features as well as the vibe we are going for. This README file will give a brief description of the vision for each part of the game as well as the controls for each one.
 
+== TIP ==
++ In any level, press P to skip to the next level
 
 *=== 1. EXPLORATION/SWIMMING ===*
 
@@ -27,8 +29,8 @@ The player may harmonize with an NPC by getting close to them and singing a note
 		   A
 		 /   \
 		/     \
-      E         B
-       \       /
+  	      E         B
+   	       \       /
 		\     /
 		 D---C
 
@@ -99,5 +101,3 @@ After the two characters entangled into each other, they approach the climax of 
 + Arrow keys to move finger around
 + Space Button to rub
 
-== TIP ==
-+ In any level, press P to skip to the next level
