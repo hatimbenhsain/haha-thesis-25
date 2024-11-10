@@ -59,8 +59,7 @@ public class SpringController : MonoBehaviour
         }
     }
 
-
-    void FixedUpdate()
+    private void Update()
     {
         if (playerInput.movingForward && !playerInput.prevMovingForward)
         {
@@ -71,6 +70,14 @@ public class SpringController : MonoBehaviour
         {
             StartExhaling();
         }
+        if (isInhaling)
+        {
+            Inhale();
+        }
+
+    }
+    void FixedUpdate()
+    {
 
         if (!playerInput.aiming)
         {
@@ -83,10 +90,7 @@ public class SpringController : MonoBehaviour
             RestoreOriginalCameraDistance();
         }
 
-        if (isInhaling)
-        {
-            Inhale();
-        }
+
 
         HandleTurning();
 
