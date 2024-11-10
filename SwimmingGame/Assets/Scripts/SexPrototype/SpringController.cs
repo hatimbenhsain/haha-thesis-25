@@ -152,22 +152,21 @@ public class SpringController : MonoBehaviour
         }
     }
 
-    // TODO: Think about whether or not to keep this
     void HandleTurning()
     {
         Vector3 moveDirection = Vector3.zero;
         bool isMoving = false;
 
-        // Forward tilt (up direction)
-        if (playerInput.look.y < 0f)
+        // Backward tilt (up direction)
+        if (playerInput.look.y > 0f)
         {
             Quaternion targetTilt = Quaternion.Euler(-90, characterRb.rotation.eulerAngles.y, 0);
             characterRb.MoveRotation(Quaternion.Slerp(characterRb.rotation, targetTilt, turnSpeed * Time.fixedDeltaTime));
             moveDirection += character.transform.up;
             isMoving = true;
         }
-        // Backward tilt (down direction)
-        else if (playerInput.look.y > 0f)
+        // Forward tilt (down direction)
+        else if (playerInput.look.y < 0f)
         {
             Quaternion targetTilt = Quaternion.Euler(90, characterRb.rotation.eulerAngles.y, 0);
             characterRb.MoveRotation(Quaternion.Slerp(characterRb.rotation, targetTilt, turnSpeed * Time.fixedDeltaTime));
@@ -179,15 +178,15 @@ public class SpringController : MonoBehaviour
         {
             Quaternion targetTilt = Quaternion.Euler(characterRb.rotation.eulerAngles.x, characterRb.rotation.eulerAngles.y - 90, 0);
             characterRb.MoveRotation(Quaternion.Slerp(characterRb.rotation, targetTilt, turnSpeed * Time.fixedDeltaTime));
-            moveDirection -= character.transform.right;  // Keep moving in the character's right direction
+            moveDirection -= character.transform.right;  
             isMoving = true;
         }
-        // Right tilt (turning right)
+        // Right tilt (around y-axis)
         else if (playerInput.look.x > 0f)
         {
             Quaternion targetTilt = Quaternion.Euler(characterRb.rotation.eulerAngles.x, characterRb.rotation.eulerAngles.y + 90, 0);
             characterRb.MoveRotation(Quaternion.Slerp(characterRb.rotation, targetTilt, turnSpeed * Time.fixedDeltaTime));
-            moveDirection += character.transform.right;  // Keep moving in the character's right direction
+            moveDirection += character.transform.right;  
             isMoving = true;
         }
 
