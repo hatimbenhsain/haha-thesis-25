@@ -11,7 +11,6 @@ public class TouchController : MonoBehaviour
     public float yOffset = 1.0f; // offset of the character from the top of touching objects
     public Quaternion rotationOffset; // offset the rotation after timing normal
 
-
     private PlayerInput playerInput;
     private Vector3 targetPosition;
     private Quaternion initialRotation;
@@ -27,7 +26,7 @@ public class TouchController : MonoBehaviour
         initialRotation = transform.rotation;
     }
 
-    void Update()
+    private void FixedUpdate()
     {
         // handle input change
         if (playerInput.currentControlScheme == "Gamepad")
@@ -37,12 +36,10 @@ public class TouchController : MonoBehaviour
         else
         {
             isUsingGamepad = false;
-        }
-        Moving();
-        if (isUsingGamepad == false)
-        {
             ConvertMovementInput(playerInput.movingForward, playerInput.movingBackward, playerInput.movingLeft, playerInput.movingRight);
-        }       
+        }
+
+        Moving();
         AdjustPositionAndRotation();
     }
 
@@ -51,8 +48,9 @@ public class TouchController : MonoBehaviour
     {
         float moveX = 0f;
         float moveZ = 0f;
+
         // using keyboard
-        if (isUsingGamepad == false)
+        if (!isUsingGamepad)
         {
             moveX = -movementVector.y;
             moveZ = movementVector.x;
@@ -64,34 +62,31 @@ public class TouchController : MonoBehaviour
             moveZ = playerInput.look.y;
         }
 
-
         // calculate the target position based on input
-        Vector3 move = new Vector3(moveX, 0, moveZ) * moveSpeed * Time.deltaTime;
+        Vector3 move = new Vector3(moveX, 0, moveZ) * moveSpeed * Time.fixedDeltaTime;
         targetPosition = transform.position + move;
 
         // lerp the character to the target position within the allowed circular radius
-        transform.position = Vector3.Lerp(transform.position, targetPosition, lerpSpeed * Time.deltaTime);
+        transform.position = Vector3.Lerp(transform.position, targetPosition, lerpSpeed * Time.fixedDeltaTime);
     }
 
     void ConvertMovementInput(bool movingForward, bool movingBackward, bool movingLeft, bool movingRight)
     {
         // Reset movementVector before accumulating input
-        movementVector.x = 0f; 
-        movementVector.y = 0f; 
+        movementVector.x = 0f;
+        movementVector.y = 0f;
 
         // Determine movement direction based on input
         if (movingForward) { movementVector.x += 1; }
-        if (movingBackward) { movementVector.x += -1; }
+        if (movingBackward) { movementVector.x -= 1; }
         if (movingLeft) { movementVector.y += 1; }
-        if (movingRight) { movementVector.y += -1; }
+        if (movingRight) { movementVector.y -= 1; }
 
         // Normalize the vector only if it has a non-zero length
         if (movementVector.magnitude > 1f)
         {
             movementVector.Normalize();
         }
-
-        //Debug.Log(movementVector);
     }
 
     void AdjustPositionAndRotation()
@@ -103,12 +98,11 @@ public class TouchController : MonoBehaviour
         {
             // set Y position to the top of the hit object
             Vector3 positionTarget = new Vector3(transform.position.x, hit.point.y + yOffset, transform.position.z);
-            transform.position = Vector3.Lerp(transform.position, positionTarget, yLerpSpeed * Time.deltaTime);
+            transform.position = Vector3.Lerp(transform.position, positionTarget, yLerpSpeed * Time.fixedDeltaTime);
 
             // Calculate the rotation offset based on the initial rotation
-            Quaternion targetRotation = Quaternion.FromToRotation(Vector3.right, hit.normal) * initialRotation * rotationOffset; ;
-            transform.rotation = Quaternion.Lerp(transform.rotation, targetRotation, yLerpSpeed * Time.deltaTime);
+            Quaternion targetRotation = Quaternion.FromToRotation(Vector3.right, hit.normal) * initialRotation * rotationOffset;
+            transform.rotation = Quaternion.Lerp(transform.rotation, targetRotation, yLerpSpeed * Time.fixedDeltaTime);
         }
     }
-
 }
