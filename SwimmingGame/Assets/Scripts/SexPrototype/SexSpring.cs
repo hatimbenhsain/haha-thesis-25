@@ -22,7 +22,7 @@ public class SexSpring : MonoBehaviour{
     [System.NonSerialized]
     public Rigidbody characterRb;
     [System.NonSerialized]
-    public float inhaleStartTime, inhaleDuration, exhaleForce, exhaleTimeLeft;
+    public float inhaleStartTime, inhaleDuration, exhaleForce, exhaleTimeLeft, timeSinceExhale;
     [System.NonSerialized]
     public Vector3 originalScale, currentVelocity;
     [System.NonSerialized]
@@ -34,6 +34,7 @@ public class SexSpring : MonoBehaviour{
         inhaleDuration = 0f;
         exhaleForce = 0f;
         exhaleTimeLeft = 0f;
+        timeSinceExhale=0f;
 
         originalScale = character.transform.localScale;
         characterRb = character.GetComponent<Rigidbody>();
@@ -49,6 +50,7 @@ public class SexSpring : MonoBehaviour{
     }
 
     public void SpringFixedUpdate(){
+        timeSinceExhale+=Time.deltaTime;
         // handle exhaling process
         if (exhaleTimeLeft > 0f)
         {
@@ -71,6 +73,8 @@ public class SexSpring : MonoBehaviour{
     // starts the exhaling process and calculates the force
     public void StartExhaling()
     {
+        timeSinceExhale=0f;
+
         isInhaling = false;
 
         float heldInhaleTime = Time.time - inhaleStartTime;
@@ -134,6 +138,13 @@ public class SexSpring : MonoBehaviour{
             currentVelocity = Vector3.Lerp(currentVelocity, targetVelocity, Time.fixedDeltaTime * movementLerpSpeed);
             //characterRb.AddForce(currentVelocity, ForceMode.Acceleration);
         }
+    }
+
+    public void TurnTowards(Vector3 position,float rotationSpeed){
+        targetRotation=Quaternion.LookRotation(position-characterRb.transform.position,Vector3.up);
+        Quaternion newRotationQ=Quaternion.Lerp(characterRb.transform.rotation,targetRotation,rotationSpeed*Time.fixedDeltaTime);
+        //Rotating self
+        characterRb.MoveRotation(newRotationQ);
     }
 
     // exhale lerping scale and applying forward acceleration
