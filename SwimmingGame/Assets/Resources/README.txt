@@ -1,4 +1,5 @@
 *=== SWIMMING GAME ===*
+By Team Haha (Hatim Benhsain and Hanwen Xu)
 
 A 3D swimming and exploration game about obsession. Become part of a community of merpeople who are evolving to discover casual sex. This is a proof-of-concept build that is meant to showcase most of the game's gameplay features as well as the vibe we are going for. This README file will give a brief description of the vision for each part of the game as well as the controls for each one.
 
