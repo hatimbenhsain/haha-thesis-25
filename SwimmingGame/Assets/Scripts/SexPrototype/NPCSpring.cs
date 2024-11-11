@@ -155,5 +155,6 @@ public struct SpringMovementValues{
 
 /*TO DO:
 + more complex behavior: run then turn, run then follow, etc.
-+ 
++ distance buffer where if close or far ish it breathes for shorter amount of time
++ raycast target location
 */ 
