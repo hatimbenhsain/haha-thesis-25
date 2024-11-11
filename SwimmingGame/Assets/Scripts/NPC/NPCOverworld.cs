@@ -438,5 +438,9 @@ public enum MovementBehavior{
     None,
     FollowPath, //NPC follow a predetermined path
     ReachDestinationThenSwitch, //Reach the destination at the end of the path then switch the next brain (not implemented RN)
+    FollowPlayer,
+    LookAtPlayer,
+    RunFromPlayer,
+    Wander
     //Possible other behaviors: go around player, random, etc.
 }

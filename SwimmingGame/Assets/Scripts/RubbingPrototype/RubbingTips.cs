@@ -4,35 +4,59 @@ using UnityEngine;
 
 public class RubbingTips : MonoBehaviour
 {
-    public Rigidbody object1;  // look
-    public Rigidbody object2;  // rotation
+    public Rigidbody object1;  
+    public Rigidbody object2;  
     public float moveForce = 10f;  // Force applied for movement
     public float dragFactor = 0.95f;  // Drag factor to slow down objects
 
     private PlayerInput playerInput;
     private Vector2 movementVector;
+    private bool isUsingGamepad;
 
     private void Start()
     {
         playerInput = FindObjectOfType<PlayerInput>();
     }
 
-    void Update()
+    void FixedUpdate()
     {
-        ConvertMovementInput(playerInput.movingForward, playerInput.movingBackward, playerInput.movingLeft, playerInput.movingRight);
-        ApplyMovement(object1, playerInput.look.x, playerInput.look.y);
-        ApplyMovement(object2, movementVector.x, movementVector.y);
+        // handle input change
+        if (playerInput.currentControlScheme == "Gamepad")
+        {
+            isUsingGamepad = true;
+            ApplyMovement(object1, playerInput.look.x, playerInput.look.y);
+            ApplyMovement(object2, playerInput.rotation.x, playerInput.rotation.x);
+        }
+        else
+        {
+            isUsingGamepad = false;
+            ConvertMovementInput(playerInput.movingForward, playerInput.movingBackward, playerInput.movingLeft, playerInput.movingRight);
+            ApplyMovement(object1, playerInput.look.x, playerInput.look.y);
+            ApplyMovement(object2, -movementVector.y, movementVector.x);
+        }
+
     }
 
     void ConvertMovementInput(bool movingForward, bool movingBackward, bool movingLeft, bool movingRight)
     {
+        // Reset movementVector before accumulating input
+        movementVector.x = 0f;
+        movementVector.y = 0f;
+
+        // Determine movement direction based on input
         if (movingForward) { movementVector.x += 1; }
         if (movingBackward) { movementVector.x += -1; }
         if (movingLeft) { movementVector.y += 1; }
         if (movingRight) { movementVector.y += -1; }
-        movementVector = movementVector.normalized;
-    }
 
+        // Normalize the vector only if it has a non-zero length
+        if (movementVector.magnitude > 1f)
+        {
+            movementVector.Normalize();
+        }
+
+        //Debug.Log(movementVector);
+    }
     // Apply force-based movement based on input
     void ApplyMovement(Rigidbody rb, float inputX, float inputY)
     {
