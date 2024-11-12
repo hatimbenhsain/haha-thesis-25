@@ -14,6 +14,12 @@ public class SexGameManager : MonoBehaviour
     private float meterValue = 0f;
     private bool startCounting;
 
+    [Tooltip("Distance between player organ head and npc head.")]
+    public float headToHeadDistance;
+
+    public Transform playerHead;
+    public Transform npcHead;
+
     public bool moveOnAfterTresholdReached=false;
 
     private void Start()
@@ -23,6 +29,8 @@ public class SexGameManager : MonoBehaviour
 
     void Update()
     {
+        headToHeadDistance=Vector3.Distance(npcHead.position, playerHead.position);
+
         float meanDistance = ropeMeanDistance.meanDistance;
         if (meanDistance > threshold && startCounting == false)
         {
