@@ -654,6 +654,7 @@ MonoBehaviour:
   minDistanceFromPlayer: 1
   maxDistanceFromPlayer: 5
   inhaleLength: 1
+  targetDistance: 5
   springMovementValues:
   - movementBehavior: 3
     intensity: 0
@@ -662,6 +663,7 @@ MonoBehaviour:
     maxDistanceFromPlayer: 5
     inhaleLength: 1
     turnSpeed: 2
+    turningTime: 0
   - movementBehavior: 5
     intensity: 0
     timeBetweenBreaths: 1
@@ -669,6 +671,7 @@ MonoBehaviour:
     maxDistanceFromPlayer: 5
     inhaleLength: 1
     turnSpeed: 2
+    turningTime: 0
   - movementBehavior: 4
     intensity: 0
     timeBetweenBreaths: 1
@@ -676,6 +679,20 @@ MonoBehaviour:
     maxDistanceFromPlayer: 5
     inhaleLength: 1
     turnSpeed: 4
+    turningTime: 0
+  - movementBehavior: 6
+    intensity: 0
+    timeBetweenBreaths: 4
+    minDistanceFromPlayer: 1
+    maxDistanceFromPlayer: 5
+    inhaleLength: 0.3
+    turnSpeed: 1
+    turningTime: 1
+  capsule: {fileID: 839673795}
+  turningTime: 1
+  origin: {fileID: 1800678919}
+  maxDistanceFromOrigin: 40
+  timeVariance: 1
 --- !u!1 &175239298
 GameObject:
   m_ObjectHideFlags: 0
@@ -2996,50 +3013,6 @@ Mesh:
     offset: 0
     size: 0
     path: 
---- !u!1 &422426347
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 422426349}
-  - component: {fileID: 422426348}
-  m_Layer: 0
-  m_Name: ComputeCollisionWorld
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &422426348
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 422426347}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ce0ddc77554954cd78643d83b0505396, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!4 &422426349
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 422426347}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &448702392
 GameObject:
   m_ObjectHideFlags: 0
@@ -3091,6 +3064,7 @@ MonoBehaviour:
   threshold: 5
   growSpeed: 10
   decaySpeed: 5
+  moveOnAfterTresholdReached: 0
 --- !u!114 &448702397
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5202,6 +5176,50 @@ MeshCollider:
   m_Convex: 1
   m_CookingOptions: 30
   m_Mesh: {fileID: 0}
+--- !u!1 &618648383
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 618648385}
+  - component: {fileID: 618648384}
+  m_Layer: 0
+  m_Name: ComputeCollisionWorld
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &618648384
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 618648383}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ce0ddc77554954cd78643d83b0505396, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!4 &618648385
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 618648383}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &629718195
 GameObject:
   m_ObjectHideFlags: 0
@@ -24755,4 +24773,4 @@ SceneRoots:
   - {fileID: 1509116817}
   - {fileID: 448702394}
   - {fileID: 1718280715}
-  - {fileID: 422426349}
+  - {fileID: 618648385}

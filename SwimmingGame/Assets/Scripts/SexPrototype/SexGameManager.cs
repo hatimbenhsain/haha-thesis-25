@@ -14,6 +14,8 @@ public class SexGameManager : MonoBehaviour
     private float meterValue = 0f;
     private bool startCounting;
 
+    public bool moveOnAfterTresholdReached=false;
+
     private void Start()
     {
         startCounting = false;
@@ -38,7 +40,7 @@ public class SexGameManager : MonoBehaviour
             }
         }
         // Load level when the meter build to max 
-        if (meterValue == 100f)
+        if (meterValue == 100f && moveOnAfterTresholdReached)
         {
             levelLoader.LoadLevel();
         }
