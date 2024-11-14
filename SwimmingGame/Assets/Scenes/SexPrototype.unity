@@ -503,6 +503,50 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 22.882, y: -127.898, z: 0}
+--- !u!1 &105368113
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 105368115}
+  - component: {fileID: 105368114}
+  m_Layer: 0
+  m_Name: ComputeCollisionWorld
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &105368114
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 105368113}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ce0ddc77554954cd78643d83b0505396, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!4 &105368115
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 105368113}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &151410345
 GameObject:
   m_ObjectHideFlags: 0
@@ -517,6 +561,7 @@ GameObject:
   - component: {fileID: 151410349}
   - component: {fileID: 151410348}
   - component: {fileID: 151410347}
+  - component: {fileID: 151410352}
   m_Layer: 0
   m_Name: NPC_SpringBody
   m_TagString: Untagged
@@ -693,6 +738,31 @@ MonoBehaviour:
   origin: {fileID: 1800678919}
   maxDistanceFromOrigin: 40
   timeVariance: 1
+  followToRunRatio: 1
+--- !u!114 &151410352
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 151410345}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 04227b6f552b1e545b101e3f3702f860, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  distanceMinTreshold: 5
+  distanceMaxTreshold: 2
+  entanglementMinTreshold: 7
+  entanglementMaxTreshold: 3
+  speedMinTreshold: 1
+  speedMaxTreshold: 2
+  meterGrowthSpeed: 10
+  meterDecaySpeed: 5
+  distanceMeter: 0
+  entanglementMeter: 0
+  speedMeter: 0
+  timeSinceStateChange: 0
 --- !u!1 &175239298
 GameObject:
   m_ObjectHideFlags: 0
@@ -3064,6 +3134,11 @@ MonoBehaviour:
   threshold: 5
   growSpeed: 10
   decaySpeed: 5
+  headToHeadDistance: 0
+  playerHead: {fileID: 1943570159}
+  npcHead: {fileID: 839673794}
+  playerBodyVelocity: 0
+  playerBody: {fileID: 879249930519844524}
   moveOnAfterTresholdReached: 0
 --- !u!114 &448702397
 MonoBehaviour:
@@ -5176,50 +5251,6 @@ MeshCollider:
   m_Convex: 1
   m_CookingOptions: 30
   m_Mesh: {fileID: 0}
---- !u!1 &618648383
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 618648385}
-  - component: {fileID: 618648384}
-  m_Layer: 0
-  m_Name: ComputeCollisionWorld
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &618648384
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 618648383}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ce0ddc77554954cd78643d83b0505396, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!4 &618648385
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 618648383}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &629718195
 GameObject:
   m_ObjectHideFlags: 0
@@ -24773,4 +24804,4 @@ SceneRoots:
   - {fileID: 1509116817}
   - {fileID: 448702394}
   - {fileID: 1718280715}
-  - {fileID: 618648385}
+  - {fileID: 105368115}

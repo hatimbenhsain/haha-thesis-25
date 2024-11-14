@@ -20,6 +20,9 @@ public class SexGameManager : MonoBehaviour
     public Transform playerHead;
     public Transform npcHead;
 
+    public float playerBodyVelocity;
+    public Rigidbody playerBody;
+
     public bool moveOnAfterTresholdReached=false;
 
     private void Start()
@@ -31,7 +34,9 @@ public class SexGameManager : MonoBehaviour
     {
         headToHeadDistance=Vector3.Distance(npcHead.position, playerHead.position);
 
-        float meanDistance = ropeMeanDistance.meanDistance;
+        playerBodyVelocity=playerBody.velocity.magnitude;
+
+        float meanDistance = GetMeanDistance();
         if (meanDistance > threshold && startCounting == false)
         {
             startCounting=true;
@@ -54,5 +59,14 @@ public class SexGameManager : MonoBehaviour
         }
 
         meterText.text = $"Meter: {meterValue:F2}";
+    }
+
+    public float GetMeanDistance(){
+        float distance=ropeMeanDistance.meanDistance;
+        if(distance==0f){
+            return 10f;
+        }else{
+            return distance;
+        }
     }
 }
