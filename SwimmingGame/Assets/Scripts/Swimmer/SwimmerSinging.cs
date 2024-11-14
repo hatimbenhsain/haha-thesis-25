@@ -34,12 +34,16 @@ public class SwimmerSinging : Singing
 
     private float targetOpacity=0f;
     public float imageOpacityLerpSpeed=1f;
+    public float lightIntensityLerpSpeed=1f;
 
     public float mouseSensitivity=2f;
 
     public bool singing;
 
     private Animator animator;
+
+    public Light singingLight;
+    public float singingTargetIntensity;
 
     void Start()
     {
@@ -135,6 +139,8 @@ public class SwimmerSinging : Singing
                 float a=Mathf.Lerp(c.a,targetOpacity*maxOpacities[i],imageOpacityLerpSpeed*Time.deltaTime);
                 image.color=new Color(c.r,c.g,c.b,a);
             }
+
+            singingLight.intensity=Mathf.Lerp(singingLight.intensity,singingTargetIntensity*targetOpacity*singingVolume,lightIntensityLerpSpeed*Time.deltaTime);
 
         }
 
