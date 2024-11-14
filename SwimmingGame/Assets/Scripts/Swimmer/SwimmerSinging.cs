@@ -39,6 +39,8 @@ public class SwimmerSinging : Singing
 
     public bool singing;
 
+    private Animator animator;
+
     void Start()
     {
         playerInput=FindObjectOfType<PlayerInput>();
@@ -58,6 +60,8 @@ public class SwimmerSinging : Singing
         }
 
         SingingStart();
+
+        animator=GetComponentInParent<Animator>();
 
     }
 
@@ -119,8 +123,10 @@ public class SwimmerSinging : Singing
 
             if(singing){
                 targetOpacity=1f;
+                animator.SetBool("singing",true);
             }else{
                 targetOpacity=0f;
+                animator.SetBool("singing",false);
             }
 
             for(int i=0;i<images.Length;i++){
