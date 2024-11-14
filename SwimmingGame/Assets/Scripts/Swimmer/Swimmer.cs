@@ -322,11 +322,13 @@ public class Swimmer : MonoBehaviour
                     playerVelocity+=transform.forward*acceleration*playerInput.movingForwardValue*Time.fixedDeltaTime;
                 }
                 animator.SetBool("swimmingForward",true);
+                animator.SetBool("swimmingBackward",false);
             }else if(playerInput.movingBackward && !playerInput.movingForward){
                 if(playerVelocity.magnitude<coastingSpeed || Vector3.Angle(playerVelocity,-transform.forward)>=90f){
                     playerVelocity+=-transform.forward*backwardAcceleration*Time.fixedDeltaTime;
                 }
                 animator.SetBool("swimmingBackward",true);
+                animator.SetBool("swimmingForward",false);
                 boostTimer=boostTime+1f;
             }else{
                 animator.SetBool("swimmingForward",false);
