@@ -47,6 +47,7 @@ public class Swimmer : MonoBehaviour
     public float angleTiltSpeed=1f; //speed to tile when moving laterally
 
     private Animator animator;
+    private SpriteRenderer spriteRenderer;
     private Quaternion targetRotationOverride;
     private bool overridingRotation=false;
     [Tooltip("Rotation speed when a rotation is forced on the player, like after a kick back")]
@@ -95,6 +96,7 @@ public class Swimmer : MonoBehaviour
         controller=GetComponent<CharacterController>();
         playerInput=FindObjectOfType<PlayerInput>();
         animator=GetComponent<Animator>();
+        spriteRenderer=GetComponentInChildren<SpriteRenderer>();
         body=GetComponent<Rigidbody>();
         capsule=GetComponentInChildren<CapsuleCollider>();
         swimmerCamera=GetComponent<SwimmerCamera>();
@@ -185,8 +187,10 @@ public class Swimmer : MonoBehaviour
                 float targetRotationZ=0f;
                 if(playerInput.movingLeft && !playerInput.movingRight){
                     targetRotationZ=maxTiltAngle;
+                    spriteRenderer.flipX=true;
                 }else if(playerInput.movingRight && !playerInput.movingLeft){
                     targetRotationZ=-maxTiltAngle;
+                    spriteRenderer.flipX=false;
                 }
                 if(newRotation.z>=180f){
                     targetRotationZ=360f+targetRotationZ;
@@ -318,11 +322,13 @@ public class Swimmer : MonoBehaviour
                     playerVelocity+=transform.forward*acceleration*playerInput.movingForwardValue*Time.fixedDeltaTime;
                 }
                 animator.SetBool("swimmingForward",true);
+                animator.SetBool("swimmingBackward",false);
             }else if(playerInput.movingBackward && !playerInput.movingForward){
                 if(playerVelocity.magnitude<coastingSpeed || Vector3.Angle(playerVelocity,-transform.forward)>=90f){
                     playerVelocity+=-transform.forward*backwardAcceleration*Time.fixedDeltaTime;
                 }
                 animator.SetBool("swimmingBackward",true);
+                animator.SetBool("swimmingForward",false);
                 boostTimer=boostTime+1f;
             }else{
                 animator.SetBool("swimmingForward",false);

@@ -441,6 +441,8 @@ public enum MovementBehavior{
     FollowPlayer,
     LookAtPlayer,
     RunFromPlayer,
-    Wander
+    Wander,
+    LookAround,
+    FollowThenRun, //Follow player then run from player alternate
     //Possible other behaviors: go around player, random, etc.
 }

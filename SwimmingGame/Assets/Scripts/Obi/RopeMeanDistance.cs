@@ -77,7 +77,7 @@ public class RopeMeanDistance : MonoBehaviour
         {
             sum += distance;
         }
-        return distances.Count > 0 ? sum / distances.Count : 0;
+        return distances.Count > 0 ? sum / distances.Count : 10f;
     }
 
 }

@@ -147,6 +147,13 @@ public class SexSpring : MonoBehaviour{
         characterRb.MoveRotation(newRotationQ);
     }
 
+    public void TurnTowards(Quaternion rotation,float rotationSpeed){
+        targetRotation=rotation;
+        Quaternion newRotationQ=Quaternion.Lerp(characterRb.transform.rotation,targetRotation,rotationSpeed*Time.fixedDeltaTime);
+        //Rotating self
+        characterRb.MoveRotation(newRotationQ);
+    }
+
     // exhale lerping scale and applying forward acceleration
     public void Exhale()
     {
