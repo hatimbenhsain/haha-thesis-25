@@ -6,9 +6,7 @@ using UnityEngine;
 public class NPCSpring : SexSpring
 {
     [Header("NPC Movement Parameters")]
-    public MovementBehavior movementBehavior;
-    [Tooltip("Intensity determines movement speed and frequency etc.")]
-    public int currentIntensity=0;
+
     public float timeBetweenBreaths=1f;
     [Tooltip("Min distance before stopping to move")]
     public float minDistanceFromPlayer=1f;
@@ -20,9 +18,6 @@ public class NPCSpring : SexSpring
     [Tooltip("Distance away from NPC to pick new target location")]
     public float targetDistance=5f;
 
-    public SpringMovementValues[] springMovementValues;
-    public CapsuleCollider capsule;
-
 
     private Transform player;
     private Vector3 targetLocation;
@@ -33,8 +28,7 @@ public class NPCSpring : SexSpring
     private float turningTimer; //timer for turning. when more than turningTime, turn
     [Tooltip("Time before turning, applicable if look at player or looking around")]
     public float turningTime=1f;
-
-    public Transform origin;
+    [Tooltip("Max distance body is allowed to move away from origin.")]
     public float maxDistanceFromOrigin=20f;
 
     private bool foundTarget=false;
@@ -48,6 +42,20 @@ public class NPCSpring : SexSpring
     public float followToRunRatio=1f;
     private int counter=0; //using this for followToRun
     private bool following=false; //only used for FollowToRun
+    [Header("Debug Values")]
+    public MovementBehavior movementBehavior;
+    [Tooltip("Intensity determines movement speed and frequency etc.")]
+    public int currentIntensity=0;
+
+    [Header("Misc.")]
+    public CapsuleCollider capsule;
+
+    public Transform origin;
+    [Tooltip("New parameters for each state/intensity.")]
+    public SpringMovementValues[] springMovementValues;
+
+
+
 
     void Start()
     {
