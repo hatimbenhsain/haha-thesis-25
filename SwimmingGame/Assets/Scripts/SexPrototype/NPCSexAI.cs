@@ -28,6 +28,15 @@ public class NPCSexAI : MonoBehaviour
     public float meterGrowthSpeed=10f;
     public float meterDecaySpeed=5f;
 
+    [Tooltip("When reached this intensity, move on")]
+    public int intensityToReach=4;
+    [Tooltip("When gone through this many states, move on")]
+    public int statesToCycleThrough=6;
+    [Tooltip("In seconds, only change state or intensity after at least this time.")]
+    public float minTimeBeforeStateChange=4f;
+    [Tooltip("In seconds, after this time maybe change state or intensity.")]
+    public float maxTimeBeforeStateChange=10f;
+
     [Header("Debug Values")]
     [Tooltip("Controlled by how close the two heads are to each other.")]
     public float distanceMeter=0f;
@@ -36,6 +45,11 @@ public class NPCSexAI : MonoBehaviour
     [Tooltip("Controlled by how fast the player is moving.")]
     public float speedMeter=0f;
     public float timeSinceStateChange;
+
+    [Header("Misc.")]
+    [Tooltip("Index in this array is intensity.")]
+    public SexAIParameters[] sexAIParameters;
+
     void Start()
     {
         npcSpring=GetComponent<NPCSpring>();
@@ -47,15 +61,66 @@ public class NPCSexAI : MonoBehaviour
         timeSinceStateChange+=Time.deltaTime;
         UpdateMeters();
 
+        //AI PART BEGIN (flowchart)
+
         switch(npcSpring.movementBehavior){
             case MovementBehavior.Wander:
+                if(distanceMeter>=50f){
+                    ChangeState(MovementBehavior.FollowPlayer);
+                }
                 break;
+            case MovementBehavior.FollowPlayer:
+                if(entanglementMeter>=100f){
+                    ChangeIntensity(1);
+                }else if(speedMeter>=100f && npcSpring.currentIntensity<=4f){
+                    ChangeIntensity(-1);
+                    if(npcSpring.currentIntensity<=0){
+                        ChangeState(MovementBehavior.RunFromPlayer);
+                    }
+                }
+                break;
+            case MovementBehavior.RunFromPlayer:
+                if(entanglementMeter>=100f || timeSinceStateChange>=maxTimeBeforeStateChange || 
+                    npcSpring.currentIntensity>=3f){
+                    ChangeIntensity(1);
+                    ChangeState(MovementBehavior.FollowPlayer);
+                }else if(distanceMeter>=100f && timeSinceStateChange>=minTimeBeforeStateChange){
+                    ChangeIntensity(1);
+                    if(npcSpring.currentIntensity>=2f){
+                        ChangeState(MovementBehavior.FollowThenRun);
+                    }
+                }
+                break;
+            case MovementBehavior.FollowThenRun:
+                if(entanglementMeter>=100f || timeSinceStateChange>=maxTimeBeforeStateChange){
+                    ChangeIntensity(1);
+                }
+                break;
+        }
+
+        //AI PART END
+
+        if(npcSpring.currentIntensity>=intensityToReach || stateCounter>=statesToCycleThrough){
+            sexGameManager.MoveOn();
         }
     }
 
     void ChangeState(MovementBehavior movementBehavior){
+        Debug.Log("Change state ");
+        Debug.Log(movementBehavior);
         npcSpring.ChangeMovementBehavior(movementBehavior);
+        stateCounter++;
         ResetMeters();
+    }
+
+    void ChangeIntensity(int i){
+        Debug.Log("Change intensity");
+        Debug.Log(i);
+        npcSpring.ChangeIntensity(i);
+        ResetMeters();
+        if(npcSpring.currentIntensity<sexAIParameters.Length){
+            CopyValues(sexAIParameters[npcSpring.currentIntensity]);
+        }
     }
 
     void ResetMeters(){
@@ -66,7 +131,7 @@ public class NPCSexAI : MonoBehaviour
     }
 
     void UpdateMeters(){
-        distanceMeter+=GrowMeter(sexGameManager.headToHeadDistance,meterGrowthSpeed,speedMinTreshold,speedMaxTreshold,false);
+        distanceMeter+=GrowMeter(sexGameManager.headToHeadDistance,meterGrowthSpeed,distanceMinTreshold,distanceMaxTreshold,false);
         entanglementMeter+=GrowMeter(sexGameManager.GetMeanDistance(),meterGrowthSpeed,entanglementMinTreshold,entanglementMaxTreshold,false);
         speedMeter+=GrowMeter(sexGameManager.playerBodyVelocity,meterGrowthSpeed,speedMinTreshold,speedMaxTreshold,true);
         
@@ -91,4 +156,36 @@ public class NPCSexAI : MonoBehaviour
     float GetGrowthSpeed(float value,float baseGrowthSpeed, float minTreshold, float maxTreshold){
         return baseGrowthSpeed*Mathf.Clamp((value-minTreshold)/(maxTreshold-minTreshold),0f,1f);
     }
+
+    void CopyValues(SexAIParameters values){
+        distanceMinTreshold=values.distanceMinTreshold;
+        distanceMaxTreshold=values.distanceMaxTreshold;
+        entanglementMinTreshold=values.entanglementMinTreshold;
+        entanglementMaxTreshold=values.entanglementMaxTreshold;
+        speedMinTreshold=values.speedMinTreshold;
+        speedMaxTreshold=values.speedMaxTreshold;
+        meterGrowthSpeed=values.meterGrowthSpeed;
+        meterDecaySpeed=values.meterDecaySpeed;
+    }
+}
+
+
+[System.Serializable]
+public struct SexAIParameters{
+    [Tooltip("Distance meter starts going up from this value, slowly.")]
+    public float distanceMinTreshold;
+    [Tooltip("Distance meter starts going up from this value, fast.")]
+    public float distanceMaxTreshold;
+    [Tooltip("Entanglement meter starts going up from this value, slowly.")]
+    public float entanglementMinTreshold;
+    [Tooltip("Entanglement meter starts going up from this value, fast.")]
+    public float entanglementMaxTreshold;
+
+    [Tooltip("Speed meter starts going up from this value, slowly.")]
+    public float speedMinTreshold;
+    [Tooltip("Speed meter starts going up from this value, fast.")]
+    public float speedMaxTreshold;
+
+    public float meterGrowthSpeed;
+    public float meterDecaySpeed;
 }

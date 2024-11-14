@@ -55,7 +55,7 @@ public class SexGameManager : MonoBehaviour
         // Load level when the meter build to max 
         if (meterValue == 100f && moveOnAfterTresholdReached)
         {
-            levelLoader.LoadLevel();
+            MoveOn();
         }
 
         meterText.text = $"Meter: {meterValue:F2}";
@@ -68,5 +68,9 @@ public class SexGameManager : MonoBehaviour
         }else{
             return distance;
         }
+    }
+
+    public void MoveOn(){
+        levelLoader.LoadLevel();
     }
 }

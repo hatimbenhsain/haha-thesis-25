@@ -53,6 +53,8 @@ public class NPCSpring : SexSpring
     {
         player=GameObject.FindWithTag("Player").transform;
         SpringStart();
+
+        GetMovementValues(movementBehavior);
     }
 
     void Update()
@@ -125,8 +127,9 @@ public class NPCSpring : SexSpring
         }
     }
 
-    void ChangeIntensity(int changeInIntensity){
+    public void ChangeIntensity(int changeInIntensity){
         currentIntensity+=changeInIntensity;
+        currentIntensity=Mathf.Max(currentIntensity,0);
     }
 
     //Randomize timer durations such as turning time and time between breaths
@@ -296,7 +299,6 @@ public class NPCSpring : SexSpring
 
     //True if colliding False if not
     bool CheckRayCast(Vector3 direction, float distance){
-        Debug.Log("ray cast");
         bool colliding=false;
         Vector3 pos=characterRb.position;
         Vector3 point1=pos+capsule.center+capsule.transform.forward*(capsule.height/2f-capsule.radius);
@@ -336,12 +338,5 @@ public struct SpringMovementValues{
 /*TO DO:
 + more complex behavior: run then turn, run then follow, etc.
 + distance buffer where if close or far ish it breathes for shorter amount of time
-+ raycast target location
-+ current turn time variance
-+ calculate distance between heads
-+ figure out flowchart
-+ figure out "win condition"
-+ figure out building up intensity
-+ add speed
 + organize code/public values
 */ 
