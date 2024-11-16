@@ -20596,6 +20596,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2c4f3513be819b14c983225610aa77a2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  masterVolume: 1
   name: NPC1
   keys: []
   possibleNotes:
@@ -25288,6 +25289,26 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 812799658}
   m_Mesh: {fileID: -2432090755550338912, guid: eedc4ec913db0024caaf70365e7773b4, type: 3}
+--- !u!1 &813831020 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3576245318935648849, guid: 1c8ad2b2d7ff68c45b5eee5039926f9d,
+    type: 3}
+  m_PrefabInstance: {fileID: 1355850716}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &813831027
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 813831020}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bcb03c0d4c59361488cb11153ffd1637, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  masterVolume: 1
+  maxSwimmingSpeed: 3
 --- !u!43 &819647347
 Mesh:
   m_ObjectHideFlags: 0
@@ -41773,6 +41794,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2c4f3513be819b14c983225610aa77a2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  masterVolume: 1
   name: NPC1
   keys: []
   possibleNotes:
@@ -44479,10 +44501,51 @@ PrefabInstance:
       propertyPath: m_LocalPosition.z
       value: -1.33
       objectReference: {fileID: 0}
+    - target: {fileID: 3513436464221187772, guid: 1c8ad2b2d7ff68c45b5eee5039926f9d,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: a12b074fb48151640928067dc2b0bc82,
+        type: 3}
+    - target: {fileID: 3513436464221187772, guid: 1c8ad2b2d7ff68c45b5eee5039926f9d,
+        type: 3}
+      propertyPath: m_Color.b
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3513436464221187772, guid: 1c8ad2b2d7ff68c45b5eee5039926f9d,
+        type: 3}
+      propertyPath: m_Color.g
+      value: 0.89140743
+      objectReference: {fileID: 0}
+    - target: {fileID: 3513436464221187772, guid: 1c8ad2b2d7ff68c45b5eee5039926f9d,
+        type: 3}
+      propertyPath: m_Color.r
+      value: 0.7294118
+      objectReference: {fileID: 0}
+    - target: {fileID: 5765022564005693128, guid: 1c8ad2b2d7ff68c45b5eee5039926f9d,
+        type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6417933098474598149, guid: 1c8ad2b2d7ff68c45b5eee5039926f9d,
         type: 3}
       propertyPath: m_Intensity
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6772841630777993061, guid: 1c8ad2b2d7ff68c45b5eee5039926f9d,
+        type: 3}
+      propertyPath: m_Color.b
+      value: 0.89826626
+      objectReference: {fileID: 0}
+    - target: {fileID: 6772841630777993061, guid: 1c8ad2b2d7ff68c45b5eee5039926f9d,
+        type: 3}
+      propertyPath: m_Color.g
+      value: 0.8352941
+      objectReference: {fileID: 0}
+    - target: {fileID: 6772841630777993061, guid: 1c8ad2b2d7ff68c45b5eee5039926f9d,
+        type: 3}
+      propertyPath: m_Color.r
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 4714216204355016534, guid: 1c8ad2b2d7ff68c45b5eee5039926f9d, type: 3}
@@ -44492,7 +44555,11 @@ PrefabInstance:
         type: 3}
       insertIndex: -1
       addedObject: {fileID: 641202682}
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 3576245318935648849, guid: 1c8ad2b2d7ff68c45b5eee5039926f9d,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 813831027}
   m_SourcePrefab: {fileID: 100100000, guid: 1c8ad2b2d7ff68c45b5eee5039926f9d, type: 3}
 --- !u!43 &1359391619
 Mesh:
