@@ -4,7 +4,7 @@ using UnityEngine;
 using FMOD.Studio;
 using FMODUnity;
 
-public class Singing : MonoBehaviour
+public class Singing : Sound
 {
     [Tooltip("Name of folder inside of FMOD events (Swimmer, NPC1, etc).")]
     public string name="NPC1";

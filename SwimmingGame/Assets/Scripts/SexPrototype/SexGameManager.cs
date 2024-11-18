@@ -14,6 +14,17 @@ public class SexGameManager : MonoBehaviour
     private float meterValue = 0f;
     private bool startCounting;
 
+    [Tooltip("Distance between player organ head and npc head.")]
+    public float headToHeadDistance;
+
+    public Transform playerHead;
+    public Transform npcHead;
+
+    public float playerBodyVelocity;
+    public Rigidbody playerBody;
+
+    public bool moveOnAfterTresholdReached=false;
+
     private void Start()
     {
         startCounting = false;
@@ -21,7 +32,11 @@ public class SexGameManager : MonoBehaviour
 
     void Update()
     {
-        float meanDistance = ropeMeanDistance.meanDistance;
+        headToHeadDistance=Vector3.Distance(npcHead.position, playerHead.position);
+
+        playerBodyVelocity=playerBody.velocity.magnitude;
+
+        float meanDistance = GetMeanDistance();
         if (meanDistance > threshold && startCounting == false)
         {
             startCounting=true;
@@ -38,11 +53,24 @@ public class SexGameManager : MonoBehaviour
             }
         }
         // Load level when the meter build to max 
-        if (meterValue == 100f)
+        if (meterValue == 100f && moveOnAfterTresholdReached)
         {
-            levelLoader.LoadLevel();
+            MoveOn();
         }
 
         meterText.text = $"Meter: {meterValue:F2}";
+    }
+
+    public float GetMeanDistance(){
+        float distance=ropeMeanDistance.meanDistance;
+        if(distance==0f){
+            return 10f;
+        }else{
+            return distance;
+        }
+    }
+
+    public void MoveOn(){
+        levelLoader.LoadLevel();
     }
 }

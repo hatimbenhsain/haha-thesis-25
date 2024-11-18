@@ -47,6 +47,7 @@ public class Swimmer : MonoBehaviour
     public float angleTiltSpeed=1f; //speed to tile when moving laterally
 
     private Animator animator;
+    private SpriteRenderer spriteRenderer;
     private Quaternion targetRotationOverride;
     private bool overridingRotation=false;
     [Tooltip("Rotation speed when a rotation is forced on the player, like after a kick back")]
@@ -89,15 +90,18 @@ public class Swimmer : MonoBehaviour
     public float maxKickbackPressingTime=0.3f;
     private float kickbackTimer=10f; //Timer to check how long it's been since we kicked back against a wall for the purpose of rotating camera
 
+    private SwimmerSound swimmerSound;
 
     void Start()
     {
         controller=GetComponent<CharacterController>();
         playerInput=FindObjectOfType<PlayerInput>();
         animator=GetComponent<Animator>();
+        spriteRenderer=GetComponentInChildren<SpriteRenderer>();
         body=GetComponent<Rigidbody>();
         capsule=GetComponentInChildren<CapsuleCollider>();
         swimmerCamera=GetComponent<SwimmerCamera>();
+        swimmerSound=GetComponent<SwimmerSound>();
 
         Cursor.lockState = CursorLockMode.Locked;  // Locks the cursor to the center of the screen
 
@@ -106,6 +110,7 @@ public class Swimmer : MonoBehaviour
 
     void Update(){
         if(playerInput.movedForwardTrigger){
+            swimmerSound.Stride();
             boostTimer=0f;
             animator.SetTrigger("boostForward");
             playerInput.movedForwardTrigger=false;
@@ -185,8 +190,10 @@ public class Swimmer : MonoBehaviour
                 float targetRotationZ=0f;
                 if(playerInput.movingLeft && !playerInput.movingRight){
                     targetRotationZ=maxTiltAngle;
+                    spriteRenderer.flipX=true;
                 }else if(playerInput.movingRight && !playerInput.movingLeft){
                     targetRotationZ=-maxTiltAngle;
+                    spriteRenderer.flipX=false;
                 }
                 if(newRotation.z>=180f){
                     targetRotationZ=360f+targetRotationZ;
@@ -304,6 +311,7 @@ public class Swimmer : MonoBehaviour
             if(boostTimer>boostTime && boostTimer-Time.fixedDeltaTime<=boostTime){
                 playerVelocity+=transform.forward*boostSpeed;
                 BoostAnimation();
+                //swimmerSound.Stride();
             }
         }
 
@@ -318,11 +326,13 @@ public class Swimmer : MonoBehaviour
                     playerVelocity+=transform.forward*acceleration*playerInput.movingForwardValue*Time.fixedDeltaTime;
                 }
                 animator.SetBool("swimmingForward",true);
+                animator.SetBool("swimmingBackward",false);
             }else if(playerInput.movingBackward && !playerInput.movingForward){
                 if(playerVelocity.magnitude<coastingSpeed || Vector3.Angle(playerVelocity,-transform.forward)>=90f){
                     playerVelocity+=-transform.forward*backwardAcceleration*Time.fixedDeltaTime;
                 }
                 animator.SetBool("swimmingBackward",true);
+                animator.SetBool("swimmingForward",false);
                 boostTimer=boostTime+1f;
             }else{
                 animator.SetBool("swimmingForward",false);
@@ -362,6 +372,12 @@ public class Swimmer : MonoBehaviour
         // Using MovePosition because it interpolates movement smoothly and keeps velocity in next frame
         body.MovePosition(body.position+playerVelocity*Time.fixedDeltaTime);
         animator.SetFloat("speed",playerVelocity.magnitude);
+        if(playerVelocity.magnitude>0f && (playerInput.movingForward || playerInput.movingBackward)){
+            swimmerSound.StartSwimming(playerVelocity.magnitude);
+        }else{
+            swimmerSound.StopSwimming();
+        }
+
 
         prevVelocity=body.velocity;
 
@@ -435,6 +451,8 @@ public class Swimmer : MonoBehaviour
     }
 
     private Vector3 CheckForWallAndKick(Vector3 direction){
+        bool isKicking=false;
+
         Vector3 prevVelocity=body.velocity;
 
         Vector3 dir=new Vector3();
@@ -474,12 +492,17 @@ public class Swimmer : MonoBehaviour
                     Debug.DrawRay(body.position,normal*3f, Color.magenta, 3f);
                     Debug.DrawRay(body.position,force*3f, Color.green, 3f);
                     totalForce+=force;
+                    isKicking=true;
                     if(dustCloud==null){
                         dustCloud=Instantiate(dustCloudPrefab,transform.parent);
                         dustCloud.transform.position=hit2.point+normal*0.2f;
                     }
                 }
             }
+        }
+
+        if(isKicking){
+            swimmerSound.Kick();
         }
 
         totalForce=Vector3.ClampMagnitude(totalForce,wallBoost);
