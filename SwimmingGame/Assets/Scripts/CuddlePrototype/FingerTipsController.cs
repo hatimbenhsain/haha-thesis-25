@@ -1,182 +1,122 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class FingerTipsController : MonoBehaviour
 {
+    [Header("Movement Settings")]
     public float moveSpeed = 5f;
-    public float maxMoveRadius = 1.5f; // max radius for movement in XZ plane
+    public float maxMoveRadius = 1.5f;
     public float dampingFactor = 0.9f;
-    public LayerMask sexPartnerMask;
-    public float lerpSpeed = 1.0f; // the lerping speed for XZ movement
-    public float yLerpSpeed = 1.0f; // the lerping speed for Y matching movement
-    public float yOffset = 1.0f; // offset of the character from the top of touching objects
-    public float circleDuration = 1.0f; // duration for completing one full circle
+    public float lerpSpeed = 1.0f;
+    public float yLerpSpeed = 1.0f;
+    public float yOffset = 1.0f;
+    public float inputResetDelay = 0.5f; // Time in seconds before resetting position
+
+    [Header("References")]
     public GameObject reference;
+    public LayerMask sexPartnerMask;
 
     private PlayerInput playerInput;
     private Vector3 startLocalPosition;
     private Vector3 velocity;
-    private bool isCircling = false; // flag to check if circular movement is in progress
     private CuddleGameManager gameManager;
     public string lastDialogueOption = "Null option";
     private bool isUsingGamepad;
-    private bool rubInput;
+
+    private float inputTimer = 0f; // Tracks time since last input
 
     private void Start()
     {
         playerInput = FindObjectOfType<PlayerInput>();
-        startLocalPosition = transform.localPosition; // set the starting position in local space
+        startLocalPosition = transform.localPosition; // Set the starting position in local space
         gameManager = FindObjectOfType<CuddleGameManager>();
     }
 
-    void Update()
+    void FixedUpdate()
     {
-        // handle input change
+        HandleInput();
+        Moving();
+
+        if (inputTimer >= inputResetDelay)
+        {
+            ResetPosition();
+        }
+        AdjustYPosition();
+    }
+
+    // Handle input and determine control scheme
+    private void HandleInput()
+    {
         if (playerInput.currentControlScheme == "Gamepad")
         {
             isUsingGamepad = true;
-            rubInput = playerInput.interacting;
         }
         else
         {
             isUsingGamepad = false;
-            rubInput = playerInput.boosting;
         }
-        if (rubInput && !isCircling)
-        {
-            StartCoroutine(CircularMovement());
-            string currentOption = DetectDialogueOption();
-            if (currentOption != lastDialogueOption)
-            {
-                lastDialogueOption = currentOption;
-                gameManager.UpdateDialogueText(currentOption);  // Send the detected option to GameManager
-            }
-        }
-
-        // Only process movement if not in circling
-        if (!isCircling)
-        {
-            Moving();
-        }
-
-
-        AdjustYPosition();
     }
 
-    // handle movement of the character around, constrained within a small circle in XZ plane
-    void Moving()
+    private void Moving()
     {
-        float moveX = 0f;
-        float moveY = 0f;
-        // using keyboard
-        if (isUsingGamepad == false)
-        {
-            moveX = -playerInput.look.y;
-            moveY = playerInput.look.x;
-        }
-        // using gamepad
-        else
-        {
-            moveX = -playerInput.rotation.y;
-            moveY = playerInput.rotation.x;
-        }
-
+        float moveX = isUsingGamepad ? -playerInput.rotation.y : -playerInput.look.y;
+        float moveY = isUsingGamepad ? playerInput.rotation.x : playerInput.look.x;
 
         if (Mathf.Abs(moveX) > 0.01f || Mathf.Abs(moveY) > 0.01f)
         {
+            DetectDialogueOption();
             Vector3 inputDirection = new Vector3(moveX, moveY, 0).normalized;
-            velocity = inputDirection * moveSpeed * Time.deltaTime;
+            velocity = inputDirection * moveSpeed * Time.fixedDeltaTime;
+            inputTimer = 0f; 
         }
         else
         {
-            velocity *= dampingFactor;
+            velocity *= dampingFactor; // Apply damping
+            inputTimer += Time.fixedDeltaTime; // increment timer when no input
         }
 
         Vector3 localPosition = transform.localPosition + velocity;
         Vector3 localOffsetFromCenter = localPosition - startLocalPosition;
+
         if (localOffsetFromCenter.magnitude > maxMoveRadius)
         {
             localOffsetFromCenter = localOffsetFromCenter.normalized * maxMoveRadius;
             localPosition = startLocalPosition + localOffsetFromCenter;
         }
 
-        transform.localPosition = Vector3.Lerp(transform.localPosition, localPosition, lerpSpeed * Time.deltaTime);
+        transform.localPosition = Vector3.Lerp(transform.localPosition, localPosition, lerpSpeed * Time.fixedDeltaTime);
     }
 
-    // Coroutine to perform a circular movement around the radius
-    IEnumerator CircularMovement()
+    // Return to the reference object's position
+    private void ResetPosition()
     {
-        // Store the initial local position
-        startLocalPosition = transform.localPosition;
-        isCircling = true;
-        float elapsedTime = 0f;
-
-        // Store the original local z position
-        float originalZ = transform.localPosition.z;
-
-        while (elapsedTime < circleDuration)
-        {
-            // Calculate the angle for each point in the circle
-            float angle = Mathf.Lerp(0f, 2f * Mathf.PI, elapsedTime / circleDuration);
-            float x = Mathf.Cos(angle) * maxMoveRadius;
-            float y = Mathf.Sin(angle) * maxMoveRadius;
-
-            // Set the position based on the circle path, keeping the original z value
-            Vector3 circularPosition = startLocalPosition + new Vector3(x, y, originalZ);
-            transform.localPosition = Vector3.Lerp(transform.localPosition, circularPosition, lerpSpeed * Time.deltaTime);
-
-            elapsedTime += Time.deltaTime;
-            yield return null;
-        }
-
-        // Lerp to the reference object's absolute position after the circle is complete
         Vector3 referenceWorldPosition = reference.transform.position;
-        float returnElapsedTime = 0f;
-        while (returnElapsedTime < (circleDuration * 0.3f))
-        {
-            // Lerp to the reference object's world position
-            transform.position = Vector3.Lerp(transform.position, referenceWorldPosition, lerpSpeed * Time.deltaTime * 2);
-            returnElapsedTime += Time.deltaTime;
-            yield return null;
-        }
-
-        // Update the start local position to the current local position
-        startLocalPosition = transform.localPosition;
-        isCircling = false;
+        transform.position = Vector3.Lerp(transform.position, referenceWorldPosition, lerpSpeed * Time.fixedDeltaTime);
+        startLocalPosition = transform.localPosition; // Update start position
     }
 
+    // Detect nearby dialogue options
+    private void DetectDialogueOption()
+    {
+        Collider[] hitColliders = Physics.OverlapSphere(transform.position, 0.1f, LayerMask.GetMask("DialogueOption"));
+        foreach (var hitCollider in hitColliders)
+        {
+            string currentOption = hitCollider.gameObject.name;
+            if (currentOption != lastDialogueOption)
+            {
+                lastDialogueOption = currentOption;
+                gameManager.UpdateDialogueText(currentOption); 
+            }
+        }
+    }
 
-    // raycast to adjust Y position based on the highest object below
-    void AdjustYPosition()
+    // Adjust Y position based on the highest object below
+    private void AdjustYPosition()
     {
         RaycastHit hit;
         if (Physics.Raycast(new Vector3(transform.position.x, 100f, transform.position.z), Vector3.down, out hit, Mathf.Infinity, sexPartnerMask))
         {
             Vector3 targetPosition = new Vector3(transform.position.x, hit.point.y + yOffset, transform.position.z);
-            transform.position = Vector3.Lerp(transform.position, targetPosition, yLerpSpeed * Time.deltaTime);
+            transform.position = Vector3.Lerp(transform.position, targetPosition, yLerpSpeed * Time.fixedDeltaTime);
         }
-    }
-
-    // Lerp the fingertip object to be offset from the reference object's position
-    public void LerpToReference(Transform referenceObject, Vector3 offset)
-    {
-        // Calculate the target position based on the reference object's position and the offset
-        Vector3 targetPosition = referenceObject.position + offset;
-        transform.position = Vector3.Lerp(transform.position, targetPosition, lerpSpeed * Time.deltaTime);
-
-        // Reset localPosition after lerping
-        transform.localPosition = startLocalPosition;
-    }
-
-    public string DetectDialogueOption()
-    {
-        Collider[] hitColliders = Physics.OverlapSphere(transform.position, 0.1f, LayerMask.GetMask("DialogueOption"));
-        foreach (var hitCollider in hitColliders)
-        {
-            // Return the name of the GameObject with the trigger box
-            return hitCollider.gameObject.name;
-        }
-        return "Null option"; // No object detected
     }
 }
