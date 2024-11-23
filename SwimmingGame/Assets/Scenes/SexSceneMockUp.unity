@@ -654,12 +654,19 @@ MonoBehaviour:
   movementLerpSpeed: 5
   isExhaling: 0
   isInhaling: 0
-  movementBehavior: 0
-  currentIntensity: 0
   timeBetweenBreaths: 2
   minDistanceFromPlayer: 1
   maxDistanceFromPlayer: 5
   inhaleLength: 1
+  targetDistance: 5
+  turningTime: 1
+  maxDistanceFromOrigin: 20
+  timeVariance: 1
+  followToRunRatio: 1
+  movementBehavior: 0
+  currentIntensity: 0
+  capsule: {fileID: 839673795}
+  origin: {fileID: 839673794}
   springMovementValues:
   - movementBehavior: 3
     intensity: 0
@@ -668,6 +675,7 @@ MonoBehaviour:
     maxDistanceFromPlayer: 5
     inhaleLength: 1
     turnSpeed: 2
+    turningTime: 0
   - movementBehavior: 5
     intensity: 0
     timeBetweenBreaths: 1
@@ -675,6 +683,7 @@ MonoBehaviour:
     maxDistanceFromPlayer: 5
     inhaleLength: 1
     turnSpeed: 2
+    turningTime: 0
   - movementBehavior: 4
     intensity: 0
     timeBetweenBreaths: 1
@@ -682,6 +691,7 @@ MonoBehaviour:
     maxDistanceFromPlayer: 5
     inhaleLength: 1
     turnSpeed: 4
+    turningTime: 0
 --- !u!1 &161783160
 GameObject:
   m_ObjectHideFlags: 0
@@ -716,6 +726,50 @@ Transform:
   - {fileID: 1718280715}
   - {fileID: 1692687404}
   - {fileID: 448702394}
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &166960498
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 166960500}
+  - component: {fileID: 166960499}
+  m_Layer: 0
+  m_Name: ComputeCollisionWorld
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &166960499
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 166960498}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ce0ddc77554954cd78643d83b0505396, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!4 &166960500
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 166960498}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &175239298
@@ -2629,50 +2683,6 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: 2534964839176971238, guid: ae1ded9d6f821e14a810e6180ae10c78, type: 3}
---- !u!1 &253312503
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 253312505}
-  - component: {fileID: 253312504}
-  m_Layer: 0
-  m_Name: ComputeCollisionWorld
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &253312504
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 253312503}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ce0ddc77554954cd78643d83b0505396, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!4 &253312505
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 253312503}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &254182776
 GameObject:
   m_ObjectHideFlags: 0
@@ -3528,6 +3538,7 @@ GameObject:
   - component: {fileID: 448702394}
   - component: {fileID: 448702396}
   - component: {fileID: 448702397}
+  - component: {fileID: 448702398}
   m_Layer: 0
   m_Name: SexGameManager
   m_TagString: Untagged
@@ -3568,6 +3579,12 @@ MonoBehaviour:
   threshold: 5
   growSpeed: 10
   decaySpeed: 5
+  headToHeadDistance: 0
+  playerHead: {fileID: 2088156358}
+  npcHead: {fileID: 839673794}
+  playerBodyVelocity: 0
+  playerBody: {fileID: 879249930519844524}
+  moveOnAfterTresholdReached: 0
 --- !u!114 &448702397
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3591,6 +3608,23 @@ MonoBehaviour:
   ropeAEndPercentage: 100
   ropeBStartPercentage: 0
   ropeBEndPercentage: 100
+--- !u!114 &448702398
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 448702392}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6b7d95465349a8f4186fe87c4f1b93f2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  globalVolume: {fileID: 98009274}
+  directionalLight: {fileID: 711768559}
+  mainCamera: {fileID: 7509293758979159241}
+  material1: {fileID: 0}
+  material2: {fileID: 0}
 --- !u!43 &449207541
 Mesh:
   m_ObjectHideFlags: 0
@@ -26146,4 +26180,4 @@ SceneRoots:
   - {fileID: 1058645680}
   - {fileID: 161783161}
   - {fileID: 637554519}
-  - {fileID: 253312505}
+  - {fileID: 166960500}
