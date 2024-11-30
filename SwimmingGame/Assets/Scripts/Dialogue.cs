@@ -185,21 +185,40 @@ public class Dialogue : MonoBehaviour
         textBox.SetActive(true);
         lineTMP.text=displayText.Substring(0,Mathf.FloorToInt(currentCharacterIndex));
         canvasParent.SetActive(true);
+        if(currentCharacterIndex<displayText.Length && inlinePauseTimer<=0f){
+            textBox.GetComponentInChildren<Animator>().speed=currentTextSpeed/dialogueSpeedNormal;
+        }else{
+            textBox.GetComponentInChildren<Animator>().speed=0.5f;
+        }
     }
 
     //Show choices on UI
     void ShowChoices(){
         for(int i=0;i<Mathf.Min(story.currentChoices.Count,choiceTextBoxes.Length);i++){
-            choiceTextBoxes[i].gameObject.SetActive(true);
+            if(!choiceTextBoxes[i].gameObject.activeInHierarchy){
+                choiceTextBoxes[i].gameObject.SetActive(true);
+                choiceTextBoxes[i].GetComponentInChildren<Animator>().StartPlayback();
+                choiceTextBoxes[i].GetComponentInChildren<Animator>().Play("Base Layer.smallDialogueBubbleIdle",-1,Random.Range(0f,1f));
+                choiceTextBoxes[i].GetComponentInChildren<Animator>().speed=1f;
+            }
+            
             choiceTMPs[i].text=story.currentChoices[i].text;
             if(i==currentChoiceIndex){
-                Color c=choiceTextBoxes[i].GetComponent<Image>().color;
-                c.a=0.8f;
-                choiceTextBoxes[i].GetComponent<Image>().color=c;
+                Image[] images=choiceTextBoxes[i].GetComponentsInChildren<Image>();
+                foreach(Image image in images){
+                    Color c=image.color;
+                    c.a=0.8f;
+                    image.color=c;
+                }
+                choiceTextBoxes[i].GetComponentInChildren<Animator>().speed=1.25f;
             }else{
-                Color c=choiceTextBoxes[i].GetComponent<Image>().color;
-                c.a=0.5f;
-                choiceTextBoxes[i].GetComponent<Image>().color=c;
+                Image[] images=choiceTextBoxes[i].GetComponentsInChildren<Image>();
+                foreach(Image image in images){
+                    Color c=image.color;
+                    c.a=0.5f;
+                    image.color=c;
+                }
+                choiceTextBoxes[i].GetComponentInChildren<Animator>().speed=0.5f;
             }
         }
     }

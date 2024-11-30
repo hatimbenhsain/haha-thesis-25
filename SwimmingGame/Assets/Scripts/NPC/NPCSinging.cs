@@ -47,6 +47,8 @@ public class NPCSinging : Singing
 
     private bool harmonized=false;
 
+    private Animator animator;
+
 
     void Start()
     {
@@ -65,6 +67,10 @@ public class NPCSinging : Singing
         currentEventLength=sequence[sequenceIndex].length;
 
         npcBrain=GetComponent<NPCOverworld>();
+
+        if(!TryGetComponent<Animator>(out animator)){
+            transform.parent.TryGetComponent<Animator>(out animator);
+        }
     }
 
     void Update()
@@ -100,6 +106,7 @@ public class NPCSinging : Singing
                     singingVolume=1f;
                     singingNote=sequence[sequenceIndex].musicNote;
                 }
+
 
                 if(singing && timer==0f){
                     StopAllNotes();
@@ -147,6 +154,14 @@ public class NPCSinging : Singing
             }
         }else if(sequence.Count>0 && prevCanSing){
             StopAllNotes();
+        }
+
+        if(animator!=null){
+            if(canSing && singing){
+                animator.SetBool("singing",true);
+            }else{
+                animator.SetBool("singing",false);
+            }
         }
 
         
