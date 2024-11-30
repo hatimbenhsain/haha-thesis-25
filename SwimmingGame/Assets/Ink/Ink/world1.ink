@@ -10,8 +10,153 @@ VAR sexIntensity=0
 
 /* CORALNET */
 
+//I'm calling OP initator for now but could be different
+// other ideas: first author, singer
+
+=== coralnet1 ===
+Coralnet: motif: favorite swimming style?
+> what's everyone's favorite swimming style and why?
+> personally i like to mix hermit and shark style on the lower half and cerulean top i find it the most efficient.
+> i just kind of do what everyone else is doing
+> i reaaaally like sliding on walls does anyone else do this
+> i like going backwards because i always get surprised when i reach something
+> i like sliding on walls too
+> i alternate
+->END
+
+=== coralnet2 ===
+Coralnet: motif: has anyone actually done "it" yet?
+> motif.
+> yes.
+> yeah i have.
+> i did it with a bunch of people.
+> how does it work exactly?
+> so one of you shrinks down and you enter the other person's mouth.
+> then you tickle the under of their tongue.
+> that's seahorseshit. it's really simple you just have to lie very still next to each other and then it feels good in your stomach.
+> hi! actual person who's done it here.
+> basically there's two types of people: one with a hole and one with a long hard object. the long object goes into the hole many times.
+> all of these sound disgusting. are people really doing this?
+> how much chewing are you supposed to do? does anyone know?
+-> END
+
+=== coralnet3 ===
+Coralnet: motif: hole in my head
+> i woke up with a hole in my head. what do i do?
+> you have to be more specific than that.
+> it's a hole on the side of my head. i don't know why it's there.
+> initiator are you sure you weren't stabbed?
+> have you tried putting things in it?
+> yes, it feels a little odd.
+> and i always feel a sort of unpleasant pressure so i started plugging it
+> why?
+> just felt right
+> how big is it initiator?
+> about the size of my finger.
+> initiator i have a lot of experience with holes could we meet and i could examine you?
+> no?? it's really weird i would rather not or else i wouldn't be on here.
+> initiator any update? i think i have one too.
+> yes it's still really strange but i feel i am becoming stronger and more deadly
+-> END
+
+=== coralnet4 ===
+Coralnet: motif: ate my lover
+> is it abnormal to eat your lover without asking if you could?
+> they were annoying me a lot and i didn't want to hear their thoughts anymore.
+> my friends are saying it's questionable behavior.
+> initiator why didn't you just stop singing with them?
+> felt rude
+> i think it's ok i've eaten 20 of my past lovers and each time they get tastier
+> hi i think you shouldn't date someone if they're not ready to be eaten i think it's ok initiator
+-> END
+
+=== coralnet5 ===
+Coralnet: motif: anyone yearns?
+> anyone yearns to be in the next season? i miss the parties
+> initiator why dont' you just have a party here
+> it's not the same
+> initiator that doesn't seem right maybe you hit your heard really hard? have you seen a doctor?
+> no
+-> END
+
+=== coralnet6 ===
+Coralnet: motif: what's it like outside?
+> motif.
+> i don't know
+> i don't know
+> i tried going but i felt very bad everywhere and had to come back inside.
+> has anyone who's traversed come back yet?
+> my sibling said they did and there was sharp glass everywhere and everything was blurry and they never got hungry
+> but i think they lied
+-> END
+
+=== coralnet7 ===
+Coralnet: motif: i went outside
+> i went outside and there was sharp glass everywhere and everything was blurry and i was never hungry
+> that's not true my lover said they were born outside and that there wasn't any sharp glass anywhere
+> what else did they say?
+> they said the ground burns your feet and everything that you try to eat turns into spikes so they had to come here
+> none of this is true i went outside and it's the same as here but more magenta
+-> END
+
+=== coralnet8 ===
+Coralnet: motif: i miss my lover
+> i miss my lover a lot. what do i do?
+> initiator did your lover provide you with most of your food? maybe you should find a good hunter to replace them
+> no it wasn't like that
+> i think i just really liked their company
+> initiator did they have a particularly good voice? maybe you could start going to more concerts and operas
+> hi i tried this but i still feel the missing
+> what do i do?
+-> END
+
+=== coralnet9 ===
+Coralnet: motif: i see them everywhere
+> ever since my lover left me i see them everywhere i always feel their presence even though they're not there
+> initiator did you also sing about missing your lover in another coral?
+> no? that wasn't me 
+> initiator that sucks you should really just try living in the moment
+> initator have you tried the entanglement yet? maybe it would fix you
+> that sounds scary
+-> END
+
+=== coralnet10 ===
+Coralnet: motif: current order
+> does anyone know why the current sometimes is really cold and sometimes too hot?
+> i think it's when people emit evil and dark vibrations it makes it cold but sometimes hot and it's perfect when there's only nice people around
+> hi i don't know
+> what the second person said sounds right
+-> END 
+
+=== coralnet11 ===
+Coralnet: motif: has anyone tried this
+> recently i tried wrapping my organ around of a pillar and it felt extremely good
+> what organ? what are you talking about
+> if you don't know what i'm talking about this isn't for you
+> initiator i tried this and i didn't feel anything did you do anything else?
+> i just kind of rubbed it a lot and it was really great
+> i did this too but instead of a pillar it was a wall and i spread it kind of everywhere
+> me too i think i prefer than doing it with other people
+> what are you all talking about???
+-> END
+
+=== coralnet12 ===
+Coralnet: motif: keeping the secret
+> there's a lot of people who haven't experienced "it" yet and i don't like talking to them because they feel like little children.
+> how can we know who else has done it so we can avoid the unchanged?
+> initiator since when are we keeping it a secret and why
+> i think those of us who had it were chosen and we shouldn't mix with the less-deserving
+> chosen for what
+> initator chosen by whom
+> it doesn't matter can you just answer my question
+> i try using a lot of euphemisms... "it" is a good one. i'm also partial to "relations" and "fun"
+> has anyone come up with an actual name for it actually??
+> what are we talking about???
+> hello?
+-> END
+
 === coralnetProgress === //the coralnet to read to progress story
-Coralnet: topic: my entanglement
+Coralnet: motif: my entanglement
 > i experienced it today. i'm happy to share my experience.
 > oh? how was it? tell us about it.
 > it was in the back of our music hall. 
@@ -36,6 +181,9 @@ Coralnet: topic: my entanglement
 > initiator, how did it feel?
 > initiator, tell us how it was.
 -> END
+
+
+
 
 /* MAIN STORY */
 
@@ -253,6 +401,7 @@ MC: I'm sorry. I really need to get going.
 Teacher: No, I'm sorry. I...
 MC: Let's never do this again.
 -> END
+// Transition to migration
 
 
 
