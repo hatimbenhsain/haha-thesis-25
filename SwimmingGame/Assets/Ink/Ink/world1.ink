@@ -5,6 +5,7 @@ EXTERNAL restartSinging()
 EXTERNAL loadLevel(destination)
 EXTERNAL goToNextLevel()
 EXTERNAL nextBrain()  //Switch the brain/behavior used by NPC
+EXTERNAL toggleSingingMode()
 
 VAR sexIntensity=0
 

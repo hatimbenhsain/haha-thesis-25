@@ -30,6 +30,9 @@ public class NPCSinging : Singing
     [Tooltip("How long before NPC stops singing MC's harmony when switching")]
     public float timeBeforeDroppingHarmony=1f;
 
+    [Tooltip("Time after which npc stops singing the same note")]
+    public float gettingTiredTime=4f;
+    private float gettingTiredTimer=0f;
     
     [Header("Misc")]
     [Tooltip("Can set starting time here for offset")]
@@ -82,15 +85,7 @@ public class NPCSinging : Singing
 
         swimmerSinging=FindObjectOfType<SwimmerSinging>();
 
-        switch(singingMode){
-            case SingingMode.Sequence:
-                currentEventLength=sequence[sequenceIndex].length;
-                break;
-            case SingingMode.Responding:
-                currentEventLength=Random.Range(-timerMaxVariationLength,timerMaxVariationLength);
-                break;
-        }
-
+        PrepareSinging();
 
         npcBrain=GetComponent<NPCOverworld>();
 
@@ -140,11 +135,15 @@ public class NPCSinging : Singing
                 case SingingMode.Responding:
                     if(singing){
                         singingVolume=1f;
+                        gettingTiredTimer+=Time.deltaTime;
+                    }else{
+                        gettingTiredTimer-=Time.deltaTime;
                     }
                     if(distanceFromPlayer<=maxSwimmerDistance && !singing){
                         if(!swimmerSinging.singing){
                             timer=0f;
                         }else if(timer>=timeBeforePickingUpHarmony+currentEventLength){
+                            gettingTiredTimer=0f;
                             timer=0f;
                             singing=true;
                             singingVolume=1f;
@@ -169,10 +168,20 @@ public class NPCSinging : Singing
                             npcBrain.Harmonized();
                             harmonized=false;
                         }
-                        if(distanceFromPlayer>maxSwimmerDistance){
-                            harmonyValue=0f;
-                        }
                     }
+
+                    if(singing && gettingTiredTimer>=gettingTiredTime+currentEventLength){
+                        singing=false;
+                        singingVolume=0f;
+                        targetOpacity=0f;
+                        StopAllNotes();
+                        timer=-timeBeforePickingUpHarmony;
+                    }
+
+                    if(distanceFromPlayer>maxSwimmerDistance){
+                        harmonyValue=0f;
+                    }
+
                     break;
             }
 
@@ -319,8 +328,48 @@ public class NPCSinging : Singing
 
     public void RestartSinging(){
         canSing=true;
+        PrepareSinging();
+    }
+
+    void PrepareSinging(){
         sequenceIndex=0;
         timer=0f;
+        switch(singingMode){
+            case SingingMode.Sequence:
+                StartSequence();
+                break;
+            case SingingMode.Responding:
+                StartResponding();
+                break;
+        }
+    }
+
+    public void SwitchSingingMode(SingingMode mode){
+        SingingMode prevMode=singingMode;
+        singingMode=mode;
+        if(prevMode!=mode){
+            PrepareSinging();
+        }
+    }
+
+    public void ToggleSingingMode(){
+        switch(singingMode){
+            case SingingMode.Sequence:
+                SwitchSingingMode(SingingMode.Responding);
+                break;
+            case SingingMode.Responding:
+                SwitchSingingMode(SingingMode.Sequence);
+                break;
+        }
+    }
+
+    void StartSequence(){
+        sequenceIndex=0;
+        currentEventLength=sequence[sequenceIndex].length;
+    }
+
+    void StartResponding(){
+        currentEventLength=Random.Range(-timerMaxVariationLength,timerMaxVariationLength);
     }
 
 }

@@ -428,6 +428,9 @@ public class Dialogue : MonoBehaviour
         story.BindExternalFunction("restartSinging",()=>{
             RestartSinging();
         });
+        story.BindExternalFunction("toggleSingingMode",()=>{
+            ToggleSingingMode();
+        });
         story.BindExternalFunction("loadLevel",(string destinationScene)=>{
             LoadLevel(destinationScene);
         });
@@ -444,11 +447,9 @@ public class Dialogue : MonoBehaviour
     void Pause(float time){
         pauseTimer=time;
         HideText();
-        Debug.Log("Pause");
     }
 
     void StopSinging(){
-        Debug.Log("stop siinging 1");
         if(npcInterlocutor!=null){
             npcInterlocutor.GetComponent<NPCSinging>().StopSinging();
         }
@@ -463,6 +464,12 @@ public class Dialogue : MonoBehaviour
     void RestartSinging(){
         if(npcInterlocutor!=null){
             npcInterlocutor.GetComponent<NPCSinging>().RestartSinging();
+        }
+    }
+
+    void ToggleSingingMode(){
+        if(npcInterlocutor!=null){
+            npcInterlocutor.GetComponent<NPCSinging>().ToggleSingingMode();
         }
     }
 
