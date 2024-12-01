@@ -99,6 +99,8 @@ public class Dialogue : MonoBehaviour
                         }else if(story.currentChoices.Count>0 && currentChoiceIndex<=story.currentChoices.Count 
                             && currentChoiceIndex>=0){
                             PickChoice(currentChoiceIndex);
+                        }else if(story.currentChoices.Count>0 && currentChoiceIndex<=story.currentChoices.Count){
+                            currentChoiceIndex=0;
                         }else{
                             EndDialogue();
                         }
@@ -307,6 +309,7 @@ public class Dialogue : MonoBehaviour
         playerInput.RestoreDefaultMap();
         if(npcInterlocutor!=null){
             npcInterlocutor.FinishedDialogue(isAmbient);
+            npcInterlocutor=null;
         }
         if(swimmer!=null) swimmer.FinishedDialogue(isAmbient);
         displayText="";

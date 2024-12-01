@@ -7,7 +7,6 @@ EXTERNAL goToNextLevel()
 EXTERNAL nextBrain()  //Switch the brain/behavior used by NPC
 
 === beginning ===
-~ stopSinging()
 Teacher: Hey. \\pause\\pause\\pauseHow's the current for you? #speed: 50
 +   [Fine.]
     MC: I think it's fine.

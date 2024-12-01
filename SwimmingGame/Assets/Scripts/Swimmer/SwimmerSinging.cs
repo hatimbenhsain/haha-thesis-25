@@ -82,7 +82,6 @@ public class SwimmerSinging : Singing
                 }
             }else if(playerInput.currentControlScheme=="Keyboard&Mouse" && playerInput.singing){
                 inputNote=playerInput.singingNote*Time.deltaTime*mouseSensitivity+inputNote;
-                Debug.Log("inputting mouse");
                 singing=true;
             }else{
                 inputNote=Vector2.zero;

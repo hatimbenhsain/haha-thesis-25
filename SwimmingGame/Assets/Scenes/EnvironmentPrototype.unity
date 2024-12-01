@@ -16379,6 +16379,7 @@ MonoBehaviour:
   singingNote: B4
   singingVolume: 0
   maxSingingVolume: 1
+  singingMode: 0
   singingTraceSpriteRenderer: {fileID: 2061984238}
   singingTraceSprites:
   - {fileID: -564246579, guid: 9eaabeef8a2711f46980fb51160fd866, type: 3}
@@ -16392,6 +16393,8 @@ MonoBehaviour:
   - musicNote: G#5
     length: 10
   sequenceIndex: 0
+  timeBeforePickingUpHarmony: 1
+  timeBeforeDroppingHarmony: 1
   timer: 0
   imageOpacityLerpSpeed: 7
   maxOpacity: 0.4
@@ -37588,6 +37591,7 @@ MonoBehaviour:
   singingNote: B4
   singingVolume: 0
   maxSingingVolume: 1
+  singingMode: 0
   singingTraceSpriteRenderer: {fileID: 2061984238}
   singingTraceSprites:
   - {fileID: -564246579, guid: 9eaabeef8a2711f46980fb51160fd866, type: 3}
@@ -37609,6 +37613,8 @@ MonoBehaviour:
   - musicNote: C#5
     length: 3
   sequenceIndex: 0
+  timeBeforePickingUpHarmony: 1
+  timeBeforeDroppingHarmony: 1
   timer: 0
   imageOpacityLerpSpeed: 7
   maxOpacity: 0.4
@@ -54918,6 +54924,31 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 4411424951496902611, guid: b9e32df6ea3078345a0c520a84cf8942,
+        type: 3}
+      propertyPath: name
+      value: NPC1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4411424951496902611, guid: b9e32df6ea3078345a0c520a84cf8942,
+        type: 3}
+      propertyPath: singingMode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4411424951496902611, guid: b9e32df6ea3078345a0c520a84cf8942,
+        type: 3}
+      propertyPath: harmonyTargetValue
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 4411424951496902611, guid: b9e32df6ea3078345a0c520a84cf8942,
+        type: 3}
+      propertyPath: timeBeforeDroppingHarmony
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4411424951496902611, guid: b9e32df6ea3078345a0c520a84cf8942,
+        type: 3}
+      propertyPath: timeBeforePickingUpHarmony
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 5202552734854915770, guid: b9e32df6ea3078345a0c520a84cf8942,
         type: 3}
       propertyPath: m_Name
