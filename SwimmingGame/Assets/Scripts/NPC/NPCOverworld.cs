@@ -411,6 +411,7 @@ public class NPCOverworld : MonoBehaviour
     public void ChangeState(NPCStates state){
         pastState=currentState;
         currentState=state;
+        Debug.Log("change state "+state);
     }
 
     void DialogueStart(){
@@ -419,8 +420,10 @@ public class NPCOverworld : MonoBehaviour
     }
 
     public void FinishedDialogue(bool isAmbient=false){
+        Debug.Log("Finished dialogue");
         if(!isAmbient){ //If this dialogue isn't ambient NPC returns to their previous state
             ChangeState(pastState);
+            singer.harmonyValue=0f;
         }
     }
 

@@ -4,18 +4,37 @@ using UnityEngine;
 using FMOD.Studio;
 using FMODUnity;
 using Obi;
+using Ink.Parsed;
+using Unity.VisualScripting;
 
 public class NPCSinging : Singing
 {
+    public SingingMode singingMode=SingingMode.Sequence;
    
     public SpriteRenderer singingTraceSpriteRenderer;
     public Sprite[] singingTraceSprites;
+    [Header("Sequence Mode")]
+
 
     [Tooltip("Musical sequence")]
     public List<MusicalEvent> sequence;
     public int sequenceIndex=0;
 
 
+
+
+    [Header("Responding Mode")]
+
+    [Tooltip("How long before NPC picks up MC's harmony")]
+    public float timeBeforePickingUpHarmony=1f; 
+    [Tooltip("How long before NPC stops singing MC's harmony when switching")]
+    public float timeBeforeDroppingHarmony=1f;
+
+    [Tooltip("Time after which npc stops singing the same note")]
+    public float gettingTiredTime=4f;
+    private float gettingTiredTimer=0f;
+    
+    [Header("Misc")]
     [Tooltip("Can set starting time here for offset")]
     public float timer=0f;
 
@@ -49,6 +68,8 @@ public class NPCSinging : Singing
 
     private Animator animator;
 
+    private string prevNote;
+
 
     void Start()
     {
@@ -64,7 +85,7 @@ public class NPCSinging : Singing
 
         swimmerSinging=FindObjectOfType<SwimmerSinging>();
 
-        currentEventLength=sequence[sequenceIndex].length;
+        PrepareSinging();
 
         npcBrain=GetComponent<NPCOverworld>();
 
@@ -75,44 +96,103 @@ public class NPCSinging : Singing
 
     void Update()
     {
-        if(canSing && sequence.Count>0){
+        if(singingMode==SingingMode.Sequence && sequence.Count<=0){
+            canSing=false;
+        }
+
+        if(canSing){
             float distanceFromPlayer=Vector3.Distance(transform.position,swimmerSinging.transform.position);
 
             timer+=Time.deltaTime;
-            if(timer>=currentEventLength){
-                sequenceIndex+=1;
-                sequenceIndex=sequenceIndex%sequence.Count;
-                currentEventLength=sequence[sequenceIndex].length+Random.Range(-timerMaxVariationLength,timerMaxVariationLength);
-                timer=0f;
 
-                if(harmonized){ //Only do harmonized effects at the end of a singing event, so there's no abrupt cutoff
-                    StopAllNotes();
-                    //canSing=false;
-                    harmonyValue=0f;
-                    targetOpacity=0f;
-                    npcBrain.Harmonized();
-                    harmonized=false;
-                }
+            //Picking note and telling what/whether to sing
+            switch(singingMode){
+                case SingingMode.Sequence:
+                    if(timer>=currentEventLength){
+                        sequenceIndex+=1;
+                        sequenceIndex=sequenceIndex%sequence.Count;
+                        currentEventLength=sequence[sequenceIndex].length+Random.Range(-timerMaxVariationLength,timerMaxVariationLength);
+                        timer=0f;
+                        if(harmonized){ //Only do harmonized effects at the end of a singing event, so there's no abrupt cutoff
+                            StopAllNotes();
+                            harmonyValue=0f;
+                            targetOpacity=0f;
+                            npcBrain.Harmonized();
+                            harmonized=false;
+                        }else{
+                            if(sequence[sequenceIndex].musicNote=="" || sequence[sequenceIndex].musicNote=="0" || sequence[sequenceIndex].musicNote.ToLower()=="pause"){
+                                singing=false;
+                                singingVolume=0f;
+                            }else{
+                                singing=true;
+                                singingVolume=1f;
+                                singingNote=sequence[sequenceIndex].musicNote;
+                            }
+                        }
+                            
+                    }
+                    break;
+                case SingingMode.Responding:
+                    if(singing){
+                        singingVolume=1f;
+                        gettingTiredTimer+=Time.deltaTime;
+                    }else{
+                        gettingTiredTimer-=Time.deltaTime;
+                    }
+                    if(distanceFromPlayer<=maxSwimmerDistance && !singing){
+                        if(!swimmerSinging.singing){
+                            timer=0f;
+                        }else if(timer>=timeBeforePickingUpHarmony+currentEventLength){
+                            gettingTiredTimer=0f;
+                            timer=0f;
+                            singing=true;
+                            singingVolume=1f;
+                            singingNote=PickHarmony(swimmerSinging);
+                            currentEventLength=Random.Range(-timerMaxVariationLength,timerMaxVariationLength);
+                        }
+                    }else if(distanceFromPlayer>=maxSwimmerDistance || !swimmerSinging.singing || !isHarmonizing(swimmerSinging)){
+                        if(timer>=timeBeforeDroppingHarmony+currentEventLength){
+                            singing=false;
+                            singingVolume=0f;
+                            StopAllNotes();
+                            currentEventLength=Random.Range(-timerMaxVariationLength,timerMaxVariationLength);
+                        }else if(timer>=(timeBeforeDroppingHarmony+currentEventLength)/2){
+                            singingVolume=(timer-(timeBeforeDroppingHarmony+currentEventLength)/2)/(timeBeforeDroppingHarmony+currentEventLength);
+                        }
+                    }else{
+                        timer-=Time.deltaTime*2f;
+                        timer=Mathf.Max(timer,0.01f);
+                        if(harmonized){
+                            harmonyValue=0f;
+                            targetOpacity=0f;
+                            npcBrain.Harmonized();
+                            harmonized=false;
+                        }
+                    }
+
+                    if(singing && gettingTiredTimer>=gettingTiredTime+currentEventLength){
+                        singing=false;
+                        singingVolume=0f;
+                        targetOpacity=0f;
+                        StopAllNotes();
+                        timer=-timeBeforePickingUpHarmony;
+                    }
+
+                    if(distanceFromPlayer>maxSwimmerDistance){
+                        harmonyValue=0f;
+                    }
+
+                    break;
             }
 
             if(canSing){
                 bool prevSinging=singing;
 
-                if(sequence[sequenceIndex].musicNote=="" || sequence[sequenceIndex].musicNote=="0" || sequence[sequenceIndex].musicNote.ToLower()=="pause"){
-                    singing=false;
-                    singingVolume=0f;
-                }else{
-                    singing=true;
-                    singingVolume=1f;
-                    singingNote=sequence[sequenceIndex].musicNote;
-                }
-
-
-                if(singing && timer==0f){
+                if(singing && !IsPlaying(singingNote)){
                     StopAllNotes();
-                    PlayNote(singingNote);           
-
-                    RuntimeManager.AttachInstanceToGameObject(events[singingNote],transform);
+                    PlayNote(singingNote);     
+                    prevNote=singingNote;      
+                    RuntimeManager.AttachInstanceToGameObject(events[singingNote],transform); // 3D Singing
                 }else if(!singing && timer==0f){
                     StopAllNotes();
                     targetOpacity=0f;
@@ -124,9 +204,9 @@ public class NPCSinging : Singing
                 SingingUpdate();
 
                 if(singing && distanceFromPlayer>maxSwimmerDistance){
-                    targetOpacity=0.1f;
+                    targetOpacity=0.1f*singingVolume;
                 }else if(singing){
-                    targetOpacity=0.25f;
+                    targetOpacity=0.25f*singingVolume;
                 }
 
                 // Checking harmony and starting dialogue if harmony is achieved
@@ -152,7 +232,7 @@ public class NPCSinging : Singing
 
                 harmonyValue=Mathf.Clamp(harmonyValue,0f,harmonyTargetValue);
             }
-        }else if(sequence.Count>0 && prevCanSing){
+        }else if(prevCanSing){
             StopAllNotes();
         }
 
@@ -170,6 +250,37 @@ public class NPCSinging : Singing
         singingTraceSpriteRenderer.color=new Color(c.r,c.g,c.b,a);
 
         prevCanSing=canSing;
+    }
+
+    string PickHarmony(Singing s){
+        string harmonyNote="";
+        int index=possibleNotes.IndexOf(s.singingNote);
+        switch(harmonyType){
+            case HarmonyTypes.Triangle:
+                if(Random.Range(0f,1f)<0.5f){
+                    harmonyNote=possibleNotes[(index+2)%possibleNotes.Count];
+                }else{
+                    harmonyNote=possibleNotes[(index+possibleNotes.Count-2)%possibleNotes.Count];
+                }
+                break;
+            case HarmonyTypes.NextNote:
+                if(Random.Range(0f,1f)<0.5f){
+                    harmonyNote=possibleNotes[(index+1)%possibleNotes.Count];
+                }else{
+                    harmonyNote=possibleNotes[(index+possibleNotes.Count-1)%possibleNotes.Count];
+                }
+                break;
+            case HarmonyTypes.SameNote:
+                harmonyNote=s.singingNote;
+                break;
+            case HarmonyTypes.Anything:
+                harmonyNote=possibleNotes[Random.Range(0,possibleNotes.Count)];
+                break;
+            case HarmonyTypes.None:
+                harmonyNote=possibleNotes[Random.Range(0,possibleNotes.Count)];
+                break;
+        }
+        return harmonyNote;
     }
 
     bool isHarmonizing(Singing s){
@@ -208,6 +319,7 @@ public class NPCSinging : Singing
     public void StopSinging(){
         canSing=false;
         targetOpacity=0f;
+        singing=false;
     }
 
     public void ContinueSinging(){
@@ -216,8 +328,48 @@ public class NPCSinging : Singing
 
     public void RestartSinging(){
         canSing=true;
+        PrepareSinging();
+    }
+
+    void PrepareSinging(){
         sequenceIndex=0;
         timer=0f;
+        switch(singingMode){
+            case SingingMode.Sequence:
+                StartSequence();
+                break;
+            case SingingMode.Responding:
+                StartResponding();
+                break;
+        }
+    }
+
+    public void SwitchSingingMode(SingingMode mode){
+        SingingMode prevMode=singingMode;
+        singingMode=mode;
+        if(prevMode!=mode){
+            PrepareSinging();
+        }
+    }
+
+    public void ToggleSingingMode(){
+        switch(singingMode){
+            case SingingMode.Sequence:
+                SwitchSingingMode(SingingMode.Responding);
+                break;
+            case SingingMode.Responding:
+                SwitchSingingMode(SingingMode.Sequence);
+                break;
+        }
+    }
+
+    void StartSequence(){
+        sequenceIndex=0;
+        currentEventLength=sequence[sequenceIndex].length;
+    }
+
+    void StartResponding(){
+        currentEventLength=Random.Range(-timerMaxVariationLength,timerMaxVariationLength);
     }
 
 }
@@ -228,4 +380,9 @@ public enum HarmonyTypes{
     Anything,   //Singing whatever
     NextNote,   //Singing the next note up or down on the pentacle
     None        //Never harmonizes
+}
+
+public enum SingingMode{
+    Sequence,
+    Responding
 }

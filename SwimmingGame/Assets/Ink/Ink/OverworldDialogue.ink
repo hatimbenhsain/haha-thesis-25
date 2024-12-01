@@ -5,9 +5,9 @@ EXTERNAL restartSinging()
 EXTERNAL loadLevel(destination)
 EXTERNAL goToNextLevel()
 EXTERNAL nextBrain()  //Switch the brain/behavior used by NPC
+EXTERNAL toggleSingingMode()
 
 === beginning ===
-~ stopSinging()
 Teacher: Hey. \\pause\\pause\\pauseHow's the current for you? #speed: 50
 +   [Fine.]
     MC: I think it's fine.
@@ -18,6 +18,7 @@ Teacher: Hey. \\pause\\pause\\pauseHow's the current for you? #speed: 50
 - Teacher: I see. #speed: slow
 ~ stopSinging()
 I don't think I agree. #speed: fast
+~ toggleSingingMode()
 ~ continueSinging()
 I'm going to the party next. #speed: normal
 -> END
