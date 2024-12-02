@@ -62,6 +62,11 @@ public class Dialogue : MonoBehaviour
     public float inlinePauseLength=1f; //in seconds
     private float inlinePauseTimer=0f;
 
+    [Header("Additional Text Boxes")]
+    public GameObject standardTextBox;
+    public GameObject floralTextBox;
+    public GameObject boneTextBox;
+
     void Awake()
     {
         playerInput=FindObjectOfType<PlayerInput>();
@@ -79,6 +84,10 @@ public class Dialogue : MonoBehaviour
         HideChoices();
 
         swimmer=FindObjectOfType<Swimmer>();
+
+        standardTextBox.SetActive(false);
+        floralTextBox.SetActive(false);
+        boneTextBox.SetActive(false);
     }
 
     void Update(){
@@ -275,6 +284,7 @@ public class Dialogue : MonoBehaviour
     }
 
     public void StartDialogue(TextAsset textAsset=null,string knotName="",NPCOverworld interlocutor=null){
+        SetDialogueBubble("standard");
         npcInterlocutor=interlocutor;
 
         if(textAsset==null){
@@ -440,6 +450,9 @@ public class Dialogue : MonoBehaviour
         story.BindExternalFunction("nextBrain",()=>{
             NextBrain();
         });
+        story.BindExternalFunction("setDialogueBubble",(string bubble)=>{
+            SetDialogueBubble(bubble);
+        });
     }
 
     // EXTERNAL FUNCTIONS
@@ -490,6 +503,24 @@ public class Dialogue : MonoBehaviour
         if(npcInterlocutor!=null && npcInterlocutor.transform.parent.TryGetComponent<NPCSequencer>(out npcSequencer)){
             npcSequencer.NextBrain();
         }
+    }
+
+    void SetDialogueBubble(string bubble){
+        bool isActive=interlocutorTextBox.activeInHierarchy;
+        interlocutorTextBox.SetActive(false);
+        switch(bubble.ToLower()){
+            case "standard":
+                interlocutorTextBox=standardTextBox;
+                break;
+            case "floral":
+                interlocutorTextBox=floralTextBox;
+                break;
+            case "bone":
+                interlocutorTextBox=boneTextBox;
+                break;
+        }
+        interlocutorLineTMP=interlocutorTextBox.GetComponentInChildren<TMP_Text>();
+        interlocutorTextBox.SetActive(isActive);
     }
 
 

@@ -1,11 +1,4 @@
-EXTERNAL pause(time)
-EXTERNAL stopSinging()
-EXTERNAL continueSinging()
-EXTERNAL restartSinging()
-EXTERNAL loadLevel(destination)
-EXTERNAL goToNextLevel()
-EXTERNAL nextBrain()  //Switch the brain/behavior used by NPC
-EXTERNAL toggleSingingMode()
+INCLUDE Functions.ink
 
 === beginning ===
 Teacher: Hey. \\pause\\pause\\pauseHow's the current for you? #speed: 50
@@ -21,6 +14,10 @@ I don't think I agree. #speed: fast
 ~ toggleSingingMode()
 ~ continueSinging()
 I'm going to the party next. #speed: normal
+~ setDialogueBubble("floral")
+This is the floral bubble. It could be used maybe for coral text or something really esoteric and cool.
+~ setDialogueBubble("bone")
+This is the bone bubble. It could alternativle be used for coral text or something kind of technologic?
 -> END
 
 === ambientDialogue ===
