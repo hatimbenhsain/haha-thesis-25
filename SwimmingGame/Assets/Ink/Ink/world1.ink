@@ -18,6 +18,8 @@ Coralnet: motif: favorite swimming style?
 > i alternate
 ->END
 
+// I love the i alternate to wrap up everything
+
 === coralnet2 ===
 Coralnet: motif: has anyone actually done "it" yet?
 > motif.
@@ -33,6 +35,9 @@ Coralnet: motif: has anyone actually done "it" yet?
 > all of these sound disgusting. are people really doing this?
 > how much chewing are you supposed to do? does anyone know?
 -> END
+
+// Love how they are all straight-up misinformation and
+// the reference to human sex
 
 === coralnet3 ===
 Coralnet: motif: hole in my head
@@ -73,6 +78,8 @@ Coralnet: motif: anyone yearns?
 > no
 -> END
 
+// The no at the end is very reddit reply vibe
+
 === coralnet6 ===
 Coralnet: motif: what's it like outside?
 > motif.
@@ -83,6 +90,8 @@ Coralnet: motif: what's it like outside?
 > my sibling said they did and there was sharp glass everywhere and everything was blurry and they never got hungry
 > but i think they lied
 -> END
+
+// Like how a lot of these coralnet foreshadows future events
 
 === coralnet7 ===
 Coralnet: motif: i went outside
@@ -134,6 +143,8 @@ Coralnet: motif: has anyone tried this
 > what are you all talking about???
 -> END
 
+// love the tone of this part
+
 === coralnet12 ===
 Coralnet: motif: keeping the secret
 > there's a lot of people who haven't experienced "it" yet and i don't like talking to them because they feel like little children.
@@ -176,7 +187,7 @@ Coralnet: motif: my entanglement
 > initiator, tell us how it was.
 -> END
 
-
+// I like this one very much. I like the recurring reference to how it feels inside one's mouth. Also imagining a world where this part could feel more cut off vibe since the teacher is probably approaching in the middle when MC is reading? Now is also very nice!
 
 
 /* MAIN STORY */
@@ -197,6 +208,8 @@ Teacher: ...
 Teacher: Say, I always see you here. Do you only come to browse or--
 MC: I really need to get going.
 -> END
+
+// Same I feel like here the rest of the interaction is nice but I feel like MC should be more surprised by the teacher being next to them.
 
 // MC finds teacher at diner sitting. They start singing when MC gets nearby to invite conversation
 === teacherAtDiner ===
@@ -265,6 +278,9 @@ Teacher: You take the lead.
 -> END
 // Teacher and MC harmonize a few times
 
+// Maybe add a "I was here just now" vibe on line 249?
+// Love the interaction starting at line 254
+
 //After harmonizing a few times
 === teacherAtEdge2 ===
 MC: I can feel the... 
@@ -297,6 +313,7 @@ Teacher: We can start whenever you feel comfortable. Let's just harmonize again 
 // Starts again after harmonizing just once
 
 //We could definitely cut parts of this if it's too long/too much to program, I tried to give as much choice opportunities as possible
+// I feel like we can definitely see after playtest. But I think we can keep it now its all good stuff to me
 === teacherCuddling ===
 Teacher: How was that?
 +   [Good.]
