@@ -33,15 +33,26 @@ public class TutorializationIcon : MonoBehaviour
 
     public bool ignoreYAxisInverted=false;
 
+    [HideInInspector]
+    public float masterOpacity=1f;
+
+    private Tutorial tutorial;
+
+    public bool isHarmonySprite=false;
+
+
     void Start()
     {
         image=GetComponent<Image>();
         playerInput=FindObjectOfType<PlayerInput>();
-        joystickInitialPosition=joystick.anchoredPosition;
+        if(isJoystick) joystickInitialPosition=joystick.anchoredPosition;
+        tutorial=FindObjectOfType<Tutorial>();
     }
 
     void Update()
     {
+        masterOpacity=tutorial.opacity;
+
         if(isButton){
             active=false;
             foreach(int inputNum in inputNums){
@@ -53,8 +64,8 @@ public class TutorializationIcon : MonoBehaviour
         }else if(isJoystick){
             Vector2 v=joystickInitialPosition;
             v.x=v.x+Mathf.Clamp(((float)playerInput.values[inputNums[0]]),-1f,1f)*joystickRadius;
-            if(playerInput.yAxisInverted && !ignoreYAxisInverted){
-                v.y=v.y-Mathf.Clamp(((float)playerInput.values[inputNums[0]]),-1f,1f)*joystickRadius;
+            if(!ignoreYAxisInverted && playerInput.yAxisInverted){
+                v.y=v.y-Mathf.Clamp(((float)playerInput.values[inputNums[1]]),-1f,1f)*joystickRadius;
             }else{
                 v.y=v.y+Mathf.Clamp(((float)playerInput.values[inputNums[1]]),-1f,1f)*joystickRadius;
             }
@@ -66,12 +77,27 @@ public class TutorializationIcon : MonoBehaviour
             }
         }
 
-        if(active){
-            sprites=activeSprites;
-            image.color=new Color(1f,1f,1f,0.5f);
-        }else{
+
+        if(isHarmonySprite){
             sprites=idleSprites;
-            image.color=new Color(1f,1f,1f,1f);
+            Color c=image.color;
+            float opacity=c.a;
+            if(active){
+                opacity=Mathf.Lerp(opacity,1f,imageSpeed*2f*Time.deltaTime);
+            }else{
+                opacity=Mathf.Lerp(opacity,0f,imageSpeed*2f*Time.deltaTime);
+            }
+            c.a=Mathf.Clamp(opacity,0f,masterOpacity);
+            image.color=c;
+        }else{
+            if(active){
+                tutorial.currentlyUsed=true;
+                sprites=activeSprites;
+                image.color=new Color(1f,1f,1f,0.5f*masterOpacity);
+            }else{
+                sprites=idleSprites;
+                image.color=new Color(1f,1f,1f,1f*masterOpacity);
+            }
         }
 
         imageIndex+=imageSpeed*Time.deltaTime;
@@ -80,6 +106,7 @@ public class TutorializationIcon : MonoBehaviour
         image.sprite=sprites[Mathf.FloorToInt(imageIndex)];
         if(isJoystick){
             joystick.GetComponent<Image>().sprite=joystickSprites[Mathf.FloorToInt(imageIndex)];
+            joystick.GetComponent<Image>().color=new Color(1f,1f,1f,1f*masterOpacity);
         }
 
     }
