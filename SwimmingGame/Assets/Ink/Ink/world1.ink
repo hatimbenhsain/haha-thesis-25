@@ -78,7 +78,7 @@ Coralnet: motif: anyone yearns?
 > no
 -> END
 
-// The no at the end is very reddit reply vibe
+// HAN: The no at the end is very reddit reply vibe
 
 === coralnet6 ===
 Coralnet: motif: what's it like outside?
