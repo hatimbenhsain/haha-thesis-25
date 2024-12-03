@@ -29,6 +29,9 @@ public class Tutorial : MonoBehaviour
     private Collider enteredTrigger, exitedTrigger;
     private SwimmerSinging swimmerSinging;
 
+    [HideInInspector]
+    public bool paused=false;
+
 
     void Start()
     {
@@ -96,53 +99,57 @@ public class Tutorial : MonoBehaviour
                     tutorialParts[index].active=true; //IMPORTANT: i think currentTutorialPart is essentially a copy so we gotta change this at the root
                 }
             }else{
-                //Deal with harmony special icon
-                if(currentTutorialPart.isHarmony){
-                    foreach(TutorializationIcon icon in icons){
-                        icon.active=false;
-                    }
-                    float minDistance=100f;
-                    string note="";
-                    NPCSinging[] npcSingings=FindObjectsOfType<NPCSinging>();
-                    foreach(NPCSinging npcSinging in npcSingings){
-                        if(npcSinging.singing){
-                            float distance=Vector3.Distance(swimmerSinging.transform.position,npcSinging.transform.position);
-                            if(distance<npcSinging.maxSwimmerDistance && distance<minDistance){
-                                minDistance=distance;
-                                note=npcSinging.singingNote;
-                                if(npcSinging.isHarmonizing()){
-                                    currentlyUsed=true;
+                if(!paused){
+                    //Deal with harmony special icon
+                    if(currentTutorialPart.isHarmony){
+                        foreach(TutorializationIcon icon in icons){
+                            icon.active=false;
+                        }
+                        float minDistance=100f;
+                        string note="";
+                        NPCSinging[] npcSingings=FindObjectsOfType<NPCSinging>();
+                        foreach(NPCSinging npcSinging in npcSingings){
+                            if(npcSinging.singing){
+                                float distance=Vector3.Distance(swimmerSinging.transform.position,npcSinging.transform.position);
+                                if(distance<npcSinging.maxSwimmerDistance && distance<minDistance){
+                                    minDistance=distance;
+                                    note=npcSinging.singingNote;
+                                    if(npcSinging.isHarmonizing()){
+                                        currentlyUsed=true;
+                                    }
                                 }
                             }
                         }
+                        if(note=="A4"){
+                            icons[0].active=true;
+                        }else if(note=="B4"){
+                            icons[1].active=true;
+                        }else if(note=="C#5"){
+                            icons[2].active=true;
+                        }else if(note=="D#5"){
+                            icons[3].active=true;
+                        }else if(note=="G#5"){
+                            icons[4].active=true;
+                        }
                     }
-                    if(note=="A4"){
-                        icons[0].active=true;
-                    }else if(note=="B4"){
-                        icons[1].active=true;
-                    }else if(note=="C#5"){
-                        icons[2].active=true;
-                    }else if(note=="D#5"){
-                        icons[3].active=true;
-                    }else if(note=="G#5"){
-                        icons[4].active=true;
-                    }
-                }
 
-                if((currentlyUsed || currentTutorialPart.disappearsAutomatically) && targetOpacity>0f){
-                    timer+=Time.deltaTime;
-                    //targetOpacity=Mathf.Clamp(1f-timer/currentTutorialPart.timeBeforeDisappearing,0f,1f);
-                    if(timer>=currentTutorialPart.timeBeforeDisappearing){
-                        targetOpacity=0f;
+                    if((currentlyUsed || currentTutorialPart.disappearsAutomatically) && targetOpacity>0f){
+                        timer+=Time.deltaTime;
+                        //targetOpacity=Mathf.Clamp(1f-timer/currentTutorialPart.timeBeforeDisappearing,0f,1f);
+                        if(timer>=currentTutorialPart.timeBeforeDisappearing){
+                            targetOpacity=0f;
+                        }
+                    }else if(targetOpacity==0f){
+                        timer+=Time.deltaTime;
+                        if(currentlyUsed){
+                            timer=0f;
+                        }
+                        if(!currentTutorialPart.disappearsAutomatically && timer>=currentTutorialPart.timeBeforeReappearing){
+                            targetOpacity=1f;
+                        }
                     }
-                }else if(targetOpacity==0f){
-                    timer+=Time.deltaTime;
-                    if(currentlyUsed){
-                        timer=0f;
-                    }
-                    if(!currentTutorialPart.disappearsAutomatically && timer>=currentTutorialPart.timeBeforeReappearing){
-                        targetOpacity=1f;
-                    }
+                }else{
+                    targetOpacity=0f;
                 }
 
                 if(tutorialParts[index].done){
@@ -158,7 +165,9 @@ public class Tutorial : MonoBehaviour
                 c.a=opacity;
                 tMPro.color=c;
 
-                tutorialParts[index].done=IsDone(index);
+                if(!tutorialParts[index].done){
+                    tutorialParts[index].done=IsDone(index);
+                }
 
                 if(tutorialParts[index].done && opacity<=0.05f){
                     NextTutorialPart();
@@ -216,6 +225,14 @@ public class Tutorial : MonoBehaviour
 
     public void ExitedTrigger(Collider other){
         exitedTrigger=other;
+    }
+
+    public void PauseTutorial(bool b){
+        paused=b;
+    }
+
+    public void FinishTutorialPart(int i){
+        tutorialParts[index].done=true;
     }
 }
 

@@ -88,6 +88,10 @@ public class Dialogue : MonoBehaviour
         standardTextBox.SetActive(false);
         floralTextBox.SetActive(false);
         boneTextBox.SetActive(false);
+
+        if(inkJSONAsset!=null){
+            StartStory();
+        }
     }
 
     void Update(){
@@ -287,13 +291,14 @@ public class Dialogue : MonoBehaviour
         SetDialogueBubble("standard");
         npcInterlocutor=interlocutor;
 
+        TextAsset prevTextAsset=inkJSONAsset;
         if(textAsset==null){
             textAsset=inkJSONAsset;
         }
         if(knotName==""){
             knotName=currentKnotName;
         }
-        StartStory();
+        if(textAsset!=prevTextAsset) StartStory();
         if(currentKnotName!=""){
             StartKnot(knotName);
         }
@@ -453,6 +458,12 @@ public class Dialogue : MonoBehaviour
         story.BindExternalFunction("setDialogueBubble",(string bubble)=>{
             SetDialogueBubble(bubble);
         });
+        story.BindExternalFunction("pauseTutorial",(bool b)=>{
+            PauseTutorial(b);
+        });
+        story.BindExternalFunction("finishTutorialPart",(int i)=>{
+            FinishTutorialPart(i);
+        });
     }
 
     // EXTERNAL FUNCTIONS
@@ -523,5 +534,12 @@ public class Dialogue : MonoBehaviour
         interlocutorTextBox.SetActive(isActive);
     }
 
+    void PauseTutorial(bool b){
+        FindObjectOfType<Tutorial>().PauseTutorial(b);
+    }
+
+    void FinishTutorialPart(int i){
+        FindObjectOfType<Tutorial>().FinishTutorialPart(i);
+    }
 
 }
