@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics.Tracing;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Tutorial : MonoBehaviour
 {
@@ -87,6 +88,11 @@ public class Tutorial : MonoBehaviour
                     c.a=opacity;
                     tMPro.color=c;
 
+                    Image[] images=currentTutorialPart.canvasParent.GetComponentsInChildren<Image>();
+                    foreach(Image image in images){
+                        image.color=c;
+                    }
+
                     tutorialParts[index].active=true; //IMPORTANT: i think currentTutorialPart is essentially a copy so we gotta change this at the root
                 }
             }else{
@@ -139,6 +145,9 @@ public class Tutorial : MonoBehaviour
                     }
                 }
 
+                if(currentTutorialPart.done){
+                    targetOpacity=0f;
+                }
 
                 float opacityLerpSpeed=opacityFadeinSpeed;
                 if(opacity>targetOpacity){
@@ -149,19 +158,31 @@ public class Tutorial : MonoBehaviour
                 c.a=opacity;
                 tMPro.color=c;
 
-                if(((timer>=currentTutorialPart.timeBeforeDisappearing && currentTutorialPart.disappearsAfterTime) ||
-                (currentTutorialPart.disappearsAutomatically && timer>=currentTutorialPart.timeBeforeDisappearing))
-                 && opacity<0.05f){
-                    NextTutorialPart();
-                }else if(currentTutorialPart.disappearsAfterLeavingZone && exitedTrigger==currentTutorialPart.triggerZone){
+                tutorialParts[index].done=IsDone(index);
+
+                if(tutorialParts[index].done){
                     NextTutorialPart();
                 }
-                exitedTrigger=null;
+
             }
         }
 
         currentlyUsed=false;
         
+    }
+
+    bool IsDone(int tutorialPartIndex){
+        bool done=false;
+        TutorialPart currentTutorialPart=tutorialParts[index];
+        if(((timer>=currentTutorialPart.timeBeforeDisappearing && currentTutorialPart.disappearsAfterTime) ||
+            (currentTutorialPart.disappearsAutomatically && timer>=currentTutorialPart.timeBeforeDisappearing))
+            && opacity<0.05f){
+            done=true;
+        }else if(currentTutorialPart.disappearsAfterLeavingZone && exitedTrigger==currentTutorialPart.triggerZone){
+            done=true;
+        }
+        exitedTrigger=null;
+        return done;
     }
 
     public void NextTutorialPart(){

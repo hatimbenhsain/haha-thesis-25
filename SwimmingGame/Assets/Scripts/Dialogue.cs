@@ -121,13 +121,13 @@ public class Dialogue : MonoBehaviour
 
                 //Handling player input: picking choice
                 if(story.currentChoices.Count>0 && currentCharacterIndex>=displayText.Length){
-                    if((playerInput.movingDown && !playerInput.prevMovingDown) || 
-                        (playerInput.movingRight && !playerInput.prevMovingRight)){
+                    if((playerInput.navigateDown && !playerInput.prevNavigateDown) || 
+                        (playerInput.navigateRight && !playerInput.prevNavigateRight)){
                         currentChoiceIndex+=1;
                         currentChoiceIndex=(currentChoiceIndex+story.currentChoices.Count)%story.currentChoices.Count;
                     }
-                    if((playerInput.movingUp && !playerInput.prevMovingUp) ||
-                        (playerInput.movingLeft && !playerInput.prevMovingLeft)){
+                    if((playerInput.navigateUp && !playerInput.prevNavigateUp) ||
+                        (playerInput.navigateLeft && !playerInput.prevNavigateLeft)){
                         currentChoiceIndex-=1;
                         currentChoiceIndex=(currentChoiceIndex+story.currentChoices.Count)%story.currentChoices.Count;
                     }
@@ -307,7 +307,7 @@ public class Dialogue : MonoBehaviour
         }else{
             isAmbient=false;
         }
-        if(!isAmbient) playerInput.SwitchMap("UI");
+        //if(!isAmbient) playerInput.SwitchMap("UI");
         
         if(swimmer!=null) swimmer.StartedDialogue(isAmbient);
     }
