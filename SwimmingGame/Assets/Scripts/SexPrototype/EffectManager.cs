@@ -9,6 +9,10 @@ public class EffectManager : MonoBehaviour
     public Camera mainCamera;
     public Material material1;
     public Material material2;
+    [Header("Test Values")]
+    public bool testModeOn;
+    public Color fogColorTest;
+    public Color directionalLightColorTest;
 
     private Color fogColor;
 
@@ -20,5 +24,14 @@ public class EffectManager : MonoBehaviour
         }
     }
 
+    private void Update()
+    {
+        if (testModeOn)
+        {
+            RenderSettings.fogColor = fogColorTest;
+            directionalLight.color = directionalLightColorTest;
+        }
+
+    }
 }
 

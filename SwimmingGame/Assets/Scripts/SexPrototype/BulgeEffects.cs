@@ -3,13 +3,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class InhaleBulge : MonoBehaviour
+public class BulgeEffects: MonoBehaviour
 {
-    public SpringController springController; 
+    public SpringController springController;
     public float bulgeThickness = 0.06f;
     public float baseThickness = 0.04f;
     public float inhaleLerpSpeed;
-    public float exhaleLerpSpeed; 
+    public float exhaleLerpSpeed;
 
     private ObiRope rope;
     public ObiPathSmoother smoother;
