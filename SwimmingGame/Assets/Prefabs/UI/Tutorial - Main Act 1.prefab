@@ -239,8 +239,8 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 19.33, y: -4.14, z: 2.85}
-  m_LocalScale: {x: 8.4364, y: 8.4364, z: 8.4364}
-  m_ConstrainProportionsScale: 0
+  m_LocalScale: {x: 9.2, y: 9.2, z: 9.2}
+  m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 2659401385570145730}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -594,7 +594,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &7950449320871819280
 RectTransform:
   m_ObjectHideFlags: 0
@@ -790,7 +790,7 @@ MonoBehaviour:
   joystickSprites: []
   imageSpeed: 4
   active: 0
-  inputNums: 07000000
+  inputNums: 0e000000
   isButton: 1
   isJoystick: 0
   joystick: {fileID: 0}
@@ -863,7 +863,8 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "Use the LEFT TRIGGER \nto stabilize your orientation."
+  m_text: "Use the LEFT TRIGGER \nin conjunction with the JOYSTICKS\nto stabilize
+    your orientation."
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: e464691ed957e964c9883c2eb065f706, type: 2}
   m_sharedMaterial: {fileID: 6772388661375904925, guid: e464691ed957e964c9883c2eb065f706,
@@ -927,7 +928,7 @@ MonoBehaviour:
   m_VertexBufferAutoSizeReduction: 0
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: 0, y: -92.174774, z: 0, w: 0}
+  m_margin: {x: -215.4784, y: -92.174774, z: 0, w: 0}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_hasFontAssetChanged: 0
@@ -1372,8 +1373,8 @@ MonoBehaviour:
   - delay: 0
     triggerZone: {fileID: 6833627926533814555}
     canvasParent: {fileID: 162154128448081990}
-    timeBeforeDisappearing: 1
-    timeBeforeReappearing: 1
+    timeBeforeDisappearing: 0.5
+    timeBeforeReappearing: 2
     active: 0
     triggered: 0
     done: 0
@@ -1385,7 +1386,7 @@ MonoBehaviour:
     triggerZone: {fileID: 0}
     canvasParent: {fileID: 436761496478160218}
     timeBeforeDisappearing: 2
-    timeBeforeReappearing: 4
+    timeBeforeReappearing: 2
     active: 0
     triggered: 0
     done: 0
@@ -1396,7 +1397,7 @@ MonoBehaviour:
   - delay: 3
     triggerZone: {fileID: 0}
     canvasParent: {fileID: 1528770583031122270}
-    timeBeforeDisappearing: 2
+    timeBeforeDisappearing: 4
     timeBeforeReappearing: 4
     active: 0
     triggered: 0
@@ -2209,7 +2210,9 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "Use the either JOYSTICK\n to rotate your body."
+  m_text: 'Use either JOYSTICK
+
+    to rotate your body.'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: e464691ed957e964c9883c2eb065f706, type: 2}
   m_sharedMaterial: {fileID: 6772388661375904925, guid: e464691ed957e964c9883c2eb065f706,

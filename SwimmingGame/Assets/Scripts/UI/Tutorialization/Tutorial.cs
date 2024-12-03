@@ -145,7 +145,7 @@ public class Tutorial : MonoBehaviour
                     }
                 }
 
-                if(currentTutorialPart.done){
+                if(tutorialParts[index].done){
                     targetOpacity=0f;
                 }
 
@@ -160,7 +160,7 @@ public class Tutorial : MonoBehaviour
 
                 tutorialParts[index].done=IsDone(index);
 
-                if(tutorialParts[index].done){
+                if(tutorialParts[index].done && opacity<=0.05f){
                     NextTutorialPart();
                 }
 
@@ -176,7 +176,7 @@ public class Tutorial : MonoBehaviour
         TutorialPart currentTutorialPart=tutorialParts[index];
         if(((timer>=currentTutorialPart.timeBeforeDisappearing && currentTutorialPart.disappearsAfterTime) ||
             (currentTutorialPart.disappearsAutomatically && timer>=currentTutorialPart.timeBeforeDisappearing))
-            && opacity<0.05f){
+            && opacity<0.1f){
             done=true;
         }else if(currentTutorialPart.disappearsAfterLeavingZone && exitedTrigger==currentTutorialPart.triggerZone){
             done=true;
@@ -192,6 +192,12 @@ public class Tutorial : MonoBehaviour
     public void GoToTutorialPart(int i){
         DeactivateTutorialPart(index);
         index=i;
+    }
+
+    public void RepeatTutorialPart(int i){
+        DeactivateTutorialPart(index);
+        index=i;
+        tutorialParts[index].done=false;
     }
 
     void DeactivateTutorialPart(int i){
@@ -223,6 +229,7 @@ public struct TutorialPart{
 
     public float timeBeforeReappearing;
     [HideInInspector]
-    public bool active, triggered, done;
+    public bool active, triggered;
+    public bool done;
     public bool disappearsAfterTime, disappearsAfterLeavingZone, disappearsAutomatically, isHarmony;
 }
