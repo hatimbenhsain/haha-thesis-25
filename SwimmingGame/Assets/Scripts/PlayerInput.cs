@@ -22,6 +22,9 @@ public class PlayerInput : MonoBehaviour
     public bool aiming;
     public bool singing;
 
+    [HideInInspector]
+    public object[] values;
+
     public bool yAxisInverted=false;
 
     //[HideInInspector]
@@ -38,9 +41,12 @@ public class PlayerInput : MonoBehaviour
 
     void Start(){
         playerInput = GetComponent<UnityEngine.InputSystem.PlayerInput>();
+
+        values=new object[] {look.x,look.y,rotation.x,rotation.y,singingNote.x,singingNote.y,movingForward,movingBackward,movingLeft,movingRight,movingUp,movingDown,boosting,interacting,aiming,singing};
     }
 
     void Update(){
+        values=new object[] {look.x,look.y,rotation.x,rotation.y,singingNote.x,singingNote.y,movingForward,movingBackward,movingLeft,movingRight,movingUp,movingDown,boosting,interacting,aiming,singing};
         if(Input.GetKeyDown(KeyCode.I)){
             yAxisInverted=!yAxisInverted;
         }
