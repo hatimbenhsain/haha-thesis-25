@@ -307,14 +307,15 @@ MC: Wait, stop!
 
 === teacherAtEdge4 ===
 ~stopSinging()
-MC: Sorry,\\pause that was... #speed: slow
+MC: Sorry, \\pausethat was... #speed: slow
 Teacher: Are you okay? #speed: slow
-MC: Yeah, I guess I just didn't expect it to feel that way.
+MC: Yeah, \\pauseI guess I just didn't expect it to feel that way.
 Teacher: Did it hurt?
 MC: No.
 MC: It was just something I've never felt before.
+~pause(2)
 Teacher: Right.
-~pause(4)
+~pause(6)
 Teacher: Do you wanna stop for now...?
 MC: No I want to keep going. #speed: fast
 Teacher: Ok.
