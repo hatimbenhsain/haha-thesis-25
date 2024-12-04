@@ -67,6 +67,8 @@ public class Dialogue : MonoBehaviour
     public GameObject floralTextBox;
     public GameObject boneTextBox;
 
+    private Color defaultTextBoxColor;
+
     void Awake()
     {
         playerInput=FindObjectOfType<PlayerInput>();
@@ -311,6 +313,19 @@ public class Dialogue : MonoBehaviour
         }else{
             isAmbient=false;
         }
+
+        if(ContainsTag(story.TagsForContentAtPath(currentKnotName),"color")){
+            Image[] images=textBox.GetComponentsInChildren<Image>();
+            defaultTextBoxColor=images[0].color;
+            string tag=GetTag(story.TagsForContentAtPath(currentKnotName),"color");
+            Color newColor;
+            if(ColorUtility.TryParseHtmlString("#"+tag.Replace("color:","").Trim(),out newColor)){
+                foreach(Image image in images){
+                    newColor.a=image.color.a;
+                    image.color=newColor;
+                }
+            }
+        }
         //if(!isAmbient) playerInput.SwitchMap("UI");
         
         if(swimmer!=null) swimmer.StartedDialogue(isAmbient);
@@ -330,6 +345,12 @@ public class Dialogue : MonoBehaviour
         }
         if(swimmer!=null) swimmer.FinishedDialogue(isAmbient);
         displayText="";
+
+        Image[] images=textBox.GetComponentsInChildren<Image>();
+        foreach(Image image in images){
+            defaultTextBoxColor.a=image.color.a;
+            image.color=defaultTextBoxColor;
+        }
     }
 
     public void StartStory (TextAsset textAsset=null) {

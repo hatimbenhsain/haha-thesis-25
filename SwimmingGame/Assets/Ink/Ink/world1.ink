@@ -479,13 +479,102 @@ MC: Let's never do this again.
 
 /* RANDOM NPCS */
 
+=== npcAtLibrary1 ===
+# color: 7E0D13
+~stopSinging()
+NPC: I LOVE SINGING INTO THE CORALNET 
+{->one->|->two->}
+~continueSinging()
+-> END
+= one
+I FEEL FREE TO EXPRESS MY DEEPEST MOST EMBARASSING SECRETS THAT I WOULD NEVER TELL ANYONE
+LIKE HOW I WANTED TO END MY LAST ROMANTIC RELATIONSHIP BUT I COULDN'T BRING MYSELF TO GO THROUGH WITH IT
+SO I COVERED MYSELF IN SAND AND I ATTACHED SCALES ON MY BODY AND PRETENDED TO BE A BURROWING FISH 
+UNTIL MY EX LEFT ME ALONE
+BUT THEN I REALLY ENJOYED THE BOTTOM-FEEDER LIFESTYLE AND I BECAME ADDICTED TO BURROWING 
+AND EATING ANYTHING THAT FELL INTO MY MOUTH 
+MOSTLY OTHER PEOPLE'S DROPPINGS PROBABLY
+I WAS SO WRAPPED UP IN IT THAT I DIDN'T REALIZE EVERYONE HAD MOVED ON TO THE NEXT SEASON
+SO I JUST STAYED THERE BUT THEN I MISSED ANOTHER SEASON 
+THEN ANOTHER
+AND NOW I THINK IT'S BEEN A FEW AND I THINK I JUST MET MY EX'S GRANDCHILD
+MC: ...And you're feeling okay with telling me this?
+NPC: YOU SEEM REALLY TRUSTWORTHY
+->->
+=two
+MC: That's good.
+->->
+
+=== npcInCenter1 ===
+# color: 6D6787
+~stopSinging()
+NPC: I love kicking off walls! It's my favorite part about swimming!
+Do you know how to do it?
++   [Yes.]
+    Awesome! So do I!
++   [No.]
+    Oh!
+    Would you like me to teach you how?!
+    ++  [Sure.]
+        Ok!
+        All you have to do is kick your feet against it!
+        +++ [...What?]
+            Oh!
+            You mean like, teach you ~how~ to do it, huh?
+            You basically just have to rapidly swim away from a wall while being near one.
+            Does that make more sense?
+            ++++ [Yes.]
+                Good!
+                Don't worry, I know what you are.
+            ++++ [No.]
+                Oh!
+                Basically, you need to do a "rapid button press".
+                And it only works if you're swimming forward or backward.
+                Surely that explains it?
+                +++++   [Yes.]
+                    Yeah, I figured it would.
+                +++++ [No.]
+                    Oh!
+                    Sorry, I thought you were...
+                    Nevermind! Goodbye!
+        +++ [Oh, duh.]
+            Yeah! Ask me again if you forget!
+    ++  [No thanks.]
+        Aw! Too bad!
+- ~continueSinging()
+-> END
 
 
-
-
-
-
-
+=== npcInDiner1 ===
+# color: 1F7A6E
+~stopSinging()
+NPC: I like the food here... but it's nothing compared to the buffets at Enkidu's parties!
+Have you been to one of those?
++ [Yes.]
+    Oh yeah? Me too!
+    What was your favorite dish?
+    ++ [The jellied morsels.]
+        Mmm.. Aah!! I wish the current could take me there here and now!
+    ++ [The en-croute noisettes.]
+        Mmm.. Aah!! I wish the current could take me there here and now!
+    ++ [It's not about the food.]
+        MC: You're going to Enkidu's parties for the food? Is that really all you care about?
+        NPC: Oh! I mean, uhm, no, of course not! I'm, uuuh, all about the scene!
+        The... dancing scene, of course! And the music! I'm with the tides!
+        And I really like all that stuff that everyone has been doing lately! 
+        I have totally done it too, many times! Do you want to do it with me right now?!
+        +++ [Sure.]
+            Ah, erm..! Maybe after I finish my meal!
+            Or actually, maybe even later than that. 
+            I'm supposed to eat you at the end, right? I need an empty stomach! Come back a different time!
+            MC: Okay..
+        +++ [No thanks.]
+            Ah... Well, not for lack of trying!
++ [No.]
+    You absolutely have to try it! 
+    They will be where most of us are going next, so prepare yourself for the bacchanalia of a lifetime!
+- ~continueSinging()
+-> END
 
 
 
