@@ -22,10 +22,19 @@ public class PlayerInput : MonoBehaviour
     public bool aiming;
     public bool singing;
 
+    public bool navigateLeft;
+    public bool navigateRight;
+    public bool navigateUp;
+    public bool navigateDown;
+
+
+    [HideInInspector]
+    public object[] values;
+
     public bool yAxisInverted=false;
 
     //[HideInInspector]
-    public bool prevMovingForward, prevMovingBackward, prevMovingLeft, prevMovingRight, prevMovingUp, prevMovingDown, prevBoosting, prevInteracting, prevAiming, prevSinging;
+    public bool prevMovingForward, prevMovingBackward, prevMovingLeft, prevMovingRight, prevMovingUp, prevMovingDown, prevBoosting, prevInteracting, prevAiming, prevSinging, prevNavigateLeft, prevNavigateRight, prevNavigateUp, prevNavigateDown;
 
     public bool movedForwardTrigger;
 
@@ -38,9 +47,12 @@ public class PlayerInput : MonoBehaviour
 
     void Start(){
         playerInput = GetComponent<UnityEngine.InputSystem.PlayerInput>();
+
+        values=new object[] {look.x,look.y,rotation.x,rotation.y,singingNote.x,singingNote.y,movingForward,movingBackward,movingLeft,movingRight,movingUp,movingDown,boosting,interacting,aiming,singing};
     }
 
     void Update(){
+        values=new object[] {look.x,look.y,rotation.x,rotation.y,singingNote.x,singingNote.y,movingForward,movingBackward,movingLeft,movingRight,movingUp,movingDown,boosting,interacting,aiming,singing};
         if(Input.GetKeyDown(KeyCode.I)){
             yAxisInverted=!yAxisInverted;
         }
@@ -59,6 +71,10 @@ public class PlayerInput : MonoBehaviour
         prevAiming=aiming;
         prevSinging=singing;
         currentControlScheme=playerInput.currentControlScheme;
+        prevNavigateDown=navigateDown;
+        prevNavigateLeft=navigateLeft;
+        prevNavigateRight=navigateRight;
+        prevNavigateUp=navigateUp;
     }
 
     public void OnMoveForward(InputAction.CallbackContext value){
@@ -118,6 +134,22 @@ public class PlayerInput : MonoBehaviour
 
     public void OnSingingNote(InputAction.CallbackContext value){
         SingingNoteInput(value.ReadValue<Vector2>());
+    }
+
+    public void OnNavigateLeft(InputAction.CallbackContext value){
+        NavigateLeftInput(value.ReadValue<float>() < 0.8f ? false : true);
+    }
+
+    public void OnNavigateRight(InputAction.CallbackContext value){
+        NavigateRightInput(value.ReadValue<float>() < 0.8f ? false : true);
+    }
+
+    public void OnNavigateUp(InputAction.CallbackContext value){
+        NavigateUpInput(value.ReadValue<float>() < 0.8f ? false : true);
+    }
+
+    public void OnNavigateDown(InputAction.CallbackContext value){
+        NavigateDownInput(value.ReadValue<float>() < 0.8f ? false : true);
     }
 
     void MoveForwardInput(float f){
@@ -195,6 +227,22 @@ public class PlayerInput : MonoBehaviour
         if(currentControlScheme=="KeyboardMouse"){
             singingNote=singingNote*mouseSensitivity/5000f;
         }
+    }
+
+    void NavigateLeftInput(bool b){
+        navigateLeft=b;
+    }
+
+    void NavigateRightInput(bool b){
+        navigateRight=b;
+    }
+
+    void NavigateUpInput(bool b){
+        navigateUp=b;
+    }
+
+    void NavigateDownInput(bool b){
+        navigateDown=b;
     }
 
     public void SwitchMap(string actionMap){

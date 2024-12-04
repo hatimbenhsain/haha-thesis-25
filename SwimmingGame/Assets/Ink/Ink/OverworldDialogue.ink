@@ -1,6 +1,10 @@
 INCLUDE Functions.ink
 
+VAR npcsTalkedTo=0
+
 === beginning ===
+~pauseTutorial(true)
+~npcsTalkedTo=npcsTalkedTo+1
 Teacher: Hey. \\pause\\pause\\pauseHow's the current for you? #speed: 50
 +   [Fine.]
     MC: I think it's fine.
@@ -18,6 +22,11 @@ I'm going to the party next. #speed: normal
 This is the floral bubble. It could be used maybe for coral text or something really esoteric and cool.
 ~ setDialogueBubble("bone")
 This is the bone bubble. It could alternativle be used for coral text or something kind of technologic?
+Number: {npcsTalkedTo}
+~pauseTutorial(false)
+{ npcsTalkedTo > 2:
+    ~finishTutorialPart(6)
+}
 -> END
 
 === ambientDialogue ===

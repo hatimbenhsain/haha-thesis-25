@@ -283,7 +283,11 @@ public class NPCSinging : Singing
         return harmonyNote;
     }
 
-    bool isHarmonizing(Singing s){
+    public bool isHarmonizing(){
+        return isHarmonizing(swimmerSinging);
+    }
+
+    public bool isHarmonizing(Singing s){
         string otherNote=s.singingNote;
         int index=possibleNotes.IndexOf(singingNote);
         bool harmonizing=false;

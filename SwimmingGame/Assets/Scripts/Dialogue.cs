@@ -88,6 +88,10 @@ public class Dialogue : MonoBehaviour
         standardTextBox.SetActive(false);
         floralTextBox.SetActive(false);
         boneTextBox.SetActive(false);
+
+        if(inkJSONAsset!=null){
+            StartStory();
+        }
     }
 
     void Update(){
@@ -121,13 +125,13 @@ public class Dialogue : MonoBehaviour
 
                 //Handling player input: picking choice
                 if(story.currentChoices.Count>0 && currentCharacterIndex>=displayText.Length){
-                    if((playerInput.movingDown && !playerInput.prevMovingDown) || 
-                        (playerInput.movingRight && !playerInput.prevMovingRight)){
+                    if((playerInput.navigateDown && !playerInput.prevNavigateDown) || 
+                        (playerInput.navigateRight && !playerInput.prevNavigateRight)){
                         currentChoiceIndex+=1;
                         currentChoiceIndex=(currentChoiceIndex+story.currentChoices.Count)%story.currentChoices.Count;
                     }
-                    if((playerInput.movingUp && !playerInput.prevMovingUp) ||
-                        (playerInput.movingLeft && !playerInput.prevMovingLeft)){
+                    if((playerInput.navigateUp && !playerInput.prevNavigateUp) ||
+                        (playerInput.navigateLeft && !playerInput.prevNavigateLeft)){
                         currentChoiceIndex-=1;
                         currentChoiceIndex=(currentChoiceIndex+story.currentChoices.Count)%story.currentChoices.Count;
                     }
@@ -287,13 +291,14 @@ public class Dialogue : MonoBehaviour
         SetDialogueBubble("standard");
         npcInterlocutor=interlocutor;
 
+        TextAsset prevTextAsset=inkJSONAsset;
         if(textAsset==null){
             textAsset=inkJSONAsset;
         }
         if(knotName==""){
             knotName=currentKnotName;
         }
-        StartStory();
+        if(textAsset!=prevTextAsset) StartStory();
         if(currentKnotName!=""){
             StartKnot(knotName);
         }
@@ -307,9 +312,13 @@ public class Dialogue : MonoBehaviour
         }else{
             isAmbient=false;
         }
-        if(!isAmbient) playerInput.SwitchMap("UI");
+        //if(!isAmbient) playerInput.SwitchMap("UI");
         
         if(swimmer!=null) swimmer.StartedDialogue(isAmbient);
+
+        if(displayText=="" && !story.canContinue && story.currentChoices.Count<=0){
+            EndDialogue();
+        }
     }
 
     public void EndDialogue(){
@@ -453,6 +462,12 @@ public class Dialogue : MonoBehaviour
         story.BindExternalFunction("setDialogueBubble",(string bubble)=>{
             SetDialogueBubble(bubble);
         });
+        story.BindExternalFunction("pauseTutorial",(bool b)=>{
+            PauseTutorial(b);
+        });
+        story.BindExternalFunction("finishTutorialPart",(int i)=>{
+            FinishTutorialPart(i);
+        });
     }
 
     // EXTERNAL FUNCTIONS
@@ -523,5 +538,12 @@ public class Dialogue : MonoBehaviour
         interlocutorTextBox.SetActive(isActive);
     }
 
+    void PauseTutorial(bool b){
+        FindObjectOfType<Tutorial>().PauseTutorial(b);
+    }
+
+    void FinishTutorialPart(int i){
+        FindObjectOfType<Tutorial>().FinishTutorialPart(i);
+    }
 
 }

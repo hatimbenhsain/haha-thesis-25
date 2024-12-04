@@ -7,3 +7,9 @@ EXTERNAL goToNextLevel()
 EXTERNAL nextBrain()  //Switch the brain/behavior used by NPC
 EXTERNAL toggleSingingMode()
 EXTERNAL setDialogueBubble(bubble)
+EXTERNAL pauseTutorial(b)
+EXTERNAL finishTutorialPart(i)
+
+=== nextBrainKnot ===
+~ nextBrain()
+-> END

@@ -16,11 +16,15 @@ public class NPCSequencer : MonoBehaviour
 
     public bool looping=false;
 
+    public bool progressWhenHarmonized=true;
+
     void Awake(){
         //Changing path's parent so it doesn't move with self
         foreach(Transform pathTransform in pathTransforms){
             if(pathTransform.parent==transform) pathTransform.parent=transform.parent;
         }
+
+        SetBrain(brainIndex);
     }
 
     void Update()
