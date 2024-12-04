@@ -306,8 +306,9 @@ MC: Wait, stop!
 // Main act interrupted and go back to edge sitting
 
 === teacherAtEdge4 ===
-MC: Sorry, that was...
-Teacher: Are you okay?
+~stopSinging()
+MC: Sorry,\\pause that was... #speed: slow
+Teacher: Are you okay? #speed: slow
 MC: Yeah, I guess I just didn't expect it to feel that way.
 Teacher: Did it hurt?
 MC: No.
@@ -315,11 +316,18 @@ MC: It was just something I've never felt before.
 Teacher: Right.
 ~pause(4)
 Teacher: Do you wanna stop for now...?
-MC: No I want to keep going.
+MC: No I want to keep going. #speed: fast
 Teacher: Ok.
 Teacher: We can start whenever you feel comfortable. Let's just harmonize again when you're ready.
+MC: Ok.
+~nextBrain()
 -> END
 // Starts again after harmonizing just once
+
+=== teacherAtEdge5 ===
+~nextBrain()
+~loadLevel("SexPrototype")
+-> END
 
 //We could definitely cut parts of this if it's too long/too much to program, I tried to give as much choice opportunities as possible
 // I feel like we can definitely see after playtest. But I think we can keep it now its all good stuff to me
