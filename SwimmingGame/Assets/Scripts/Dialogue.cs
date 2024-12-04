@@ -298,7 +298,7 @@ public class Dialogue : MonoBehaviour
         if(knotName==""){
             knotName=currentKnotName;
         }
-        if(textAsset!=prevTextAsset) StartStory();
+        if(textAsset!=prevTextAsset) StartStory(textAsset);
         if(currentKnotName!=""){
             StartKnot(knotName);
         }
@@ -332,8 +332,11 @@ public class Dialogue : MonoBehaviour
         displayText="";
     }
 
-    public void StartStory () {
-		story = new Story (inkJSONAsset.text);
+    public void StartStory (TextAsset textAsset=null) {
+        if(textAsset==null){
+            textAsset=inkJSONAsset;
+        }
+		story = new Story (textAsset.text);
         BindFunctions(story);
 	}
 

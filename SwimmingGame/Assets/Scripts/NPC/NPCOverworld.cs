@@ -12,6 +12,8 @@ public class NPCOverworld : MonoBehaviour
 
     private Rigidbody body;
     private Swimmer player;
+
+    public bool isCoralNet;
     
     [Header("Behavior")]
         public NPCStates currentState;
@@ -121,7 +123,7 @@ public class NPCOverworld : MonoBehaviour
     }
 
     void Update(){
-        if(animator!=null){
+        if(animator!=null && !isCoralNet){
             animator.SetBool("sitting",sitting);
         }
     }
