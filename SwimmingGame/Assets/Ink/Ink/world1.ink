@@ -254,7 +254,7 @@ Teacher: That makes sense.
 ~pause(2)
 MC: So do you want to try it with me?  #speed: fast
 Teacher: Oh!
-Teacher: Yes, sure. I mean, that's what I thought this was leading to.
+Teacher: Yes, sure. \\pause\\pauseI mean, that's what I thought this was leading to.
 MC: Oh. Sorry. Is it abnormal to talk about it directly?
 Teacher: No, not at all!
 Teacher: I feel really attracted to you.
@@ -270,7 +270,7 @@ Teacher: I feel really attracted to you.
     MC: That's cool.
     Teacher: ...Right. You're welcome.
 - MC: How do we get started?
-Teacher: Ah... Well that's the thing, it's been different everytime I've done it. 
+Teacher: Ah...\\pause\\pause Well that's the thing, it's been different everytime I've done it. 
 Teacher: It would just kind of happen spontaneously. But maybe...
 MC: Yes?
 Teacher: Maybe we should try just harmonizing for a while? Like they were saying on the coralnet?

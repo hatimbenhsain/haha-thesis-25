@@ -150,7 +150,7 @@ public class Dialogue : MonoBehaviour
                 }
 
                 //Showing/Hiding text
-                if(inDialogue){
+                if(inDialogue && pauseTimer<=0f){
                     ShowText();
                     if(story.currentChoices.Count>0 && currentCharacterIndex>=displayText.Length){
                         ShowChoices();
@@ -304,7 +304,6 @@ public class Dialogue : MonoBehaviour
         }
         inDialogue=true;
         if(displayText==""){
-            Debug.Log("Continue");
             Continue();
         }
         if(ContainsTag(story.TagsForContentAtPath(currentKnotName),"ambient")){
@@ -322,7 +321,6 @@ public class Dialogue : MonoBehaviour
     }
 
     public void EndDialogue(){
-        Debug.Log("End dialogue");
         inDialogue=false;
         HideText();
         playerInput.RestoreDefaultMap();
@@ -382,7 +380,6 @@ public class Dialogue : MonoBehaviour
     float GetTextSpeed(List<string> tags){
         float speed=dialogueSpeedNormal;
         if(ContainsTag(story.currentTags,"speed")){
-            Debug.Log("Found tag");
             string tag=GetTag(story.currentTags,"speed");
             tag=tag.Replace("speed:","").Trim().ToLower();
             if(tag=="slow"){
@@ -395,7 +392,6 @@ public class Dialogue : MonoBehaviour
                 speed=float.Parse(tag);
             }
         }
-        Debug.Log(speed);
         return speed;
     }
 
