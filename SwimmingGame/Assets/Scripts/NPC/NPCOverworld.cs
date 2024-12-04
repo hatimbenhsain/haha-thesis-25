@@ -35,6 +35,7 @@ public class NPCOverworld : MonoBehaviour
         public TextAsset inkJSONAsset=null;
         [Tooltip("Start assigned dialogue as soon as this component is enabled.")]
         public bool startDialogueOnEnable=false;
+        public bool sitting=false;
 
     [Header("Movement")]
         public float acceleration=4f;
@@ -73,6 +74,8 @@ public class NPCOverworld : MonoBehaviour
 
     private NPCSinging singer;
 
+    private Animator animator;
+
     void Start()
     {
         if(TryGetComponent<Rigidbody>(out body)==false){
@@ -91,6 +94,10 @@ public class NPCOverworld : MonoBehaviour
         StopSinging();
 
         pastState=currentState;
+
+        if(!TryGetComponent<Animator>(out animator)){
+            transform.parent.TryGetComponent<Animator>(out animator);
+        }
     }
 
     void FixedUpdate()
@@ -110,6 +117,12 @@ public class NPCOverworld : MonoBehaviour
                 Sing();
                 Swim();
                 break;
+        }
+    }
+
+    void Update(){
+        if(animator!=null){
+            animator.SetBool("sitting",sitting);
         }
     }
 
@@ -397,12 +410,12 @@ public class NPCOverworld : MonoBehaviour
                 }
                 break;
             case NPCStates.SwimmingAndSinging:
-                DialogueStart();
                 ChangeState(NPCStates.Idle);
+                DialogueStart();
                 break;
             case NPCStates.Singing:
-                DialogueStart();
                 ChangeState(NPCStates.Idle);
+                DialogueStart();
                 break;
         }
     }

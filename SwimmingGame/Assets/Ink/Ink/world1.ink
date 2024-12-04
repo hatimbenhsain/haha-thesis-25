@@ -245,12 +245,13 @@ Teacher: Oh, someone else will eat it.
 
 // MC and Teacher harmonize then sit and talk
 === teacherAtEdge1 ===
+~stopSinging()
 Teacher: It's nice here, isn't it?
-MC: Yeah. I come here all the time.
+MC: Yeah. I was actually here just now.
 Teacher: Oh, haha, wait, really?
 MC: Yeah.
 Teacher: That makes sense.
-~pause(4)
+~pause(2)
 MC: So do you want to try it with me?
 Teacher: Oh!
 Teacher: Yes, sure. I mean, that's what I thought this was leading to.
@@ -275,11 +276,13 @@ MC: Yes?
 Teacher: Maybe we should try just harmonizing for a while? Like they were saying on the coralnet?
 MC: Ok. Let's do it.
 Teacher: You take the lead.
+~ nextBrain()
 -> END
 // Teacher and MC harmonize a few times
 
 // Maybe add a "I was here just now" vibe on line 249?
 // Love the interaction starting at line 254
+
 
 //After harmonizing a few times
 === teacherAtEdge2 ===
@@ -287,8 +290,13 @@ MC: I can feel the...
 Teacher: Yes, me too.
 MC: Should we...?
 Teacher: Let's keep going.
+~nextBrain()
 -> END
 // Teacher and MC harmonize a few more times, then main act starts
+
+=== teacherAtEdge3 ===
+~loadLevel("SexPrototype")
+-> END
 
 //Right after the organs come out
 === teacherMainAct1 ===
@@ -296,7 +304,7 @@ MC: Wait, stop!
 -> END
 // Main act interrupted and go back to edge sitting
 
-=== teacherAtEdge3 ===
+=== teacherAtEdge4 ===
 MC: Sorry, that was...
 Teacher: Are you okay?
 MC: Yeah, I guess I just didn't expect it to feel that way.

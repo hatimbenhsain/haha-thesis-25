@@ -315,6 +315,10 @@ public class Dialogue : MonoBehaviour
         //if(!isAmbient) playerInput.SwitchMap("UI");
         
         if(swimmer!=null) swimmer.StartedDialogue(isAmbient);
+
+        if(displayText=="" && !story.canContinue && story.currentChoices.Count<=0){
+            EndDialogue();
+        }
     }
 
     public void EndDialogue(){

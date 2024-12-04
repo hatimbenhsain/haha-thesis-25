@@ -9,3 +9,7 @@ EXTERNAL toggleSingingMode()
 EXTERNAL setDialogueBubble(bubble)
 EXTERNAL pauseTutorial(b)
 EXTERNAL finishTutorialPart(i)
+
+=== nextBrainKnot ===
+~ nextBrain()
+-> END
