@@ -69,7 +69,6 @@ public class SexCameraManager : MonoBehaviour
         }
     }
 
-    // optional: method to change the current camera group
     public void SetCameraGroup(int index)
     {
         if (index >= 0 && index < cameraGroups.Length)

@@ -53,7 +53,6 @@ public class SpringController : SexSpring
 
         if (!playerInput.aiming)
         {
-            // TODO: Move it to fixed update
             AlignWithCamera();
         }
         else

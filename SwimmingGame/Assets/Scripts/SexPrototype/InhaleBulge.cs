@@ -8,64 +8,45 @@ public class InhaleBulge : MonoBehaviour
     public SpringController springController; 
     public float bulgeThickness = 0.06f;
     public float baseThickness = 0.04f;
-    public float lerpSpeed = 2f; 
+    public float inhaleLerpSpeed;
+    public float exhaleLerpSpeed; 
 
     private ObiRope rope;
-    private bool isInhaling = false;
+    public ObiPathSmoother smoother;
     private float currentThickness;
+
+    void OnEnable()
+    {
+        rope = GetComponent<ObiRope>();
+        smoother = GetComponent<ObiPathSmoother>();
+        rope.OnSimulationStart += Rope_OnBeginStep;
+    }
+    void OnDisable()
+    {
+        rope.OnSimulationStart -= Rope_OnBeginStep;
+    }
+
 
     void Start()
     {
-        rope = GetComponent<ObiRope>();
         springController = springController != null ? springController : FindObjectOfType<SpringController>();
         currentThickness = baseThickness; // Initialize the current thickness to the base thickness
     }
 
-    void Update()
+    private void Rope_OnBeginStep(ObiActor actor, float stepTime, float substepTime)
     {
-        // Sync with SpringController inhale state
-        if (springController.isInhaling && !isInhaling)
-        {
-            isInhaling = true;
-            Debug.Log("Inhale started");
-        }
-        else if (!springController.isInhaling && isInhaling)
-        {
-            isInhaling = false;
-            Debug.Log("Exhale started");
-        }
+        int startParticle = rope.elements[rope.elements.Count - 2].particle2;
 
         // Lerp thickness based on inhale/exhale state
-        if (isInhaling)
+        if (springController.isInhaling)
         {
-            LerpToBulgeThickness();
-        }
-        else
-        {
-            //LerpToBaseThickness();
-        }
-    }
-
-    void LerpToBulgeThickness()
-    {
-        // increase the thickness towards bulgeThickness
-        if (rope.elements.Count > 0)
-        {
-            // Access the second to last particle
-            int startParticle = rope.elements[rope.elements.Count - 2].particle2; 
-            currentThickness = Mathf.Lerp(currentThickness, bulgeThickness, Time.deltaTime * lerpSpeed);
+            currentThickness = Mathf.Lerp(currentThickness, bulgeThickness, Time.deltaTime * inhaleLerpSpeed);
             rope.solver.principalRadii[startParticle] = Vector3.one * currentThickness;
             Debug.Log($"Inhaling: Thickness={rope.solver.principalRadii[startParticle]}");
         }
-    }
-
-    void LerpToBaseThickness()
-    {
-        // decrease the thickness towards baseThickness
-        if (rope.elements.Count > 0)
+        else
         {
-            int startParticle = rope.elements[rope.elements.Count - 2].particle2;
-            currentThickness = Mathf.Lerp(currentThickness, baseThickness, Time.deltaTime * lerpSpeed);
+            currentThickness = Mathf.Lerp(currentThickness, baseThickness, Time.deltaTime * exhaleLerpSpeed);
             rope.solver.principalRadii[startParticle] = Vector3.one * currentThickness;
             // Debug.Log($"Exhaling: Thickness={currentThickness}");
         }
