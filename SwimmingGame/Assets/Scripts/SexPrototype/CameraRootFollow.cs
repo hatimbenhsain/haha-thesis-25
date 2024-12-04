@@ -7,7 +7,7 @@ public class CameraRootFollow : MonoBehaviour
     // keep root transform same as character
     public Transform character; 
 
-    void Update()
+    void FixedUpdate()
     {
         transform.position = character.position;
     }
