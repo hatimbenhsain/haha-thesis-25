@@ -8,6 +8,8 @@ public class ForeplayEffects : MonoBehaviour
 {
     public float totalIntensity=0f;
     public float targetIntensity=0f;
+    private float secondaryIntensity=0f;
+    private float targetSecondaryIntensity=0f;
     public Volume volume;
     private ColorAdjustments colorAdjustments;
     private Bloom bloom;
@@ -53,13 +55,15 @@ public class ForeplayEffects : MonoBehaviour
         colorAdjustments.saturation.value=saturationMinValue+(saturationMaxValue-saturationMinValue)*value;
         bloom.intensity.value=bloomMinValue+(bloomMaxValue-bloomMinValue)*value;
 
-        float secondaryIntensity=0f;
+        targetSecondaryIntensity=0f;
 
         if(npcSequencer.brainIndex==npcSequencer.brains.Length-2){
-            secondaryIntensity=npcSinging.harmonyValue/npcSinging.harmonyTargetValue;
+            targetSecondaryIntensity=npcSinging.harmonyValue/npcSinging.harmonyTargetValue;
         }else if(npcSequencer.brainIndex>=npcSequencer.brains.Length-1){
-            secondaryIntensity=1f;
+            targetSecondaryIntensity=1f;
         }
+
+        secondaryIntensity=Mathf.Lerp(secondaryIntensity,targetSecondaryIntensity,lerpSpeed*Time.deltaTime);
 
         colorAdjustments.postExposure.value=postExposureMinValue+secondaryIntensity*(postExposureMaxValue-postExposureMinValue);
     }

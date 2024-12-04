@@ -252,7 +252,7 @@ Teacher: Oh, haha, wait, really?
 MC: Yeah.
 Teacher: That makes sense.
 ~pause(2)
-MC: So do you want to try it with me?
+MC: So do you want to try it with me?  #speed: fast
 Teacher: Oh!
 Teacher: Yes, sure. I mean, that's what I thought this was leading to.
 MC: Oh. Sorry. Is it abnormal to talk about it directly?
@@ -295,6 +295,7 @@ Teacher: Let's keep going.
 // Teacher and MC harmonize a few more times, then main act starts
 
 === teacherAtEdge3 ===
+~nextBrain()
 ~loadLevel("SexPrototype")
 -> END
 
