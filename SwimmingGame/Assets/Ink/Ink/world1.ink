@@ -1,13 +1,30 @@
 INCLUDE Functions.ink
 
 VAR sexIntensity=0
+VAR npcsTalkedTo=0
 
 /* CORALNET */
 
 //I'm calling OP initator for now but could be different
 // other ideas: first author, singer
 
+=== coralnetStart ===
+~ setDialogueBubble("bone")
+~npcsTalkedTo=npcsTalkedTo+1
+~ stopSinging()
+~pauseTutorial(true)
+->->
+
+=== coralnetEnd ===
+~pauseTutorial(false)
+{ npcsTalkedTo > 2:
+    ~finishTutorialPart(6)
+}
+~ continueSinging()
+->->
+
 === coralnet1 ===
+-> coralnetStart ->
 Coralnet: motif: favorite swimming style?
 > what's everyone's favorite swimming style and why?
 > personally i like to mix hermit and shark style on the lower half and cerulean top i find it the most efficient.
@@ -16,11 +33,13 @@ Coralnet: motif: favorite swimming style?
 > i like going backwards because i always get surprised when i reach something
 > i like sliding on walls too
 > i alternate
+-> coralnetEnd ->
 ->END
 
 // I love the i alternate to wrap up everything
 
 === coralnet2 ===
+-> coralnetStart ->
 Coralnet: motif: has anyone actually done "it" yet?
 > motif.
 > yes.
@@ -34,12 +53,14 @@ Coralnet: motif: has anyone actually done "it" yet?
 > basically there's two types of people: one with a hole and one with a long hard object. the long object goes into the hole many times.
 > all of these sound disgusting. are people really doing this?
 > how much chewing are you supposed to do? does anyone know?
+-> coralnetEnd ->
 -> END
 
 // Love how they are all straight-up misinformation and
 // the reference to human sex
 
 === coralnet3 ===
+-> coralnetStart ->
 Coralnet: motif: hole in my head
 > i woke up with a hole in my head. what do i do?
 > you have to be more specific than that.
@@ -56,9 +77,11 @@ Coralnet: motif: hole in my head
 > no?? it's really weird i would rather not or else i wouldn't be on here.
 > initiator any update? i think i have one too.
 > yes it's still really strange but i feel i am becoming stronger and more deadly
+-> coralnetEnd ->
 -> END
 
 === coralnet4 ===
+-> coralnetStart ->
 Coralnet: motif: ate my lover
 > is it abnormal to eat your lover without asking if you could?
 > they were annoying me a lot and i didn't want to hear their thoughts anymore.
@@ -67,20 +90,24 @@ Coralnet: motif: ate my lover
 > felt rude
 > i think it's ok i've eaten 20 of my past lovers and each time they get tastier
 > hi i think you shouldn't date someone if they're not ready to be eaten i think it's ok initiator
+-> coralnetEnd ->
 -> END
 
 === coralnet5 ===
+-> coralnetStart ->
 Coralnet: motif: anyone yearns?
 > anyone yearns to be in the next season? i miss the parties
 > initiator why dont' you just have a party here
 > it's not the same
 > initiator that doesn't seem right maybe you hit your heard really hard? have you seen a doctor?
 > no
+-> coralnetEnd ->
 -> END
 
 // HAN: The no at the end is very reddit reply vibe
 
 === coralnet6 ===
+-> coralnetStart ->
 Coralnet: motif: what's it like outside?
 > motif.
 > i don't know
@@ -89,20 +116,24 @@ Coralnet: motif: what's it like outside?
 > has anyone who's traversed come back yet?
 > my sibling said they did and there was sharp glass everywhere and everything was blurry and they never got hungry
 > but i think they lied
+-> coralnetEnd ->
 -> END
 
 // Like how a lot of these coralnet foreshadows future events
 
 === coralnet7 ===
+-> coralnetStart ->
 Coralnet: motif: i went outside
 > i went outside and there was sharp glass everywhere and everything was blurry and i was never hungry
 > that's not true my lover said they were born outside and that there wasn't any sharp glass anywhere
 > what else did they say?
 > they said the ground burns your feet and everything that you try to eat turns into spikes so they had to come here
 > none of this is true i went outside and it's the same as here but more magenta
+-> coralnetEnd ->
 -> END
 
 === coralnet8 ===
+-> coralnetStart ->
 Coralnet: motif: i miss my lover
 > i miss my lover a lot. what do i do?
 > initiator did your lover provide you with most of your food? maybe you should find a good hunter to replace them
@@ -111,9 +142,11 @@ Coralnet: motif: i miss my lover
 > initiator did they have a particularly good voice? maybe you could start going to more concerts and operas
 > hi i tried this but i still feel the missing
 > what do i do?
+-> coralnetEnd ->
 -> END
 
 === coralnet9 ===
+-> coralnetStart ->
 Coralnet: motif: i see them everywhere
 > ever since my lover left me i see them everywhere i always feel their presence even though they're not there
 > initiator did you also sing about missing your lover in another coral?
@@ -121,17 +154,21 @@ Coralnet: motif: i see them everywhere
 > initiator that sucks you should really just try living in the moment
 > initator have you tried the entanglement yet? maybe it would fix you
 > that sounds scary
+-> coralnetEnd ->
 -> END
 
 === coralnet10 ===
+-> coralnetStart ->
 Coralnet: motif: current order
 > does anyone know why the current sometimes is really cold and sometimes too hot?
 > i think it's when people emit evil and dark vibrations it makes it cold but sometimes hot and it's perfect when there's only nice people around
 > hi i don't know
 > what the second person said sounds right
+-> coralnetEnd ->
 -> END 
 
 === coralnet11 ===
+-> coralnetStart ->
 Coralnet: motif: has anyone tried this
 > recently i tried wrapping my organ around of a pillar and it felt extremely good
 > what organ? what are you talking about
@@ -141,11 +178,13 @@ Coralnet: motif: has anyone tried this
 > i did this too but instead of a pillar it was a wall and i spread it kind of everywhere
 > me too i think i prefer than doing it with other people
 > what are you all talking about???
+-> coralnetEnd ->
 -> END
 
 // love the tone of this part
 
 === coralnet12 ===
+-> coralnetStart ->
 Coralnet: motif: keeping the secret
 > there's a lot of people who haven't experienced "it" yet and i don't like talking to them because they feel like little children.
 > how can we know who else has done it so we can avoid the unchanged?
@@ -158,9 +197,11 @@ Coralnet: motif: keeping the secret
 > has anyone come up with an actual name for it actually??
 > what are we talking about???
 > hello?
+-> coralnetEnd ->
 -> END
 
 === coralnetProgress === //the coralnet to read to progress story
+-> coralnetStart ->
 Coralnet: motif: my entanglement
 > i experienced it today. i'm happy to share my experience.
 > oh? how was it? tell us about it.
@@ -185,6 +226,7 @@ Coralnet: motif: my entanglement
 > and how did it feel?
 > initiator, how did it feel?
 > initiator, tell us how it was.
+-> coralnetEnd ->
 -> END
 
 // I like this one very much. I like the recurring reference to how it feels inside one's mouth. Also imagining a world where this part could feel more cut off vibe since the teacher is probably approaching in the middle when MC is reading? Now is also very nice!
@@ -252,9 +294,9 @@ Teacher: Oh, haha, wait, really?
 MC: Yeah.
 Teacher: That makes sense.
 ~pause(2)
-MC: So do you want to try it with me?
+MC: So do you want to try it with me?  #speed: fast
 Teacher: Oh!
-Teacher: Yes, sure. I mean, that's what I thought this was leading to.
+Teacher: Yes, sure. \\pause\\pauseI mean, that's what I thought this was leading to.
 MC: Oh. Sorry. Is it abnormal to talk about it directly?
 Teacher: No, not at all!
 Teacher: I feel really attracted to you.
@@ -270,7 +312,7 @@ Teacher: I feel really attracted to you.
     MC: That's cool.
     Teacher: ...Right. You're welcome.
 - MC: How do we get started?
-Teacher: Ah... Well that's the thing, it's been different everytime I've done it. 
+Teacher: Ah...\\pause\\pause Well that's the thing, it's been different everytime I've done it. 
 Teacher: It would just kind of happen spontaneously. But maybe...
 MC: Yes?
 Teacher: Maybe we should try just harmonizing for a while? Like they were saying on the coralnet?
@@ -295,6 +337,7 @@ Teacher: Let's keep going.
 // Teacher and MC harmonize a few more times, then main act starts
 
 === teacherAtEdge3 ===
+~nextBrain()
 ~loadLevel("SexPrototype")
 -> END
 
@@ -305,20 +348,29 @@ MC: Wait, stop!
 // Main act interrupted and go back to edge sitting
 
 === teacherAtEdge4 ===
-MC: Sorry, that was...
-Teacher: Are you okay?
-MC: Yeah, I guess I just didn't expect it to feel that way.
+~stopSinging()
+MC: Sorry, \\pausethat was... #speed: slow
+Teacher: Are you okay? #speed: slow
+MC: Yeah, \\pauseI guess I just didn't expect it to feel that way.
 Teacher: Did it hurt?
 MC: No.
 MC: It was just something I've never felt before.
+~pause(2)
 Teacher: Right.
-~pause(4)
+~pause(6)
 Teacher: Do you wanna stop for now...?
-MC: No I want to keep going.
+MC: No I want to keep going. #speed: fast
 Teacher: Ok.
 Teacher: We can start whenever you feel comfortable. Let's just harmonize again when you're ready.
+MC: Ok.
+~nextBrain()
 -> END
 // Starts again after harmonizing just once
+
+=== teacherAtEdge5 ===
+~nextBrain()
+~loadLevel("SexPrototype")
+-> END
 
 //We could definitely cut parts of this if it's too long/too much to program, I tried to give as much choice opportunities as possible
 // I feel like we can definitely see after playtest. But I think we can keep it now its all good stuff to me
@@ -427,13 +479,102 @@ MC: Let's never do this again.
 
 /* RANDOM NPCS */
 
+=== npcAtLibrary1 ===
+# color: 7E0D13
+~stopSinging()
+NPC: I LOVE SINGING INTO THE CORALNET 
+{->one->|->two->}
+~continueSinging()
+-> END
+= one
+I FEEL FREE TO EXPRESS MY DEEPEST MOST EMBARASSING SECRETS THAT I WOULD NEVER TELL ANYONE
+LIKE HOW I WANTED TO END MY LAST ROMANTIC RELATIONSHIP BUT I COULDN'T BRING MYSELF TO GO THROUGH WITH IT
+SO I COVERED MYSELF IN SAND AND I ATTACHED SCALES ON MY BODY AND PRETENDED TO BE A BURROWING FISH 
+UNTIL MY EX LEFT ME ALONE
+BUT THEN I REALLY ENJOYED THE BOTTOM-FEEDER LIFESTYLE AND I BECAME ADDICTED TO BURROWING 
+AND EATING ANYTHING THAT FELL INTO MY MOUTH 
+MOSTLY OTHER PEOPLE'S DROPPINGS PROBABLY
+I WAS SO WRAPPED UP IN IT THAT I DIDN'T REALIZE EVERYONE HAD MOVED ON TO THE NEXT SEASON
+SO I JUST STAYED THERE BUT THEN I MISSED ANOTHER SEASON 
+THEN ANOTHER
+AND NOW I THINK IT'S BEEN A FEW AND I THINK I JUST MET MY EX'S GRANDCHILD
+MC: ...And you're feeling okay with telling me this?
+NPC: YOU SEEM REALLY TRUSTWORTHY
+->->
+=two
+MC: That's good.
+->->
+
+=== npcInCenter1 ===
+# color: 6D6787
+~stopSinging()
+NPC: I love kicking off walls! It's my favorite part about swimming!
+Do you know how to do it?
++   [Yes.]
+    Awesome! So do I!
++   [No.]
+    Oh!
+    Would you like me to teach you how?!
+    ++  [Sure.]
+        Ok!
+        All you have to do is kick your feet against it!
+        +++ [...What?]
+            Oh!
+            You mean like, teach you ~how~ to do it, huh?
+            You basically just have to rapidly swim away from a wall while being near one.
+            Does that make more sense?
+            ++++ [Yes.]
+                Good!
+                Don't worry, I know what you are.
+            ++++ [No.]
+                Oh!
+                Basically, you need to do a "rapid button press".
+                And it only works if you're swimming forward or backward.
+                Surely that explains it?
+                +++++   [Yes.]
+                    Yeah, I figured it would.
+                +++++ [No.]
+                    Oh!
+                    Sorry, I thought you were...
+                    Nevermind! Goodbye!
+        +++ [Oh, duh.]
+            Yeah! Ask me again if you forget!
+    ++  [No thanks.]
+        Aw! Too bad!
+- ~continueSinging()
+-> END
 
 
-
-
-
-
-
+=== npcInDiner1 ===
+# color: 1F7A6E
+~stopSinging()
+NPC: I like the food here... but it's nothing compared to the buffets at Enkidu's parties!
+Have you been to one of those?
++ [Yes.]
+    Oh yeah? Me too!
+    What was your favorite dish?
+    ++ [The jellied morsels.]
+        Mmm.. Aah!! I wish the current could take me there here and now!
+    ++ [The en-croute noisettes.]
+        Mmm.. Aah!! I wish the current could take me there here and now!
+    ++ [It's not about the food.]
+        MC: You're going to Enkidu's parties for the food? Is that really all you care about?
+        NPC: Oh! I mean, uhm, no, of course not! I'm, uuuh, all about the scene!
+        The... dancing scene, of course! And the music! I'm with the tides!
+        And I really like all that stuff that everyone has been doing lately! 
+        I have totally done it too, many times! Do you want to do it with me right now?!
+        +++ [Sure.]
+            Ah, erm..! Maybe after I finish my meal!
+            Or actually, maybe even later than that. 
+            I'm supposed to eat you at the end, right? I need an empty stomach! Come back a different time!
+            MC: Okay..
+        +++ [No thanks.]
+            Ah... Well, not for lack of trying!
++ [No.]
+    You absolutely have to try it! 
+    They will be where most of us are going next, so prepare yourself for the bacchanalia of a lifetime!
+- ~continueSinging()
+-> END
 
 
 

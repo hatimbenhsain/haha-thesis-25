@@ -67,6 +67,8 @@ public class Dialogue : MonoBehaviour
     public GameObject floralTextBox;
     public GameObject boneTextBox;
 
+    private Color defaultTextBoxColor;
+
     void Awake()
     {
         playerInput=FindObjectOfType<PlayerInput>();
@@ -150,7 +152,7 @@ public class Dialogue : MonoBehaviour
                 }
 
                 //Showing/Hiding text
-                if(inDialogue){
+                if(inDialogue && pauseTimer<=0f){
                     ShowText();
                     if(story.currentChoices.Count>0 && currentCharacterIndex>=displayText.Length){
                         ShowChoices();
@@ -298,19 +300,31 @@ public class Dialogue : MonoBehaviour
         if(knotName==""){
             knotName=currentKnotName;
         }
-        if(textAsset!=prevTextAsset) StartStory();
+        if(textAsset!=prevTextAsset) StartStory(textAsset);
         if(currentKnotName!=""){
             StartKnot(knotName);
         }
         inDialogue=true;
         if(displayText==""){
-            Debug.Log("Continue");
             Continue();
         }
         if(ContainsTag(story.TagsForContentAtPath(currentKnotName),"ambient")){
             isAmbient=true;
         }else{
             isAmbient=false;
+        }
+
+        if(ContainsTag(story.TagsForContentAtPath(currentKnotName),"color")){
+            Image[] images=textBox.GetComponentsInChildren<Image>();
+            defaultTextBoxColor=images[0].color;
+            string tag=GetTag(story.TagsForContentAtPath(currentKnotName),"color");
+            Color newColor;
+            if(ColorUtility.TryParseHtmlString("#"+tag.Replace("color:","").Trim(),out newColor)){
+                foreach(Image image in images){
+                    newColor.a=image.color.a;
+                    image.color=newColor;
+                }
+            }
         }
         //if(!isAmbient) playerInput.SwitchMap("UI");
         
@@ -322,7 +336,6 @@ public class Dialogue : MonoBehaviour
     }
 
     public void EndDialogue(){
-        Debug.Log("End dialogue");
         inDialogue=false;
         HideText();
         playerInput.RestoreDefaultMap();
@@ -332,10 +345,19 @@ public class Dialogue : MonoBehaviour
         }
         if(swimmer!=null) swimmer.FinishedDialogue(isAmbient);
         displayText="";
+
+        Image[] images=textBox.GetComponentsInChildren<Image>();
+        foreach(Image image in images){
+            defaultTextBoxColor.a=image.color.a;
+            image.color=defaultTextBoxColor;
+        }
     }
 
-    public void StartStory () {
-		story = new Story (inkJSONAsset.text);
+    public void StartStory (TextAsset textAsset=null) {
+        if(textAsset==null){
+            textAsset=inkJSONAsset;
+        }
+		story = new Story (textAsset.text);
         BindFunctions(story);
 	}
 
@@ -382,7 +404,6 @@ public class Dialogue : MonoBehaviour
     float GetTextSpeed(List<string> tags){
         float speed=dialogueSpeedNormal;
         if(ContainsTag(story.currentTags,"speed")){
-            Debug.Log("Found tag");
             string tag=GetTag(story.currentTags,"speed");
             tag=tag.Replace("speed:","").Trim().ToLower();
             if(tag=="slow"){
@@ -395,7 +416,6 @@ public class Dialogue : MonoBehaviour
                 speed=float.Parse(tag);
             }
         }
-        Debug.Log(speed);
         return speed;
     }
 
