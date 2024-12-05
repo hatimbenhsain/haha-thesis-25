@@ -5,10 +5,13 @@ using UnityEngine;
 //This script decides the NPC's state based on player input and regulates intensity
 public class NPCSexAI : MonoBehaviour
 {
-    private NPCSpring npcSpring;
-    private SexGameManager sexGameManager;
+    [HideInInspector]
+    public NPCSpring npcSpring;
+    [HideInInspector]
+    public SexGameManager sexGameManager;
 
-    private int stateCounter=0; //How many different states the NPC has gone through
+    [HideInInspector]
+    public int stateCounter=0; //How many different states the NPC has gone through
     [Header("Parameters")]
 
     [Tooltip("Distance meter starts going up from this value, slowly.")]
@@ -48,7 +51,7 @@ public class NPCSexAI : MonoBehaviour
 
     [Header("Misc.")]
     [Tooltip("Index in this array is intensity.")]
-    public SexAIParameters[] sexAIParameters;
+    public SexAIParameters[] sexIntensityParameters;
 
     void Start()
     {
@@ -63,7 +66,23 @@ public class NPCSexAI : MonoBehaviour
 
         //AI PART BEGIN (flowchart)
 
+        AIBehavior();
+
+        //AI PART END
+        
+    }
+
+    public virtual void AIBehavior(){
+
+        // TELLS US WHEN TO GO TO OTHER BEHAVIORS/CHANGE INTENSITY
+
         switch(npcSpring.movementBehavior){
+            case MovementBehavior.FollowPath:
+                //HERE I WOULD TELL NPC TO CHANGE TO OTHER STATE 
+                //ONCE IT'S NEAR OBJECTIVE ENOUGH OR WHATEVER
+            case MovementBehavior.FollowTarget:
+                //HERE I WOULD TELL NPC TO CHANGE TO OTHER STATE 
+                //ONCE IT'S NEAR OBJECTIVE ENOUGH OR WHATEVER
             case MovementBehavior.Wander:
                 if(distanceMeter>=50f){
                     ChangeState(MovementBehavior.FollowPlayer);
@@ -98,14 +117,13 @@ public class NPCSexAI : MonoBehaviour
                 break;
         }
 
-        //AI PART END
-
+        // WHEN TO MOVE ON:
         if(npcSpring.currentIntensity>=intensityToReach || stateCounter>=statesToCycleThrough){
             sexGameManager.MoveOn();
         }
     }
 
-    void ChangeState(MovementBehavior movementBehavior){
+    public void ChangeState(MovementBehavior movementBehavior){
         Debug.Log("Change state ");
         Debug.Log(movementBehavior);
         npcSpring.ChangeMovementBehavior(movementBehavior);
@@ -113,13 +131,13 @@ public class NPCSexAI : MonoBehaviour
         ResetMeters();
     }
 
-    void ChangeIntensity(int i){
+    public void ChangeIntensity(int i){
         Debug.Log("Change intensity");
         Debug.Log(i);
         npcSpring.ChangeIntensity(i);
         ResetMeters();
-        if(npcSpring.currentIntensity<sexAIParameters.Length){
-            CopyValues(sexAIParameters[npcSpring.currentIntensity]);
+        if(npcSpring.currentIntensity<sexIntensityParameters.Length){
+            CopyValues(sexIntensityParameters[npcSpring.currentIntensity]);
         }
     }
 
