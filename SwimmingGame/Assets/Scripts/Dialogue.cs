@@ -68,6 +68,8 @@ public class Dialogue : MonoBehaviour
     public GameObject boneTextBox;
 
     private Color defaultTextBoxColor;
+    private bool changedColor=false;
+    private float[] defaultChoiceBoxOpacites;
 
     void Awake()
     {
@@ -81,6 +83,13 @@ public class Dialogue : MonoBehaviour
 
         lineTMP=interlocutorLineTMP;
         textBox=interlocutorTextBox;
+
+        Image[] images=choiceTextBoxes[0].GetComponentsInChildren<Image>();
+        defaultChoiceBoxOpacites=new float[images.Length];
+        for(var i=0;i<defaultChoiceBoxOpacites.Length;i++){
+            Color c=images[i].color;
+            defaultChoiceBoxOpacites[i]=c.a;
+        }
 
         HideText();
         HideChoices();
@@ -222,18 +231,18 @@ public class Dialogue : MonoBehaviour
             choiceTMPs[i].text=story.currentChoices[i].text;
             if(i==currentChoiceIndex){
                 Image[] images=choiceTextBoxes[i].GetComponentsInChildren<Image>();
-                foreach(Image image in images){
-                    Color c=image.color;
-                    c.a=0.8f;
-                    image.color=c;
+                for(var k=0;k<images.Length;k++){
+                    Color c=images[k].color;
+                    c.a=1*defaultChoiceBoxOpacites[k];
+                    images[k].color=c;
                 }
                 choiceTextBoxes[i].GetComponentInChildren<Animator>().speed=1.25f;
             }else{
                 Image[] images=choiceTextBoxes[i].GetComponentsInChildren<Image>();
-                foreach(Image image in images){
-                    Color c=image.color;
-                    c.a=0.5f;
-                    image.color=c;
+                for(var k=0;k<images.Length;k++){
+                    Color c=images[k].color;
+                    c.a=0.625f*defaultChoiceBoxOpacites[k];
+                    images[k].color=c;
                 }
                 choiceTextBoxes[i].GetComponentInChildren<Animator>().speed=0.5f;
             }
@@ -317,6 +326,7 @@ public class Dialogue : MonoBehaviour
         if(ContainsTag(story.TagsForContentAtPath(currentKnotName),"color")){
             Image[] images=textBox.GetComponentsInChildren<Image>();
             defaultTextBoxColor=images[0].color;
+            changedColor=true;
             string tag=GetTag(story.TagsForContentAtPath(currentKnotName),"color");
             Color newColor;
             if(ColorUtility.TryParseHtmlString("#"+tag.Replace("color:","").Trim(),out newColor)){
@@ -346,11 +356,14 @@ public class Dialogue : MonoBehaviour
         if(swimmer!=null) swimmer.FinishedDialogue(isAmbient);
         displayText="";
 
-        Image[] images=textBox.GetComponentsInChildren<Image>();
-        foreach(Image image in images){
-            defaultTextBoxColor.a=image.color.a;
-            image.color=defaultTextBoxColor;
+        if(changedColor){
+            Image[] images=textBox.GetComponentsInChildren<Image>();
+            foreach(Image image in images){
+                defaultTextBoxColor.a=image.color.a;
+                image.color=defaultTextBoxColor;
+            }
         }
+        changedColor=false;
     }
 
     public void StartStory (TextAsset textAsset=null) {

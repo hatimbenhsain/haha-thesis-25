@@ -344,7 +344,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 8186199135295200523}
-  - {fileID: 8938570445097459788}
+  - {fileID: 8123778689852843099}
   - {fileID: 4354076330264141027}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 212.147, z: 0}
@@ -399,6 +399,7 @@ MonoBehaviour:
   singingNote: B4
   singingVolume: 0
   maxSingingVolume: 1
+  singingMode: 0
   singingTraceSpriteRenderer: {fileID: 6267489071244537348}
   singingTraceSprites:
   - {fileID: -564246579, guid: 9eaabeef8a2711f46980fb51160fd866, type: 3}
@@ -418,6 +419,9 @@ MonoBehaviour:
   - musicNote: C#5
     length: 3
   sequenceIndex: 0
+  timeBeforePickingUpHarmony: 1
+  timeBeforeDroppingHarmony: 1
+  gettingTiredTime: 4
   timer: 0
   imageOpacityLerpSpeed: 7
   maxOpacity: 0.4
@@ -444,6 +448,7 @@ MonoBehaviour:
   path: []
   pathIndex: 0
   pauseTimer: 0
+  isCoralNet: 0
   currentState: 0
   movementBehavior: 0
   waitForPlayer: 1
@@ -456,6 +461,7 @@ MonoBehaviour:
   knotName: 
   inkJSONAsset: {fileID: 0}
   startDialogueOnEnable: 0
+  sitting: 0
   acceleration: 4
   maxVelocity: 3
   deceleration: 1.5
@@ -518,12 +524,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4769570665370251568}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0, y: 0, z: 0}
+  m_LocalRotation: {x: -0, y: -0, z: 0.0000000037252899, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 7440094044631570832}
+  m_Father: {fileID: 8123778689852843099}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &6267489071244537348
 SpriteRenderer:
@@ -657,6 +663,38 @@ MonoBehaviour:
   type: 0
   pauseLength: 0
   active: 0
+--- !u!1 &6049976057620381748
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 8123778689852843099}
+  m_Layer: 0
+  m_Name: SingingTracesParent
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &8123778689852843099
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6049976057620381748}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 8938570445097459788}
+  m_Father: {fileID: 7440094044631570832}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &6297584611824266950
 GameObject:
   m_ObjectHideFlags: 0
