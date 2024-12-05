@@ -523,6 +523,7 @@ GameObject:
   - component: {fileID: 151410349}
   - component: {fileID: 151410348}
   - component: {fileID: 151410347}
+  - component: {fileID: 151410352}
   m_Layer: 0
   m_Name: NPC_SpringBody
   m_TagString: Untagged
@@ -692,6 +693,43 @@ MonoBehaviour:
     inhaleLength: 1
     turnSpeed: 4
     turningTime: 0
+--- !u!114 &151410352
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 151410345}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 04227b6f552b1e545b101e3f3702f860, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  distanceMinTreshold: 5
+  distanceMaxTreshold: 2
+  entanglementMinTreshold: 3
+  entanglementMaxTreshold: 6
+  speedMinTreshold: 1
+  speedMaxTreshold: 2
+  meterGrowthSpeed: 10
+  meterDecaySpeed: 5
+  intensityToReach: 4
+  statesToCycleThrough: 6
+  minTimeBeforeStateChange: 4
+  maxTimeBeforeStateChange: 10
+  distanceMeter: 0
+  entanglementMeter: 0
+  speedMeter: 0
+  timeSinceStateChange: 0
+  sexAIParameters:
+  - distanceMinTreshold: 0
+    distanceMaxTreshold: 0
+    entanglementMinTreshold: 0
+    entanglementMaxTreshold: 0
+    speedMinTreshold: 0
+    speedMaxTreshold: 0
+    meterGrowthSpeed: 0
+    meterDecaySpeed: 0
 --- !u!1 &161783160
 GameObject:
   m_ObjectHideFlags: 0
@@ -2681,7 +2719,7 @@ MonoBehaviour:
     m_Bits: 1
   m_VolumeTrigger: {fileID: 0}
   m_VolumeFrameworkUpdateModeOption: 2
-  m_RenderPostProcessing: 0
+  m_RenderPostProcessing: 1
   m_Antialiasing: 0
   m_AntialiasingQuality: 2
   m_StopNaN: 0
@@ -3579,11 +3617,20 @@ MonoBehaviour:
   globalVolume: {fileID: 98009274}
   directionalLight: {fileID: 711768559}
   mainCamera: {fileID: 7509293758979159241}
-  material1: {fileID: 0}
-  material2: {fileID: 0}
-  testModeOn: 0
-  fogColorTest: {r: 0, g: 0, b: 0, a: 0}
-  directionalLightColorTest: {r: 0, g: 0, b: 0, a: 0}
+  materials:
+  - {fileID: 2100000, guid: 265dc9bcb32dd274b928fcafd7e651b3, type: 2}
+  bulgeEffects:
+  - {fileID: 9093460754370949955}
+  testModeOn: 1
+  fogColorTest: {r: 1, g: 1, b: 1, a: 0}
+  directionalLightColorTest: {r: 1, g: 0.95686275, b: 0.8392157, a: 0}
+  exposure:
+    m_OverrideState: 1
+    m_Value: 0
+  contrast: 0
+  saturation: 0
+  bloomThreshold: 0
+  bloomIntensity: 0
 --- !u!43 &449207541
 Mesh:
   m_ObjectHideFlags: 0
@@ -15708,7 +15755,7 @@ MonoBehaviour:
     m_Bits: 1
   m_VolumeTrigger: {fileID: 0}
   m_VolumeFrameworkUpdateModeOption: 2
-  m_RenderPostProcessing: 0
+  m_RenderPostProcessing: 1
   m_Antialiasing: 0
   m_AntialiasingQuality: 2
   m_StopNaN: 0
@@ -16495,6 +16542,50 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 1362427970}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1398564011
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1398564013}
+  - component: {fileID: 1398564012}
+  m_Layer: 0
+  m_Name: ComputeCollisionWorld
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1398564012
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1398564011}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ce0ddc77554954cd78643d83b0505396, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!4 &1398564013
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1398564011}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1436466641
 GameObject:
   m_ObjectHideFlags: 0
@@ -21875,50 +21966,6 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1949390796}
   m_Mesh: {fileID: -2432090755550338912, guid: 7531d7c1e831f0f4793ab5c7e3bd2dd1, type: 3}
---- !u!1 &1963150465
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1963150467}
-  - component: {fileID: 1963150466}
-  m_Layer: 0
-  m_Name: ComputeCollisionWorld
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &1963150466
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1963150465}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ce0ddc77554954cd78643d83b0505396, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!4 &1963150467
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1963150465}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1979905262
 GameObject:
   m_ObjectHideFlags: 0
@@ -24848,7 +24895,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c4747da60837c44f9ba4b4a86879bcc8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  material: {fileID: 2100000, guid: 260c424b5334db64a93122959412893b, type: 2}
+  material: {fileID: 2100000, guid: 265dc9bcb32dd274b928fcafd7e651b3, type: 2}
   renderParameters:
     layer: 0
     lightProbeUsage: 1
@@ -26064,4 +26111,4 @@ SceneRoots:
   - {fileID: 1058645680}
   - {fileID: 161783161}
   - {fileID: 637554519}
-  - {fileID: 1963150467}
+  - {fileID: 1398564013}
