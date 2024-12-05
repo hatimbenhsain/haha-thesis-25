@@ -2,6 +2,7 @@ INCLUDE Functions.ink
 
 VAR sexIntensity=0
 VAR npcsTalkedTo=0
+VAR coralTalkedTo=0
 
 /* CORALNET */
 
@@ -9,6 +10,10 @@ VAR npcsTalkedTo=0
 // other ideas: first author, singer
 
 === coralnetStart ===
+~ coralTalkedTo=coralTalkedTo+1
+{ coralTalkedTo==5:
+    -> coralnetProgress
+}
 ~ setDialogueBubble("bone")
 ~npcsTalkedTo=npcsTalkedTo+1
 ~ stopSinging()
@@ -479,6 +484,39 @@ MC: Let's never do this again.
 
 /* RANDOM NPCS */
 
+=== libraryReceptionist ===
+# color: 95B79B
+{ npcsTalkedTo==0:
+    ~npcsTalkedTo=npcsTalkedTo+1
+}
+~stopSinging()
+~pauseTutorial(true)
+NPC: Welcome to the library.
+Let me know if you need any help.
++   [What is this place?]
+    This is the entrance library. 
+    If you head further in, you can find a lot of the community's coralnet.
+    Feel free to read or speak into any of them.
++   [Who are you?]
+    My name is Elevide! Nice to meet you.
+    It's nice that you came to talk to me today.
+    ++  [Do you work here?]
+        NPC: Oh, no. 
+        I don't think anyone "works" here?
+        I just really like helping people.
+        If you want you can join me too.
+        MC: Maybe some other time...
+    ++  [No worries.]
+        MC: Sure, uh, no worries.
++   [I'm good thanks.]
+~pauseTutorial(false)
+{ npcsTalkedTo > 2:
+    ~finishTutorialPart(6)
+}
+~continueSinging()
+-~continueSinging()
+-> END
+
 === npcAtLibrary1 ===
 # color: 7E0D13
 ~stopSinging()
@@ -544,6 +582,37 @@ Do you know how to do it?
 - ~continueSinging()
 -> END
 
+=== npcInCenter2 ===
+~stopSinging()
+NPC: Do you know the secret to swim really fast?
++   [Yes.]
+    What is it then?
+    ++  [A protein-rich diet.]
+        What's a protein?
+    ++  [Resoluteness.]
+        Oh wait... really?
+    ++  [An aerodynamic body.]
+        I heard that before... Can you help me with mine? I think my back's sort of sticking out.
++   [No.]
+    Well do you wanna hear it?
+    ++  [Yes.]
+        The secret is to keep striding forward frequently, but not so rapidly that you get tired out!
+        And in-between, keep pressing onwards so as not to lose your momentum!
+        Pretty helpful right?
+        +++ [Totally.]
+            Yeah, you're welcome!
+        +++ [Not really.]
+            Oh? Well...
+            How about this: bouncing off walls not only gives you a boost, it also preserves your momentum!
+            How about that?
+            ++++ [Great.]
+                You're welcome.
+            ++++ [Whatever.]
+                Ok.
+    ++  [No.]
+        Uh... okay.
+- ~continueSinging()
+-> END
 
 === npcInDiner1 ===
 # color: 1F7A6E
