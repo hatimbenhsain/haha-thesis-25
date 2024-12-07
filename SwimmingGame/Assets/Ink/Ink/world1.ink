@@ -3,6 +3,7 @@ INCLUDE Functions.ink
 VAR sexIntensity=0
 VAR npcsTalkedTo=0
 VAR coralTalkedTo=0
+VAR coralToTalkToBeforeProgress=5
 
 /* CORALNET */
 
@@ -11,7 +12,7 @@ VAR coralTalkedTo=0
 
 === coralnetStart ===
 ~ coralTalkedTo=coralTalkedTo+1
-{ coralTalkedTo==5:
+{ coralTalkedTo==coralToTalkToBeforeProgress:
     -> coralnetProgress
 }
 ~ setDialogueBubble("bone")
@@ -232,7 +233,9 @@ Coralnet: motif: my entanglement
 > initiator, how did it feel?
 > initiator, tell us how it was.
 -> coralnetEnd ->
--> END
+~ switchObject("Teacher - Library",true)
+~ switchInterlocutor("Teacher - Library")
+-> teacherAtLibrary
 
 // I like this one very much. I like the recurring reference to how it feels inside one's mouth. Also imagining a world where this part could feel more cut off vibe since the teacher is probably approaching in the middle when MC is reading? Now is also very nice!
 
@@ -241,6 +244,7 @@ Coralnet: motif: my entanglement
 
 // Initiated by the teacher as you finish reading coralnetProgress
 === teacherAtLibrary ===
+~stopSinging()
 Teacher: Sounds amazing, doesn't it?
 MC: What?
 Teacher: The entanglement. \\pauseYou were reading about it just now, right? Have you done it yet?

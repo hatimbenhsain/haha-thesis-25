@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 public class NPCOverworld : MonoBehaviour
 {
@@ -11,9 +12,15 @@ public class NPCOverworld : MonoBehaviour
     public float pauseTimer=0f; //Timer for when NPC pauses at a "Pause" node
 
     private Rigidbody body;
+    private Collider collider;
     private Swimmer player;
 
     public bool isCoralNet;
+
+    [Tooltip("If true, move out of parent when NPC is enabled. Useful if placed inside of player.")]
+    public bool orphanize;
+    [Tooltip("When enabled, place this NPC near player.")]
+    public bool placeNearPlayer;
     
     [Header("Behavior")]
         public NPCStates currentState;
@@ -78,11 +85,12 @@ public class NPCOverworld : MonoBehaviour
 
     private Animator animator;
 
-    void Start()
+    void Awake()
     {
         if(TryGetComponent<Rigidbody>(out body)==false){
             body=GetComponentInParent<Rigidbody>();
         }
+
         player=FindObjectOfType<Swimmer>();
 
         if(pathParent!=null){
@@ -99,6 +107,10 @@ public class NPCOverworld : MonoBehaviour
 
         if(!TryGetComponent<Animator>(out animator)){
             transform.parent.TryGetComponent<Animator>(out animator);
+        }
+
+        if(TryGetComponent<Collider>(out collider)==false){
+            collider=transform.parent.GetComponentInChildren<Collider>();
         }
     }
 
@@ -129,6 +141,33 @@ public class NPCOverworld : MonoBehaviour
     }
 
     private void OnEnable() {
+        //Make this object an orphan/parentless
+        if(orphanize){
+            transform.parent=null;
+            orphanize=false;
+        }
+
+        //Place near player
+        if(placeNearPlayer){
+            int tries=0;
+            bool foundTarget=false;
+            Vector3 target=new Vector3();
+            while(tries<100 && !foundTarget){
+                tries++;
+                float targetDistance=0.8f;
+                Vector3 displacement=new Vector3(Random.Range(-1f,1f),Random.Range(-1f,1f),Random.Range(-1f,1f))
+                    .normalized*targetDistance;
+                target=player.transform.position+displacement;
+                foundTarget=!CheckBoxCast(target-player.transform.position,targetDistance);
+                if(!foundTarget){
+                    Debug.Log("colliding!");
+                }
+            }
+            if(foundTarget){
+                transform.position=target;
+            }
+        }
+
         // Resetting current active path node
         if(movementBehavior==MovementBehavior.FollowPath){
             for(int i=0;i<path.Length;i++){
@@ -440,6 +479,38 @@ public class NPCOverworld : MonoBehaviour
             ChangeState(pastState);
             singer.harmonyValue=0f;
         }
+    }
+
+    bool CheckBoxCast(Vector3 direction, float distance){
+        bool colliding=false;
+        Vector3 scale=transform.lossyScale;
+        Vector3 extents=new Vector3(collider.bounds.extents.x*scale.x,collider.bounds.extents.y*scale.y,collider.bounds.extents.z*scale.z);
+        RaycastHit[] hits;
+        LayerMask mask = LayerMask.GetMask("Default","Wall");
+        hits=Physics.BoxCastAll(player.transform.position+direction*distance/2f,extents,direction,collider.transform.rotation,distance/2f,mask,QueryTriggerInteraction.Ignore);
+        foreach(RaycastHit hit in hits){
+            if(hit.collider!=collider && hit.collider.gameObject.tag!="Player"){
+                colliding=true;
+                Debug.Log(hit.collider.gameObject);
+                break;
+            }
+        }
+
+        Debug.DrawLine(player.transform.position,player.transform.position+direction.normalized*distance,Color.white,5f);
+        
+        return colliding;
+    }
+
+    void OnDrawGizmosSelected()
+    {
+        // Draw a yellow cube at the transform position
+        Gizmos.color = Color.yellow;
+        Vector3 scale=transform.lossyScale;
+        Vector3 extents=new Vector3(collider.bounds.extents.x*scale.x,collider.bounds.extents.y*scale.y,collider.bounds.extents.z*scale.z);
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireCube(collider.bounds.center,extents);
+        Gizmos.color = Color.magenta;
+        Gizmos.DrawWireCube(player.transform.position,extents);
     }
 
 }

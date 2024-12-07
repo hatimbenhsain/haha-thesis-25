@@ -9,6 +9,8 @@ EXTERNAL toggleSingingMode()
 EXTERNAL setDialogueBubble(bubble)
 EXTERNAL pauseTutorial(b)
 EXTERNAL finishTutorialPart(i)
+EXTERNAL switchObject(name,bool)
+EXTERNAL switchInterlocutor(name)
 
 === nextBrainKnot ===
 ~ nextBrain()
