@@ -3,7 +3,7 @@ INCLUDE Functions.ink
 VAR sexIntensity=0
 VAR npcsTalkedTo=0
 VAR coralTalkedTo=0
-VAR coralToTalkToBeforeProgress=1
+VAR coralToTalkToBeforeProgress=5
 
 /* CORALNET */
 
@@ -260,6 +260,7 @@ MC: Ah.
 Teacher: ...
 Teacher: Say, I always see you here. Do you only come to browse or--
 MC: I really need to get going.
+~ overrideRotation("Roadblock - Library")
 ~ switchObject("Roadblock - Library",false)
 ~ pauseTutorial(false)
 -> END
@@ -273,21 +274,21 @@ Teacher: I'm surprised you've come to talk to me.
 Teacher: I must've been really bothersome at the library.
 MC: I was really curt with you.
 Teacher: It's alright.
-~pause(0)
+~pause(4)
 Teacher: So what brings you here?
 Teacher: Can I share some food with you? They have really tasteful salmonds this season.
 MC: I'm okay.
-~pause(0)
+~pause(4)
 MC: Have you been watching me?
 Teacher: What?
 MC: At the library. You said you often see me there.
 Teacher: Oh, I just meant I notice you there almost everytime I visit.
 MC: Right.
-~pause(0)
+~pause(4)
 Teacher: Would that be bad? If I watched you?
 MC: No.
 Teacher: Then I guess I do watch you a little bit.
-~pause(0)
+~pause(4)
 Teacher: Would you like to...
 MC: Yeah?
 Teacher: Go somewhere with fewer other people?

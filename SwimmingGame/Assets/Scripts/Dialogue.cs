@@ -509,6 +509,9 @@ public class Dialogue : MonoBehaviour
         story.BindExternalFunction("switchInterlocutor",(string name)=>{
             SwitchInterlocutor(name);
         });
+        story.BindExternalFunction("overrideRotation",(string targetName)=>{
+            OverrideRotation(targetName);
+        });
     }
 
     // EXTERNAL FUNCTIONS
@@ -602,6 +605,15 @@ public class Dialogue : MonoBehaviour
             Debug.Log("Tried switching interlocutor & couldn't find gameobject");
         }else{
             Debug.Log("Tried switching interlocutor & couldn't find NPCOverworld");
+        }
+    }
+
+    void OverrideRotation(string targetName){
+        GameObject g=gameManager.FindObject(targetName);
+        if(g!=null){
+            swimmer.OverrideRotation(g.transform);
+        }else{
+            Debug.Log("Tried overriding rotation & couldn't find gameobject");
         }
     }
 
