@@ -14,6 +14,7 @@ public class NPCOverworld : MonoBehaviour
     private Rigidbody body;
     private Collider collider;
     private Swimmer player;
+    private NPCSequencer npcSequencer;
 
     public bool isCoralNet;
 
@@ -45,6 +46,8 @@ public class NPCOverworld : MonoBehaviour
         [Tooltip("Start assigned dialogue as soon as this component is enabled.")]
         public bool startDialogueOnEnable=false;
         public bool sitting=false;
+        [Tooltip("If swimming and singing, stop when harmonized.")]
+        public bool stopToTalk=true;
 
     [Header("Movement")]
         public float acceleration=4f;
@@ -112,6 +115,8 @@ public class NPCOverworld : MonoBehaviour
         if(TryGetComponent<Collider>(out collider)==false){
             collider=transform.parent.GetComponentInChildren<Collider>();
         }
+
+        transform.parent.TryGetComponent<NPCSequencer>(out npcSequencer);
     }
 
     void FixedUpdate()
@@ -349,9 +354,9 @@ public class NPCOverworld : MonoBehaviour
                 float modifier=1-(Mathf.Clamp(Quaternion.Angle(body.transform.rotation,targetRotation)-25f,0f,45f)/45f);
                 velocity+=body.transform.forward*acceleration*Time.fixedDeltaTime*modifier;
             }
-            //animator.SetBool("swimmingForward",true);
+            animator.SetBool("swimming",true);
         }else{
-            //animator.SetBool("swimmingForward",false);
+            animator.SetBool("swimming",false);
             boostTimer=boostTime+1f;
         }
 
@@ -374,15 +379,20 @@ public class NPCOverworld : MonoBehaviour
                     pausing=true;
                     pauseTimer+=Time.fixedDeltaTime;
                     if(pauseTimer>=path[pathIndex].pauseLength){
+                        path[pathIndex].active=false;
                         pauseTimer+=1;
                         pathIndex+=1;
-                        path[pathIndex].active=false;
                     }
                 }
                 if(loopingPath){    //Wrap around path if NPC is looping
                     pathIndex=pathIndex%path.Length;
                 }else if(pathIndex>=path.Length){   //If not looping and reached destination NPC becomes idle
                     ChangeState(NPCStates.Idle);
+                    Debug.Log("path index bigger");
+                    if(npcSequencer!=null){
+                        Debug.Log("next brain");
+                        npcSequencer.NextBrain();
+                    }
                     return;
                 }
                 targetPosition=path[pathIndex].transform.position;
@@ -390,6 +400,9 @@ public class NPCOverworld : MonoBehaviour
 
                 Debug.DrawRay(body.transform.position,targetRotation*Vector3.forward,Color.green,3f);
                 path[pathIndex].active=true;
+                if(path[pathIndex].newStrokeFrequency>0f){
+                    strokeFrequency=path[pathIndex].newStrokeFrequency;
+                }
                 break;
         }
     }
@@ -440,15 +453,14 @@ public class NPCOverworld : MonoBehaviour
     public void Harmonized(){
         switch(currentState){
             case NPCStates.SexSwimmingAndSinging:
-                NPCSequencer npcSequencer;
                 //Go to the next brain/behavior
-                if(transform.parent.TryGetComponent<NPCSequencer>(out npcSequencer)){
+                if(npcSequencer!=null){
                     npcSequencer.NextBrain();
                     singer.StopAllNotes();
                 }
                 break;
             case NPCStates.SwimmingAndSinging:
-                ChangeState(NPCStates.Idle);
+                if(stopToTalk) ChangeState(NPCStates.Idle);
                 DialogueStart();
                 break;
             case NPCStates.Singing:

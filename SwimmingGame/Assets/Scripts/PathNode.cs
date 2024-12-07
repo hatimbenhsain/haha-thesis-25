@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.EditorTools;
 using UnityEngine;
 
 public class PathNode : MonoBehaviour
@@ -8,6 +9,9 @@ public class PathNode : MonoBehaviour
     public float pauseLength=0f;
 
     public bool active=false;
+
+    [Tooltip("Non-zero if want to change speed at this point.")]
+    public float newStrokeFrequency=-1f;
 
     void OnDrawGizmosSelected(){
 
@@ -20,6 +24,10 @@ public class PathNode : MonoBehaviour
         int index=transform.GetSiblingIndex();
         if(index<childCount-1){
             Transform t=transform.parent.GetChild(index+1);
+            Gizmos.DrawLine(transform.position,t.position);
+        }
+        if(index>0){
+            Transform t=transform.parent.GetChild(index-1);
             Gizmos.DrawLine(transform.position,t.position);
         }
         

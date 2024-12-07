@@ -273,21 +273,21 @@ Teacher: I'm surprised you've come to talk to me.
 Teacher: I must've been really bothersome at the library.
 MC: I was really curt with you.
 Teacher: It's alright.
-~pause(4)
+~pause(0)
 Teacher: So what brings you here?
 Teacher: Can I share some food with you? They have really tasteful salmonds this season.
 MC: I'm okay.
-~pause(4)
+~pause(0)
 MC: Have you been watching me?
 Teacher: What?
 MC: At the library. You said you often see me there.
 Teacher: Oh, I just meant I notice you there almost everytime I visit.
 MC: Right.
-~pause(4)
+~pause(0)
 Teacher: Would that be bad? If I watched you?
 MC: No.
 Teacher: Then I guess I do watch you a little bit.
-~pause(4)
+~pause(0)
 Teacher: Would you like to...
 MC: Yeah?
 Teacher: Go somewhere with fewer other people?
@@ -295,8 +295,22 @@ MC: Sure.
 Teacher: Ok. Follow me. I'll show you one of my favorite places.
 MC: What about your food...?
 Teacher: Oh, someone else will eat it.
+~ switchObject("Roadblock - Edge",false)
+~ nextBrain()
 -> END
 // MC follows teacher in gameplay portion to edge 2
+
+//Appears if harmonizing while on the way to the edge
+=== teacherOnTheWay1 ===
+# ambient
+Teacher: Are you excited? # time: 3
+~ pause(4)
+MC: I think. # time: 3
+~ pause(4)
+Teacher: Me too. #time: 3
+-> END
+
+//TO-DO: add more things that they can say on the way.
 
 // MC and Teacher harmonize then sit and talk
 === teacherAtEdge1 ===
@@ -653,6 +667,8 @@ Have you been to one of those?
     They will be where most of us are going next, so prepare yourself for the bacchanalia of a lifetime!
 - ~continueSinging()
 -> END
+
+// TO-DO: Add more random npcs
 
 
 

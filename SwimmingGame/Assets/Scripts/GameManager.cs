@@ -45,6 +45,7 @@ public class GameManager : MonoBehaviour
                 return g;
             }
         }
+        Debug.Log("Could not find object "+name);
         return null;
     }
 }
