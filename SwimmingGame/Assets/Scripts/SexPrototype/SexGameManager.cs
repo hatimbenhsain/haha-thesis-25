@@ -5,12 +5,19 @@ using TMPro;
 
 public class SexGameManager : MonoBehaviour
 {
-    public RopeMeanDistance ropeMeanDistance; 
-    public TMP_Text meterText; 
+    public RopeMeanDistance ropeMeanDistance;
+    public TMP_Text meterText;
     public LevelLoader levelLoader;
-    public float threshold = 0.5f; 
-    public float growSpeed = 0.5f;
-    public float decaySpeed = 0.5f; 
+
+    [Header("Threshold Settings")]
+    public float maxThreshold = 2.0f; // Maximum threshold where grow speed is at max
+    public float minThreshold = 0.5f; // Minimum threshold where growth starts
+
+    [Header("Grow Speed Settings")]
+    public float minGrowSpeed = 0.1f; // Growth speed at maxThreshold
+    public float maxGrowSpeed = 1.0f; // Growth speed at minThreshold
+    public float decaySpeed = 0.5f;   // Decay speed when outside thresholds
+
     private float meterValue = 0f;
     private bool startCounting;
 
@@ -23,7 +30,7 @@ public class SexGameManager : MonoBehaviour
     public float playerBodyVelocity;
     public Rigidbody playerBody;
 
-    public bool moveOnAfterTresholdReached=false;
+    public bool moveOnAfterThresholdReached = false;
 
     private void Start()
     {
@@ -32,45 +39,53 @@ public class SexGameManager : MonoBehaviour
 
     void Update()
     {
-        headToHeadDistance=Vector3.Distance(npcHead.position, playerHead.position);
+        // Calculate distances
+        headToHeadDistance = Vector3.Distance(npcHead.position, playerHead.position);
+        playerBodyVelocity = playerBody.velocity.magnitude;
 
-        playerBodyVelocity=playerBody.velocity.magnitude;
-
+        // Get the mean distance from ropeMeanDistance
         float meanDistance = GetMeanDistance();
-        if (meanDistance > threshold && startCounting == false)
+
+        // Start counting when the mean distance falls below minThreshold
+        if (meanDistance < minThreshold && !startCounting)
         {
-            startCounting=true;
+            startCounting = true;
         }
-        if (startCounting == true)
+
+        if (startCounting)
         {
-            if (meanDistance < threshold)
+            if (meanDistance <= minThreshold && meanDistance >= maxThreshold)
             {
+                // Interpolate grow speed inversely based on meanDistance
+                float normalizedDistance = (meanDistance - maxThreshold) / (minThreshold - maxThreshold);
+                float growSpeed = Mathf.Lerp(minGrowSpeed, maxGrowSpeed, normalizedDistance);
+
                 meterValue = Mathf.Min(meterValue + growSpeed * Time.deltaTime, 100f);
             }
-            else
+            else if (meanDistance > minThreshold)
             {
                 meterValue = Mathf.Max(meterValue - decaySpeed * Time.deltaTime, 0f);
             }
         }
-        // Load level when the meter build to max 
-        if (meterValue == 100f && moveOnAfterTresholdReached)
+
+        // Load the next level when the meter reaches max value
+        if (meterValue == 100f && moveOnAfterThresholdReached)
         {
             MoveOn();
         }
 
+        // Update the meter text
         meterText.text = $"Meter: {meterValue:F2}";
     }
 
-    public float GetMeanDistance(){
-        float distance=ropeMeanDistance.meanDistance;
-        if(distance==0f){
-            return 10f;
-        }else{
-            return distance;
-        }
+    public float GetMeanDistance()
+    {
+        float distance = ropeMeanDistance.meanDistance;
+        return distance == 0f ? 10f : distance;
     }
 
-    public void MoveOn(){
+    public void MoveOn()
+    {
         levelLoader.LoadLevel();
     }
 }
