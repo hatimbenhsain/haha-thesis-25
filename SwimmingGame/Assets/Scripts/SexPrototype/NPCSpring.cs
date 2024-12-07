@@ -53,6 +53,7 @@ public class NPCSpring : SexSpring
     public Transform origin;
     [Tooltip("New parameters for each state/intensity.")]
     public SpringMovementValues[] springMovementValues;
+    public Transform currentTarget;
 
 
 
@@ -162,6 +163,12 @@ public class NPCSpring : SexSpring
         }
 
         switch(movementBehavior){
+            case MovementBehavior.FollowPath:
+                FollowPath();   //CURRENTLY DOES NOTHING
+                break;
+            case MovementBehavior.FollowTarget:
+                FollowTarget(currentTarget);
+                break;
             case MovementBehavior.FollowPlayer:
                 FollowPlayer();
                 break;
@@ -210,16 +217,21 @@ public class NPCSpring : SexSpring
         }
     }
 
-    void FollowPlayer(){
+    void FollowPath(){
+
+    }
+
+    //SHOULD CHANGE DISTANCEFROMPLAYER TO DISTANCETOTARGET
+    void FollowTarget(Transform target){    
         float inhaleTime=Time.time-inhaleStartTime;
-        float distanceFromPlayer=Vector3.Distance(player.transform.position,characterRb.position);
-        targetLocation=player.position;
+        float distanceFromPlayer=Vector3.Distance(target.position,characterRb.position);
+        targetLocation=target.position;
         if(!isExhaling){
             TurnTowards(targetLocation,turnSpeed);
         }
         if(!isInhaling && !isExhaling){
             if(timeSinceExhale>=currentTimeBetweenBreaths && distanceFromPlayer>=minDistanceFromPlayer){
-                bool blockedPath=CheckRayCast(player.position-characterRb.position,distanceFromPlayer);
+                bool blockedPath=CheckRayCast(target.position-characterRb.position,distanceFromPlayer);
                 if(!blockedPath){
                     timeSinceExhale=0f;
                     StartInhaling();
@@ -231,6 +243,10 @@ public class NPCSpring : SexSpring
                 StartExhaling();
             }
         }
+    }
+
+    void FollowPlayer(){
+        FollowTarget(player.transform);
     }
 
     void RunFromPlayer(){
