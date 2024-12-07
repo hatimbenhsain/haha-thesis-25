@@ -312,6 +312,11 @@ Teacher: Me too. #time: 3
 
 //TO-DO: add more things that they can say on the way.
 
+=== teacherArrivedAtEdge ===
+~ switchObject("LevelLoader - Foreplay 1",true)
+~ nextBrain()
+->END
+
 // MC and Teacher harmonize then sit and talk
 === teacherAtEdge1 ===
 ~stopSinging()

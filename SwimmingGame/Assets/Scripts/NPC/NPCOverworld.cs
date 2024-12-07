@@ -45,6 +45,8 @@ public class NPCOverworld : MonoBehaviour
         public TextAsset inkJSONAsset=null;
         [Tooltip("Start assigned dialogue as soon as this component is enabled.")]
         public bool startDialogueOnEnable=false;
+        [Tooltip("Force this dialogue even if already doing dialogue.")]
+         public bool forceDialogue=false;
         public bool sitting=false;
         [Tooltip("If swimming and singing, stop when harmonized.")]
         public bool stopToTalk=true;
@@ -192,6 +194,8 @@ public class NPCOverworld : MonoBehaviour
         if(startDialogueOnEnable){
             DialogueStart();
         }
+
+        if(animator!=null && currentState!=NPCStates.Swimming && currentState!=NPCStates.SwimmingAndSinging && currentState!=NPCStates.SexSwimmingAndSinging) animator.SetBool("swimming",false);
     }
 
     void Sing(){
@@ -479,7 +483,12 @@ public class NPCOverworld : MonoBehaviour
 
     void DialogueStart(){
         Debug.Log("Start dialogue!");
-        FindObjectOfType<Dialogue>().TryStartDialogue(inkJSONAsset,knotName,this);
+        if(!forceDialogue){
+            FindObjectOfType<Dialogue>().TryStartDialogue(inkJSONAsset,knotName,this);
+        }else{
+            FindObjectOfType<Dialogue>().EndDialogue();
+            FindObjectOfType<Dialogue>().StartDialogue(inkJSONAsset,knotName,this);
+        }
     }
 
     public void FinishedDialogue(bool isAmbient=false){
