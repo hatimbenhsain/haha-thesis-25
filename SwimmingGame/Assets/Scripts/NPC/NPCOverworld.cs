@@ -159,9 +159,6 @@ public class NPCOverworld : MonoBehaviour
                     .normalized*targetDistance;
                 target=player.transform.position+displacement;
                 foundTarget=!CheckBoxCast(target-player.transform.position,targetDistance);
-                if(!foundTarget){
-                    Debug.Log("colliding!");
-                }
             }
             if(foundTarget){
                 transform.position=target;
@@ -491,26 +488,10 @@ public class NPCOverworld : MonoBehaviour
         foreach(RaycastHit hit in hits){
             if(hit.collider!=collider && hit.collider.gameObject.tag!="Player"){
                 colliding=true;
-                Debug.Log(hit.collider.gameObject);
                 break;
             }
-        }
-
-        Debug.DrawLine(player.transform.position,player.transform.position+direction.normalized*distance,Color.white,5f);
-        
+        }        
         return colliding;
-    }
-
-    void OnDrawGizmosSelected()
-    {
-        // Draw a yellow cube at the transform position
-        Gizmos.color = Color.yellow;
-        Vector3 scale=transform.lossyScale;
-        Vector3 extents=new Vector3(collider.bounds.extents.x*scale.x,collider.bounds.extents.y*scale.y,collider.bounds.extents.z*scale.z);
-        Gizmos.color = Color.red;
-        Gizmos.DrawWireCube(collider.bounds.center,extents);
-        Gizmos.color = Color.magenta;
-        Gizmos.DrawWireCube(player.transform.position,extents);
     }
 
 }

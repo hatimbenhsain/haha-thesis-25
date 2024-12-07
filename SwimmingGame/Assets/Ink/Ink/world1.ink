@@ -3,7 +3,7 @@ INCLUDE Functions.ink
 VAR sexIntensity=0
 VAR npcsTalkedTo=0
 VAR coralTalkedTo=0
-VAR coralToTalkToBeforeProgress=5
+VAR coralToTalkToBeforeProgress=1
 
 /* CORALNET */
 
@@ -244,7 +244,9 @@ Coralnet: motif: my entanglement
 
 // Initiated by the teacher as you finish reading coralnetProgress
 === teacherAtLibrary ===
-~stopSinging()
+~ pauseTutorial(true)
+~ setDialogueBubble("standard")
+~ stopSinging()
 Teacher: Sounds amazing, doesn't it?
 MC: What?
 Teacher: The entanglement. \\pauseYou were reading about it just now, right? Have you done it yet?
@@ -258,6 +260,8 @@ MC: Ah.
 Teacher: ...
 Teacher: Say, I always see you here. Do you only come to browse or--
 MC: I really need to get going.
+~ switchObject("Roadblock - Library",false)
+~ pauseTutorial(false)
 -> END
 
 // Same I feel like here the rest of the interaction is nice but I feel like MC should be more surprised by the teacher being next to them.
@@ -270,7 +274,7 @@ Teacher: I must've been really bothersome at the library.
 MC: I was really curt with you.
 Teacher: It's alright.
 ~pause(4)
-Teacher: So what brings you?
+Teacher: So what brings you here?
 Teacher: Can I share some food with you? They have really tasteful salmonds this season.
 MC: I'm okay.
 ~pause(4)
@@ -286,7 +290,7 @@ Teacher: Then I guess I do watch you a little bit.
 ~pause(4)
 Teacher: Would you like to...
 MC: Yeah?
-Teacher: Go somewhere with less other people?
+Teacher: Go somewhere with fewer other people?
 MC: Sure.
 Teacher: Ok. Follow me. I'll show you one of my favorite places.
 MC: What about your food...?
@@ -498,7 +502,7 @@ MC: Let's never do this again.
 NPC: Welcome to the library.
 Let me know if you need any help.
 +   [What is this place?]
-    This is the entrance library. 
+    This is the entrance to the library. 
     If you head further in, you can find a lot of the community's coralnet.
     Feel free to read or speak into any of them.
 +   [Who are you?]
@@ -519,6 +523,7 @@ Let me know if you need any help.
 }
 ~continueSinging()
 -~continueSinging()
+~pauseTutorial(false)
 -> END
 
 === npcAtLibrary1 ===
