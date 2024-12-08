@@ -106,7 +106,7 @@ public class NPCOverworld : MonoBehaviour
 
         TryGetComponent<NPCSinging>(out singer);
 
-        StopSinging();
+        if(singer!=null) StopSinging();
 
         pastState=currentState;
 
