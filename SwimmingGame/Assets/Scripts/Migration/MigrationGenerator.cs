@@ -26,6 +26,7 @@ public class MigrationGenerator : MonoBehaviour
 
     public Transform player;
 
+    public int closestIndex;
     public int backDistance=3;
     public int forwardDistance=3;
 
@@ -71,6 +72,8 @@ public class MigrationGenerator : MonoBehaviour
                 index=i;
             }
         }
+
+        closestIndex=index;
 
         origin=path[Mathf.Clamp(index-backDistance,0,path.Length-1)];
         float d=Vector3.Distance(origin.position,player.position);
