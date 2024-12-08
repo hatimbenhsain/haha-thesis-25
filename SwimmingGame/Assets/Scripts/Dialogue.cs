@@ -40,6 +40,7 @@ public class Dialogue : MonoBehaviour
     private TMP_Text[] choiceTMPs;
 
     private PlayerInput playerInput;   
+    private GameManager gameManager;
 
     public bool startStoryTrigger;
 
@@ -74,6 +75,7 @@ public class Dialogue : MonoBehaviour
     void Awake()
     {
         playerInput=FindObjectOfType<PlayerInput>();
+        gameManager=FindObjectOfType<GameManager>();
         choiceTMPs=new TMP_Text[choiceTextBoxes.Length];
         for(int i=0;i<choiceTextBoxes.Length;i++){
             choiceTMPs[i]=choiceTextBoxes[i].GetComponentInChildren<TMP_Text>();
@@ -357,11 +359,11 @@ public class Dialogue : MonoBehaviour
         displayText="";
 
         if(changedColor){
-            Image[] images=textBox.GetComponentsInChildren<Image>();
-            foreach(Image image in images){
-                defaultTextBoxColor.a=image.color.a;
-                image.color=defaultTextBoxColor;
-            }
+        Image[] images=textBox.GetComponentsInChildren<Image>();
+        foreach(Image image in images){
+            defaultTextBoxColor.a=image.color.a;
+            image.color=defaultTextBoxColor;
+        }
         }
         changedColor=false;
     }
@@ -501,6 +503,15 @@ public class Dialogue : MonoBehaviour
         story.BindExternalFunction("finishTutorialPart",(int i)=>{
             FinishTutorialPart(i);
         });
+        story.BindExternalFunction("switchObject",(string name, bool b)=>{
+            SwitchObject(name,b);
+        });
+        story.BindExternalFunction("switchInterlocutor",(string name)=>{
+            SwitchInterlocutor(name);
+        });
+        story.BindExternalFunction("overrideRotation",(string targetName)=>{
+            OverrideRotation(targetName);
+        });
     }
 
     // EXTERNAL FUNCTIONS
@@ -577,6 +588,33 @@ public class Dialogue : MonoBehaviour
 
     void FinishTutorialPart(int i){
         FindObjectOfType<Tutorial>().FinishTutorialPart(i);
+    }
+
+    void SwitchObject(string name, bool b){
+        gameManager.SwitchObject(name,b);
+    }
+
+    void SwitchInterlocutor(string name){
+        GameObject g=gameManager.FindObject(name);
+        NPCOverworld newInterlocutor;
+        if(g!=null && g.TryGetComponent<NPCOverworld>(out newInterlocutor)){
+            if(npcInterlocutor!=null){
+                npcInterlocutor.FinishedDialogue(isAmbient);
+            }
+        }else if(g==null){
+            Debug.Log("Tried switching interlocutor & couldn't find gameobject");
+        }else{
+            Debug.Log("Tried switching interlocutor & couldn't find NPCOverworld");
+        }
+    }
+
+    void OverrideRotation(string targetName){
+        GameObject g=gameManager.FindObject(targetName);
+        if(g!=null){
+            swimmer.OverrideRotation(g.transform);
+        }else{
+            Debug.Log("Tried overriding rotation & couldn't find gameobject");
+        }
     }
 
 }

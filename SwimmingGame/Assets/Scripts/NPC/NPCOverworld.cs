@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 public class NPCOverworld : MonoBehaviour
 {
@@ -11,9 +12,16 @@ public class NPCOverworld : MonoBehaviour
     public float pauseTimer=0f; //Timer for when NPC pauses at a "Pause" node
 
     private Rigidbody body;
+    private Collider collider;
     private Swimmer player;
+    private NPCSequencer npcSequencer;
 
     public bool isCoralNet;
+
+    [Tooltip("If true, move out of parent when NPC is enabled. Useful if placed inside of player.")]
+    public bool orphanize;
+    [Tooltip("When enabled, place this NPC near player.")]
+    public bool placeNearPlayer;
     
     [Header("Behavior")]
         public NPCStates currentState;
@@ -37,7 +45,11 @@ public class NPCOverworld : MonoBehaviour
         public TextAsset inkJSONAsset=null;
         [Tooltip("Start assigned dialogue as soon as this component is enabled.")]
         public bool startDialogueOnEnable=false;
+        [Tooltip("Force this dialogue even if already doing dialogue.")]
+         public bool forceDialogue=false;
         public bool sitting=false;
+        [Tooltip("If swimming and singing, stop when harmonized.")]
+        public bool stopToTalk=true;
 
     [Header("Movement")]
         public float acceleration=4f;
@@ -78,11 +90,12 @@ public class NPCOverworld : MonoBehaviour
 
     private Animator animator;
 
-    void Start()
+    void Awake()
     {
         if(TryGetComponent<Rigidbody>(out body)==false){
             body=GetComponentInParent<Rigidbody>();
         }
+
         player=FindObjectOfType<Swimmer>();
 
         if(pathParent!=null){
@@ -100,6 +113,12 @@ public class NPCOverworld : MonoBehaviour
         if(!TryGetComponent<Animator>(out animator)){
             transform.parent.TryGetComponent<Animator>(out animator);
         }
+
+        if(TryGetComponent<Collider>(out collider)==false){
+            collider=transform.parent.GetComponentInChildren<Collider>();
+        }
+
+        transform.parent.TryGetComponent<NPCSequencer>(out npcSequencer);
     }
 
     void FixedUpdate()
@@ -129,6 +148,30 @@ public class NPCOverworld : MonoBehaviour
     }
 
     private void OnEnable() {
+        //Make this object an orphan/parentless
+        if(orphanize){
+            transform.parent=null;
+            orphanize=false;
+        }
+
+        //Place near player
+        if(placeNearPlayer){
+            int tries=0;
+            bool foundTarget=false;
+            Vector3 target=new Vector3();
+            while(tries<100 && !foundTarget){
+                tries++;
+                float targetDistance=0.8f;
+                Vector3 displacement=new Vector3(Random.Range(-1f,1f),Random.Range(-1f,1f),Random.Range(-1f,1f))
+                    .normalized*targetDistance;
+                target=player.transform.position+displacement;
+                foundTarget=!CheckBoxCast(target-player.transform.position,targetDistance);
+            }
+            if(foundTarget){
+                transform.position=target;
+            }
+        }
+
         // Resetting current active path node
         if(movementBehavior==MovementBehavior.FollowPath){
             for(int i=0;i<path.Length;i++){
@@ -151,6 +194,8 @@ public class NPCOverworld : MonoBehaviour
         if(startDialogueOnEnable){
             DialogueStart();
         }
+
+        if(animator!=null && currentState!=NPCStates.Swimming && currentState!=NPCStates.SwimmingAndSinging && currentState!=NPCStates.SexSwimmingAndSinging) animator.SetBool("swimming",false);
     }
 
     void Sing(){
@@ -313,9 +358,9 @@ public class NPCOverworld : MonoBehaviour
                 float modifier=1-(Mathf.Clamp(Quaternion.Angle(body.transform.rotation,targetRotation)-25f,0f,45f)/45f);
                 velocity+=body.transform.forward*acceleration*Time.fixedDeltaTime*modifier;
             }
-            //animator.SetBool("swimmingForward",true);
+            animator.SetBool("swimming",true);
         }else{
-            //animator.SetBool("swimmingForward",false);
+            animator.SetBool("swimming",false);
             boostTimer=boostTime+1f;
         }
 
@@ -338,15 +383,20 @@ public class NPCOverworld : MonoBehaviour
                     pausing=true;
                     pauseTimer+=Time.fixedDeltaTime;
                     if(pauseTimer>=path[pathIndex].pauseLength){
+                        path[pathIndex].active=false;
                         pauseTimer+=1;
                         pathIndex+=1;
-                        path[pathIndex].active=false;
                     }
                 }
                 if(loopingPath){    //Wrap around path if NPC is looping
                     pathIndex=pathIndex%path.Length;
                 }else if(pathIndex>=path.Length){   //If not looping and reached destination NPC becomes idle
                     ChangeState(NPCStates.Idle);
+                    Debug.Log("path index bigger");
+                    if(npcSequencer!=null){
+                        Debug.Log("next brain");
+                        npcSequencer.NextBrain();
+                    }
                     return;
                 }
                 targetPosition=path[pathIndex].transform.position;
@@ -354,6 +404,9 @@ public class NPCOverworld : MonoBehaviour
 
                 Debug.DrawRay(body.transform.position,targetRotation*Vector3.forward,Color.green,3f);
                 path[pathIndex].active=true;
+                if(path[pathIndex].newStrokeFrequency>0f){
+                    strokeFrequency=path[pathIndex].newStrokeFrequency;
+                }
                 break;
         }
     }
@@ -404,15 +457,14 @@ public class NPCOverworld : MonoBehaviour
     public void Harmonized(){
         switch(currentState){
             case NPCStates.SexSwimmingAndSinging:
-                NPCSequencer npcSequencer;
                 //Go to the next brain/behavior
-                if(transform.parent.TryGetComponent<NPCSequencer>(out npcSequencer)){
+                if(npcSequencer!=null){
                     npcSequencer.NextBrain();
                     singer.StopAllNotes();
                 }
                 break;
             case NPCStates.SwimmingAndSinging:
-                ChangeState(NPCStates.Idle);
+                if(stopToTalk) ChangeState(NPCStates.Idle);
                 DialogueStart();
                 break;
             case NPCStates.Singing:
@@ -431,7 +483,12 @@ public class NPCOverworld : MonoBehaviour
 
     void DialogueStart(){
         Debug.Log("Start dialogue!");
-        FindObjectOfType<Dialogue>().TryStartDialogue(inkJSONAsset,knotName,this);
+        if(!forceDialogue){
+            FindObjectOfType<Dialogue>().TryStartDialogue(inkJSONAsset,knotName,this);
+        }else{
+            FindObjectOfType<Dialogue>().EndDialogue();
+            FindObjectOfType<Dialogue>().StartDialogue(inkJSONAsset,knotName,this);
+        }
     }
 
     public void FinishedDialogue(bool isAmbient=false){
@@ -440,6 +497,22 @@ public class NPCOverworld : MonoBehaviour
             ChangeState(pastState);
             singer.harmonyValue=0f;
         }
+    }
+
+    bool CheckBoxCast(Vector3 direction, float distance){
+        bool colliding=false;
+        Vector3 scale=transform.lossyScale;
+        Vector3 extents=new Vector3(collider.bounds.extents.x*scale.x,collider.bounds.extents.y*scale.y,collider.bounds.extents.z*scale.z);
+        RaycastHit[] hits;
+        LayerMask mask = LayerMask.GetMask("Default","Wall");
+        hits=Physics.BoxCastAll(player.transform.position+direction*distance/2f,extents,direction,collider.transform.rotation,distance/2f,mask,QueryTriggerInteraction.Ignore);
+        foreach(RaycastHit hit in hits){
+            if(hit.collider!=collider && hit.collider.gameObject.tag!="Player"){
+                colliding=true;
+                break;
+            }
+        }        
+        return colliding;
     }
 
 }

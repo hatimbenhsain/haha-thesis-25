@@ -135,8 +135,7 @@ public class Swimmer : MonoBehaviour
 
         //Overriding rotation if a kickback just happened
         if(kickbackTimer<=maxKickbackPressingTime && playerInput.look==Vector2.zero && !playerInput.movingBackward && !overridingRotation){
-            overridingRotation=true;
-            targetRotationOverride=Quaternion.LookRotation(playerVelocity,Vector3.up);
+            OverrideRotation(Quaternion.LookRotation(playerVelocity,Vector3.up));
             Debug.Log("Override rotation!");
         }else if(overridingRotation && (playerInput.look!=Vector2.zero || Quaternion.Angle(targetRotationOverride,transform.rotation)<=1f)){
             overridingRotation=false;
@@ -378,11 +377,20 @@ public class Swimmer : MonoBehaviour
             swimmerSound.StopSwimming();
         }
 
-
         prevVelocity=body.velocity;
 
         allHits.Clear();
 
+    }
+
+    public void OverrideRotation(Quaternion rotation){
+        targetRotationOverride=rotation;
+        overridingRotation=true;
+    }
+
+    public void OverrideRotation(Transform target){
+        targetRotationOverride=Quaternion.LookRotation(target.position-transform.position,Vector3.up);
+        overridingRotation=true;
     }
 
     // Boost can be from external effect for e.g. ring
