@@ -114,11 +114,18 @@ public class NPCOverworld : MonoBehaviour
             transform.parent.TryGetComponent<Animator>(out animator);
         }
 
-        if(TryGetComponent<Collider>(out collider)==false){
-            collider=transform.parent.GetComponentInChildren<Collider>();
+        if(!TryGetComponent<Collider>(out collider)){
+            SpriteRenderer spriteRenderer=GetComponentInChildren<SpriteRenderer>();
+            if(spriteRenderer!=null){
+                if(!spriteRenderer.TryGetComponent<Collider>(out collider)){
+                    collider=transform.parent.GetComponentInChildren<Collider>();
+                }
+            }else{
+                collider=transform.parent.GetComponentInChildren<Collider>();
+            }
         }
 
-        transform.parent.TryGetComponent<NPCSequencer>(out npcSequencer);
+        if(transform.parent!=null) transform.parent.TryGetComponent<NPCSequencer>(out npcSequencer);
     }
 
     void FixedUpdate()
