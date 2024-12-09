@@ -9,6 +9,7 @@ public class Migration : MonoBehaviour
 {
     public Color[] colors;
     public float progress;
+    public float targetProgress;
     public float progressSpeed=0.1f;
 
     private Camera camera;
@@ -19,6 +20,11 @@ public class Migration : MonoBehaviour
     private Color splitToningShadows;
     float shadowValue, highlightValue;
     private Color splitToningHighlights;
+
+    private MigrationGenerator migrationGenerator;
+
+    public Transform lightTransform;
+    public float lightRotationSpeed=1f;
 
 
     void Start()
@@ -39,12 +45,18 @@ public class Migration : MonoBehaviour
         Color.RGBToHSV(splitToningHighlights,out h1,out s1,out v1);
         highlightValue=h1/h;
 
+        migrationGenerator=FindObjectOfType<MigrationGenerator>();
+
     }
 
     void Update()
     {
-        progress+=Time.deltaTime*progressSpeed;
-        progress=Mathf.Clamp(progress,0f,colors.Length);
+        // progress+=Time.deltaTime*progressSpeed;
+        // progress=Mathf.Clamp(progress,0f,colors.Length);
+        float prevProgress=targetProgress;
+        targetProgress=colors.Length*(float)migrationGenerator.closestIndex/(float)migrationGenerator.path.Length;
+        targetProgress=Mathf.Max(prevProgress,targetProgress);
+        progress=Mathf.Lerp(progress,targetProgress,Time.deltaTime*progressSpeed);
 
         Color startingColor=colors[Mathf.Clamp(Mathf.FloorToInt(progress),0,colors.Length-1)];
         Color endColor=colors[Mathf.Clamp(Mathf.CeilToInt(progress),0,colors.Length-1)];
@@ -72,5 +84,9 @@ public class Migration : MonoBehaviour
 
         Color.RGBToHSV(splitToningHighlights,out h1,out s1,out v1);
         splitToning.highlights.value=Color.HSVToRGB(highlightH,s1,v1);
+
+        
+        Vector3 rot=new Vector3(Time.time*lightRotationSpeed,0f,0f);
+        lightTransform.rotation=Quaternion.Euler(rot);
     }
 }

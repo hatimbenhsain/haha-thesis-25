@@ -22,6 +22,9 @@ public class NPCOverworld : MonoBehaviour
     public bool orphanize;
     [Tooltip("When enabled, place this NPC near player.")]
     public bool placeNearPlayer;
+
+    public float maxProcessingDistance=100f;
+    private bool processing=true;
     
     [Header("Behavior")]
         public NPCStates currentState;
@@ -106,7 +109,7 @@ public class NPCOverworld : MonoBehaviour
 
         TryGetComponent<NPCSinging>(out singer);
 
-        StopSinging();
+        if(singer!=null) StopSinging();
 
         pastState=currentState;
 
@@ -114,11 +117,18 @@ public class NPCOverworld : MonoBehaviour
             transform.parent.TryGetComponent<Animator>(out animator);
         }
 
-        if(TryGetComponent<Collider>(out collider)==false){
-            collider=transform.parent.GetComponentInChildren<Collider>();
+        if(!TryGetComponent<Collider>(out collider)){
+            SpriteRenderer spriteRenderer=GetComponentInChildren<SpriteRenderer>();
+            if(spriteRenderer!=null){
+                if(!spriteRenderer.TryGetComponent<Collider>(out collider)){
+                    collider=transform.parent.GetComponentInChildren<Collider>();
+                }
+            }else{
+                collider=transform.parent.GetComponentInChildren<Collider>();
+            }
         }
 
-        transform.parent.TryGetComponent<NPCSequencer>(out npcSequencer);
+        if(transform.parent!=null) transform.parent.TryGetComponent<NPCSequencer>(out npcSequencer);
     }
 
     void FixedUpdate()
@@ -209,165 +219,183 @@ public class NPCOverworld : MonoBehaviour
     void Swim(){
         pausing=false;
         GetTarget();
-        if(waitForPlayer && Vector3.Distance(body.transform.position,player.transform.position)>=maxDistanceFromPlayer){
-            if(!currentlyWaitingForPlayer){
-                pauseTimer=0f;
+
+        float distanceFromPlayer=Vector3.Distance(body.transform.position,player.transform.position);
+
+        if(distanceFromPlayer<maxProcessingDistance){
+            if(!processing){
+                processing=true;
+                body.detectCollisions=false;
             }
-            currentlyWaitingForPlayer=true;
-        }
-        if(currentlyWaitingForPlayer){
-            pauseTimer+=Time.deltaTime;
-            pausing=true;
-            boostTimer=0f;
-            if(Vector3.Distance(body.transform.position,player.transform.position)<minDistanceFromPlayer){
-                currentlyWaitingForPlayer=false;
+
+            if(waitForPlayer && distanceFromPlayer>=maxDistanceFromPlayer){
+                if(!currentlyWaitingForPlayer){
+                    pauseTimer=0f;
+                }
+                currentlyWaitingForPlayer=true;
             }
-            if(pauseTimer>=2f){
-                targetRotation=Quaternion.LookRotation(player.transform.position-body.transform.position,Vector3.up);
+            if(currentlyWaitingForPlayer){
+                pauseTimer+=Time.deltaTime;
+                pausing=true;
+                boostTimer=0f;
+                if(Vector3.Distance(body.transform.position,player.transform.position)<minDistanceFromPlayer){
+                    currentlyWaitingForPlayer=false;
+                }
+                if(pauseTimer>=2f){
+                    targetRotation=Quaternion.LookRotation(player.transform.position-body.transform.position,Vector3.up);
+                }
             }
-        }
-        bool movingForward=!pausing;
-        bool boosting=false;
+            bool movingForward=!pausing;
+            bool boosting=false;
 
-        //Rotation Things
+            //Rotation Things
 
-        // //Deceleration of rotation speed
-        // Vector3 antiRotationVector=rotationVelocity;
-        // Vector3 prevRotationVelocity=rotationVelocity;
-        // antiRotationVector=antiRotationVector.normalized*rotationDeceleration*Time.fixedDeltaTime;
+            // //Deceleration of rotation speed
+            // Vector3 antiRotationVector=rotationVelocity;
+            // Vector3 prevRotationVelocity=rotationVelocity;
+            // antiRotationVector=antiRotationVector.normalized*rotationDeceleration*Time.fixedDeltaTime;
 
-        // rotationVelocity=rotationVelocity-=antiRotationVector;
+            // rotationVelocity=rotationVelocity-=antiRotationVector;
 
-        // Vector3 rotationDifference=targetRotation.eulerAngles-body.rotation.eulerAngles;    //QUESTIONABLE part, look at this again later
-        // rotationDifference=Vector3.ClampMagnitude(rotationDifference,rotationAcceleration);
+            // Vector3 rotationDifference=targetRotation.eulerAngles-body.rotation.eulerAngles;    //QUESTIONABLE part, look at this again later
+            // rotationDifference=Vector3.ClampMagnitude(rotationDifference,rotationAcceleration);
 
-        // //Cancel rotation deceleration if it goes past the direction
-        // if(rotationDifference.magnitude<=1f){
-        //     if(rotationVelocity.x/Mathf.Abs(rotationVelocity.x)!=prevRotationVelocity.x/Mathf.Abs(prevRotationVelocity.x)){
-        //         rotationVelocity.x=0;
-        //     }
-        //     if(rotationVelocity.y/Mathf.Abs(rotationVelocity.y)!=prevRotationVelocity.y/Mathf.Abs(prevRotationVelocity.y)){
-        //         rotationVelocity.y=0;
-        //     }
-        //     if(rotationVelocity.z/Mathf.Abs(rotationVelocity.z)!=prevRotationVelocity.z/Mathf.Abs(prevRotationVelocity.z)){
-        //         rotationVelocity.z=0;
-        //     }
-        // }
+            // //Cancel rotation deceleration if it goes past the direction
+            // if(rotationDifference.magnitude<=1f){
+            //     if(rotationVelocity.x/Mathf.Abs(rotationVelocity.x)!=prevRotationVelocity.x/Mathf.Abs(prevRotationVelocity.x)){
+            //         rotationVelocity.x=0;
+            //     }
+            //     if(rotationVelocity.y/Mathf.Abs(rotationVelocity.y)!=prevRotationVelocity.y/Mathf.Abs(prevRotationVelocity.y)){
+            //         rotationVelocity.y=0;
+            //     }
+            //     if(rotationVelocity.z/Mathf.Abs(rotationVelocity.z)!=prevRotationVelocity.z/Mathf.Abs(prevRotationVelocity.z)){
+            //         rotationVelocity.z=0;
+            //     }
+            // }
 
-        // rotationVelocity+=new Vector3(rotationDifference.x,rotationDifference.y,rotationDifference.z)*Time.fixedDeltaTime;
-        // rotationVelocity=Vector3.ClampMagnitude(rotationVelocity,rotationMaxVelocity);
+            // rotationVelocity+=new Vector3(rotationDifference.x,rotationDifference.y,rotationDifference.z)*Time.fixedDeltaTime;
+            // rotationVelocity=Vector3.ClampMagnitude(rotationVelocity,rotationMaxVelocity);
 
-        // //Finding rotation to do
-        // Vector3 newRotation=body.rotation.eulerAngles;
-        // newRotation+=rotationVelocity*Time.fixedDeltaTime;
+            // //Finding rotation to do
+            // Vector3 newRotation=body.rotation.eulerAngles;
+            // newRotation+=rotationVelocity*Time.fixedDeltaTime;
 
-        //Quaternion newRotationQ=Quaternion.Euler(newRotation);
-        Quaternion newRotationQ=Quaternion.Lerp(body.transform.rotation,targetRotation,rotationMaxVelocity*Time.fixedDeltaTime);
-        //Rotating self
-        body.MoveRotation(newRotationQ);
+            //Quaternion newRotationQ=Quaternion.Euler(newRotation);
+            Quaternion newRotationQ=Quaternion.Lerp(body.transform.rotation,targetRotation,rotationMaxVelocity*Time.fixedDeltaTime);
+            //Rotating self
+            body.MoveRotation(newRotationQ);
 
-        //Translation things
+            //Translation things
 
-        Vector3 currentVelocity=new Vector3(body.velocity.x,body.velocity.y,body.velocity.z);
-        Vector3 velocity=currentVelocity;
+            Vector3 currentVelocity=new Vector3(body.velocity.x,body.velocity.y,body.velocity.z);
+            Vector3 velocity=currentVelocity;
 
-        //Deceleration
-        Vector3 decelerationVector=currentVelocity;
-        decelerationVector=decelerationVector.normalized*deceleration*Time.fixedDeltaTime;
+            //Deceleration
+            Vector3 decelerationVector=currentVelocity;
+            decelerationVector=decelerationVector.normalized*deceleration*Time.fixedDeltaTime;
 
-        velocity=velocity-decelerationVector;        
+            velocity=velocity-decelerationVector;        
 
-        //Cancel deceleration if it goes past the direction
-        if(!movingForward){
-            if(velocity.x/Mathf.Abs(velocity.x)!=currentVelocity.x/Mathf.Abs(currentVelocity.x)){
-                velocity.x=0;
+            //Cancel deceleration if it goes past the direction
+            if(!movingForward){
+                if(velocity.x/Mathf.Abs(velocity.x)!=currentVelocity.x/Mathf.Abs(currentVelocity.x)){
+                    velocity.x=0;
+                }
+                if(velocity.y/Mathf.Abs(velocity.y)!=currentVelocity.y/Mathf.Abs(currentVelocity.y)){
+                    velocity.y=0;
+                }
+                if(velocity.z/Mathf.Abs(velocity.z)!=currentVelocity.z/Mathf.Abs(currentVelocity.z)){
+                    velocity.z=0;
+                }
             }
-            if(velocity.y/Mathf.Abs(velocity.y)!=currentVelocity.y/Mathf.Abs(currentVelocity.y)){
-                velocity.y=0;
-            }
-            if(velocity.z/Mathf.Abs(velocity.z)!=currentVelocity.z/Mathf.Abs(currentVelocity.z)){
-                velocity.z=0;
-            }
-        }
 
-        Vector3 positionDifference=targetPosition-body.position;    //For now I'm not using this for anything
+            Vector3 positionDifference=targetPosition-body.position;    //For now I'm not using this for anything
 
-        //Deal with collisions
-        if(!kinematic){
-            ArrayList collisionImpulses=new ArrayList();
-            foreach (ContactPoint hit in allHits)
-            {
-                Vector3 collisionPoint=hit.point;
-                Vector3 normal=hit.normal;
-                Vector3 relativeVelocity;
-                if(hit.otherCollider.TryGetComponent<Rigidbody>(out Rigidbody otherBody)){
-                    relativeVelocity=otherBody.velocity;
+            //Deal with collisions
+            if(!kinematic){
+                ArrayList collisionImpulses=new ArrayList();
+                foreach (ContactPoint hit in allHits)
+                {
+                    Vector3 collisionPoint=hit.point;
+                    Vector3 normal=hit.normal;
+                    Vector3 relativeVelocity;
+                    if(hit.otherCollider.TryGetComponent<Rigidbody>(out Rigidbody otherBody)){
+                        relativeVelocity=otherBody.velocity;
+                    }
+                    else{
+                        relativeVelocity=Vector3.zero;
+                    }
+                    relativeVelocity=relativeVelocity-velocity;
+                    Vector3 force=normal*relativeVelocity.magnitude*collisionSpeedFactor;
+                    //Projection of relative velocity on normal
+                    force=Vector3.Project(relativeVelocity,normal)*collisionSpeedFactor;
+                    if(Vector3.Angle(force,normal)>=90){
+                        force=Vector3.zero;
+                    }
+                    if(force==Vector3.zero){
+                        force+=normal*minCollisionSpeed;
+                    }
+
+                    //Dividing force by number of contacts
+                    force=force/allHits.Count;
+
+                    collisionImpulses.Add(force);
+
+                }
+
+                foreach(Vector3 force in collisionImpulses){
+                    velocity+=force;
+                }
+            }
+
+
+            allHits.Clear();
+
+
+
+            boostTimer+=Time.fixedDeltaTime;
+
+            //Boosting player velocity at the end of the swimstroke
+            if(boostTimer>boostTime && boostTimer-Time.fixedDeltaTime<=boostTime){
+                if(Quaternion.Angle(body.transform.rotation,targetRotation)<=45f){
+                    velocity+=body.transform.forward*boostSpeed;
                 }
                 else{
-                    relativeVelocity=Vector3.zero;
+                    boostTimer-=Time.fixedDeltaTime;
                 }
-                relativeVelocity=relativeVelocity-velocity;
-                Vector3 force=normal*relativeVelocity.magnitude*collisionSpeedFactor;
-                //Projection of relative velocity on normal
-                force=Vector3.Project(relativeVelocity,normal)*collisionSpeedFactor;
-                if(Vector3.Angle(force,normal)>=90){
-                    force=Vector3.zero;
+                //BoostAnimation();
+            }
+
+            if(boostTimer>=strokeFrequency){
+                boostTimer=0f;
+            }
+
+            //Adding velocity from swimming
+            if(movingForward){
+                if(velocity.magnitude<coastingSpeed || Vector3.Angle(velocity,body.transform.forward)>=90f){
+                    //Limiting speed if difference between current direction & target is too big
+                    float modifier=1-(Mathf.Clamp(Quaternion.Angle(body.transform.rotation,targetRotation)-25f,0f,45f)/45f);
+                    velocity+=body.transform.forward*acceleration*Time.fixedDeltaTime*modifier;
                 }
-                if(force==Vector3.zero){
-                    force+=normal*minCollisionSpeed;
-                }
-
-                //Dividing force by number of contacts
-                force=force/allHits.Count;
-
-                collisionImpulses.Add(force);
-
+                animator.SetBool("swimming",true);
+            }else{
+                animator.SetBool("swimming",false);
+                boostTimer=boostTime+1f;
             }
 
-            foreach(Vector3 force in collisionImpulses){
-                velocity+=force;
-            }
-        }
+            velocity=Vector3.ClampMagnitude(velocity,maxVelocity);
+            // Using MovePosition because it interpolates movement smoothly and keeps velocity in next frame
+            body.MovePosition(body.position+velocity*Time.fixedDeltaTime);
+            //animator.SetFloat("speed",velocity.magnitude);
 
-
-        allHits.Clear();
-
-
-
-        boostTimer+=Time.fixedDeltaTime;
-
-        //Boosting player velocity at the end of the swimstroke
-        if(boostTimer>boostTime && boostTimer-Time.fixedDeltaTime<=boostTime){
-            if(Quaternion.Angle(body.transform.rotation,targetRotation)<=45f){
-                velocity+=body.transform.forward*boostSpeed;
-            }
-            else{
-                boostTimer-=Time.fixedDeltaTime;
-            }
-            //BoostAnimation();
-        }
-
-        if(boostTimer>=strokeFrequency){
-            boostTimer=0f;
-        }
-
-        //Adding velocity from swimming
-        if(movingForward){
-            if(velocity.magnitude<coastingSpeed || Vector3.Angle(velocity,body.transform.forward)>=90f){
-                //Limiting speed if difference between current direction & target is too big
-                float modifier=1-(Mathf.Clamp(Quaternion.Angle(body.transform.rotation,targetRotation)-25f,0f,45f)/45f);
-                velocity+=body.transform.forward*acceleration*Time.fixedDeltaTime*modifier;
-            }
-            animator.SetBool("swimming",true);
         }else{
-            animator.SetBool("swimming",false);
-            boostTimer=boostTime+1f;
+            if(processing){
+                processing=false;
+                body.detectCollisions=false;
+            }
+            Vector3 v=targetPosition-transform.position;
+            transform.position=transform.position+Vector3.ClampMagnitude(v.normalized*Time.fixedDeltaTime*(coastingSpeed+maxVelocity)/2f,v.magnitude);
         }
-
-        velocity=Vector3.ClampMagnitude(velocity,maxVelocity);
-        // Using MovePosition because it interpolates movement smoothly and keeps velocity in next frame
-        body.MovePosition(body.position+velocity*Time.fixedDeltaTime);
-        //animator.SetFloat("speed",velocity.magnitude);
 
     }
 
@@ -402,7 +430,7 @@ public class NPCOverworld : MonoBehaviour
                 targetPosition=path[pathIndex].transform.position;
                 targetRotation=Quaternion.LookRotation(targetPosition-body.transform.position,Vector3.up);
 
-                Debug.DrawRay(body.transform.position,targetRotation*Vector3.forward,Color.green,3f);
+                //Debug.DrawRay(body.transform.position,targetRotation*Vector3.forward,Color.green,3f);
                 path[pathIndex].active=true;
                 if(path[pathIndex].newStrokeFrequency>0f){
                     strokeFrequency=path[pathIndex].newStrokeFrequency;
@@ -412,7 +440,7 @@ public class NPCOverworld : MonoBehaviour
     }
 
     // Get path objects from parent
-    void FindPath(){
+    public void FindPath(){
         path=new PathNode[pathParent.childCount];
         for(int i=0;i<pathParent.childCount;i++){
             Transform t=pathParent.GetChild(i);

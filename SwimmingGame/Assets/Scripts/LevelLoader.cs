@@ -2,9 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class LevelLoader : MonoBehaviour
 {
+    public bool fadeIn;
+    public float fadeInTime=1f;
     public string destinationScene;
     [Header("Load level after countdown")]
     public bool countdown;
@@ -16,15 +19,41 @@ public class LevelLoader : MonoBehaviour
     [Header("Transition animation")]
     public float transitionTime;
     public Animator transition;
+    public Image image;
     private float timer;
+    private float transitionTimer=0f;
+    private bool fadingOut=false;
 
     void Start()
     {
         timer = countdownTime;  // Initialize the timer with the countdown time
+
+        if(fadeIn){
+            Color c=image.color;
+            image.color=new Color(c.r,c.g,c.b,1f);
+        }
     }
 
     void Update()
     {
+        transitionTimer+=Time.deltaTime;
+        
+        if(fadeIn){
+            Color c=image.color;
+            image.color=new Color(c.r,c.g,c.b,(fadeInTime-transitionTimer)/fadeInTime);
+            if(c.a<=0f){
+                fadeIn=false;
+            }
+        }
+
+        if(fadingOut){
+            Color c=image.color;
+            image.color=new Color(c.r,c.g,c.b,transitionTimer/transitionTime);
+            if(c.a<=0f){
+                fadeIn=false;
+            }
+        }
+
         // Load level after countdown
         timer -= Time.deltaTime;
         if (timer <= 0f && countdown)
@@ -60,7 +89,9 @@ public class LevelLoader : MonoBehaviour
 
     IEnumerator LoadLevelCoroutine(string levelIndex)
     {
-        transition.SetTrigger("Start");
+        //transition.SetTrigger("Start");
+        fadingOut=true;
+        transitionTimer=0f;
 
         yield return new WaitForSeconds(transitionTime);
 
