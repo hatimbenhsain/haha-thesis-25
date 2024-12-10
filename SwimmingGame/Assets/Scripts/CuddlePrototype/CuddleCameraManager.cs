@@ -5,8 +5,13 @@ using UnityEngine;
 public class CuddleCameraManager : MonoBehaviour
 {
     public Camera[] cameras; 
-    public GameObject[] handPositions;
+    public GameObject[] bodyPos;
+    public GameObject[] handPos;
+    public GameObject[] handControlPos;
+    public Transform sexPartnerBody;
     public Transform hand;
+    public Transform handControlPoint;
+    public TouchController handController;
 
     [Header("Head Bob Settings")]
     public float bobSpeed = 2f;      
@@ -14,21 +19,32 @@ public class CuddleCameraManager : MonoBehaviour
     private float defaultCameraY;    
     private float bobTimer;
 
-    public int currentCameraIndex;
+    public int shotIndex;
+    private int prevShotIndex;
 
     void Start()
     {
-        SetActiveCamera(currentCameraIndex);
-        defaultCameraY = cameras[currentCameraIndex].transform.localPosition.y; // Store initial Y position
-        UpdateHandPosition();
+        SetActiveCamera(shotIndex);
+        defaultCameraY = cameras[shotIndex].transform.localPosition.y; // Store initial Y position
+        UpdatePosition(sexPartnerBody, bodyPos);
+        UpdatePosition(hand, handPos);
+        UpdatePosition(handControlPoint, handControlPos);
     }
 
     void FixedUpdate()
     {
-        SetActiveCamera(currentCameraIndex);
-        defaultCameraY = cameras[currentCameraIndex].transform.localPosition.y; // Reset Y position for new active camera
-        UpdateHandPosition(); 
+        if (shotIndex != prevShotIndex)
+        {
+            handController.lockRotation = true;
+            SetActiveCamera(shotIndex);
+            defaultCameraY = cameras[shotIndex].transform.localPosition.y; // Reset Y position for new active camera
+            UpdatePosition(sexPartnerBody, bodyPos);
+            UpdatePosition(hand, handPos);
+            UpdatePosition(handControlPoint, handControlPos);
+            handController.lockRotation = false;
+        }
         ApplyHeadBob(); 
+        prevShotIndex = shotIndex;
     }
 
     void SetActiveCamera(int index)
@@ -43,22 +59,21 @@ public class CuddleCameraManager : MonoBehaviour
 
     void ApplyHeadBob()
     {
-        if (cameras[currentCameraIndex].gameObject.activeSelf)
+        if (cameras[shotIndex].gameObject.activeSelf)
         {
             bobTimer += Time.fixedDeltaTime * bobSpeed;
             float newY = defaultCameraY + Mathf.Sin(bobTimer) * bobAmount; // Calculate new Y position based on sine wave
-            Vector3 newPosition = cameras[currentCameraIndex].transform.localPosition;
+            Vector3 newPosition = cameras[shotIndex].transform.localPosition;
             newPosition.y = newY;
-            cameras[currentCameraIndex].transform.localPosition = newPosition;
+            cameras[shotIndex].transform.localPosition = newPosition;
         }
     }
 
-    void UpdateHandPosition()
+    void UpdatePosition(Transform transform, GameObject[] transformObject)
     {
-        if (hand != null && handPositions[currentCameraIndex] != null)
-        {
-            hand.position = handPositions[currentCameraIndex].transform.position;
-            hand.rotation = handPositions[currentCameraIndex].transform.rotation;
-        }
+        transform.position = transformObject[shotIndex].transform.position;
+        transform.rotation = transformObject[shotIndex].transform.rotation;
+        //update initial rotation in hand controller
+        handController.initialRotation = transform.rotation;
     }
 }
