@@ -10,12 +10,14 @@ public class TouchController : MonoBehaviour
     public float yLerpSpeed = 1.0f; // the lerping speed for Y matching movement
     public float yOffset = 1.0f; // offset of the character from the top of touching objects
     public Quaternion rotationOffset; // offset the rotation after timing normal
+    public bool lockRotation = false;
 
     private PlayerInput playerInput;
     private Vector3 targetPosition;
-    private Quaternion initialRotation;
+    public Quaternion initialRotation;
     private Vector2 movementVector;
     private bool isUsingGamepad;
+
 
     private void Start()
     {
@@ -99,10 +101,12 @@ public class TouchController : MonoBehaviour
             // set Y position to the top of the hit object
             Vector3 positionTarget = new Vector3(transform.position.x, hit.point.y + yOffset, transform.position.z);
             transform.position = Vector3.Lerp(transform.position, positionTarget, yLerpSpeed * Time.fixedDeltaTime);
-
-            // Calculate the rotation offset based on the initial rotation
-            Quaternion targetRotation = Quaternion.FromToRotation(Vector3.right, hit.normal) * initialRotation * rotationOffset;
-            transform.rotation = Quaternion.Lerp(transform.rotation, targetRotation, yLerpSpeed * Time.fixedDeltaTime);
+            if (!lockRotation)
+            {
+                // Calculate the rotation offset based on the initial rotation
+                Quaternion targetRotation = Quaternion.FromToRotation(Vector3.right, hit.normal) * initialRotation * rotationOffset;
+                transform.rotation = Quaternion.Lerp(transform.rotation, targetRotation, yLerpSpeed * Time.fixedDeltaTime);
+            }
         }
     }
 }
