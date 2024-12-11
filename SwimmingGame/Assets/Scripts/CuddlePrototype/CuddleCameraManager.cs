@@ -8,6 +8,7 @@ public class CuddleCameraManager : MonoBehaviour
     public GameObject[] bodyPos;
     public GameObject[] handPos;
     public GameObject[] handControlPos;
+    public GameObject[] colliderViews;
     public Transform sexPartnerBody;
     public Transform hand;
     public Transform handControlPoint;
@@ -41,13 +42,17 @@ public class CuddleCameraManager : MonoBehaviour
             UpdatePosition(sexPartnerBody, bodyPos);
             UpdatePosition(hand, handPos);
             UpdatePosition(handControlPoint, handControlPos);
+            foreach(GameObject cv in colliderViews){
+                cv.SetActive(false);
+            }
+            colliderViews[shotIndex].SetActive(true);
             handController.lockRotation = false;
         }
         ApplyHeadBob(); 
         prevShotIndex = shotIndex;
     }
 
-    void SetActiveCamera(int index)
+    public void SetActiveCamera(int index)
     {
         for (int i = 0; i < cameras.Length; i++)
         {

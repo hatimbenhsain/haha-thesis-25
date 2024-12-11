@@ -421,7 +421,7 @@ MonoBehaviour:
   - delay: 1
     triggerZone: {fileID: 0}
     canvasParent: {fileID: 1541188336672430981}
-    timeBeforeDisappearing: 3
+    timeBeforeDisappearing: 2
     timeBeforeReappearing: 4
     active: 0
     triggered: 0
@@ -433,12 +433,24 @@ MonoBehaviour:
   - delay: 1
     triggerZone: {fileID: 0}
     canvasParent: {fileID: 2204336261157333111}
-    timeBeforeDisappearing: 3
+    timeBeforeDisappearing: 2
     timeBeforeReappearing: 4
     active: 0
     triggered: 0
     done: 0
-    disappearsAfterTime: 1
+    disappearsAfterTime: 0
+    disappearsAfterLeavingZone: 0
+    disappearsAutomatically: 0
+    isHarmony: 0
+  - delay: 2
+    triggerZone: {fileID: 0}
+    canvasParent: {fileID: 6872567699498174334}
+    timeBeforeDisappearing: 2
+    timeBeforeReappearing: 4
+    active: 0
+    triggered: 0
+    done: 0
+    disappearsAfterTime: 0
     disappearsAfterLeavingZone: 0
     disappearsAutomatically: 0
     isHarmony: 0
@@ -447,6 +459,7 @@ MonoBehaviour:
   opacityFadeinSpeed: 0.5
   opacityFadeoutSpeed: 5
   currentlyUsed: 0
+  paused: 0
 --- !u!1 &3705734253576997583
 GameObject:
   m_ObjectHideFlags: 0
@@ -481,7 +494,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 536, y: -484}
+  m_AnchoredPosition: {x: -526.3, y: -488}
   m_SizeDelta: {x: 800, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &9140947442490094690
@@ -547,7 +560,7 @@ MonoBehaviour:
   m_fontSizeMin: 18
   m_fontSizeMax: 72
   m_fontStyle: 0
-  m_HorizontalAlignment: 4
+  m_HorizontalAlignment: 1
   m_VerticalAlignment: 1024
   m_textAlignment: 65535
   m_characterSpacing: 0
@@ -942,7 +955,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &8315725879326998672
 RectTransform:
   m_ObjectHideFlags: 0

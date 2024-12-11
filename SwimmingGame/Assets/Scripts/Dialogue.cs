@@ -9,7 +9,8 @@ public class Dialogue : MonoBehaviour
 {
     [SerializeField]
 	private TextAsset inkJSONAsset = null;
-    private Story story;
+    [HideInInspector]
+    public Story story;
 
     public string currentKnotName;
 
@@ -22,9 +23,28 @@ public class Dialogue : MonoBehaviour
     private bool isAmbient=false;
     private float ambientTimer=0f;
 
+    
+    private PlayerInput playerInput;   
+    private GameManager gameManager;
+
+    public bool startStoryTrigger;
+
+    public bool inDialogue=false;
+    private bool choicePicked=false;
+
+    public NPCOverworld npcInterlocutor;
+    private Swimmer swimmer;
+
+    [Tooltip("Can the player control choice with buttons?")]
+    public bool controlChoice=true;
+
+
     [Header("Canvas objects")]
     [Tooltip("Group to completely show or hide when start/stop dialogue.")]
     public GameObject canvasParent;
+    [Tooltip("Dialogue views with specific textbox arrangement.")]
+    public GameObject[] views;
+    public int currentViewIndex=0;
     [Tooltip("Object to display interlocutor dialogue line.")]
     public GameObject interlocutorTextBox;
     // TMP object for the interlocutor spoken line
@@ -37,18 +57,9 @@ public class Dialogue : MonoBehaviour
     private TMP_Text lineTMP;
     [Tooltip("Objects to display choices.")]
     public GameObject[] choiceTextBoxes;
-    private TMP_Text[] choiceTMPs;
+    [HideInInspector]
+    public TMP_Text[] choiceTMPs;
 
-    private PlayerInput playerInput;   
-    private GameManager gameManager;
-
-    public bool startStoryTrigger;
-
-    public bool inDialogue=false;
-    private bool choicePicked=false;
-
-    public NPCOverworld npcInterlocutor;
-    private Swimmer swimmer;
 
     [Header("Misc.")]
     public float dialogueSpeedSlow=10f;
@@ -70,12 +81,37 @@ public class Dialogue : MonoBehaviour
 
     private Color defaultTextBoxColor;
     private bool changedColor=false;
-    private float[] defaultChoiceBoxOpacites;
+    [HideInInspector]
+    public float[] defaultChoiceBoxOpacites;
 
     void Awake()
     {
         playerInput=FindObjectOfType<PlayerInput>();
         gameManager=FindObjectOfType<GameManager>();
+
+        SetUpView();
+
+        Image[] images=choiceTextBoxes[0].GetComponentsInChildren<Image>();
+        defaultChoiceBoxOpacites=new float[images.Length];
+        for(var i=0;i<defaultChoiceBoxOpacites.Length;i++){
+            Color c=images[i].color;
+            defaultChoiceBoxOpacites[i]=c.a;
+        }
+
+        DialogueAwake();
+
+        HideText();
+        HideChoices();
+
+        swimmer=FindObjectOfType<Swimmer>();
+
+        if(inkJSONAsset!=null){
+            StartStory();
+        }
+
+    }
+
+    public void SetUpView(){
         choiceTMPs=new TMP_Text[choiceTextBoxes.Length];
         for(int i=0;i<choiceTextBoxes.Length;i++){
             choiceTMPs[i]=choiceTextBoxes[i].GetComponentInChildren<TMP_Text>();
@@ -86,28 +122,19 @@ public class Dialogue : MonoBehaviour
         lineTMP=interlocutorLineTMP;
         textBox=interlocutorTextBox;
 
-        Image[] images=choiceTextBoxes[0].GetComponentsInChildren<Image>();
-        defaultChoiceBoxOpacites=new float[images.Length];
-        for(var i=0;i<defaultChoiceBoxOpacites.Length;i++){
-            Color c=images[i].color;
-            defaultChoiceBoxOpacites[i]=c.a;
-        }
-
-        HideText();
-        HideChoices();
-
-        swimmer=FindObjectOfType<Swimmer>();
-
         standardTextBox.SetActive(false);
         floralTextBox.SetActive(false);
         boneTextBox.SetActive(false);
 
-        if(inkJSONAsset!=null){
-            StartStory();
-        }
+    }
+
+    virtual public void DialogueAwake(){
+
     }
 
     void Update(){
+        DialogueUpdate();
+
         if(inDialogue){
             if(!isAmbient && pauseTimer<=0f){
                 TypeWriter();
@@ -123,7 +150,7 @@ public class Dialogue : MonoBehaviour
                                 HideChoices();
                             }
                         }else if(story.currentChoices.Count>0 && currentChoiceIndex<=story.currentChoices.Count 
-                            && currentChoiceIndex>=0){
+                            && currentChoiceIndex>=0 && controlChoice){
                             PickChoice(currentChoiceIndex);
                         }else if(story.currentChoices.Count>0 && currentChoiceIndex<=story.currentChoices.Count){
                             currentChoiceIndex=0;
@@ -137,7 +164,7 @@ public class Dialogue : MonoBehaviour
                 }
 
                 //Handling player input: picking choice
-                if(story.currentChoices.Count>0 && currentCharacterIndex>=displayText.Length){
+                if(story.currentChoices.Count>0 && currentCharacterIndex>=displayText.Length && controlChoice){
                     if((playerInput.navigateDown && !playerInput.prevNavigateDown) || 
                         (playerInput.navigateRight && !playerInput.prevNavigateRight)){
                         currentChoiceIndex+=1;
@@ -203,6 +230,10 @@ public class Dialogue : MonoBehaviour
         }
     }
 
+    virtual public void DialogueUpdate(){
+
+    }
+
     public void PickChoice(int choiceIndex){
         currentChoiceIndex=choiceIndex;
         choicePicked=true;
@@ -221,7 +252,7 @@ public class Dialogue : MonoBehaviour
     }
 
     //Show choices on UI
-    void ShowChoices(){
+    public virtual void ShowChoices(){
         for(int i=0;i<Mathf.Min(story.currentChoices.Count,choiceTextBoxes.Length);i++){
             if(!choiceTextBoxes[i].gameObject.activeInHierarchy){
                 choiceTextBoxes[i].gameObject.SetActive(true);
@@ -261,7 +292,7 @@ public class Dialogue : MonoBehaviour
     }
 
     //Remove choice UI elements
-    void HideChoices(){
+    public virtual void HideChoices(){
 
         for(int i=0;i<choiceTextBoxes.Length;i++){
             choiceTextBoxes[i].gameObject.SetActive(false);
@@ -512,6 +543,9 @@ public class Dialogue : MonoBehaviour
         story.BindExternalFunction("overrideRotation",(string targetName)=>{
             OverrideRotation(targetName);
         });
+        story.BindExternalFunction("changeDialogueView",(int index)=>{
+            ChangeView(index);
+        });
     }
 
     // EXTERNAL FUNCTIONS
@@ -546,9 +580,7 @@ public class Dialogue : MonoBehaviour
     }
 
     void LoadLevel(string destinationScene){
-        if(npcInterlocutor!=null){
-            FindObjectOfType<LevelLoader>().LoadLevel(destinationScene);
-        }
+        FindObjectOfType<LevelLoader>().LoadLevel(destinationScene);
     }
 
     void GoToNextLevel(){
@@ -615,6 +647,26 @@ public class Dialogue : MonoBehaviour
         }else{
             Debug.Log("Tried overriding rotation & couldn't find gameobject");
         }
+    }
+
+    virtual public void ChangeView(int i){
+        Debug.Log("Change view dialogue");
+        views[currentViewIndex].SetActive(false);
+        currentViewIndex=Mathf.Clamp(i-1,0,views.Length);
+        views[currentViewIndex].SetActive(true);
+
+        DialogueView dialogueView=views[currentViewIndex].GetComponent<DialogueView>();
+        interlocutorTextBox=dialogueView.interlocutorTextBox;
+        playerTextBox=dialogueView.playerTextBox;
+        standardTextBox=dialogueView.standardTextBox;
+        boneTextBox=dialogueView.boneTextBox;
+        floralTextBox=dialogueView.floralTextBox;
+
+        choiceTextBoxes=dialogueView.choiceTextBoxes;
+
+        SetUpView();
+
+        HideText();
     }
 
 }

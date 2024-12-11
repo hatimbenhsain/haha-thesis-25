@@ -405,24 +405,32 @@ MC: Ok.
 ~loadLevel("SexPrototype")
 -> END
 
+VAR retractHandTrigger=false
 //We could definitely cut parts of this if it's too long/too much to program, I tried to give as much choice opportunities as possible
 // I feel like we can definitely see after playtest. But I think we can keep it now its all good stuff to me
 === teacherCuddling ===
+~pause(4)
+~ changeDialogueView(1)
+Teacher: So... #speed: slow
+~ finishTutorialPart(1)
 Teacher: How was that?
 +   [Good.]
-    MC: Good. It felt really good. All over my body.
+    ~ finishTutorialPart(2)
+    MC: Good.\\pause It felt really good.\\pause All over my body.
     Teacher: Really?
     MC: Yeah.
 +   [Weird.]
-    MC: Kind of weird. I'm not sure yet how I feel about it.
+    ~ finishTutorialPart(2)
+    MC: Kind of weird.\\pause I'm not sure yet how I feel about it.
     Teacher: But you don't... Do you regret it?
     MC: No, no.
     MC: I'm glad we did it. 
     MC: I think.
     Teacher: Me too.
 +   [I'm not sure.]
+    ~ finishTutorialPart(2)
     MC: I'm not sure.
-    MC: I mean, the physical sensations were amazing. Maybe the best I've ever felt.
+    MC: I mean, the physical sensations were amazing.\\pause Maybe the best I've ever felt.
     MC: But also... I don't know.
 - MC: What about you?
 {
@@ -442,7 +450,8 @@ Teacher: And that climax... Did you expect it to just fall off like that?
     MC: No! Does that mean we can't do it again?
     Teacher: Haha, no, I think it grows back.
     MC: I see.
-MC: Yeah.
+-MC: Yeah.
+~ changeDialogueView(2)
 Teacher: So...
 Teacher: You said you've never done this before, right?
 +   [I haven't.]
@@ -454,6 +463,7 @@ Teacher: You said you've never done this before, right?
 MC: How do you know bout that?
 Teacher: Oh! I mean...
 Teacher: Like I said, I've seen you around. And people talk.
+~ changeDialogueView(3)
 Teacher: And...
 MC: ?
 Teacher: You sung about them, right? I think I read it on the coralnet, one time.
@@ -466,7 +476,8 @@ Teacher: You sung about them, right? I think I read it on the coralnet, one time
     Teacher: Ah-- I didn't mean to.
     Teacher: I guess those things are anonymous for a reason.
     MC: Yes. But yeah...
-MC: We never did. It wasn't...
+-MC: We never did. It wasn't...
+~ changeDialogueView(4)
 MC: I didn't know about it yet, back then. I think it was just starting to happen.
 Teacher: Right.
 Teacher: Would you have liked to... with them?
@@ -484,7 +495,7 @@ Teacher: Would you have liked to... with them?
     MC: I'd really rather not think about it.
     Teacher: Right... Sorry for bringing that up.
 - Teacher: But, you know... \\pause\\pause\\pause things could be different once we're up there.
-// Retract hand at this point
+~ retractHandTrigger=true
 MC: What?
 MC: What do you mean?
 Teacher: Well you know... 
@@ -504,6 +515,7 @@ MC: I didn't know it was like that. I don't want to change. I can't--
 MC: I'm sorry. I really need to get going.
 Teacher: No, I'm sorry. I...
 MC: Let's never do this again.
+~ loadLevel("Migration 1")
 -> END
 // Transition to migration
 

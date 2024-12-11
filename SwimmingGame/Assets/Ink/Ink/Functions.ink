@@ -12,6 +12,7 @@ EXTERNAL finishTutorialPart(i)
 EXTERNAL switchObject(name,bool)
 EXTERNAL switchInterlocutor(name)
 EXTERNAL overrideRotation(targetName)
+EXTERNAL changeDialogueView(viewIndex)
 
 === nextBrainKnot ===
 ~ nextBrain()
