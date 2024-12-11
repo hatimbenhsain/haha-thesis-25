@@ -28,10 +28,7 @@ public class CuddleDialogue : Dialogue
     {
         base.DialogueAwake();
 
-        choiceRects=new RectTransform[choiceTextBoxes.Length];
-        for(int i=0;i<choiceTextBoxes.Length;i++){
-            choiceRects[i]=choiceTextBoxes[i].GetComponent<RectTransform>();
-        }
+        ChangeView(currentViewIndex);
     }
 
     public override void DialogueUpdate()
@@ -127,6 +124,21 @@ public class CuddleDialogue : Dialogue
                 images[k].color=c;
             }
         }
+    }
+
+    public override void ChangeView(int i){
+        base.ChangeView(i);
+
+        Debug.Log("Change view cuddle");
+
+        choiceRects=new RectTransform[choiceTextBoxes.Length];
+        for(var k=0;k<choiceTextBoxes.Length;k++){
+            choiceRects[k]=choiceTextBoxes[k].GetComponent<RectTransform>();
+        }
+
+        FindObjectOfType<CuddleCameraManager>().shotIndex=currentViewIndex;
+
+        SetUpView();
     }
 
     float EaseOutSine(float x){
