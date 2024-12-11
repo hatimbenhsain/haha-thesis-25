@@ -415,10 +415,12 @@ Teacher: So... #speed: slow
 ~ finishTutorialPart(1)
 Teacher: How was that?
 +   [Good.]
+    ~ finishTutorialPart(2)
     MC: Good.\\pause It felt really good.\\pause All over my body.
     Teacher: Really?
     MC: Yeah.
 +   [Weird.]
+    ~ finishTutorialPart(2)
     MC: Kind of weird.\\pause I'm not sure yet how I feel about it.
     Teacher: But you don't... Do you regret it?
     MC: No, no.
@@ -426,6 +428,7 @@ Teacher: How was that?
     MC: I think.
     Teacher: Me too.
 +   [I'm not sure.]
+    ~ finishTutorialPart(2)
     MC: I'm not sure.
     MC: I mean, the physical sensations were amazing.\\pause Maybe the best I've ever felt.
     MC: But also... I don't know.
