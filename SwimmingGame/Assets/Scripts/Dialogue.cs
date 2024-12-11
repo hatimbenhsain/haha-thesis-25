@@ -9,7 +9,8 @@ public class Dialogue : MonoBehaviour
 {
     [SerializeField]
 	private TextAsset inkJSONAsset = null;
-    private Story story;
+    [HideInInspector]
+    public Story story;
 
     public string currentKnotName;
 
@@ -21,6 +22,22 @@ public class Dialogue : MonoBehaviour
     private float pauseTimer=0f;
     private bool isAmbient=false;
     private float ambientTimer=0f;
+
+    
+    private PlayerInput playerInput;   
+    private GameManager gameManager;
+
+    public bool startStoryTrigger;
+
+    public bool inDialogue=false;
+    private bool choicePicked=false;
+
+    public NPCOverworld npcInterlocutor;
+    private Swimmer swimmer;
+
+    [Tooltip("Can the player control choice with buttons?")]
+    public bool controlChoice=true;
+
 
     [Header("Canvas objects")]
     [Tooltip("Group to completely show or hide when start/stop dialogue.")]
@@ -37,18 +54,9 @@ public class Dialogue : MonoBehaviour
     private TMP_Text lineTMP;
     [Tooltip("Objects to display choices.")]
     public GameObject[] choiceTextBoxes;
-    private TMP_Text[] choiceTMPs;
+    [HideInInspector]
+    public TMP_Text[] choiceTMPs;
 
-    private PlayerInput playerInput;   
-    private GameManager gameManager;
-
-    public bool startStoryTrigger;
-
-    public bool inDialogue=false;
-    private bool choicePicked=false;
-
-    public NPCOverworld npcInterlocutor;
-    private Swimmer swimmer;
 
     [Header("Misc.")]
     public float dialogueSpeedSlow=10f;
@@ -70,7 +78,8 @@ public class Dialogue : MonoBehaviour
 
     private Color defaultTextBoxColor;
     private bool changedColor=false;
-    private float[] defaultChoiceBoxOpacites;
+    [HideInInspector]
+    public float[] defaultChoiceBoxOpacites;
 
     void Awake()
     {
@@ -93,6 +102,8 @@ public class Dialogue : MonoBehaviour
             defaultChoiceBoxOpacites[i]=c.a;
         }
 
+        DialogueAwake();
+
         HideText();
         HideChoices();
 
@@ -105,9 +116,16 @@ public class Dialogue : MonoBehaviour
         if(inkJSONAsset!=null){
             StartStory();
         }
+
+    }
+
+    virtual public void DialogueAwake(){
+
     }
 
     void Update(){
+        DialogueUpdate();
+
         if(inDialogue){
             if(!isAmbient && pauseTimer<=0f){
                 TypeWriter();
@@ -123,7 +141,7 @@ public class Dialogue : MonoBehaviour
                                 HideChoices();
                             }
                         }else if(story.currentChoices.Count>0 && currentChoiceIndex<=story.currentChoices.Count 
-                            && currentChoiceIndex>=0){
+                            && currentChoiceIndex>=0 && controlChoice){
                             PickChoice(currentChoiceIndex);
                         }else if(story.currentChoices.Count>0 && currentChoiceIndex<=story.currentChoices.Count){
                             currentChoiceIndex=0;
@@ -137,7 +155,7 @@ public class Dialogue : MonoBehaviour
                 }
 
                 //Handling player input: picking choice
-                if(story.currentChoices.Count>0 && currentCharacterIndex>=displayText.Length){
+                if(story.currentChoices.Count>0 && currentCharacterIndex>=displayText.Length && controlChoice){
                     if((playerInput.navigateDown && !playerInput.prevNavigateDown) || 
                         (playerInput.navigateRight && !playerInput.prevNavigateRight)){
                         currentChoiceIndex+=1;
@@ -203,6 +221,10 @@ public class Dialogue : MonoBehaviour
         }
     }
 
+    virtual public void DialogueUpdate(){
+
+    }
+
     public void PickChoice(int choiceIndex){
         currentChoiceIndex=choiceIndex;
         choicePicked=true;
@@ -221,7 +243,7 @@ public class Dialogue : MonoBehaviour
     }
 
     //Show choices on UI
-    void ShowChoices(){
+    public virtual void ShowChoices(){
         for(int i=0;i<Mathf.Min(story.currentChoices.Count,choiceTextBoxes.Length);i++){
             if(!choiceTextBoxes[i].gameObject.activeInHierarchy){
                 choiceTextBoxes[i].gameObject.SetActive(true);
@@ -261,7 +283,7 @@ public class Dialogue : MonoBehaviour
     }
 
     //Remove choice UI elements
-    void HideChoices(){
+    public virtual void HideChoices(){
 
         for(int i=0;i<choiceTextBoxes.Length;i++){
             choiceTextBoxes[i].gameObject.SetActive(false);

@@ -442,7 +442,7 @@ Teacher: And that climax... Did you expect it to just fall off like that?
     MC: No! Does that mean we can't do it again?
     Teacher: Haha, no, I think it grows back.
     MC: I see.
-MC: Yeah.
+-MC: Yeah.
 Teacher: So...
 Teacher: You said you've never done this before, right?
 +   [I haven't.]
@@ -466,7 +466,7 @@ Teacher: You sung about them, right? I think I read it on the coralnet, one time
     Teacher: Ah-- I didn't mean to.
     Teacher: I guess those things are anonymous for a reason.
     MC: Yes. But yeah...
-MC: We never did. It wasn't...
+-MC: We never did. It wasn't...
 MC: I didn't know about it yet, back then. I think it was just starting to happen.
 Teacher: Right.
 Teacher: Would you have liked to... with them?
