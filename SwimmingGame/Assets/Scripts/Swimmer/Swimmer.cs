@@ -143,12 +143,10 @@ public class Swimmer : MonoBehaviour
         //Overriding rotation if a kickback just happened
         if(kickbackTimer<=maxKickbackPressingTime && playerInput.look==Vector2.zero && !playerInput.movingBackward && !overridingRotation){
             OverrideRotation(Quaternion.LookRotation(playerVelocity,Vector3.up));
-            Debug.Log("Override rotation!");
         }else if(overridingRotation && (playerInput.look!=Vector2.zero || Quaternion.Angle(targetRotationOverride,transform.rotation)<=1f)){
             overridingRotation=false;
             rotationVelocity=(Quaternion.Lerp(body.rotation,targetRotationOverride,rotationOverrideSpeed*Time.fixedDeltaTime).eulerAngles-body.rotation.eulerAngles)/Time.fixedDeltaTime;
             rotationVelocity.z=0f;
-            Debug.Log("Stop overriding rotation!");
         }
         kickbackTimer+=Time.fixedDeltaTime;
 
@@ -231,6 +229,7 @@ public class Swimmer : MonoBehaviour
                 playerVelocity.z=0;
             }
         }
+
 
         //Deal with collisions
         //The way this works: find normal of every collision, project the player's velocity on it, move the player by that much
@@ -509,8 +508,16 @@ public class Swimmer : MonoBehaviour
                     totalForce+=force;
                     isKicking=true;
                     if(dustCloud==null){
-                        dustCloud=Instantiate(dustCloudPrefab,transform.parent);
-                        dustCloud.transform.position=hit2.point+normal*0.2f;
+                        //If hit2 position is very far away (probably infinity), do not make dust cloud
+                        if((Mathf.Abs(hit2.point.x) > 1000) ||(Mathf.Abs(hit2.point.y) > 500) ||
+                            (Mathf.Abs(hit2.point.z) > 1000)
+                        ){
+
+                        }else{
+                            dustCloud=Instantiate(dustCloudPrefab,transform.parent);
+                            dustCloud.transform.position=hit2.point+normal*0.2f;
+                        }
+
                     }
                 }
             }
@@ -541,6 +548,12 @@ public class Swimmer : MonoBehaviour
             // This is not great. If we have complex meshColliders we will encounter issues.
             closestPoint = _collider.ClosestPointOnBounds(_rayOrigin);
         }
+
+        bool inside; 
+        inside = _collider.bounds.Contains(_rayOrigin); 
+        if (inside) { 
+            Debug.LogWarning("Getting raycast to nearest point failed - we are inside provided collider"); 
+        } 
         
         var dir = (closestPoint - _rayOrigin).normalized;
         var ray = new Ray(_rayOrigin, dir);
