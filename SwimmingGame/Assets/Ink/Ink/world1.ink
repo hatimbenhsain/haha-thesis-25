@@ -625,9 +625,10 @@ Do you know how to do it?
 - ~continueSinging()
 -> END
 
-=== npcInCenter2 ===
+=== npcInCenter2 ===    //(Fonsh)
+#color: 99AFAA
 ~stopSinging()
-NPC: Do you know the secret to swim really fast?
+NPC: Do you know the secret to swimming really fast?
 +   [Yes.]
     What is it then?
     ++  [A protein-rich diet.]
@@ -689,9 +690,10 @@ Have you been to one of those?
 -> END
 
 === npcInDiner2 ===
+# color: 2b6136
 ~stopSinging()
 NPC: Have you ever noticed how certain people harmonize differently than others?
-NPC: Like, sometimes I feel I can't connect with someone until I've sung the same note as them, or one that's closer to it.
+NPC: Sometimes I'm unable to connect with someone until I've sung the same note as them, or one that's closer to it.
 NPC: What do you think that says about them?
 +   [It speaks on their nature.]
     You're right. I think some people are pure-hearted and others naturally evil and this is a really good tell!
@@ -703,6 +705,7 @@ NPC: What do you think that says about them?
 -> END
 
 === npcInDiner3 ===
+# color: 1F7A6E
 ~stopSinging()
 NPC: The food here was much better in the last cycle. Do you recall?
 In truth, the further I go in cycles, the better my memory of the food is. Isn't that peculiar?
@@ -711,7 +714,8 @@ Alas, my constitution is too delicate to gaze at fish guts. A shame!\\pause For 
 - ~continueSinging()
 -> END
 
-=== npcInDiner4 ===
+=== npcInDiner4 === //Beloo
+# color: 1d1c29
 ~stopSinging()
 NPC: Have you heard of the microwave technology? It sounds simply portentous!
 Apparently, powerful psychics can focus radiation waves into food to make it warm and thus more delectable!
@@ -719,6 +723,13 @@ I envision a wonderful future where we are no longer slaves to the tyranny of cu
 (Unfortunately, a future that is not for me because I am probably allergic to the microwave.)
 (I haven't tried it but it seems likely so I would rather not risk it.)
 - ~continueSinging()
+-> END
+
+=== npcInDiner5 ===
+# color: 966382
+~stopSinging()
+NPC: Like clownfish to bioluminescent sea anemone.
+~continueSinging()
 -> END
 
 
