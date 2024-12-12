@@ -686,6 +686,40 @@ Have you been to one of those?
 - ~continueSinging()
 -> END
 
+=== npcInDiner2 ===
+~stopSinging()
+NPC: Have you ever noticed how certain people harmonize differently than others?
+NPC: Like, sometimes I feel I can't connect with someone until I've sung the same note as them, or one that's closer to it.
+NPC: What do you think that says about them?
++   [It speaks on their nature.]
+    You're right. I think some people are pure-hearted and others naturally evil and this is a really good tell!
++   [It speaks on your relationship.]
+    That must be true. Lots of people have evil intentions towards me and this is why they make it so difficult!
++   [It speaks on their strength of character.]
+    This has to be right. Some have weaker character and they just cannot bother indulging in beautiful and harmonious compositions!
+- ~continueSinging()
+-> END
+
+=== npcInDiner3 ===
+~stopSinging()
+NPC: The food here was much better in the last cycle. Do you recall?
+In truth, the further I go in cycles, the better my memory of the food is. Isn't that peculiar?
+If I were employed in the kitchen, I would make sure the quality was always maintained to the most delectable standards of yester-cycle, for I have a perfect palate.
+Alas, my constitution is too delicate to gaze at fish guts. A shame!\\pause For everyone.
+- ~continueSinging()
+-> END
+
+=== npcInDiner4 ===
+~stopSinging()
+NPC: Have you heard of the microwave technology? It sounds simply portentous!
+Apparently, powerful psychics can focus radiation waves into food to make it warm and thus more delectable!
+I envision a wonderful future where we are no longer slaves to the tyranny of current for temperature control!
+(Unfortunately, a future that is not for me because I am probably allergic to the microwave.)
+(I haven't tried it but it seems likely so I would rather not risk it.)
+- ~continueSinging()
+-> END
+
+
 // TO-DO: Add more random npcs
 
 
