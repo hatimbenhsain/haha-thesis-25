@@ -371,7 +371,7 @@ Teacher: Let's keep going.
 
 === teacherAtEdge3 ===
 ~nextBrain()
-~loadLevel("SexPrototype")
+~loadLevel("Main Act 1 - 1")
 -> END
 
 //Right after the organs come out
@@ -404,7 +404,7 @@ MC: Ok.
 
 === teacherAtEdge5 ===
 ~nextBrain()
-~loadLevel("SexPrototype")
+~loadLevel("Main Act 1 - 2")
 -> END
 
 VAR retractHandTrigger=false
@@ -585,6 +585,13 @@ NPC: YOU SEEM REALLY TRUSTWORTHY
 =two
 MC: That's good.
 ->->
+
+=== npcAtLibrary2 ===
+# color: 7E0D13
+~stopSinging()
+NPC: 
+~continueSinging()
+-> END
 
 === npcInCenter1 ===    //Eelor
 # color: 6D6787

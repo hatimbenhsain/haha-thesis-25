@@ -47,6 +47,7 @@ MonoBehaviour:
   type: 0
   pauseLength: 0
   active: 0
+  newStrokeFrequency: -1
 --- !u!1 &707931024225909715
 GameObject:
   m_ObjectHideFlags: 0
@@ -94,6 +95,7 @@ MonoBehaviour:
   type: 0
   pauseLength: 0
   active: 0
+  newStrokeFrequency: -1
 --- !u!1 &2454891398170523717
 GameObject:
   m_ObjectHideFlags: 0
@@ -141,6 +143,7 @@ MonoBehaviour:
   type: 0
   pauseLength: 0
   active: 0
+  newStrokeFrequency: -1
 --- !u!1 &3929017224659249347
 GameObject:
   m_ObjectHideFlags: 0
@@ -471,6 +474,9 @@ MonoBehaviour:
   pathIndex: 0
   pauseTimer: 0
   isCoralNet: 0
+  orphanize: 0
+  placeNearPlayer: 0
+  maxProcessingDistance: 100
   currentState: 0
   movementBehavior: 0
   waitForPlayer: 1
@@ -483,7 +489,9 @@ MonoBehaviour:
   knotName: 
   inkJSONAsset: {fileID: 0}
   startDialogueOnEnable: 0
+  forceDialogue: 0
   sitting: 0
+  stopToTalk: 1
   acceleration: 4
   maxVelocity: 3
   deceleration: 1.5
@@ -573,7 +581,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: e726b1aa3e796bf47923922fadadf2b7, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -685,6 +693,7 @@ MonoBehaviour:
   type: 0
   pauseLength: 0
   active: 0
+  newStrokeFrequency: -1
 --- !u!1 &6049976057620381748
 GameObject:
   m_ObjectHideFlags: 0
@@ -694,6 +703,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8123778689852843099}
+  - component: {fileID: 5103271999058676456}
   m_Layer: 0
   m_Name: SingingTracesParent
   m_TagString: Untagged
@@ -717,6 +727,20 @@ Transform:
   - {fileID: 8938570445097459788}
   m_Father: {fileID: 7440094044631570832}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &5103271999058676456
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6049976057620381748}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2221c69839550b14b8910271cfc1fbdc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  minAngle: 25
+  minDistance: 10
 --- !u!1 &6297584611824266950
 GameObject:
   m_ObjectHideFlags: 0
@@ -764,6 +788,7 @@ MonoBehaviour:
   type: 0
   pauseLength: 0
   active: 0
+  newStrokeFrequency: -1
 --- !u!1 &6497177815219782284
 GameObject:
   m_ObjectHideFlags: 0
@@ -811,6 +836,7 @@ MonoBehaviour:
   type: 1
   pauseLength: 2
   active: 0
+  newStrokeFrequency: -1
 --- !u!1 &6895360321938863093
 GameObject:
   m_ObjectHideFlags: 0
@@ -858,6 +884,7 @@ MonoBehaviour:
   type: 0
   pauseLength: 0
   active: 0
+  newStrokeFrequency: -1
 --- !u!1 &9021575455185882817
 GameObject:
   m_ObjectHideFlags: 0
@@ -905,3 +932,4 @@ MonoBehaviour:
   type: 0
   pauseLength: 0
   active: 0
+  newStrokeFrequency: -1
