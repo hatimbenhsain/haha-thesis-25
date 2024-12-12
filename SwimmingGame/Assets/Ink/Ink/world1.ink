@@ -586,7 +586,7 @@ NPC: YOU SEEM REALLY TRUSTWORTHY
 MC: That's good.
 ->->
 
-=== npcInCenter1 ===
+=== npcInCenter1 ===    //Eelor
 # color: 6D6787
 ~stopSinging()
 NPC: I love kicking off walls! It's my favorite part about swimming!
@@ -656,6 +656,38 @@ NPC: Do you know the secret to swimming really fast?
     ++  [No.]
         Uh... okay.
 - ~continueSinging()
+-> END
+
+=== npcInCenter3 ===
+# color: 1d1c29
+~stopSinging()
+NPC: A strange phenomenon occurs, whenever I attempt to leave stray too far from this place.
+NPC: It's as if there are invisible walls block my passage.
+Some say it's the current, but I know the truth.
+It is gigantic and powerful psychics who are holding us in place, because they are still preparing the next place for our arrival.
+What do you believe?
++   [It's the current.]
+    Foolish sea slug. Remain blind.
++   [It's psychics.]
+    Yes!
++   [Mindset.]
+    NPC: Hmmm...
+    So you're saying our mindset is keeping us here and unconsciously stopping us from moving forth? I see...
+- ~continueSinging()
+->END
+
+=== npcInCenter4 ===
+# color: 2b6136
+~stopSinging()
+NPC: Ahem. Do you mind?
+- ~continueSinging()
+->END
+
+=== npcInCenter5 ===    //Eelor
+# color: 6D6787
+~ stopSinging()
+NPC: I'm just standing next to the hole, no big deal.
+~ continueSinging()
 -> END
 
 === npcInDiner1 ===
