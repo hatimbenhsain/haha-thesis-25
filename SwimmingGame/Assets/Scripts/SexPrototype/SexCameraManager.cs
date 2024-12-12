@@ -21,12 +21,14 @@ public class SexCameraManager : MonoBehaviour
 
     void Update()
     {
+        /*
         // switch cameras based on space presses only if target object is outside the trigger
         if (Input.GetKeyDown(KeyCode.Space) && !isObjectInsideTrigger)
         {
             spacePressCount++;
             SwitchCameras();
         }
+        */
     }
 
     // initializes cameras for the current group
