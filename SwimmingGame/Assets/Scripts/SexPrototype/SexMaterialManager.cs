@@ -26,12 +26,15 @@ public class SexMaterialManager : MonoBehaviour
     [Header("Material Pairs")]
     public List<Material> bodyMaterials; // Body material list
     public List<Material> headMaterials; // Head material list
+    public List<Material> climaxMaterials; // Climax material list
 
     [Header("Material Presets")]
     public List<MaterialPreset> bodyDefaultPresets;  // Default presets for body
     public List<MaterialPreset> headDefaultPresets;  // Default presets for head
+    public List<MaterialPreset> climaxDefaultPresets;  // Default presets for climax
     public List<MaterialPreset> bodyExcitedPresets;  // Excited presets for body
     public List<MaterialPreset> headExcitedPresets;  // Excited presets for head
+    public List<MaterialPreset> climaxExcitedPresets;  // Excited presets for climax
 
     [Header("Excitement")]
     public List<float> excitementLevels; // Excitement level for each pair, 0 is MC
@@ -49,6 +52,9 @@ public class SexMaterialManager : MonoBehaviour
 
             if (i < headDefaultPresets.Count)
                 ApplyPreset(headMaterials[i], headDefaultPresets[i]);
+
+            if (i < climaxDefaultPresets.Count)
+                ApplyPreset(climaxMaterials[i], climaxDefaultPresets[i]);
         }
     }
 
@@ -59,6 +65,7 @@ public class SexMaterialManager : MonoBehaviour
         {
             Material bodyMaterial = bodyMaterials[i];
             Material headMaterial = headMaterials[i];
+            Material climaxMaterial = climaxMaterials[i];
             float excitement = Mathf.Clamp01(excitementLevels[i]);
 
             // Lerp for body materials
@@ -71,6 +78,12 @@ public class SexMaterialManager : MonoBehaviour
             if (i < headDefaultPresets.Count && i < headExcitedPresets.Count)
             {
                 LerpMaterial(headMaterial, headDefaultPresets[i], headExcitedPresets[i], excitement);
+            }
+
+            // Lerp for climax materials
+            if (i < climaxDefaultPresets.Count && i < climaxExcitedPresets.Count)
+            {
+                LerpMaterial(headMaterial, climaxDefaultPresets[i], climaxExcitedPresets[i], excitement);
             }
         }
     }
