@@ -25,9 +25,11 @@ public class EffectManager : MonoBehaviour
     public float defaultEmissionRate;
     public float maxEmissionRate;
     public Color defaultStartColor;
-    public Color targetStartColor;
+    public Color[] targetStartColors;
 
     [Header("Parameters")]
+    [Tooltip("Universal lerp speed for every changing thing.")]
+    public float lerpSpeed;
     public float entanglementMeterThreshold = 50f;
     public float speedMeterThreshold = 50f;
     public float distanceMeterThreshold = 50f;
@@ -54,6 +56,8 @@ public class EffectManager : MonoBehaviour
     private List<float> originalExcitementLevels;
     private float originalBloomIntensity;
     private float pulseTimer = 0f;
+
+    
 
     void Start()
     {
@@ -118,6 +122,7 @@ public class EffectManager : MonoBehaviour
     {
         float normalizedSpeed = speedMeter / 100f;
         particleEmission.rateOverTime = Mathf.Lerp(defaultEmissionRate, maxEmissionRate, normalizedSpeed);
+        Color targetStartColor=targetStartColors[Random.Range(0,targetStartColors.Length)];
         particleMain.startColor = Color.Lerp(defaultStartColor, targetStartColor, normalizedSpeed);
     }
 
@@ -154,25 +159,25 @@ public class EffectManager : MonoBehaviour
         if (speedMeter > speedMeterThreshold)
         {
             float normalizedBloomIntensity = Mathf.InverseLerp(speedMeterThreshold, 100f, speedMeter);
-            bloom.intensity.value = Mathf.Lerp(originalBloomIntensity, maxBloomIntensity, normalizedBloomIntensity);
+            bloom.intensity.value = Mathf.Lerp(bloom.intensity.value,Mathf.Lerp(originalBloomIntensity, maxBloomIntensity, normalizedBloomIntensity),lerpSpeed*Time.deltaTime);
         }
         else
         {
             // Increase bloom intensity slowly below threshold
             float slowIncrease = Mathf.InverseLerp(0f, speedMeterThreshold, speedMeter);
-            bloom.intensity.value = Mathf.Lerp(originalBloomIntensity, maxBloomIntensity, slowIncrease);
+            bloom.intensity.value = Mathf.Lerp(bloom.intensity.value,Mathf.Lerp(originalBloomIntensity, maxBloomIntensity, slowIncrease),lerpSpeed*Time.deltaTime);
         }
     }
 
     private void HandleDirectionalLight()
     {
         float normalizedDistance = Mathf.InverseLerp(0f, 100f, distanceMeter);
-        directionalLight.intensity = Mathf.Lerp(1, 2, normalizedDistance);
+        directionalLight.intensity = Mathf.Lerp(directionalLight.intensity,Mathf.Lerp(directionalLightMinIntensity, directionalLightMaxIntensity, normalizedDistance),lerpSpeed*Time.deltaTime);
     }
 
     private void HandleFogColor()
     {
-        RenderSettings.fogColor = fogColorList[currentIntensity];
+        RenderSettings.fogColor = Color.Lerp(RenderSettings.fogColor,fogColorList[currentIntensity],lerpSpeed*Time.deltaTime);
     }
 
     private void HandleBulgePulse()

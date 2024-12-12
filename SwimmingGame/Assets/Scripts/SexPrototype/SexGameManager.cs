@@ -32,6 +32,8 @@ public class SexGameManager : MonoBehaviour
 
     public bool moveOnAfterThresholdReached = false;
 
+    private bool movingOn=false;
+
     private void Start()
     {
         startCounting = false;
@@ -86,6 +88,9 @@ public class SexGameManager : MonoBehaviour
 
     public void MoveOn()
     {
-        levelLoader.LoadLevel();
+        if(!movingOn){
+            levelLoader.LoadLevel();
+            movingOn=true;
+        }
     }
 }

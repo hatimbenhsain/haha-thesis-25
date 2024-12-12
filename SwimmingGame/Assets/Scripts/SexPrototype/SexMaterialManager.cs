@@ -21,6 +21,8 @@ public class MaterialPreset
 
 public class SexMaterialManager : MonoBehaviour
 {
+    private EffectManager effectManager;
+
     [Header("Material Pairs")]
     public List<Material> bodyMaterials; // Body material list
     public List<Material> headMaterials; // Head material list
@@ -37,6 +39,8 @@ public class SexMaterialManager : MonoBehaviour
 
     private void Start()
     {
+        effectManager=FindObjectOfType<EffectManager>();
+
         // Initialize all materials with their default presets
         for (int i = 0; i < bodyMaterials.Count && i < headMaterials.Count; i++)
         {
@@ -88,16 +92,17 @@ public class SexMaterialManager : MonoBehaviour
 
     private void LerpMaterial(Material material, MaterialPreset fromPreset, MaterialPreset toPreset, float t)
     {
-        material.SetColor("_Color", Color.Lerp(fromPreset.color, toPreset.color, t));
-        material.SetFloat("_ShiftingSpeedX", Mathf.Lerp(fromPreset.shiftingSpeedX, toPreset.shiftingSpeedX, t));
-        material.SetFloat("_ShiftingSpeedY", Mathf.Lerp(fromPreset.shiftingSpeedY, toPreset.shiftingSpeedY, t));
-        material.SetVector("_Tiling", Vector2.Lerp(fromPreset.tiling, toPreset.tiling, t));
-        material.SetFloat("_NoiseValue", Mathf.Lerp(fromPreset.noiseValue, toPreset.noiseValue, t));
-        material.SetColor("_Emission", Color.Lerp(fromPreset.emission, toPreset.emission, t));
-        material.SetFloat("_Contrast", Mathf.Lerp(fromPreset.contrast, toPreset.contrast, t));
-        material.SetFloat("_Saturation", Mathf.Lerp(fromPreset.saturation, toPreset.saturation, t));
-        material.SetFloat("_Smoothness", Mathf.Lerp(fromPreset.smoothness, toPreset.smoothness, t));
-        material.SetFloat("_Normal", Mathf.Lerp(fromPreset.normal, toPreset.normal, t));
-        material.SetFloat("_Add", Mathf.Lerp(fromPreset.add, toPreset.add, t));
+        float lerpSpeed=effectManager.lerpSpeed;
+        material.SetColor("_Color", Color.Lerp(material.GetColor("_Color"),Color.Lerp(fromPreset.color, toPreset.color, t),lerpSpeed*Time.deltaTime));
+        material.SetFloat("_ShiftingSpeedX", Mathf.Lerp(material.GetFloat("_ShiftingSpeedX"),Mathf.Lerp(fromPreset.shiftingSpeedX, toPreset.shiftingSpeedX, t),lerpSpeed*Time.deltaTime));
+        material.SetFloat("_ShiftingSpeedY", Mathf.Lerp(material.GetFloat("_ShiftingSpeedY"),Mathf.Lerp(fromPreset.shiftingSpeedY, toPreset.shiftingSpeedY, t),lerpSpeed*Time.deltaTime));
+        material.SetVector("_Tiling", Vector2.Lerp(material.GetVector("_Tiling"),Vector2.Lerp(fromPreset.tiling, toPreset.tiling, t),lerpSpeed*Time.deltaTime));
+        material.SetFloat("_NoiseValue", Mathf.Lerp(material.GetFloat("_ShiftingSpeedX"),Mathf.Lerp(fromPreset.noiseValue, toPreset.noiseValue, t),lerpSpeed*Time.deltaTime));
+        material.SetColor("_Emission", Color.Lerp(material.GetColor("_Emission"),Color.Lerp(fromPreset.emission, toPreset.emission, t),lerpSpeed*Time.deltaTime));
+        material.SetFloat("_Contrast", Mathf.Lerp(material.GetFloat("_Contrast"),Mathf.Lerp(fromPreset.contrast, toPreset.contrast, t),lerpSpeed*Time.deltaTime));
+        material.SetFloat("_Saturation", Mathf.Lerp(material.GetFloat("_Saturation"),Mathf.Lerp(fromPreset.saturation, toPreset.saturation, t),lerpSpeed*Time.deltaTime));
+        material.SetFloat("_Smoothness", Mathf.Lerp(material.GetFloat("_Smoothness"),Mathf.Lerp(fromPreset.smoothness, toPreset.smoothness, t),lerpSpeed*Time.deltaTime));
+        material.SetFloat("_Normal", Mathf.Lerp(material.GetFloat("_Normal"),Mathf.Lerp(fromPreset.normal, toPreset.normal, t),lerpSpeed*Time.deltaTime));
+        material.SetFloat("_Add", Mathf.Lerp(material.GetFloat("_Add"),Mathf.Lerp(fromPreset.add, toPreset.add, t),lerpSpeed*Time.deltaTime));
     }
 }

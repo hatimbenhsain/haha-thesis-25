@@ -153,7 +153,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &804125985359383100
 RectTransform:
   m_ObjectHideFlags: 0
@@ -2384,7 +2384,7 @@ MonoBehaviour:
   m_PreserveMeshAssetOnDestroy: 0
   assetGuid: 
   m_Mesh: {fileID: 0}
-  m_VersionIndex: 1773
+  m_VersionIndex: 1779
   m_IsSelectable: 1
   m_SelectedFaces: 
   m_SelectedEdges: []
@@ -3656,7 +3656,6 @@ Transform:
   - {fileID: 4533104028571486399}
   - {fileID: 9120996067616872180}
   - {fileID: 1539318803937626067}
-  - {fileID: 3205202289256499922}
   - {fileID: 4868209861368332828}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -3677,7 +3676,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &3917127776731027305
 RectTransform:
   m_ObjectHideFlags: 0
@@ -3964,17 +3963,21 @@ MonoBehaviour:
   bulgeEffects:
   - {fileID: 1476057812895168213}
   - {fileID: 3541427595076516543}
-  npcSexAI: {fileID: 2042167066495453249}
+  npcSexAI: {fileID: 7341938950252715341}
   npcSpring: {fileID: 6962756753293970853}
   maxBloomIntensity: 1
   contrast: 0
   saturation: 0
   bloomThreshold: 0.15
   particleSystem: {fileID: 418539671331480931}
-  defaultEmissionRate: 10
-  maxEmissionRate: 30
+  defaultEmissionRate: 0
+  maxEmissionRate: 100
   defaultStartColor: {r: 1, g: 1, b: 1, a: 1}
-  targetStartColor: {r: 0, g: 0, b: 0, a: 1}
+  targetStartColors:
+  - {r: 0.7122642, g: 1, b: 0.7893818, a: 1}
+  - {r: 1, g: 0.7137255, b: 0.9734281, a: 1}
+  - {r: 1, g: 0.9572475, b: 0.7137255, a: 1}
+  lerpSpeed: 1
   entanglementMeterThreshold: 80
   speedMeterThreshold: 80
   distanceMeterThreshold: 10
@@ -3988,6 +3991,7 @@ MonoBehaviour:
   - {r: 0.6627451, g: 0.68788916, b: 0.85490197, a: 0}
   - {r: 0.6627451, g: 0.8097624, b: 0.85490197, a: 0}
   - {r: 0.6714184, g: 0.85490197, b: 0.6627451, a: 0}
+  - {r: 0.81997484, g: 1, b: 0.7019608, a: 0}
   distanceMeter: 0
   entanglementMeter: 0
   speedMeter: 0
@@ -4140,11 +4144,11 @@ GameObject:
   m_Component:
   - component: {fileID: 740019154414618805}
   - component: {fileID: 6962756753293970853}
+  - component: {fileID: 7341938950252715341}
   - component: {fileID: 6589267664895588412}
   - component: {fileID: 5019211142416370628}
   - component: {fileID: 4147208043264760043}
   - component: {fileID: 8044312685395845855}
-  - component: {fileID: 2042167066495453249}
   m_Layer: 0
   m_Name: NPC_SpringBody
   m_TagString: Untagged
@@ -4209,14 +4213,6 @@ MonoBehaviour:
   capsule: {fileID: 6144685574631033293}
   origin: {fileID: 8506339774268651144}
   springMovementValues:
-  - movementBehavior: 3
-    intensity: 0
-    timeBetweenBreaths: 2
-    minDistanceFromPlayer: 1
-    maxDistanceFromPlayer: 5
-    inhaleLength: 0.5
-    turnSpeed: 2
-    turningTime: 0
   - movementBehavior: 5
     intensity: 0
     timeBetweenBreaths: 1
@@ -4228,20 +4224,132 @@ MonoBehaviour:
   - movementBehavior: 4
     intensity: 0
     timeBetweenBreaths: 1
+    minDistanceFromPlayer: 5
+    maxDistanceFromPlayer: 10
+    inhaleLength: 0.5
+    turnSpeed: 4
+    turningTime: 0
+  - movementBehavior: 7
+    intensity: 0
+    timeBetweenBreaths: 4
+    minDistanceFromPlayer: 5
+    maxDistanceFromPlayer: 30
+    inhaleLength: 0.5
+    turnSpeed: 2
+    turningTime: 0
+  - movementBehavior: 3
+    intensity: 0
+    timeBetweenBreaths: 2
     minDistanceFromPlayer: 1
     maxDistanceFromPlayer: 5
+    inhaleLength: 0.5
+    turnSpeed: 1.5
+    turningTime: 0
+  - movementBehavior: 3
+    intensity: 1
+    timeBetweenBreaths: 1.75
+    minDistanceFromPlayer: 1
+    maxDistanceFromPlayer: 5
+    inhaleLength: 0.75
+    turnSpeed: 2
+    turningTime: 0
+  - movementBehavior: 3
+    intensity: 2
+    timeBetweenBreaths: 1.5
+    minDistanceFromPlayer: 1
+    maxDistanceFromPlayer: 5
+    inhaleLength: 0.5
+    turnSpeed: 2
+    turningTime: 0
+  - movementBehavior: 3
+    intensity: 3
+    timeBetweenBreaths: 1
+    minDistanceFromPlayer: 0.5
+    maxDistanceFromPlayer: 7
     inhaleLength: 1
     turnSpeed: 4
     turningTime: 0
-  - movementBehavior: 2
+  - movementBehavior: 3
+    intensity: 4
+    timeBetweenBreaths: 0.5
+    minDistanceFromPlayer: 0.5
+    maxDistanceFromPlayer: 10
+    inhaleLength: 1
+    turnSpeed: 6
+    turningTime: 0
+  - movementBehavior: 6
     intensity: 0
+    timeBetweenBreaths: 2
+    minDistanceFromPlayer: 1
+    maxDistanceFromPlayer: 5
+    inhaleLength: 0.5
+    turnSpeed: 1.5
+    turningTime: 0
+  - movementBehavior: 6
+    intensity: 1
+    timeBetweenBreaths: 1.75
+    minDistanceFromPlayer: 1
+    maxDistanceFromPlayer: 5
+    inhaleLength: 0.75
+    turnSpeed: 2
+    turningTime: 0
+  - movementBehavior: 6
+    intensity: 2
+    timeBetweenBreaths: 1.5
+    minDistanceFromPlayer: 1
+    maxDistanceFromPlayer: 5
+    inhaleLength: 0.5
+    turnSpeed: 2
+    turningTime: 0
+  - movementBehavior: 6
+    intensity: 3
     timeBetweenBreaths: 1
     minDistanceFromPlayer: 1
     maxDistanceFromPlayer: 5
-    inhaleLength: 1
+    inhaleLength: 0.5
     turnSpeed: 4
     turningTime: 0
+  - movementBehavior: 6
+    intensity: 4
+    timeBetweenBreaths: 0.5
+    minDistanceFromPlayer: 0.5
+    maxDistanceFromPlayer: 5
+    inhaleLength: 0.5
+    turnSpeed: 6
+    turningTime: 0
   currentTarget: {fileID: 2555582981725533036}
+--- !u!114 &7341938950252715341
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5843139172911674445}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3e086542d45bceb45a47e7b39420308b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  npcSpring: {fileID: 0}
+  sexGameManager: {fileID: 0}
+  stateCounter: 0
+  distanceMinTreshold: 15
+  distanceMaxTreshold: 2
+  entanglementMinTreshold: 7
+  entanglementMaxTreshold: 4
+  speedMinTreshold: 6
+  speedMaxTreshold: 12
+  meterGrowthSpeed: 10
+  meterDecaySpeed: 5
+  intensityToReach: 5
+  statesToCycleThrough: 10
+  minTimeBeforeStateChange: 4
+  maxTimeBeforeStateChange: 30
+  distanceMeter: 0
+  entanglementMeter: 0
+  speedMeter: 0
+  timeSinceStateChange: 0
+  sexIntensityParameters: []
 --- !u!54 &6589267664895588412
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -4323,38 +4431,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   kinematicForParticles: 1
---- !u!114 &2042167066495453249
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5843139172911674445}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 04227b6f552b1e545b101e3f3702f860, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  npcSpring: {fileID: 0}
-  sexGameManager: {fileID: 0}
-  stateCounter: 0
-  distanceMinTreshold: 15
-  distanceMaxTreshold: 2
-  entanglementMinTreshold: 7
-  entanglementMaxTreshold: 3
-  speedMinTreshold: 4
-  speedMaxTreshold: 8
-  meterGrowthSpeed: 10
-  meterDecaySpeed: 5
-  intensityToReach: 4
-  statesToCycleThrough: 6
-  minTimeBeforeStateChange: 4
-  maxTimeBeforeStateChange: 10
-  distanceMeter: 0
-  entanglementMeter: 0
-  speedMeter: 0
-  timeSinceStateChange: 0
-  sexIntensityParameters: []
 --- !u!1 &5910570315396307441
 GameObject:
   m_ObjectHideFlags: 0
@@ -5025,50 +5101,6 @@ MonoBehaviour:
   CameraRadius: 0.2
   DampingIntoCollision: 0
   DampingFromCollision: 2
---- !u!1 &6626455664755566647
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 3205202289256499922}
-  - component: {fileID: 8706762520912633244}
-  m_Layer: 0
-  m_Name: ComputeCollisionWorld
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &3205202289256499922
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6626455664755566647}
-  serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -1917.9662, y: -10.018295, z: 5.139242}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 285791284795773293}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &8706762520912633244
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6626455664755566647}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ce0ddc77554954cd78643d83b0505396, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &6634570604433680471
 GameObject:
   m_ObjectHideFlags: 0
@@ -5185,7 +5217,7 @@ ParticleSystem:
     startLifetime:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 20
+      scalar: 5
       minScalar: 5
       maxCurve:
         serializedVersion: 2
@@ -5673,7 +5705,7 @@ ParticleSystem:
         m_RotationOrder: 4
     randomizeRotationDirection: 0
     gravitySource: 0
-    maxNumParticles: 1000
+    maxNumParticles: 3000
     customEmitterVelocity: {x: 0, y: 0, z: 0}
     size3D: 0
     rotation3D: 0
@@ -5820,7 +5852,7 @@ ParticleSystem:
     sphericalDirectionAmount: 0
     randomPositionAmount: 0
     radius:
-      value: 95.419586
+      value: 61.7
       mode: 0
       spread: 0
       speed:
@@ -10957,6 +10989,16 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1539318803937626067}
     m_Modifications:
+    - target: {fileID: 2153178369731169505, guid: 54ee2c803d46c6648878673f7fe5c681,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 2199883645608828720, guid: 54ee2c803d46c6648878673f7fe5c681,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5011237429430670471, guid: 54ee2c803d46c6648878673f7fe5c681,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -11009,13 +11051,33 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5661031363680635953, guid: 54ee2c803d46c6648878673f7fe5c681,
         type: 3}
+      propertyPath: image
+      value: 
+      objectReference: {fileID: 4532062868471302096}
+    - target: {fileID: 5661031363680635953, guid: 54ee2c803d46c6648878673f7fe5c681,
+        type: 3}
+      propertyPath: fadeIn
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5661031363680635953, guid: 54ee2c803d46c6648878673f7fe5c681,
+        type: 3}
       propertyPath: pressP
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5661031363680635953, guid: 54ee2c803d46c6648878673f7fe5c681,
         type: 3}
+      propertyPath: fadeInTime
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 5661031363680635953, guid: 54ee2c803d46c6648878673f7fe5c681,
+        type: 3}
+      propertyPath: transitionTime
+      value: 1.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 5661031363680635953, guid: 54ee2c803d46c6648878673f7fe5c681,
+        type: 3}
       propertyPath: destinationScene
-      value: RubbingPrototype
+      value: Climax1
       objectReference: {fileID: 0}
     - target: {fileID: 7520034976802511986, guid: 54ee2c803d46c6648878673f7fe5c681,
         type: 3}
@@ -11035,6 +11097,18 @@ PrefabInstance:
       addedObject: {fileID: 3917127776731027305}
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 54ee2c803d46c6648878673f7fe5c681, type: 3}
+--- !u!114 &4532062868471302096 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2153178369731169505, guid: 54ee2c803d46c6648878673f7fe5c681,
+    type: 3}
+  m_PrefabInstance: {fileID: 2523352226355333937}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!224 &6084831144573935934 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 8607811366562687503, guid: 54ee2c803d46c6648878673f7fe5c681,
