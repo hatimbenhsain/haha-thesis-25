@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Reflection;
+using Cinemachine;
 using Unity.Properties;
 using Unity.VisualScripting;
 using UnityEngine;
@@ -48,6 +49,10 @@ public class SwimmerCamera : MonoBehaviour
     public float paniniIntensityChange=0.2f;
     private float paniniTargetIntensity;
 
+    CinemachineVirtualCamera cinemachineVirtualCamera;
+    private bool restoreDampingTrigger=false;
+    private Vector3 savedDamping;
+
 
 
     // FAILED ATTEMPT to be able to change what parts of the volume get changed via inspector
@@ -89,6 +94,8 @@ public class SwimmerCamera : MonoBehaviour
 
         baseFov=camera.fieldOfView;
         targetFov=baseFov;
+
+        CinemachineVirtualCamera cinemachineVirtualCamera=camera.GetComponent<CinemachineVirtualCamera>();
 
         // for(int i=0;i<postProcessingValuesToChange.Length;i++){
         //     PostProcessingValueToChange ppv=postProcessingValuesToChange[i];
@@ -193,6 +200,12 @@ public class SwimmerCamera : MonoBehaviour
         //     }
         // }
 
+        if(restoreDampingTrigger){
+            cinemachineVirtualCamera.GetCinemachineComponent<Cinemachine3rdPersonFollow>().Damping=savedDamping;
+            restoreDampingTrigger=false;
+            Debug.Log("restore damping");
+        }
+
     }
 
     public void BoostAnimation(){
@@ -217,6 +230,18 @@ public class SwimmerCamera : MonoBehaviour
         //         ppv.component.GetType().GetProperty(ppv.componentName).SetValue(ppv.component,ppv.baseValue);
         //     }
         // }
+    }
+
+    public void ResetCamera(){
+        cinemachineVirtualCamera=camera.GetComponent<CinemachineVirtualCamera>();
+        cinemachineVirtualCamera.ForceCameraPosition(swimmer.transform.position-
+            swimmer.transform.forward*cinemachineVirtualCamera.
+            GetCinemachineComponent<Cinemachine3rdPersonFollow>().CameraDistance, 
+            swimmer.transform.rotation);
+        savedDamping=cinemachineVirtualCamera.GetCinemachineComponent<Cinemachine3rdPersonFollow>().Damping;
+        cinemachineVirtualCamera.GetCinemachineComponent<Cinemachine3rdPersonFollow>().Damping=Vector3.zero;
+        restoreDampingTrigger=true;
+        Debug.Log("reset camera");
     }
 }
 

@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Security.Cryptography;
+using Cinemachine;
 using UnityEngine;
 using UnityEngine.Timeline;
 
@@ -92,6 +93,8 @@ public class Swimmer : MonoBehaviour
 
     private SwimmerSound swimmerSound;
 
+    public Transform respawnTransform;
+
     void Start()
     {
         controller=GetComponent<CharacterController>();
@@ -121,6 +124,10 @@ public class Swimmer : MonoBehaviour
             if(force!=Vector3.zero){
                 kickbackTimer=0f;
             }
+        }
+
+        if(Input.GetKeyDown(KeyCode.R) && (Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift))){
+            Respawn();
         }
     }
 
@@ -562,6 +569,25 @@ public class Swimmer : MonoBehaviour
             canMove=true;
             canRotate=true;
         }
+    }
+
+    public void Respawn(){
+        if(respawnTransform!=null){
+            Transport(respawnTransform.position,respawnTransform.rotation);
+        }
+    }
+
+    public void Transport(Vector3 position){
+        transform.position=position;
+    }
+
+    public void Transport(Vector3 position,Quaternion rotation){
+        transform.position=position;
+        transform.rotation=rotation;
+        body.position=transform.position;
+        body.rotation=transform.rotation;
+        swimmerCamera.ResetCamera();
+        FindObjectOfType<LevelLoader>().FadeIn();
     }
 }
 

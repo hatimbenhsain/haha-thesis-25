@@ -68,6 +68,13 @@ public class LevelLoader : MonoBehaviour
 
     }
 
+    public void FadeIn(){
+        fadeIn=true;
+        transitionTimer=0f;
+        Color c=image.color;
+        image.color=new Color(c.r,c.g,c.b,1f);
+    }
+
     public void LoadLevel(string destination = "")
     {
         if (destination == "")
