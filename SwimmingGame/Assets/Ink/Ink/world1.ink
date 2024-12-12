@@ -376,7 +376,9 @@ Teacher: Let's keep going.
 
 //Right after the organs come out
 === teacherMainAct1 ===
-MC: Wait, stop!
+# ambient
+MC: WAIT, stop!!! # time: 2
+~loadLevel("Foreplay 1 - 2")
 -> END
 // Main act interrupted and go back to edge sitting
 

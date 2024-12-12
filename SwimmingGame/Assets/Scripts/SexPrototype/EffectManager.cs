@@ -72,8 +72,10 @@ public class EffectManager : MonoBehaviour
             particleMain = particleSystem.main;
         }
 
+        originalExcitementLevels=new List<float>();
+
         // Save original excitement levels from the material manager
-        if (sexMaterialManager != null && sexMaterialManager.excitementLevels != null)
+        if (sexMaterialManager != null && sexMaterialManager.excitementLevels.Count>0)
         {
             foreach (var level in sexMaterialManager.excitementLevels)
             {
