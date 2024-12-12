@@ -7,6 +7,7 @@ using UnityEngine.Rendering.Universal;
 
 public class Migration : MonoBehaviour
 {
+    private Swimmer swimmer;
     public Color[] colors;
     public float progress;
     public float targetProgress;
@@ -25,6 +26,9 @@ public class Migration : MonoBehaviour
 
     public Transform lightTransform;
     public float lightRotationSpeed=1f;
+
+    public Vector3 targetAngle;
+    private bool activatedMovement=false;
 
 
     void Start()
@@ -46,6 +50,9 @@ public class Migration : MonoBehaviour
         highlightValue=h1/h;
 
         migrationGenerator=FindObjectOfType<MigrationGenerator>();
+
+        swimmer=FindObjectOfType<Swimmer>();
+
 
     }
 
@@ -88,5 +95,11 @@ public class Migration : MonoBehaviour
         
         Vector3 rot=new Vector3(Time.time*lightRotationSpeed,0f,0f);
         lightTransform.rotation=Quaternion.Euler(rot);
+
+        if(!activatedMovement && Vector3.Angle(swimmer.transform.forward,targetAngle)<=45f){
+            swimmer.canMove=true;
+            activatedMovement=true; 
+        }
     }
+
 }

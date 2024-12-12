@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.12731749, g: 0.13414757, b: 0.1210787, a: 1}
+  m_IndirectSpecularColor: {r: 0.12731704, g: 0.13414727, b: 0.121078536, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -157,6 +157,10 @@ MonoBehaviour:
   path: []
   pathIndex: 0
   pauseTimer: 0
+  isCoralNet: 0
+  orphanize: 0
+  placeNearPlayer: 0
+  maxProcessingDistance: 100
   currentState: 1
   movementBehavior: 0
   waitForPlayer: 1
@@ -169,7 +173,9 @@ MonoBehaviour:
   knotName: teacherAtEdge1
   inkJSONAsset: {fileID: 4900000, guid: 7d0a8704f282bc642aaf7abb9559269a, type: 3}
   startDialogueOnEnable: 0
+  forceDialogue: 0
   sitting: 1
+  stopToTalk: 1
   acceleration: 4
   maxVelocity: 3
   deceleration: 1.5
@@ -592,6 +598,10 @@ MonoBehaviour:
   path: []
   pathIndex: 0
   pauseTimer: 0
+  isCoralNet: 0
+  orphanize: 0
+  placeNearPlayer: 0
+  maxProcessingDistance: 100
   currentState: 1
   movementBehavior: 0
   waitForPlayer: 1
@@ -604,7 +614,9 @@ MonoBehaviour:
   knotName: 
   inkJSONAsset: {fileID: 4900000, guid: 7d0a8704f282bc642aaf7abb9559269a, type: 3}
   startDialogueOnEnable: 0
+  forceDialogue: 0
   sitting: 1
+  stopToTalk: 1
   acceleration: 4
   maxVelocity: 3
   deceleration: 1.5
@@ -715,6 +727,10 @@ MonoBehaviour:
   path: []
   pathIndex: 0
   pauseTimer: 0
+  isCoralNet: 0
+  orphanize: 0
+  placeNearPlayer: 0
+  maxProcessingDistance: 100
   currentState: 1
   movementBehavior: 0
   waitForPlayer: 1
@@ -727,7 +743,9 @@ MonoBehaviour:
   knotName: teacherAtEdge2
   inkJSONAsset: {fileID: 4900000, guid: 7d0a8704f282bc642aaf7abb9559269a, type: 3}
   startDialogueOnEnable: 0
+  forceDialogue: 0
   sitting: 1
+  stopToTalk: 1
   acceleration: 4
   maxVelocity: 3
   deceleration: 1.5
@@ -1329,6 +1347,10 @@ MonoBehaviour:
   path: []
   pathIndex: 0
   pauseTimer: 0
+  isCoralNet: 0
+  orphanize: 0
+  placeNearPlayer: 0
+  maxProcessingDistance: 100
   currentState: 1
   movementBehavior: 0
   waitForPlayer: 1
@@ -1341,7 +1363,9 @@ MonoBehaviour:
   knotName: teacherAtEdge3
   inkJSONAsset: {fileID: 4900000, guid: 7d0a8704f282bc642aaf7abb9559269a, type: 3}
   startDialogueOnEnable: 0
+  forceDialogue: 0
   sitting: 1
+  stopToTalk: 1
   acceleration: 4
   maxVelocity: 3
   deceleration: 1.5
@@ -1496,6 +1520,26 @@ PrefabInstance:
       propertyPath: canRotate
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2631372478074727883, guid: 1c8ad2b2d7ff68c45b5eee5039926f9d,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3018903162209503987, guid: 1c8ad2b2d7ff68c45b5eee5039926f9d,
+        type: 3}
+      propertyPath: m_Camera
+      value: 
+      objectReference: {fileID: 618405115}
+    - target: {fileID: 3018903162209503987, guid: 1c8ad2b2d7ff68c45b5eee5039926f9d,
+        type: 3}
+      propertyPath: m_RenderMode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3018903162209503987, guid: 1c8ad2b2d7ff68c45b5eee5039926f9d,
+        type: 3}
+      propertyPath: m_PlaneDistance
+      value: 2.4
+      objectReference: {fileID: 0}
     - target: {fileID: 3642093666109752027, guid: 1c8ad2b2d7ff68c45b5eee5039926f9d,
         type: 3}
       propertyPath: m_IsActive
@@ -1535,6 +1579,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_ConstrainProportionsScale
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6048913218055443632, guid: 1c8ad2b2d7ff68c45b5eee5039926f9d,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6417933098474598149, guid: 1c8ad2b2d7ff68c45b5eee5039926f9d,
         type: 3}
@@ -1591,6 +1640,18 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1c8ad2b2d7ff68c45b5eee5039926f9d, type: 3}
+--- !u!114 &1202587471 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2153178369731169505, guid: 54ee2c803d46c6648878673f7fe5c681,
+    type: 3}
+  m_PrefabInstance: {fileID: 2005307119}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1430249906
 GameObject:
   m_ObjectHideFlags: 0
@@ -1640,6 +1701,10 @@ MonoBehaviour:
   path: []
   pathIndex: 0
   pauseTimer: 0
+  isCoralNet: 0
+  orphanize: 0
+  placeNearPlayer: 0
+  maxProcessingDistance: 100
   currentState: 1
   movementBehavior: 0
   waitForPlayer: 1
@@ -1652,7 +1717,9 @@ MonoBehaviour:
   knotName: nextBrainKnot
   inkJSONAsset: {fileID: 4900000, guid: 7d0a8704f282bc642aaf7abb9559269a, type: 3}
   startDialogueOnEnable: 0
+  forceDialogue: 0
   sitting: 1
+  stopToTalk: 1
   acceleration: 4
   maxVelocity: 3
   deceleration: 1.5
@@ -1980,6 +2047,10 @@ MonoBehaviour:
   path: []
   pathIndex: 0
   pauseTimer: 0
+  isCoralNet: 0
+  orphanize: 0
+  placeNearPlayer: 0
+  maxProcessingDistance: 100
   currentState: 1
   movementBehavior: 0
   waitForPlayer: 1
@@ -1992,7 +2063,9 @@ MonoBehaviour:
   knotName: nextBrainKnot
   inkJSONAsset: {fileID: 4900000, guid: 7d0a8704f282bc642aaf7abb9559269a, type: 3}
   startDialogueOnEnable: 0
+  forceDialogue: 0
   sitting: 1
+  stopToTalk: 1
   acceleration: 4
   maxVelocity: 3
   deceleration: 1.5
@@ -2232,6 +2305,11 @@ PrefabInstance:
       propertyPath: m_Color.r
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 2199883645608828720, guid: 54ee2c803d46c6648878673f7fe5c681,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5011237429430670471, guid: 54ee2c803d46c6648878673f7fe5c681,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -2284,8 +2362,13 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5661031363680635953, guid: 54ee2c803d46c6648878673f7fe5c681,
         type: 3}
+      propertyPath: image
+      value: 
+      objectReference: {fileID: 1202587471}
+    - target: {fileID: 5661031363680635953, guid: 54ee2c803d46c6648878673f7fe5c681,
+        type: 3}
       propertyPath: transitionTime
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7520034976802511986, guid: 54ee2c803d46c6648878673f7fe5c681,
         type: 3}
@@ -2331,6 +2414,10 @@ MonoBehaviour:
   path: []
   pathIndex: 0
   pauseTimer: 0
+  isCoralNet: 0
+  orphanize: 0
+  placeNearPlayer: 0
+  maxProcessingDistance: 100
   currentState: 1
   movementBehavior: 0
   waitForPlayer: 1
@@ -2343,7 +2430,9 @@ MonoBehaviour:
   knotName: nextBrainKnot
   inkJSONAsset: {fileID: 4900000, guid: 7d0a8704f282bc642aaf7abb9559269a, type: 3}
   startDialogueOnEnable: 0
+  forceDialogue: 0
   sitting: 1
+  stopToTalk: 1
   acceleration: 4
   maxVelocity: 3
   deceleration: 1.5
