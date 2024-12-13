@@ -28,6 +28,7 @@ public class PlayerInput : MonoBehaviour
     public bool navigateDown;
 
     public bool pausing;
+    public bool entering;
 
 
     [HideInInspector]
@@ -36,7 +37,7 @@ public class PlayerInput : MonoBehaviour
     public bool yAxisInverted=false;
 
     //[HideInInspector]
-    public bool prevMovingForward, prevMovingBackward, prevMovingLeft, prevMovingRight, prevMovingUp, prevMovingDown, prevBoosting, prevInteracting, prevAiming, prevSinging, prevNavigateLeft, prevNavigateRight, prevNavigateUp, prevNavigateDown, prevPausing;
+    public bool prevMovingForward, prevMovingBackward, prevMovingLeft, prevMovingRight, prevMovingUp, prevMovingDown, prevBoosting, prevInteracting, prevAiming, prevSinging, prevNavigateLeft, prevNavigateRight, prevNavigateUp, prevNavigateDown, prevPausing, prevEntering;
 
     public bool movedForwardTrigger;
 
@@ -50,11 +51,11 @@ public class PlayerInput : MonoBehaviour
     void Start(){
         playerInput = GetComponent<UnityEngine.InputSystem.PlayerInput>();
 
-        values=new object[] {look.x,look.y,rotation.x,rotation.y,singingNote.x,singingNote.y,movingForward,movingBackward,movingLeft,movingRight,movingUp,movingDown,boosting,interacting,aiming,singing,pausing};
+        values=new object[] {look.x,look.y,rotation.x,rotation.y,singingNote.x,singingNote.y,movingForward,movingBackward,movingLeft,movingRight,movingUp,movingDown,boosting,interacting,aiming,singing,pausing,entering};
     }
 
     void Update(){
-        values=new object[] {look.x,look.y,rotation.x,rotation.y,singingNote.x,singingNote.y,movingForward,movingBackward,movingLeft,movingRight,movingUp,movingDown,boosting,interacting,aiming,singing,pausing};
+        values=new object[] {look.x,look.y,rotation.x,rotation.y,singingNote.x,singingNote.y,movingForward,movingBackward,movingLeft,movingRight,movingUp,movingDown,boosting,interacting,aiming,singing,pausing,entering};
         if(Input.GetKeyDown(KeyCode.I)){
             yAxisInverted=!yAxisInverted;
         }
@@ -78,6 +79,7 @@ public class PlayerInput : MonoBehaviour
         prevNavigateRight=navigateRight;
         prevNavigateUp=navigateUp;
         prevPausing=pausing;
+        prevEntering=entering;
     }
 
     public void OnMoveForward(InputAction.CallbackContext value){
@@ -157,6 +159,10 @@ public class PlayerInput : MonoBehaviour
 
     public void OnPause(InputAction.CallbackContext value){
         PauseInput(value.performed || value.started);
+    }
+
+    public void OnEnter(InputAction.CallbackContext value){
+        EnterInput(value.performed || value.started);
     }
 
     void MoveForwardInput(float f){
@@ -262,5 +268,9 @@ public class PlayerInput : MonoBehaviour
 
     void PauseInput(bool b){
         pausing=b;
+    }
+
+    void EnterInput(bool b){
+        entering=b;
     }
 }
