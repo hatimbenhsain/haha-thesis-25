@@ -411,6 +411,7 @@ VAR retractHandTrigger=false
 //We could definitely cut parts of this if it's too long/too much to program, I tried to give as much choice opportunities as possible
 // I feel like we can definitely see after playtest. But I think we can keep it now its all good stuff to me
 === teacherCuddling ===
+~ loadInt("sexIntensity")
 ~pause(4)
 ~ changeDialogueView(1)
 Teacher: So... #speed: slow

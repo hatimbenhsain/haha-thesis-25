@@ -546,6 +546,21 @@ public class Dialogue : MonoBehaviour
         story.BindExternalFunction("changeDialogueView",(int index)=>{
             ChangeView(index);
         });
+        story.BindExternalFunction("loadInt",(string name)=>{
+            LoadInt(name);
+        });
+        story.BindExternalFunction("loadBool",(string name)=>{
+            LoadBool(name);
+        });
+        story.BindExternalFunction("loadString",(string name)=>{
+            LoadString(name);
+        });
+        story.BindExternalFunction("loadFloat",(string name)=>{
+            LoadFloat(name);
+        });
+        story.BindExternalFunction("saveValue",(string name,object value)=>{
+            SaveValue(name,value);
+        });
     }
 
     // EXTERNAL FUNCTIONS
@@ -667,6 +682,38 @@ public class Dialogue : MonoBehaviour
         SetUpView();
 
         HideText();
+    }
+
+    void LoadInt(string name){
+        object value=DialogueValues.Instance.LoadVariable(name);
+        if(value!=null){
+            story.variablesState[name]=(int)value;
+        }
+    }
+
+    void LoadFloat(string name){
+        object value=DialogueValues.Instance.LoadVariable(name);
+        if(value!=null){
+            story.variablesState[name]=(float)value;
+        }
+    }
+
+    void LoadString(string name){
+        object value=DialogueValues.Instance.LoadVariable(name);
+        if(value!=null){
+            story.variablesState[name]=(string)value;
+        }
+    }
+
+    void LoadBool(string name){
+        object value=DialogueValues.Instance.LoadVariable(name);
+        if(value!=null){
+            story.variablesState[name]=(bool)value;
+        }
+    }
+
+    void SaveValue(string name,object value){
+        DialogueValues.Instance.SaveVariable(name,value);
     }
 
 }

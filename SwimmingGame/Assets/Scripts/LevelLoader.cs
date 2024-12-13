@@ -22,7 +22,7 @@ public class LevelLoader : MonoBehaviour
     public Image image;
     private float timer;
     private float transitionTimer=0f;
-    private bool fadingOut=false;
+    public bool fadingOut=false;
 
     void Start()
     {

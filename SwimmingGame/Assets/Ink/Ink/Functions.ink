@@ -13,6 +13,11 @@ EXTERNAL switchObject(name,bool)
 EXTERNAL switchInterlocutor(name)
 EXTERNAL overrideRotation(targetName)
 EXTERNAL changeDialogueView(viewIndex)
+EXTERNAL loadInt(name)
+EXTERNAL loadBool(name)
+EXTERNAL loadString(name)
+EXTERNAL loadFloat(name)
+EXTERNAL saveValue(name,value)
 
 === nextBrainKnot ===
 ~ nextBrain()
