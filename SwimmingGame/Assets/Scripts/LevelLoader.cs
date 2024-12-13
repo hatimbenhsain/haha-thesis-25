@@ -22,7 +22,7 @@ public class LevelLoader : MonoBehaviour
     public Image image;
     private float timer;
     private float transitionTimer=0f;
-    private bool fadingOut=false;
+    public bool fadingOut=false;
 
     void Start()
     {
@@ -40,7 +40,8 @@ public class LevelLoader : MonoBehaviour
         
         if(fadeIn){
             Color c=image.color;
-            image.color=new Color(c.r,c.g,c.b,(fadeInTime-transitionTimer)/fadeInTime);
+            c.a=(fadeInTime-transitionTimer)/fadeInTime;
+            image.color=c;
             if(c.a<=0f){
                 fadeIn=false;
             }
@@ -73,6 +74,13 @@ public class LevelLoader : MonoBehaviour
         transitionTimer=0f;
         Color c=image.color;
         image.color=new Color(c.r,c.g,c.b,1f);
+        fadingOut=false;
+    }
+
+    public void FadeOut(){
+        fadingOut=true;
+        transitionTimer=0f;
+        fadeIn=false;
     }
 
     public void LoadLevel(string destination = "")

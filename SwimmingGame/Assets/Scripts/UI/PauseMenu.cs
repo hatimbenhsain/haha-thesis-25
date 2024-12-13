@@ -18,6 +18,7 @@ public class PauseMenu : MonoBehaviour
     private Transform playerCameraRoot; // The target position and rotation for the player
     private CursorLockMode myLockState;
     private PlayerInput playerInput;
+    
 
     // Start is called before the first frame update
     void Start()
@@ -32,7 +33,7 @@ public class PauseMenu : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Escape))
+        if (playerInput.pausing && !playerInput.prevPausing)
         {
             myLockState = UnityEngine.Cursor.lockState;
             if (GameIsPaused)
