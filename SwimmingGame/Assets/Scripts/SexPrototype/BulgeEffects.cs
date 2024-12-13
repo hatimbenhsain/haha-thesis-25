@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class BulgeEffect : MonoBehaviour
 {
-    public SpringController springController;
+    //public SpringController springController;
     public GameObject head;
     public float headBulgeFactor = 1.5f; 
     public float headBulgeSpeed = 1f; // head bulge lerp speed
@@ -44,7 +44,7 @@ public class BulgeEffect : MonoBehaviour
 
     void Start()
     {
-        springController = springController != null ? springController : FindObjectOfType<SpringController>();
+        //springController = springController != null ? springController : FindObjectOfType<SpringController>();
 
         if (head != null)
             headOriginalScale = head.transform.localScale; // Store the original scale of the head
