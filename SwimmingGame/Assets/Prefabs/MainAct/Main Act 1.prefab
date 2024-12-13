@@ -2540,7 +2540,7 @@ Transform:
   m_GameObject: {fileID: 3366922328044124813}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: 0.8998055, z: 0.43629134, w: 0}
-  m_LocalPosition: {x: 2.9117243, y: -9.205534, z: -14.840944}
+  m_LocalPosition: {x: 1.9200056, y: -16.774755, z: -7.4870615}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -2579,7 +2579,7 @@ Camera:
     height: 1
   near clip plane: 0.1
   far clip plane: 5000
-  field of view: 34.777805
+  field of view: 40
   orthographic: 0
   orthographic size: 10
   m_Depth: 0
@@ -10096,6 +10096,9 @@ MonoBehaviour:
   headMaterials:
   - {fileID: 2100000, guid: 447434cacf658f24a9d93d050fecdd7a, type: 2}
   - {fileID: 2100000, guid: 87086c9ba174a914a9729c734037021b, type: 2}
+  climaxMaterials:
+  - {fileID: 2100000, guid: a6cb573c95cfa3d4d8ab7a81478e24f3, type: 2}
+  - {fileID: 2100000, guid: afcde15160cdbc94a936000f8fa16a00, type: 2}
   bodyDefaultPresets:
   - color: {r: 0.7529412, g: 0.78431374, b: 0.44313726, a: 0.95686275}
     shiftingSpeedX: 0.02
@@ -10142,6 +10145,29 @@ MonoBehaviour:
     smoothness: 0.6
     normal: 9.79
     add: 0.6
+  climaxDefaultPresets:
+  - color: {r: 0, g: 0, b: 0, a: 0}
+    shiftingSpeedX: 0
+    shiftingSpeedY: 0
+    tiling: {x: 0, y: 0}
+    noiseValue: 0
+    emission: {r: 0, g: 0, b: 0, a: 0}
+    contrast: 0
+    saturation: 0
+    smoothness: 0
+    normal: 0
+    add: 0
+  - color: {r: 0, g: 0, b: 0, a: 0}
+    shiftingSpeedX: 0
+    shiftingSpeedY: 0
+    tiling: {x: 0, y: 0}
+    noiseValue: 0
+    emission: {r: 0, g: 0, b: 0, a: 0}
+    contrast: 0
+    saturation: 0
+    smoothness: 0
+    normal: 0
+    add: 0
   bodyExcitedPresets:
   - color: {r: 0.29803923, g: 1, b: 0, a: 0.95686275}
     shiftingSpeedX: 0.02
@@ -10188,7 +10214,31 @@ MonoBehaviour:
     smoothness: 0.6
     normal: 9.79
     add: 0.6
+  climaxExcitedPresets:
+  - color: {r: 0, g: 0, b: 0, a: 0}
+    shiftingSpeedX: 0
+    shiftingSpeedY: 0
+    tiling: {x: 0, y: 0}
+    noiseValue: 0
+    emission: {r: 0, g: 0, b: 0, a: 0}
+    contrast: 0
+    saturation: 0
+    smoothness: 0
+    normal: 0
+    add: 0
+  - color: {r: 0, g: 0, b: 0, a: 0}
+    shiftingSpeedX: 0
+    shiftingSpeedY: 0
+    tiling: {x: 0, y: 0}
+    noiseValue: 0
+    emission: {r: 0, g: 0, b: 0, a: 0}
+    contrast: 0
+    saturation: 0
+    smoothness: 0
+    normal: 0
+    add: 0
   excitementLevels:
+  - 0
   - 0
   - 0
   excitementLerpSpeed: 1
