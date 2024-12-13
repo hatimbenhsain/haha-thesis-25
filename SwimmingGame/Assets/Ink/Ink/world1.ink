@@ -16,9 +16,9 @@ VAR coralToTalkToBeforeProgress=5
     -> coralnetProgress
 }
 ~ setDialogueBubble("bone")
-~npcsTalkedTo=npcsTalkedTo+1
+~ npcsTalkedTo=npcsTalkedTo+1
 ~ stopSinging()
-~pauseTutorial(true)
+~ pauseTutorial(true)
 ->->
 
 === coralnetEnd ===

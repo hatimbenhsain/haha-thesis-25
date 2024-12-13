@@ -61,7 +61,7 @@ public class LevelLoader : MonoBehaviour
             LoadLevel(); 
         }
         // Load level after pressing P
-        if (Input.GetKeyDown(KeyCode.P) && pressP)
+        if (Input.GetKeyDown(KeyCode.P) && (Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift)) && pressP)
         {
             LoadLevel();
         }

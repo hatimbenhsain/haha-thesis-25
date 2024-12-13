@@ -232,7 +232,7 @@ public class Tutorial : MonoBehaviour
     }
 
     public void FinishTutorialPart(int i){
-        tutorialParts[index].done=true;
+        tutorialParts[i].done=true;
     }
 }
 

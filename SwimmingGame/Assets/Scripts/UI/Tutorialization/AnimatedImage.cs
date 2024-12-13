@@ -17,7 +17,7 @@ public class AnimatedImage : MonoBehaviour
 
     void Update()
     {
-        imageIndex+=imageSpeed*Time.deltaTime;
+        imageIndex+=imageSpeed*Time.unscaledDeltaTime;
         imageIndex=imageIndex%sprites.Length;
 
         image.sprite=sprites[Mathf.FloorToInt(imageIndex)];
