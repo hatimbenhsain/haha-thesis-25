@@ -27,6 +27,8 @@ public class PlayerInput : MonoBehaviour
     public bool navigateUp;
     public bool navigateDown;
 
+    public bool pausing;
+
 
     [HideInInspector]
     public object[] values;
@@ -34,7 +36,7 @@ public class PlayerInput : MonoBehaviour
     public bool yAxisInverted=false;
 
     //[HideInInspector]
-    public bool prevMovingForward, prevMovingBackward, prevMovingLeft, prevMovingRight, prevMovingUp, prevMovingDown, prevBoosting, prevInteracting, prevAiming, prevSinging, prevNavigateLeft, prevNavigateRight, prevNavigateUp, prevNavigateDown;
+    public bool prevMovingForward, prevMovingBackward, prevMovingLeft, prevMovingRight, prevMovingUp, prevMovingDown, prevBoosting, prevInteracting, prevAiming, prevSinging, prevNavigateLeft, prevNavigateRight, prevNavigateUp, prevNavigateDown, prevPausing;
 
     public bool movedForwardTrigger;
 
@@ -48,11 +50,11 @@ public class PlayerInput : MonoBehaviour
     void Start(){
         playerInput = GetComponent<UnityEngine.InputSystem.PlayerInput>();
 
-        values=new object[] {look.x,look.y,rotation.x,rotation.y,singingNote.x,singingNote.y,movingForward,movingBackward,movingLeft,movingRight,movingUp,movingDown,boosting,interacting,aiming,singing};
+        values=new object[] {look.x,look.y,rotation.x,rotation.y,singingNote.x,singingNote.y,movingForward,movingBackward,movingLeft,movingRight,movingUp,movingDown,boosting,interacting,aiming,singing,pausing};
     }
 
     void Update(){
-        values=new object[] {look.x,look.y,rotation.x,rotation.y,singingNote.x,singingNote.y,movingForward,movingBackward,movingLeft,movingRight,movingUp,movingDown,boosting,interacting,aiming,singing};
+        values=new object[] {look.x,look.y,rotation.x,rotation.y,singingNote.x,singingNote.y,movingForward,movingBackward,movingLeft,movingRight,movingUp,movingDown,boosting,interacting,aiming,singing,pausing};
         if(Input.GetKeyDown(KeyCode.I)){
             yAxisInverted=!yAxisInverted;
         }
@@ -75,6 +77,7 @@ public class PlayerInput : MonoBehaviour
         prevNavigateLeft=navigateLeft;
         prevNavigateRight=navigateRight;
         prevNavigateUp=navigateUp;
+        prevPausing=pausing;
     }
 
     public void OnMoveForward(InputAction.CallbackContext value){
@@ -150,6 +153,10 @@ public class PlayerInput : MonoBehaviour
 
     public void OnNavigateDown(InputAction.CallbackContext value){
         NavigateDownInput(value.ReadValue<float>() < 0.8f ? false : true);
+    }
+
+    public void OnPause(InputAction.CallbackContext value){
+        PauseInput(value.performed || value.started);
     }
 
     void MoveForwardInput(float f){
@@ -251,5 +258,9 @@ public class PlayerInput : MonoBehaviour
 
     public void RestoreDefaultMap(){
         playerInput.SwitchCurrentActionMap(playerInput.defaultActionMap);
+    }
+
+    void PauseInput(bool b){
+        pausing=b;
     }
 }
