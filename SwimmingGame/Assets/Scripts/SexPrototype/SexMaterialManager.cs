@@ -105,7 +105,15 @@ public class SexMaterialManager : MonoBehaviour
 
     private void LerpMaterial(Material material, MaterialPreset fromPreset, MaterialPreset toPreset, float t)
     {
-        float lerpSpeed=effectManager.lerpSpeed;
+        float lerpSpeed;
+        if (effectManager != null)
+        {
+             lerpSpeed = effectManager.lerpSpeed;
+        }
+        else
+        {
+             lerpSpeed = excitementLerpSpeed;
+        }
         material.SetColor("_Color", Color.Lerp(material.GetColor("_Color"),Color.Lerp(fromPreset.color, toPreset.color, t),lerpSpeed*Time.deltaTime));
         material.SetFloat("_ShiftingSpeedX", Mathf.Lerp(material.GetFloat("_ShiftingSpeedX"),Mathf.Lerp(fromPreset.shiftingSpeedX, toPreset.shiftingSpeedX, t),lerpSpeed*Time.deltaTime));
         material.SetFloat("_ShiftingSpeedY", Mathf.Lerp(material.GetFloat("_ShiftingSpeedY"),Mathf.Lerp(fromPreset.shiftingSpeedY, toPreset.shiftingSpeedY, t),lerpSpeed*Time.deltaTime));

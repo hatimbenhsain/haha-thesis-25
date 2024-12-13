@@ -39,7 +39,7 @@ public class ClimaxEffectManager : MonoBehaviour
     public List<Color> fogColorList;
 
     [Header("Debug Values")]
-    public float distanceMeter;
+    public float meanDistance;
     public float entanglementMeter;
     public float speedMeter;
     public int currentIntensity;
@@ -51,7 +51,6 @@ public class ClimaxEffectManager : MonoBehaviour
     private Bloom bloom;
     private ParticleSystem.EmissionModule particleEmission;
     private ParticleSystem.MainModule particleMain;
-    private float previousDistanceMeter;
     private List<float> originalExcitementLevels;
     private float originalBloomIntensity;
     private float pulseTimer = 0f;
@@ -89,28 +88,21 @@ public class ClimaxEffectManager : MonoBehaviour
 
     void Update()
     {
-
-        // Handle effects
-        if (previousDistanceMeter == 0f && distanceMeter > 0f)
-        {
-            TriggerBulgeEffects();
-        }
-        previousDistanceMeter = distanceMeter;
-
-        HandleExcitementLevels();
+        entanglementMeter = rubbingGameManager.meterValue;
+        meanDistance = rubbingGameManager.meanDistance;
         HandleParticleSystem();
         HandleBloomIntensity();
-        HandleDirectionalLight();
-        HandleFogColor();
-        HandleBulgePulse();
+        //HandleDirectionalLight();
+        //HandleFogColor();
+        //HandleBulgePulse();
     }
 
     public void HandleParticleSystem()
     {
-        float normalizedSpeed = speedMeter / 100f;
-        particleEmission.rateOverTime = Mathf.Lerp(defaultEmissionRate, maxEmissionRate, normalizedSpeed);
+        float normalizedEntanglement = entanglementMeter / 100f;
+        particleEmission.rateOverTime = Mathf.Lerp(defaultEmissionRate, maxEmissionRate, normalizedEntanglement);
         Color targetStartColor = targetStartColors[Random.Range(0, targetStartColors.Length)];
-        particleMain.startColor = Color.Lerp(defaultStartColor, targetStartColor, normalizedSpeed);
+        particleMain.startColor = Color.Lerp(defaultStartColor, targetStartColor, normalizedEntanglement);
     }
 
     public void TriggerBulgeEffects()
@@ -143,22 +135,22 @@ public class ClimaxEffectManager : MonoBehaviour
 
     private void HandleBloomIntensity()
     {
-        if (speedMeter > speedMeterThreshold)
+        if (entanglementMeter > entanglementMeterThreshold)
         {
-            float normalizedBloomIntensity = Mathf.InverseLerp(speedMeterThreshold, 100f, speedMeter);
+            float normalizedBloomIntensity = Mathf.InverseLerp(entanglementMeterThreshold, 100f, entanglementMeter);
             bloom.intensity.value = Mathf.Lerp(bloom.intensity.value, Mathf.Lerp(originalBloomIntensity, maxBloomIntensity, normalizedBloomIntensity), lerpSpeed * Time.deltaTime);
         }
         else
         {
             // Increase bloom intensity slowly below threshold
-            float slowIncrease = Mathf.InverseLerp(0f, speedMeterThreshold, speedMeter);
+            float slowIncrease = 0.1f;
             bloom.intensity.value = Mathf.Lerp(bloom.intensity.value, Mathf.Lerp(originalBloomIntensity, maxBloomIntensity, slowIncrease), lerpSpeed * Time.deltaTime);
         }
     }
 
     private void HandleDirectionalLight()
     {
-        float normalizedDistance = Mathf.InverseLerp(0f, 100f, distanceMeter);
+        float normalizedDistance = Mathf.InverseLerp(0f, 100f, meanDistance);
         directionalLight.intensity = Mathf.Lerp(directionalLight.intensity, Mathf.Lerp(directionalLightMinIntensity, directionalLightMaxIntensity, normalizedDistance), lerpSpeed * Time.deltaTime);
     }
 
@@ -169,7 +161,7 @@ public class ClimaxEffectManager : MonoBehaviour
 
     private void HandleBulgePulse()
     {
-        float normalizedDistance = Mathf.InverseLerp(distanceMeterThreshold, 100f, distanceMeter);
+        float normalizedDistance = Mathf.InverseLerp(distanceMeterThreshold, 100f, meanDistance);
         float pulseInterval = Mathf.Lerp(maxSecondPerPulse, minSecondPerPulse, normalizedDistance);
         pulseTimer += Time.deltaTime;
         if (pulseTimer >= pulseInterval)
