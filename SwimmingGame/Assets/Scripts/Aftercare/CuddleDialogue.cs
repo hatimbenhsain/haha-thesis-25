@@ -24,6 +24,9 @@ public class CuddleDialogue : Dialogue
 
     private int prevChoiceIndex=-1;
 
+    private bool justHovered = false;
+    private bool justCaressed = false;
+
     public override void DialogueAwake()
     {
         base.DialogueAwake();
@@ -35,25 +38,40 @@ public class CuddleDialogue : Dialogue
     {
         base.DialogueUpdate();
 
-        if(caressing){
-            caressTimer+=Time.deltaTime;
-        }
-
-        if(caressTimer>=caressRequiredLength && story.currentChoices.Count>0 && 
-        currentChoiceIndex<=story.currentChoices.Count && currentChoiceIndex>=0){
-            PickChoice(currentChoiceIndex);
-        }else if(story.currentChoices.Count==0){
-            caressTimer=0f;
-            currentChoiceIndex=-1;
-        }
-
-        caressTimer-=Time.deltaTime*caressCancelSpeed/caressRequiredLength;
-        caressTimer=Mathf.Clamp(caressTimer,0f,caressRequiredLength);
     }
 
     void LateUpdate(){
-        currentChoiceIndex=-1;
-        caressing=false;
+        if (caressing)
+        {
+            caressTimer += Time.deltaTime;
+        }
+
+        if (caressTimer >= caressRequiredLength && story.currentChoices.Count > 0 &&
+            currentChoiceIndex <= story.currentChoices.Count && currentChoiceIndex >= 0)
+        {
+            PickChoice(currentChoiceIndex);
+        }
+        else if (story.currentChoices.Count == 0)
+        {
+            caressTimer = 0f;
+            currentChoiceIndex = -1;
+        }
+
+        caressTimer -= Time.deltaTime * caressCancelSpeed / caressRequiredLength;
+        caressTimer = Mathf.Clamp(caressTimer, 0f, caressRequiredLength);
+
+        if (justHovered)
+        {
+            justHovered = false;
+        }
+        else {
+            currentChoiceIndex = -1;
+        }
+        if (justCaressed)
+        {
+            justCaressed = false;
+        }
+        else caressing = false;
     }
 
     public void HoveringChoice(int choiceIndex){
@@ -62,10 +80,12 @@ public class CuddleDialogue : Dialogue
             caressTimer=0f;
         }
         prevChoiceIndex=currentChoiceIndex;
+        justHovered = true;
     }
 
     public void CaressingChoice(int choiceIndex){
         caressing=true;
+        justCaressed = true;
     }
 
     public override void ShowChoices()

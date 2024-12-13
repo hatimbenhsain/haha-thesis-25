@@ -83,7 +83,7 @@ public class SexMaterialManager : MonoBehaviour
             // Lerp for climax materials
             if (i < climaxDefaultPresets.Count && i < climaxExcitedPresets.Count)
             {
-                LerpMaterial(headMaterial, climaxDefaultPresets[i], climaxExcitedPresets[i], excitement);
+                LerpMaterial(climaxMaterial, climaxDefaultPresets[i], climaxExcitedPresets[i], excitement);
             }
         }
     }

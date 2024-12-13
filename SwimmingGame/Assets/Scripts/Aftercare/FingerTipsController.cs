@@ -30,12 +30,28 @@ public class FingerTipsController : MonoBehaviour
     private float prevInputAngle;
     public float maxNoChangeTime=0.5f;
 
+    private bool caressing = false;
+
+
     private void Start()
     {
         playerInput = FindObjectOfType<PlayerInput>();
         startLocalPosition = transform.localPosition; // Set the starting position in local space
         gameManager = FindObjectOfType<CuddleGameManager>();
         cuddleDialogue=FindObjectOfType<CuddleDialogue>();
+    }
+
+    private void Update()
+    {
+        DetectDialogueOption(caressing);
+
+        if (changeTimer >= maxNoChangeTime)
+        {
+            caressing = false;
+        }
+        changeTimer += Time.deltaTime;
+
+        caressing = false;
     }
 
     void FixedUpdate()
@@ -68,7 +84,6 @@ public class FingerTipsController : MonoBehaviour
         float moveX = isUsingGamepad ? -playerInput.rotation.y : -playerInput.look.y;
         float moveY = isUsingGamepad ? playerInput.rotation.x : playerInput.look.x;
 
-        bool caressing=false;
 
         float inputAngle;    //input angle
 
@@ -85,15 +100,12 @@ public class FingerTipsController : MonoBehaviour
                 prevInputAngle=inputAngle;
                 changeTimer=0f;
             }else{
-                changeTimer+=Time.fixedDeltaTime;
             }
 
             //If no big change in a while (aka if player is just pointing one way) caress isn't working anymore
             //IN THE FUTURE maybe we should find new ways that character like different caresses,
             // and maybe make caress timer go up faster if caressing in a nicer way?
-            if(changeTimer>=maxNoChangeTime){
-                caressing=false;
-            }
+            
         }
         else
         {
@@ -102,7 +114,7 @@ public class FingerTipsController : MonoBehaviour
             inputTimer += Time.fixedDeltaTime; // increment timer when no input
         }
 
-        DetectDialogueOption(caressing);
+        
 
         Vector3 localPosition = transform.localPosition + velocity;
         Vector3 localOffsetFromCenter = localPosition - startLocalPosition;
@@ -125,7 +137,7 @@ public class FingerTipsController : MonoBehaviour
     }
 
     // Detect nearby dialogue options
-    private void DetectDialogueOption(bool caressing)
+    private void DetectDialogueOption(bool c)
     {
         Collider[] hitColliders = Physics.OverlapSphere(transform.position, 0.1f, LayerMask.GetMask("DialogueOption"));
         foreach (var hitCollider in hitColliders)
@@ -141,7 +153,7 @@ public class FingerTipsController : MonoBehaviour
             
             cuddleDialogue.HoveringChoice(i);
             
-            if(caressing){
+            if(c){
                 cuddleDialogue.CaressingChoice(i);
             }
 
