@@ -18,6 +18,8 @@ EXTERNAL loadBool(name)
 EXTERNAL loadString(name)
 EXTERNAL loadFloat(name)
 EXTERNAL saveValue(name,value)
+EXTERNAL fadeIn()
+EXTERNAL fadeOut()
 
 === nextBrainKnot ===
 ~ nextBrain()

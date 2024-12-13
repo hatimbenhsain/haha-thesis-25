@@ -209,6 +209,7 @@ Coralnet: motif: keeping the secret
 === coralnetProgress === //the coralnet to read to progress story
 -> coralnetStart ->
 Coralnet: motif: my entanglement
+~ fadeOut()
 > i experienced it today. i'm happy to share my experience.
 > oh? how was it? tell us about it.
 > it was in the back of our music hall. 
@@ -248,6 +249,7 @@ Coralnet: motif: my entanglement
 ~ setDialogueBubble("standard")
 ~ stopSinging()
 Teacher: Sounds amazing, doesn't it?
+~ fadeIn()
 MC: What?
 Teacher: The entanglement. \\pauseYou were reading about it just now, right? Have you done it yet?
 MC: ...

@@ -561,6 +561,12 @@ public class Dialogue : MonoBehaviour
         story.BindExternalFunction("saveValue",(string name,object value)=>{
             SaveValue(name,value);
         });
+        story.BindExternalFunction("fadeIn",()=>{
+            FadeIn();
+        });
+        story.BindExternalFunction("fadeOut",()=>{
+            FadeOut();
+        });
     }
 
     // EXTERNAL FUNCTIONS
@@ -714,6 +720,14 @@ public class Dialogue : MonoBehaviour
 
     void SaveValue(string name,object value){
         DialogueValues.Instance.SaveVariable(name,value);
+    }
+
+    void FadeIn(){
+        FindObjectOfType<LevelLoader>().FadeIn();
+    }
+
+    void FadeOut(){
+        FindObjectOfType<LevelLoader>().FadeOut();
     }
 
 }
