@@ -390,7 +390,7 @@ public class Dialogue : MonoBehaviour
         displayText="";
 
         if(changedColor){
-        Image[] images=textBox.GetComponentsInChildren<Image>();
+        Image[] images=interlocutorTextBox.GetComponentsInChildren<Image>();
         foreach(Image image in images){
             defaultTextBoxColor.a=image.color.a;
             image.color=defaultTextBoxColor;
