@@ -500,6 +500,7 @@ public class Swimmer : MonoBehaviour
             if(hit.collider.gameObject.tag!="Player"){
                 RaycastHit hit2=CreateRaycastHitFromCollider(body.position+capsule.center,hit.collider);
                 Vector3 normal=hit2.normal;
+                Debug.Log(normal);
                 if(Vector3.Angle(normal,forward)<90f){
                     Vector3 force=Vector3.Project(forward,normal)*wallBoost;
                     force=forward*force.magnitude;
@@ -561,6 +562,8 @@ public class Swimmer : MonoBehaviour
         
         if (hasHit == false)
         {
+            Debug.DrawRay(_rayOrigin, dir*5f, Color.magenta, 10f);
+            Debug.Log(_collider);
             Debug.LogError($"This case will never happen!");
         }
 
@@ -599,6 +602,7 @@ public class Swimmer : MonoBehaviour
         transform.rotation=rotation;
         body.position=transform.position;
         body.rotation=transform.rotation;
+        Physics.SyncTransforms();
         swimmerCamera.ResetCamera();
         FindObjectOfType<LevelLoader>().FadeIn();
     }
