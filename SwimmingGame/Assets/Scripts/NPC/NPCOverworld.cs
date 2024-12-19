@@ -138,6 +138,8 @@ public class NPCOverworld : MonoBehaviour
         }
 
         if(transform.parent!=null) transform.parent.TryGetComponent<NPCSequencer>(out npcSequencer);
+
+        targetPosition=transform.position;
     }
 
     void FixedUpdate()
@@ -478,10 +480,13 @@ public class NPCOverworld : MonoBehaviour
                             foundTarget=true;
                         }
                         if(foundTarget){
+                            Debug.Log("Found target");
                             targetPosition=target;
                             targetRotation=Quaternion.LookRotation(targetPosition-body.transform.position,Vector3.up);
                         }
                     }
+                }else{
+
                 }
                 break;
         }
