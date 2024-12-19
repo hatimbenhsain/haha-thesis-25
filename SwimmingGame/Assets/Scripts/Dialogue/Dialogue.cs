@@ -357,7 +357,7 @@ public class Dialogue : MonoBehaviour
         }
 
         if(ContainsTag(story.TagsForContentAtPath(currentKnotName),"color")){
-            Image[] images=textBox.GetComponentsInChildren<Image>();
+            Image[] images=interlocutorTextBox.GetComponentsInChildren<Image>();
             defaultTextBoxColor=images[0].color;
             changedColor=true;
             string tag=GetTag(story.TagsForContentAtPath(currentKnotName),"color");
