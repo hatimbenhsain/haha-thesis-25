@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Threading;
+using Unity.VisualScripting;
+using UnityEditor.Profiling.Memory.Experimental;
 using UnityEngine;
 
 public class Fish : NPCOverworld
@@ -18,8 +20,38 @@ public class Fish : NPCOverworld
 
     private SwimmerSinging swimmerSinging;
 
+    public float maxLeaderDistance=5f;
+
     void Start(){
         swimmerSinging=FindObjectOfType<SwimmerSinging>();
+
+        if(movementBehavior==MovementBehavior.FollowLeader && leader==null){
+            int tries=0;
+            Fish[] fishArray=FindObjectsOfType<Fish>();
+            List<Fish> fishes=new List<Fish>();
+            for(int i=0;i<fishArray.Length;i++){
+                fishes.Add(fishArray[i]);
+            }
+            while(tries<1000 && leader==null && fishes.Count>0){
+                tries++;
+                Fish otherFish=fishes[Random.Range(0,fishes.Count)];
+                if(otherFish!=this){
+                    Fish lead=otherFish;
+                    while(lead.leader!=null && tries<1000){
+                        tries+=1;
+                        lead=lead.leader.GetComponent<Fish>();
+                        if(lead==this){
+                            break;
+                        }
+                    }
+                    if(lead!=this){
+                        leader=otherFish.transform;
+                        break;
+                    }
+                }              
+                fishes.Remove(otherFish);  
+            }
+        }
     }
 
     void Update(){
