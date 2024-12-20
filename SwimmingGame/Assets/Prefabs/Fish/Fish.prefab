@@ -418,16 +418,18 @@ MonoBehaviour:
   path: []
   pathIndex: 0
   pauseTimer: 0
+  player: {fileID: 0}
   isCoralNet: 0
   orphanize: 0
   placeNearPlayer: 0
   maxProcessingDistance: 100
   currentState: 0
   movementBehavior: 0
+  pastMovementBehavior: 0
   leader: {fileID: 0}
   waitForPlayer: 0
   facePlayerWhenWaiting: 0
-  maxDistanceFromPlayer: 5
+  maxDistanceFromPlayer: 1
   minDistanceFromPlayer: 8
   strokeFrequency: 1.5
   loopingPath: 1
@@ -438,10 +440,10 @@ MonoBehaviour:
   forceDialogue: 0
   sitting: 0
   stopToTalk: 1
-  acceleration: 4
-  maxVelocity: 3
-  deceleration: 1.5
-  boostSpeed: 1
+  acceleration: 1
+  maxVelocity: 4
+  deceleration: 0.75
+  boostSpeed: 0.75
   coastingSpeed: 1.5
   boostTimer: 0
   boostTime: 0.3
@@ -455,6 +457,11 @@ MonoBehaviour:
   targetDistance: 10
   maxDistanceFromOrigin: 50
   minDistanceFromTarget: 1
+  followToWanderTime: 1
+  wanderToFollowShortTime: 0.5
+  wanderToFollowLongTime: 10
+  awayFromPlayerTime: 2
+  wanderToRunTime: 1
 --- !u!114 &3602468536409785038
 MonoBehaviour:
   m_ObjectHideFlags: 0

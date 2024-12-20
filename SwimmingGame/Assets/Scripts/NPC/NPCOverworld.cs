@@ -31,6 +31,8 @@ public class NPCOverworld : MonoBehaviour
         public NPCStates currentState;
         private NPCStates pastState; //State before any "ChangeState"
         public MovementBehavior movementBehavior;
+        [HideInInspector]
+        public MovementBehavior pastMovementBehavior;
         public Transform leader;
         public bool waitForPlayer=false;
         [Tooltip("Does the npc face the player while waiting for them?")]
@@ -497,8 +499,8 @@ public class NPCOverworld : MonoBehaviour
                 break;
             case MovementBehavior.RunFromPlayer:
                 float distanceFromPlayer=Vector3.Distance(player.transform.position,body.position);
-                if(distanceFromPlayer<=maxDistanceFromPlayer){
-                    targetPosition=body.position+(body.position-player.transform.position);
+                if(distanceFromPlayer<=minDistanceFromPlayer){
+                    targetPosition=body.position+(body.position-player.transform.position).normalized*targetDistance;
                 }
                 targetRotation=Quaternion.LookRotation(targetPosition-body.transform.position,Vector3.up);
                 break;
@@ -576,7 +578,11 @@ public class NPCOverworld : MonoBehaviour
     public void ChangeState(NPCStates state){
         pastState=currentState;
         currentState=state;
-        Debug.Log("change state "+state);
+    }
+
+    public void ChangeMovementBehavior(MovementBehavior mb){
+        pastMovementBehavior=movementBehavior;
+        movementBehavior=mb;
     }
 
     void DialogueStart(){
