@@ -13,7 +13,8 @@ public class NPCOverworld : MonoBehaviour
 
     private Rigidbody body;
     private Collider collider;
-    private Swimmer player;
+    [HideInInspector]
+    public Swimmer player;
     private NPCSequencer npcSequencer;
 
     public bool isCoralNet;
@@ -30,6 +31,7 @@ public class NPCOverworld : MonoBehaviour
         public NPCStates currentState;
         private NPCStates pastState; //State before any "ChangeState"
         public MovementBehavior movementBehavior;
+        public Transform leader;
         public bool waitForPlayer=false;
         [Tooltip("Does the npc face the player while waiting for them?")]
         public bool facePlayerWhenWaiting=false;
@@ -186,7 +188,7 @@ public class NPCOverworld : MonoBehaviour
                 Vector3 displacement=new Vector3(Random.Range(-1f,1f),Random.Range(-1f,1f),Random.Range(-1f,1f))
                     .normalized*targetDistance;
                 target=player.transform.position+displacement;
-                foundTarget=!CheckBoxCast(target-player.transform.position,targetDistance);
+                foundTarget=!CheckBoxCastPlayer(target-player.transform.position,targetDistance);
             }
             if(foundTarget){
                 transform.position=target;
@@ -486,8 +488,23 @@ public class NPCOverworld : MonoBehaviour
                         }
                     }
                 }else{
-
+                    targetRotation=Quaternion.LookRotation(targetPosition-body.transform.position,Vector3.up);
                 }
+                break;
+            case MovementBehavior.FollowLeader:
+                targetPosition=leader.position;
+                targetRotation=Quaternion.LookRotation(targetPosition-body.transform.position,Vector3.up);
+                break;
+            case MovementBehavior.RunFromPlayer:
+                float distanceFromPlayer=Vector3.Distance(player.transform.position,body.position);
+                if(distanceFromPlayer<=maxDistanceFromPlayer){
+                    targetPosition=body.position+(body.position-player.transform.position);
+                }
+                targetRotation=Quaternion.LookRotation(targetPosition-body.transform.position,Vector3.up);
+                break;
+            case MovementBehavior.FollowPlayer:
+                targetPosition=player.transform.position;
+                targetRotation=Quaternion.LookRotation(targetPosition-body.transform.position,Vector3.up);
                 break;
         }
     }
@@ -580,7 +597,7 @@ public class NPCOverworld : MonoBehaviour
         }
     }
 
-    bool CheckBoxCast(Vector3 direction, float distance){
+    bool CheckBoxCastPlayer(Vector3 direction, float distance){
         bool colliding=false;
         Vector3 scale=transform.lossyScale;
         Vector3 extents=new Vector3(collider.bounds.extents.x*scale.x,collider.bounds.extents.y*scale.y,collider.bounds.extents.z*scale.z);
@@ -593,6 +610,24 @@ public class NPCOverworld : MonoBehaviour
                 break;
             }
         }        
+        return colliding;
+    }
+
+    //True if colliding False if not
+    bool CheckBoxCast(Vector3 direction, float distance){
+        bool colliding=false;
+        Vector3 scale=transform.lossyScale;
+        Vector3 extents=new Vector3(collider.bounds.extents.x*scale.x,collider.bounds.extents.y*scale.y,collider.bounds.extents.z*scale.z);
+        RaycastHit[] hits;
+        LayerMask mask = LayerMask.GetMask("Default","Wall");
+        hits=Physics.BoxCastAll(transform.position+((BoxCollider)collider).center,extents,direction,collider.transform.rotation,distance,mask,QueryTriggerInteraction.Ignore);
+        foreach(RaycastHit hit in hits){
+            if(hit.collider!=collider){
+                colliding=true;
+                break;
+            }
+        }
+        
         return colliding;
     }
 
@@ -612,6 +647,7 @@ public enum MovementBehavior{
     ReachDestinationThenSwitch, //Reach the destination at the end of the path then switch the next brain (not implemented RN)
     FollowPlayer,
     FollowTarget,
+    FollowLeader,
     LookAtPlayer,
     RunFromPlayer,
     Wander,
