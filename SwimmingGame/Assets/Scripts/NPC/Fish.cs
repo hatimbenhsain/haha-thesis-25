@@ -24,7 +24,9 @@ public class Fish : NPCOverworld
 
     void Start(){
         swimmerSinging=FindObjectOfType<SwimmerSinging>();
+    }
 
+    void Update(){
         if(movementBehavior==MovementBehavior.FollowLeader && leader==null){
             int tries=0;
             Fish[] fishArray=FindObjectsOfType<Fish>();
@@ -35,7 +37,7 @@ public class Fish : NPCOverworld
             while(tries<1000 && leader==null && fishes.Count>0){
                 tries++;
                 Fish otherFish=fishes[Random.Range(0,fishes.Count)];
-                if(otherFish!=this){
+                if(otherFish!=this && Vector3.Distance(transform.position,otherFish.transform.position)<=maxLeaderDistance){
                     Fish lead=otherFish;
                     while(lead.leader!=null && tries<1000){
                         tries+=1;
@@ -48,13 +50,11 @@ public class Fish : NPCOverworld
                         leader=otherFish.transform;
                         break;
                     }
-                }              
+                }
                 fishes.Remove(otherFish);  
             }
         }
-    }
 
-    void Update(){
         float distanceFromPlayer=Vector3.Distance(transform.position,player.transform.position);
 
         switch(movementBehavior){

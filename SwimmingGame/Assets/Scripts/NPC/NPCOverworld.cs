@@ -484,7 +484,6 @@ public class NPCOverworld : MonoBehaviour
                             foundTarget=true;
                         }
                         if(foundTarget){
-                            Debug.Log("Found target");
                             targetPosition=target;
                             targetRotation=Quaternion.LookRotation(targetPosition-body.transform.position,Vector3.up);
                         }

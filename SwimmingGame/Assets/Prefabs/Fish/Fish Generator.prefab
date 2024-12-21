@@ -1,0 +1,52 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &4477637868621806466
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5623254291463923601}
+  - component: {fileID: 4357588251733571915}
+  m_Layer: 0
+  m_Name: Fish Generator
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &5623254291463923601
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4477637868621806466}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0.06592519, y: 0.64837605, z: 0.042647492, w: 0.7572607}
+  m_LocalPosition: {x: 178.28, y: 47.46, z: -240.69}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &4357588251733571915
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4477637868621806466}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 83e6129acae49a44c94092586b648701, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  numberOfFishToGenerate: 16
+  numberOfLeadersToGenerate: 5
+  distanceRange: 1
+  variance: 3
+  fishPrefab: {fileID: 8641766946123444149, guid: c65a1270c8041ee4486f6aaee23493e8,
+    type: 3}
