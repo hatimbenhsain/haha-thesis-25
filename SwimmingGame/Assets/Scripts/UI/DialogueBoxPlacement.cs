@@ -9,6 +9,7 @@ public class DialogueBoxPlacement : MonoBehaviour
     public bool placeMe=false;
     public bool bubbles=false;
     public bool moveMCRect=false;
+    public bool isMC=false;
 
     public RectTransform bubble1;
     public RectTransform bubble2;
@@ -42,11 +43,18 @@ public class DialogueBoxPlacement : MonoBehaviour
     private Vector2 bubble2Velocity;
 
     public RectTransform mcRect;
+    private Vector2 mcRectOriginalPosition;
 
     private float bubbleOutsideBoundsTimer=0f;
 
-    public RectTransform mcBubble1;
-    public RectTransform mcBubble2;
+    // public RectTransform mcBubble1;
+    // public RectTransform mcBubble2;
+    // private Vector2 mcBubble1targetPos;
+    // private Vector2 mcBubble2targetPos;
+    // private Vector2 mcBubble1Velocity;
+    // private Vector2 mcBubble2Velocity;
+    // private float mcBubbleDirection=1f;
+
 
 
     void Start()
@@ -62,16 +70,31 @@ public class DialogueBoxPlacement : MonoBehaviour
             bubble2.SetSiblingIndex(0);
             bubble1.SetSiblingIndex(1);
         }
+
+        if(moveMCRect){
+            mcRectOriginalPosition=mcRect.anchoredPosition;
+        //     if(bubbles){
+        //         mcBubble1.transform.parent=transform.parent;
+                // mcBubble2.transform.parent=transform.parent;
+                // mcBubble2.SetSiblingIndex(0);
+        //         mcBubble1.SetSiblingIndex(1);
+        //     }
+        }
     }
 
     void Update()
     {
-        if(placeMe && dialogue.npcInterlocutor!=null){
+        if(dialogue.npcInterlocutor!=null){
+            GameObject npc=dialogue.npcInterlocutor.gameObject;
+            if(isMC){
+                npc=FindObjectOfType<Swimmer>().gameObject;
+            }
+
             camera=Camera.main;
             bool success;
-            SpriteRenderer spriteRenderer=dialogue.npcInterlocutor.GetComponentInChildren<SpriteRenderer>();
+            SpriteRenderer spriteRenderer=npc.GetComponentInChildren<SpriteRenderer>();
             if(spriteRenderer==null){
-                spriteRenderer=dialogue.npcInterlocutor.transform.parent.GetComponentInChildren<SpriteRenderer>();
+                spriteRenderer=npc.transform.parent.GetComponentInChildren<SpriteRenderer>();
             }
             BoxCollider collider;
             spriteRenderer.TryGetComponent<BoxCollider>(out collider);
@@ -93,7 +116,7 @@ public class DialogueBoxPlacement : MonoBehaviour
             }
             ovalWidth=Mathf.Max(ovalWidth,minOvalWidth);
             ovalHeight=Mathf.Max(ovalHeight,minOvalHeight);
-            Vector2 npcPos=WorldToCanvasPoint(canvasRect,dialogue.npcInterlocutor.transform.position,camera,out success);
+            Vector2 npcPos=WorldToCanvasPoint(canvasRect,npc.transform.position,camera,out success);
 
             Vector2 pos=new Vector2(Mathf.Cos(angle*Mathf.PI/180f)*ovalWidth/2f+npcPos.x,Mathf.Sin(angle*Mathf.PI/180f)*ovalHeight/2f+npcPos.y);
 
@@ -101,20 +124,22 @@ public class DialogueBoxPlacement : MonoBehaviour
             int tries=0;
             float initAngle=angle;
             float a=1;
-            while(((pos.y-minOvalHeight/2f<-canvasRect.sizeDelta.y/2f || pos.y+minOvalHeight/2f>canvasRect.sizeDelta.y/2f || pos.x-minOvalWidth/2f<-canvasRect.sizeDelta.x/2f ||
-            pos.x+minOvalWidth/2f>canvasRect.sizeDelta.x/2f) || OverlapsChoiceBoxes(rect,pos+canvasRect.sizeDelta/2f))&& tries<180){
+            while((pos.y-minOvalHeight/2f<-canvasRect.sizeDelta.y/2f || pos.y+minOvalHeight/2f>canvasRect.sizeDelta.y/2f || pos.x-minOvalWidth/2f<-canvasRect.sizeDelta.x/2f ||
+            pos.x+minOvalWidth/2f>canvasRect.sizeDelta.x/2f || OverlapsChoiceBoxes(rect,pos+canvasRect.sizeDelta/2f))&& tries<180){
                 a+=Mathf.Sign(a);
                 a=-a;
                 pos=new Vector2(Mathf.Cos((initAngle+a)*Mathf.PI/180f)*ovalWidth/2f+npcPos.x,Mathf.Sin((initAngle+a)*Mathf.PI/180f)*ovalHeight/2f+npcPos.y);
                 tries++;
             }
 
-            if(tries<180){
-                targetPos=pos;
-                angle=initAngle+a;
-            } 
-            rect.anchoredPosition=Vector2.SmoothDamp(rect.anchoredPosition,targetPos,ref velocity,smoothTime);
-            angle=angle%360f;
+            if(placeMe){
+                if(tries<180){
+                    targetPos=pos;
+                    angle=initAngle+a;
+                } 
+                rect.anchoredPosition=Vector2.SmoothDamp(rect.anchoredPosition,targetPos,ref velocity,smoothTime);
+                angle=angle%360f;
+            }
 
             if(bubbles){
                 Color c=rect.GetComponentInChildren<Image>().color;
@@ -132,7 +157,7 @@ public class DialogueBoxPlacement : MonoBehaviour
                 // pos.y+=Mathf.Sin(alpha*Mathf.PI/180f)*r;
                 bool bubbleOutsideBounds=false;
 
-                if(!success || Vector3.Angle(camera.transform.forward,dialogue.npcInterlocutor.transform.position-camera.transform.position)>90f){
+                if(!success || Vector3.Angle(camera.transform.forward,npc.transform.position-camera.transform.position)>90f){
                     bubbleOutsideBoundsTimer+=Time.deltaTime;
                     bubbleOutsideBounds=true;
                 }else{
@@ -144,7 +169,7 @@ public class DialogueBoxPlacement : MonoBehaviour
                     tries=0;
                     while((pos.y-bubble1.sizeDelta.y/2f<-canvasRect.sizeDelta.y/2f || pos.y+bubble1.sizeDelta.y/2f>canvasRect.sizeDelta.y/2f || 
                         pos.x-bubble1.sizeDelta.x/2f<-canvasRect.sizeDelta.x/2f || pos.x+bubble1.sizeDelta.x/2f>canvasRect.sizeDelta.x/2f || 
-                        Mathf.Sign(pos.x)!=npcPos.x || Mathf.Sign(pos.y)!=npcPos.y) && tries<2){
+                        (Mathf.Sign(pos.x)!=npcPos.x && !isMC) || (Mathf.Sign(pos.y)!=npcPos.y && !isMC)) && tries<2){
                         bubbleDirection=-bubbleDirection;
                         pos=GetRightTrianglePoint(npcPos,rect.anchoredPosition,angle,true);
                         tries+=1;
@@ -173,18 +198,53 @@ public class DialogueBoxPlacement : MonoBehaviour
             if(moveMCRect){
                 float xDir=Mathf.Sign(rect.anchoredPosition.x);
                 float yDir=Mathf.Sign(rect.anchoredPosition.y);
-                pos=mcRect.anchoredPosition;
+                pos=mcRectOriginalPosition;
                 pos.x=-Mathf.Abs(pos.x)*xDir;
                 pos.y=-Mathf.Abs(pos.y)*yDir;
                 mcRect.anchoredPosition=pos;
-                pos=mcBubble1.anchoredPosition;
-                pos.x=Mathf.Abs(pos.x)*xDir;
-                pos.y=Mathf.Abs(pos.y)*yDir;
-                mcBubble1.anchoredPosition=pos;
-                pos=mcBubble2.anchoredPosition;
-                pos.x=Mathf.Abs(pos.x)*xDir;
-                pos.y=Mathf.Abs(pos.y)*yDir;
-                mcBubble2.anchoredPosition=pos;
+
+                //Tried moving mc bubbles but failed
+
+                //Vector2 mcPos=WorldToCanvasPoint(canvasRect,dialogue.npcInterlocutor.transform.position,camera,out success);
+
+                // pos=GetRightTrianglePoint(mcPos,mcRect.anchoredPosition,angle,true);
+                // tries=0;
+                // while((pos.y-mcBubble1.sizeDelta.y/2f<-canvasRect.sizeDelta.y/2f || pos.y+mcBubble1.sizeDelta.y/2f>canvasRect.sizeDelta.y/2f || 
+                //     pos.x-mcBubble1.sizeDelta.x/2f<-canvasRect.sizeDelta.x/2f || pos.x+mcBubble1.sizeDelta.x/2f>canvasRect.sizeDelta.x/2f || 
+                //     Mathf.Sign(pos.x)!=mcPos.x || Mathf.Sign(pos.y)!=mcPos.y) && tries<2){
+                //     mcBubbleDirection=-mcBubbleDirection;
+                //     pos=GetRightTrianglePoint(mcPos,mcRect.anchoredPosition,angle,true);
+                //     tries+=1;
+                // }
+
+                
+                // bubbleOutsideBoundsTimer=Mathf.Clamp(bubbleOutsideBoundsTimer,0f,1f);
+
+                // mcBubble1targetPos=pos;
+                // float offset=0f;
+                // if(mcBubbleDirection==-1f){
+                //     offset=-90f;
+                // }
+                // Vector2 circleCenter=(mcPos+mcBubble1.anchoredPosition)/2f;
+                // mcBubble2targetPos=(circleCenter+GetRightTrianglePoint(mcPos,mcBubble1.anchoredPosition,angle+45f+offset))/2f;
+                
+                // mcBubble1targetPos.x=Mathf.Clamp(mcBubble1targetPos.x,(-canvasRect.sizeDelta.x+mcBubble1.sizeDelta.x)/2f,(canvasRect.sizeDelta.x-bubble1.sizeDelta.x)/2f);
+                // mcBubble1targetPos.y=Mathf.Clamp(mcBubble1targetPos.y,(-canvasRect.sizeDelta.y+mcBubble1.sizeDelta.y)/2f,(canvasRect.sizeDelta.y-bubble1.sizeDelta.y)/2f);
+                // mcBubble2targetPos.x=Mathf.Clamp(mcBubble2targetPos.x,(-canvasRect.sizeDelta.x+mcBubble2.sizeDelta.x)/2f,(canvasRect.sizeDelta.x-mcBubble2.sizeDelta.x)/2f);
+                // mcBubble2targetPos.y=Mathf.Clamp(mcBubble2targetPos.y,(-canvasRect.sizeDelta.y+mcBubble2.sizeDelta.y)/2f,(canvasRect.sizeDelta.y-mcBubble2.sizeDelta.y)/2f);
+
+                // mcBubble1.anchoredPosition=Vector2.SmoothDamp(mcBubble1.anchoredPosition,mcBubble1targetPos,ref mcBubble1Velocity,bubbleSmoothTime);
+                // mcBubble2.anchoredPosition=Vector2.SmoothDamp(mcBubble2.anchoredPosition,mcBubble2targetPos,ref mcBubble2Velocity,bubbleSmoothTime);
+                
+                // pos=mcBubble1.anchoredPosition;
+                // pos.x=Mathf.Abs(pos.x)*xDir;
+                // pos.y=Mathf.Abs(pos.y)*yDir;
+                // mcBubble1.anchoredPosition=pos;
+                // pos=mcBubble2.anchoredPosition;
+                // pos.x=Mathf.Abs(pos.x)*xDir;
+                // pos.y=Mathf.Abs(pos.y)*yDir;
+                // pos=(mcBubble1.anchoredPosition+mcPos)/2f;
+                // mcBubble2.anchoredPosition=pos;
             }
         }
     }
@@ -213,13 +273,29 @@ public class DialogueBoxPlacement : MonoBehaviour
     }
 
     private void OnEnable() {
-        if(!placeMe){
+        if(rect==null){
+            rect=GetComponent<RectTransform>();
+            originalPosition=rect.anchoredPosition;
+            dialogue=FindObjectOfType<Dialogue>();
+        }
+        if(!placeMe && !isMC){
             rect.anchoredPosition=originalPosition;
         }
         if(bubbles){
             bubble1.gameObject.SetActive(true);
             bubble2.gameObject.SetActive(true);
         }
+        camera=Camera.main;
+        canvasRect=GetComponentInParent<Canvas>().GetComponent<RectTransform>();
+        GameObject npc=dialogue.npcInterlocutor.gameObject;
+        if(isMC){
+            npc=FindObjectOfType<Swimmer>().gameObject;
+        }
+        bool success;
+        Vector2 npcPos=WorldToCanvasPoint(canvasRect,npc.transform.position,camera,out success);
+        angle=Mathf.Atan2((rect.anchoredPosition.y-npcPos.y)/minOvalHeight,(rect.anchoredPosition.x-npcPos.x)/minOvalWidth)*180f/Mathf.PI;
+        Debug.Log(angle);
+        targetPos=rect.anchoredPosition;
     }
 
     private void OnDisable() {
