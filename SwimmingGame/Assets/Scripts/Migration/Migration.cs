@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem.Utilities;
 using UnityEngine.Rendering;
 using UnityEngine.Rendering.Universal;
 
@@ -29,6 +30,12 @@ public class Migration : MonoBehaviour
     public Vector3 targetAngle;
     private bool activatedMovement=false;
 
+    public float currentForce=1f;
+    [Tooltip("Time before current starts")]
+    public float waitTime=5f;
+    private float waitTimer=0f;
+    public Transform[] migrationNodes;
+
 
     void Start()
     {
@@ -51,7 +58,6 @@ public class Migration : MonoBehaviour
         migrationGenerator=FindObjectOfType<MigrationGenerator>();
 
         swimmer=FindObjectOfType<Swimmer>();
-
 
     }
 
@@ -95,10 +101,34 @@ public class Migration : MonoBehaviour
         Vector3 rot=new Vector3(Time.time*lightRotationSpeed,0f,0f);
         lightTransform.rotation=Quaternion.Euler(rot);
 
-        if(!activatedMovement && Vector3.Angle(swimmer.transform.forward,targetAngle)<=45f){
+        waitTimer+=Time.deltaTime;
+
+        if(!activatedMovement && (Vector3.Angle(swimmer.transform.forward,targetAngle)<=45f || waitTimer>waitTime)){
             swimmer.canMove=true;
             activatedMovement=true; 
         }
+
+        if(activatedMovement && waitTimer>waitTime){
+            //Current pushing swimmer
+            float minDistance=1000f;
+            int nodeIndex=0;
+            for(var i=0;i<migrationNodes.Length;i++){
+                float distance=Vector3.Distance(swimmer.transform.position,migrationNodes[i].position);
+                if(distance<minDistance){
+                    minDistance=distance;
+                    nodeIndex=i;
+                }
+            }
+            if(nodeIndex+1<migrationNodes.Length){
+                Vector3 swimmerVelocity=swimmer.GetVelocity();
+                Vector3 current=migrationNodes[nodeIndex+1].position-swimmer.transform.position;
+                Vector3 velocityToCurrent=Vector3.Project(swimmerVelocity,current);
+                if(velocityToCurrent.normalized==-current.normalized || velocityToCurrent.magnitude<swimmer.coastingSpeed){
+                    swimmer.Boost(current.normalized*currentForce*Time.deltaTime);
+                }
+            }
+        }
+
     }
 
 }
