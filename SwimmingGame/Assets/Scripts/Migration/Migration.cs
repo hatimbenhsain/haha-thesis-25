@@ -30,7 +30,9 @@ public class Migration : MonoBehaviour
     public Vector3 targetAngle;
     private bool activatedMovement=false;
 
+    [Tooltip("Force of current, not current time.")]
     public float currentForce=1f;
+    public float maxCurrentSpeed=4f;
     [Tooltip("Time before current starts")]
     public float waitTime=5f;
     private float waitTimer=0f;
@@ -123,7 +125,7 @@ public class Migration : MonoBehaviour
                 Vector3 swimmerVelocity=swimmer.GetVelocity();
                 Vector3 current=migrationNodes[nodeIndex+1].position-swimmer.transform.position;
                 Vector3 velocityToCurrent=Vector3.Project(swimmerVelocity,current);
-                if(velocityToCurrent.normalized==-current.normalized || velocityToCurrent.magnitude<swimmer.coastingSpeed){
+                if(velocityToCurrent.normalized==-current.normalized || velocityToCurrent.magnitude<maxCurrentSpeed){
                     swimmer.Boost(current.normalized*currentForce*Time.deltaTime);
                 }
             }
