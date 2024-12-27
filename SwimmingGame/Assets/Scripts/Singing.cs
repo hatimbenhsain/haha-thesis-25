@@ -56,8 +56,10 @@ public class Singing : Sound
     }
 
     public void StopNote(string note){
-        EventInstance instance=events[note];
-        instance.stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
+        if(events.ContainsKey(note)){
+            EventInstance instance=events[note];
+            instance.stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
+        }
     }
 
     public void ToggleNote(string note){
@@ -80,8 +82,10 @@ public class Singing : Sound
     }
 
     private void OnDestroy() {
-        foreach(var e in events.Values){
-            e.release();
+        if(events.Count>0){
+            foreach(var e in events.Values){
+                e.release();
+            }
         }
     }
 

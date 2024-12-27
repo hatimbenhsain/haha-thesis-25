@@ -9,6 +9,10 @@ public class FishGeneration : MonoBehaviour
     public int distanceRange=1;
     public int variance=3;
 
+    public float minScale=0.75f;
+    public float maxScale=2f;
+    public float pitchVariance=2f;
+
     public GameObject fishPrefab;
 
     void Start()
@@ -38,8 +42,9 @@ public class FishGeneration : MonoBehaviour
         GameObject fish=Instantiate(fishPrefab,pos,Quaternion.identity);
         SpriteRenderer spriteRenderer=fish.GetComponentInChildren<SpriteRenderer>();
         spriteRenderer.material.color=Color.HSVToRGB(Random.Range(0f,1f),33f/255f,1f);
-        float s=Random.Range(0.9f,1.5f);
+        float s=Random.Range(minScale,maxScale);
         spriteRenderer.transform.localScale=Vector3.one*s;
+        fish.GetComponent<Fish>().pitch=1f+pitchVariance*2f*((s-minScale)/(maxScale-minScale)-0.5f);
         return fish.GetComponent<Fish>();
     }
 

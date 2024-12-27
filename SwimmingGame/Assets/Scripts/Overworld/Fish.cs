@@ -22,6 +22,10 @@ public class Fish : NPCOverworld
 
     public float maxLeaderDistance=5f;
 
+    [Tooltip("FMOD Path sound for when player boops fish.")]
+    public string boopSound="event:/Overworld/Fish/Boop";
+    public float pitch=0f;
+
     void Start(){
         swimmerSinging=FindObjectOfType<SwimmerSinging>();
     }
@@ -140,6 +144,7 @@ public class Fish : NPCOverworld
             ChangeMovementBehavior(MovementBehavior.RunFromPlayer);
             awayFromPlayerTimer=0f;
             closeToPlayerTimer=0f;
+            Sound.Play3DOneShotVolume(boopSound,1f,transform,"",0,pitch);
         }
     }
 
