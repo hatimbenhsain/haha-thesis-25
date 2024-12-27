@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.PlayerLoop;
@@ -55,13 +56,26 @@ public class PlayerInput : MonoBehaviour
         playerInput = GetComponent<UnityEngine.InputSystem.PlayerInput>();
 
         values=new object[] {look.x,look.y,rotation.x,rotation.y,singingNote.x,singingNote.y,movingForward,movingBackward,movingLeft,movingRight,movingUp,movingDown,boosting,interacting,aiming,singing,pausing,entering,shiftLeft,shiftRight};
+    
+        if(PlayerPrefs.HasKey("yAxisInverted")){
+            if(PlayerPrefs.GetInt("yAxisInverted")==0){
+                yAxisInverted=false;
+            }else{
+                yAxisInverted=true;
+            }
+        }
+
     }
 
     void Update(){
         values=new object[] {look.x,look.y,rotation.x,rotation.y,singingNote.x,singingNote.y,movingForward,movingBackward,movingLeft,movingRight,movingUp,movingDown,boosting,interacting,aiming,singing,pausing,entering,shiftLeft,shiftRight};
         if(Input.GetKeyDown(KeyCode.I)){
-            yAxisInverted=!yAxisInverted;
+            InvertYAxis();
         }
+    }
+
+    public void InvertYAxis(){
+        yAxisInverted=!yAxisInverted;
     }
 
     void LateUpdate() {
@@ -285,6 +299,11 @@ public class PlayerInput : MonoBehaviour
 
     void EnterInput(bool b){
         entering=b;
+    }
+
+
+    void OnDestroy(){
+        PlayerPrefs.SetInt("yAxisInverted",yAxisInverted? 1 : 0);
     }
 
     void ShiftLeftInput(bool b){
