@@ -554,7 +554,8 @@ Let me know if you need any help.
     ++  [No worries.]
         MC: Sure, uh, no worries.
 +   [I'm good thanks.]
-~pauseTutorial(false)
+    NPC: No troubles.
+- ~pauseTutorial(false)
 { npcsTalkedTo > 2:
     ~finishTutorialPart(6)
 }

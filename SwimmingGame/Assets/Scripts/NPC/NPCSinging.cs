@@ -45,8 +45,11 @@ public class NPCSinging : Singing
     public bool singing=false;
 
     private SwimmerSinging swimmerSinging;
-    [Tooltip("Max distance to detect swimmer when singing to harmonize.")]
-    public float maxSwimmerDistance=2f;
+    [Tooltip("Max distance to detect swimmer when singing to harmonize. Short if facing NPC.")]
+    public float shortSwimmerDistance=2f;
+    [Tooltip("Max distance to detect swimmer when singing to harmonize. Long if facing NPC.")]
+    public float longSwimmerDistance=4f;
+    
 
     public float harmonyValue;
     [Tooltip("If player is harmonizing for this long (in seconds) the dialogue may start.")]
@@ -139,7 +142,7 @@ public class NPCSinging : Singing
                     }else{
                         gettingTiredTimer-=Time.deltaTime;
                     }
-                    if(distanceFromPlayer<=maxSwimmerDistance && !singing){
+                    if(InRange() && !singing){
                         if(!swimmerSinging.singing){
                             timer=0f;
                         }else if(timer>=timeBeforePickingUpHarmony+currentEventLength){
@@ -150,7 +153,7 @@ public class NPCSinging : Singing
                             singingNote=PickHarmony(swimmerSinging);
                             currentEventLength=Random.Range(-timerMaxVariationLength,timerMaxVariationLength);
                         }
-                    }else if(distanceFromPlayer>=maxSwimmerDistance || !swimmerSinging.singing || !isHarmonizing(swimmerSinging)){
+                    }else if(!InRange() || !swimmerSinging.singing || !isHarmonizing(swimmerSinging)){
                         if(timer>=timeBeforeDroppingHarmony+currentEventLength){
                             singing=false;
                             singingVolume=0f;
@@ -178,7 +181,7 @@ public class NPCSinging : Singing
                         timer=-timeBeforePickingUpHarmony;
                     }
 
-                    if(distanceFromPlayer>maxSwimmerDistance){
+                    if(distanceFromPlayer>longSwimmerDistance){
                         harmonyValue=0f;
                     }
 
@@ -203,15 +206,17 @@ public class NPCSinging : Singing
 
                 SingingUpdate();
 
-                if(singing && distanceFromPlayer>maxSwimmerDistance){
+                if(singing && !InRange()){
                     targetOpacity=0.1f*singingVolume;
+                }else if(harmonyValue>=harmonyTargetValue && !singing){
+                    targetOpacity=0.6f*singingVolume;
                 }else if(singing){
-                    targetOpacity=0.25f*singingVolume;
+                    targetOpacity=0.4f*singingVolume;
                 }
 
                 // Checking harmony and starting dialogue if harmony is achieved
                 // Right now harmony only goes up/down if the npc is currently
-                if(singing && swimmerSinging.singing && distanceFromPlayer<=maxSwimmerDistance){
+                if(singing && swimmerSinging.singing && InRange()){
                     if(isHarmonizing(swimmerSinging) || harmonized){
                         harmonyValue+=Time.deltaTime;
                         targetOpacity=1f;
@@ -250,6 +255,19 @@ public class NPCSinging : Singing
         singingTraceSpriteRenderer.color=new Color(c.r,c.g,c.b,a);
 
         prevCanSing=canSing;
+    }
+
+    public bool InRange(){
+        float distanceFromPlayer=Vector3.Distance(transform.position,swimmerSinging.transform.position);
+        if(distanceFromPlayer<=shortSwimmerDistance){
+            return true;
+        }else if(distanceFromPlayer<=longSwimmerDistance){
+            float angle=Vector3.Angle(swimmerSinging.transform.forward,transform.position-swimmerSinging.transform.position);
+            if(angle<=40f){
+                return true;
+            }
+        }
+        return false;
     }
 
     string PickHarmony(Singing s){

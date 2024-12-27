@@ -111,7 +111,7 @@ public class Tutorial : MonoBehaviour
                         foreach(NPCSinging npcSinging in npcSingings){
                             if(npcSinging.singing){
                                 float distance=Vector3.Distance(swimmerSinging.transform.position,npcSinging.transform.position);
-                                if(distance<npcSinging.maxSwimmerDistance && distance<minDistance){
+                                if(npcSinging.InRange() && distance<minDistance){
                                     minDistance=distance;
                                     note=npcSinging.singingNote;
                                     if(npcSinging.isHarmonizing()){
