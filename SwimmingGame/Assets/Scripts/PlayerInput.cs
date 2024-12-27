@@ -30,6 +30,9 @@ public class PlayerInput : MonoBehaviour
     public bool pausing;
     public bool entering;
 
+    public bool shiftLeft;
+    public bool shiftRight;
+
 
     [HideInInspector]
     public object[] values;
@@ -37,7 +40,7 @@ public class PlayerInput : MonoBehaviour
     public bool yAxisInverted=false;
 
     //[HideInInspector]
-    public bool prevMovingForward, prevMovingBackward, prevMovingLeft, prevMovingRight, prevMovingUp, prevMovingDown, prevBoosting, prevInteracting, prevAiming, prevSinging, prevNavigateLeft, prevNavigateRight, prevNavigateUp, prevNavigateDown, prevPausing, prevEntering;
+    public bool prevMovingForward, prevMovingBackward, prevMovingLeft, prevMovingRight, prevMovingUp, prevMovingDown, prevBoosting, prevInteracting, prevAiming, prevSinging, prevNavigateLeft, prevNavigateRight, prevNavigateUp, prevNavigateDown, prevPausing, prevEntering, prevShiftLeft, prevShiftRight;
 
     public bool movedForwardTrigger;
 
@@ -51,11 +54,11 @@ public class PlayerInput : MonoBehaviour
     void Start(){
         playerInput = GetComponent<UnityEngine.InputSystem.PlayerInput>();
 
-        values=new object[] {look.x,look.y,rotation.x,rotation.y,singingNote.x,singingNote.y,movingForward,movingBackward,movingLeft,movingRight,movingUp,movingDown,boosting,interacting,aiming,singing,pausing,entering};
+        values=new object[] {look.x,look.y,rotation.x,rotation.y,singingNote.x,singingNote.y,movingForward,movingBackward,movingLeft,movingRight,movingUp,movingDown,boosting,interacting,aiming,singing,pausing,entering,shiftLeft,shiftRight};
     }
 
     void Update(){
-        values=new object[] {look.x,look.y,rotation.x,rotation.y,singingNote.x,singingNote.y,movingForward,movingBackward,movingLeft,movingRight,movingUp,movingDown,boosting,interacting,aiming,singing,pausing,entering};
+        values=new object[] {look.x,look.y,rotation.x,rotation.y,singingNote.x,singingNote.y,movingForward,movingBackward,movingLeft,movingRight,movingUp,movingDown,boosting,interacting,aiming,singing,pausing,entering,shiftLeft,shiftRight};
         if(Input.GetKeyDown(KeyCode.I)){
             yAxisInverted=!yAxisInverted;
         }
@@ -80,6 +83,8 @@ public class PlayerInput : MonoBehaviour
         prevNavigateUp=navigateUp;
         prevPausing=pausing;
         prevEntering=entering;
+        prevShiftLeft=shiftLeft;
+        prevShiftRight=shiftRight;
     }
 
     public void OnMoveForward(InputAction.CallbackContext value){
@@ -163,6 +168,14 @@ public class PlayerInput : MonoBehaviour
 
     public void OnEnter(InputAction.CallbackContext value){
         EnterInput(value.performed || value.started);
+    }
+
+    public void OnShiftLeft(InputAction.CallbackContext value){
+        ShiftLeftInput(value.performed || value.started);
+    }
+
+    public void OnShiftRight(InputAction.CallbackContext value){
+        ShiftRightInput(value.performed || value.started);
     }
 
     void MoveForwardInput(float f){
@@ -272,5 +285,13 @@ public class PlayerInput : MonoBehaviour
 
     void EnterInput(bool b){
         entering=b;
+    }
+
+    void ShiftLeftInput(bool b){
+        shiftLeft=b;
+    }
+
+    void ShiftRightInput(bool b){
+        shiftRight=b;
     }
 }
