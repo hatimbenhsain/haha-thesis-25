@@ -763,6 +763,38 @@ MonoBehaviour:
         m_CallState: 2
     m_ActionId: 0646dd9d-00dd-4ebe-8535-f1bcfbdfd4aa
     m_ActionName: Universal/Enter[/XInputControllerWindows/start,/Keyboard/enter,/Keyboard/space,/Keyboard/x,/XInputControllerWindows/buttonEast]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 6595636700681024951}
+        m_TargetAssemblyTypeName: PlayerInput, Assembly-CSharp
+        m_MethodName: OnShiftRight
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 31b7fd08-8390-46b3-aff3-5d544ce1f816
+    m_ActionName: Player/ShiftRight[/Keyboard/2]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 6595636700681024951}
+        m_TargetAssemblyTypeName: PlayerInput, Assembly-CSharp
+        m_MethodName: OnShiftLeft
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: c6fdc245-1d11-4650-b94d-6d1c224f87eb
+    m_ActionName: Player/ShiftLeft[/Keyboard/1]
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: Player
@@ -800,6 +832,8 @@ MonoBehaviour:
   navigateDown: 0
   pausing: 0
   entering: 0
+  shiftLeft: 0
+  shiftRight: 0
   yAxisInverted: 1
   prevMovingForward: 0
   prevMovingBackward: 0
@@ -817,6 +851,8 @@ MonoBehaviour:
   prevNavigateDown: 0
   prevPausing: 0
   prevEntering: 0
+  prevShiftLeft: 0
+  prevShiftRight: 0
   movedForwardTrigger: 0
   currentControlScheme: 
   mouseSensitivity: 50
