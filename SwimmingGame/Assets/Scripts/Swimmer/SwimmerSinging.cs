@@ -11,19 +11,6 @@ using UnityEngine.UI;
 public class SwimmerSinging : Singing
 {
     public bool canSing=false;
-
-    [Tooltip("The dot that moves on the canvas to signify singing")]
-    public GameObject[] singingDots;
-    private RectTransform[] singingDotRects;
-    [Tooltip("Radius of singing circle on canvas.")]
-    public float circleRadius=255f;
-    private Vector2 rectTargetPosition;
-    private Vector2 rectCenter;
-    [Tooltip("Images to affect opacity.")]
-    public Image[] images;
-    private float[] maxOpacities; //max opacity for each image
-    public float noteLerpValue=10f;
-
     private PlayerInput playerInput;
 
     private Vector2 singingNotePosition; // Relative position on the wheel
@@ -44,6 +31,24 @@ public class SwimmerSinging : Singing
 
     public Light singingLight;
     public float singingTargetIntensity;
+
+    private int shiftingAmount=0; //Amount by which we are shifting notes (from -2 to 2)
+
+    [Header("UI Things")]
+    [Tooltip("The dot that moves on the canvas to signify singing")]
+    public GameObject[] singingDots;
+    private RectTransform[] singingDotRects;
+    [Tooltip("Radius of singing circle on canvas.")]
+    public float circleRadius=255f;
+    private Vector2 rectTargetPosition;
+    private Vector2 rectCenter;
+    [Tooltip("Images to affect opacity.")]
+    public Image[] images;
+    private float[] maxOpacities; //max opacity for each image
+    public float noteLerpValue=10f;
+    public Color[] wheelColors;
+    public Color[] auraColors;
+    public float colorLerpValue=1f;
 
     void Start()
     {
@@ -73,6 +78,18 @@ public class SwimmerSinging : Singing
     {
         if(canSing){
             
+            if(playerInput.shiftLeft && !playerInput.shiftRight){
+                shiftingAmount=-1;
+            }else if(playerInput.shiftLeft && !playerInput.prevShiftLeft && playerInput.shiftRight){
+                shiftingAmount=2;
+            }else if(playerInput.shiftRight && !playerInput.shiftLeft){
+                shiftingAmount=1;
+            }else if(playerInput.shiftRight && !playerInput.prevShiftRight && playerInput.shiftLeft){
+                shiftingAmount=-2;
+            }else if(!playerInput.shiftRight && !playerInput.shiftLeft){
+                shiftingAmount=0;
+            }
+
             if(playerInput.currentControlScheme=="Gamepad"){
                 inputNote=playerInput.singingNote;
                 if(inputNote.magnitude>0f){
@@ -107,6 +124,16 @@ public class SwimmerSinging : Singing
                 if((angle<maxAngle && angle>=minAngle) ||
                 (angle<maxAngle && angle>=0 && maxAngle<minAngle) || (angle<=2 && angle>=minAngle && maxAngle<minAngle)){
                     note=possibleNotes[i];
+                    //Finding correct note if shifting
+                    if(shiftingAmount!=0){
+                        int keyIndex=keys.IndexOf(note);
+                        if(keyIndex!=-1){
+                            keyIndex=keyIndex+shiftingAmount;
+                            if(keyIndex>=0 && keyIndex<keys.Count){
+                                note=keys[keyIndex];
+                            }
+                        }
+                    }
                     break;
                 }
             }
@@ -141,6 +168,15 @@ public class SwimmerSinging : Singing
 
             singingLight.intensity=Mathf.Lerp(singingLight.intensity,singingTargetIntensity*targetOpacity*singingVolume,lightIntensityLerpSpeed*Time.deltaTime);
 
+            //Changing color depending on shifting note amount
+            Color targetWheelColor=Color.Lerp(wheelColors[1],wheelColors[Mathf.Clamp(1+shiftingAmount,0,wheelColors.Length-1)],Mathf.Abs(shiftingAmount)/2f);
+            Color targetAuraColor=Color.Lerp(auraColors[1],auraColors[Mathf.Clamp(1+shiftingAmount,0,wheelColors.Length-1)],Mathf.Abs(shiftingAmount)/2f);
+
+            targetWheelColor.a=images[0].color.a;
+            targetAuraColor.a=images[1].color.a;
+
+            images[0].color=Color.Lerp(images[0].color,targetWheelColor,colorLerpValue*Time.deltaTime);   //Changing wheel color
+            images[1].color=Color.Lerp(images[1].color,targetAuraColor,colorLerpValue*Time.deltaTime);   //Changing wheel color
         }
 
     }
