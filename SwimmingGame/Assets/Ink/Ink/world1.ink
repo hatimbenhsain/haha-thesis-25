@@ -395,10 +395,14 @@ MC: It was just something I've never felt before.
 ~pause(2)
 Teacher: Right.
 ~pause(6)
-Teacher: Do you wanna stop for now...?
+MC: What do we do when the organs are out?
+Teacher: I think we can...\\pause just try to wrap around each other?
+~pause(2)
+Teacher: Do you wanna stop for now?
 MC: No I want to keep going. #speed: fast
 Teacher: Ok.
-Teacher: We can start whenever you feel comfortable. Let's just harmonize again when you're ready.
+Teacher: We can start whenever you feel comfortable. 
+Let's just harmonize again when you're ready.
 MC: Ok.
 ~nextBrain()
 -> END
