@@ -3,7 +3,7 @@ INCLUDE Functions.ink
 VAR sexIntensity=0
 VAR npcsTalkedTo=0
 VAR coralTalkedTo=0
-VAR coralToTalkToBeforeProgress=5
+VAR coralToTalkToBeforeProgress=3
 
 /* CORALNET */
 
@@ -19,6 +19,7 @@ VAR coralToTalkToBeforeProgress=5
 ~ npcsTalkedTo=npcsTalkedTo+1
 ~ stopSinging()
 ~ pauseTutorial(true)
+~ muffleNPCsVolume()
 ->->
 
 === coralnetEnd ===
@@ -27,6 +28,7 @@ VAR coralToTalkToBeforeProgress=5
     ~finishTutorialPart(6)
 }
 ~ continueSinging()
+~ restoreNPCsVolume()
 ->->
 
 === coralnet1 ===
@@ -245,9 +247,7 @@ Coralnet: motif: my entanglement
 
 // Initiated by the teacher as you finish reading coralnetProgress
 === teacherAtLibrary ===
-~ pauseTutorial(true)
-~ setDialogueBubble("standard")
-~ stopSinging()
+ -> npcStart ->
 Teacher: Sounds amazing, doesn't it?
 ~ fadeIn()
 MC: What?
@@ -265,13 +265,14 @@ MC: I really need to get going.
 ~ overrideRotation("Roadblock - Library")
 ~ switchObject("Roadblock - Library",false)
 ~ pauseTutorial(false)
+~ restoreNPCsVolume()
 -> END
 
 // Same I feel like here the rest of the interaction is nice but I feel like MC should be more surprised by the teacher being next to them.
 
 // MC finds teacher at diner sitting. They start singing when MC gets nearby to invite conversation
 === teacherAtDiner ===
-~ stopSinging()
+ -> npcStart ->
 Teacher: I'm surprised you've come to talk to me. 
 Teacher: I must've been really bothersome at the library.
 MC: I was really curt with you.
@@ -300,6 +301,8 @@ MC: What about your food...?
 Teacher: Oh, someone else will eat it.
 ~ switchObject("Roadblock - Edge",false)
 ~ nextBrain()
+~ restoreNPCsVolume()
+~ pauseTutorial(false)
 -> END
 // MC follows teacher in gameplay portion to edge 2
 
@@ -395,10 +398,14 @@ MC: It was just something I've never felt before.
 ~pause(2)
 Teacher: Right.
 ~pause(6)
-Teacher: Do you wanna stop for now...?
+MC: What do we do when the organs are out?
+Teacher: I think we can...\\pause just try to wrap around each other?
+~pause(2)
+Teacher: Do you wanna stop for now?
 MC: No I want to keep going. #speed: fast
 Teacher: Ok.
-Teacher: We can start whenever you feel comfortable. Let's just harmonize again when you're ready.
+Teacher: We can start whenever you feel comfortable. 
+Let's just harmonize again when you're ready.
 MC: Ok.
 ~nextBrain()
 -> END
@@ -529,13 +536,26 @@ MC: Let's never do this again.
 
 /* RANDOM NPCS */
 
+
+=== npcStart ===
+~ stopSinging()
+~ pauseTutorial(true)
+~ muffleNPCsVolume()
+~ setDialogueBubble("standard")
+->->
+
+=== npcEnd ===
+~pauseTutorial(false)
+~ continueSinging()
+~ restoreNPCsVolume()
+->->
+
 === libraryReceptionist ===
 # color: 95B79B
 { npcsTalkedTo==0:
     ~npcsTalkedTo=npcsTalkedTo+1
 }
-~stopSinging()
-~pauseTutorial(true)
+-> npcStart ->
 NPC: Welcome to the library.
 Let me know if you need any help.
 +   [What is this place?]
@@ -560,16 +580,15 @@ Let me know if you need any help.
     ~finishTutorialPart(6)
 }
 ~continueSinging()
--~continueSinging()
-~pauseTutorial(false)
+- -> npcEnd ->
 -> END
 
 === npcAtLibrary1 ===
 # color: 7E0D13
-~stopSinging()
+-> npcStart ->
 NPC: I LOVE SINGING INTO THE CORALNET 
 {->one->|->two->}
-~continueSinging()
+ -> npcEnd ->
 -> END
 = one
 I FEEL FREE TO EXPRESS MY DEEPEST MOST EMBARASSING SECRETS THAT I WOULD NEVER TELL ANYONE
@@ -592,14 +611,14 @@ MC: That's good.
 
 === npcAtLibrary2 ===
 # color: 7E0D13
-~stopSinging()
+-> npcStart ->
 NPC: 
-~continueSinging()
+ -> npcEnd ->
 -> END
 
 === npcInCenter1 ===    //Eelor
 # color: 6D6787
-~stopSinging()
+-> npcStart ->
 NPC: I love kicking off walls! It's my favorite part about swimming!
 Do you know how to do it?
 +   [Yes.]
@@ -633,12 +652,12 @@ Do you know how to do it?
             Yeah! Ask me again if you forget!
     ++  [No thanks.]
         Aw! Too bad!
-- ~continueSinging()
+-  -> npcEnd ->
 -> END
 
 === npcInCenter2 ===    //(Fonsh)
 #color: 99AFAA
-~stopSinging()
+-> npcStart ->
 NPC: Do you know the secret to swimming really fast?
 +   [Yes.]
     What is it then?
@@ -666,12 +685,12 @@ NPC: Do you know the secret to swimming really fast?
                 Ok.
     ++  [No.]
         Uh... okay.
-- ~continueSinging()
+-  -> npcEnd ->
 -> END
 
 === npcInCenter3 ===
 # color: 1d1c29
-~stopSinging()
+-> npcStart ->
 NPC: A strange phenomenon occurs, whenever I attempt to leave stray too far from this place.
 NPC: It's as if there are invisible walls block my passage.
 Some say it's the current, but I know the truth.
@@ -684,26 +703,26 @@ What do you believe?
 +   [Mindset.]
     NPC: Hmmm...
     So you're saying our mindset is keeping us here and unconsciously stopping us from moving forth? I see...
-- ~continueSinging()
+-  -> npcEnd ->
 ->END
 
 === npcInCenter4 ===
 # color: 2b6136
-~stopSinging()
+-> npcStart ->
 NPC: Ahem. Do you mind?
 - ~continueSinging()
 ->END
 
 === npcInCenter5 ===    //Eelor
 # color: 6D6787
-~ stopSinging()
+-> npcStart ->
 NPC: I'm just standing next to the hole, no big deal.
-~ continueSinging()
+ -> npcEnd ->
 -> END
 
 === npcInDiner1 ===
 # color: 1F7A6E
-~stopSinging()
+-> npcStart ->
 NPC: I like the food here... but it's nothing compared to the buffets at Enkidu's parties!
 Have you been to one of those?
 + [Yes.]
@@ -729,12 +748,12 @@ Have you been to one of those?
 + [No.]
     You absolutely have to try it! 
     They will be where most of us are going next, so prepare yourself for the bacchanalia of a lifetime!
-- ~continueSinging()
+-  -> npcEnd ->
 -> END
 
 === npcInDiner2 ===
 # color: 2b6136
-~stopSinging()
+-> npcStart ->
 NPC: Have you ever noticed how certain people harmonize differently than others?
 NPC: Sometimes I'm unable to connect with someone until I've sung the same note as them, or one that's closer to it.
 NPC: What do you think that says about them?
@@ -744,35 +763,35 @@ NPC: What do you think that says about them?
     That must be true. Lots of people have evil intentions towards me and this is why they make it so difficult!
 +   [It speaks on their strength of character.]
     This has to be right. Some have weaker character and they just cannot bother indulging in beautiful and harmonious compositions!
-- ~continueSinging()
+- -> npcEnd ->
 -> END
 
 === npcInDiner3 ===
 # color: 1F7A6E
-~stopSinging()
+-> npcStart ->
 NPC: The food here was much better in the last cycle. Do you recall?
 In truth, the further I go in cycles, the better my memory of the food is. Isn't that peculiar?
 If I were employed in the kitchen, I would make sure the quality was always maintained to the most delectable standards of yester-cycle, for I have a perfect palate.
 Alas, my constitution is too delicate to gaze at fish guts. A shame!\\pause For everyone.
-- ~continueSinging()
+- -> npcEnd ->
 -> END
 
 === npcInDiner4 === //Beloo
 # color: 1d1c29
-~stopSinging()
+-> npcStart ->
 NPC: Have you heard of the microwave technology? It sounds simply portentous!
 Apparently, powerful psychics can focus radiation waves into food to make it warm and thus more delectable!
 I envision a wonderful future where we are no longer slaves to the tyranny of current for temperature control!
 (Unfortunately, a future that is not for me because I am probably allergic to the microwave.)
 (I haven't tried it but it seems likely so I would rather not risk it.)
-- ~continueSinging()
+- -> npcEnd ->
 -> END
 
 === npcInDiner5 ===
 # color: 966382
-~stopSinging()
+-> npcStart ->
 NPC: Like clownfish to bioluminescent sea anemone.
-~continueSinging()
+-> npcEnd ->
 -> END
 
 

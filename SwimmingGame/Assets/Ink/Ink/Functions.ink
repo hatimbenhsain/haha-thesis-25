@@ -20,7 +20,14 @@ EXTERNAL loadFloat(name)
 EXTERNAL saveValue(name,value)
 EXTERNAL fadeIn()
 EXTERNAL fadeOut()
+EXTERNAL setFMODGlobalParameter(name,value)
 
 === nextBrainKnot ===
 ~ nextBrain()
 -> END
+
+=== function muffleNPCsVolume()
+~ setFMODGlobalParameter("npcSingingVolume",0.3)
+
+=== function restoreNPCsVolume()
+~ setFMODGlobalParameter("npcSingingVolume",1)
