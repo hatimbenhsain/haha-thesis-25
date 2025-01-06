@@ -720,6 +720,13 @@ NPC: I'm just standing next to the hole, no big deal.
  -> npcEnd ->
 -> END
 
+=== npcInCenter6 ===  //(Fonsh)
+#color: 99AFAA
+-> npcStart ->
+NPC: When I am swimming around this column I am filled with... a special feeling.
+ -> npcEnd ->
+-> END
+
 === npcInDiner1 ===
 # color: 1F7A6E
 -> npcStart ->

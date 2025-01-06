@@ -451,7 +451,8 @@ MonoBehaviour:
   imageOpacityLerpSpeed: 7
   maxOpacity: 0.4
   singing: 0
-  maxSwimmerDistance: 2
+  shortSwimmerDistance: 3
+  longSwimmerDistance: 4
   harmonyValue: 0
   harmonyTargetValue: 1
   canSing: 1
@@ -473,12 +474,15 @@ MonoBehaviour:
   path: []
   pathIndex: 0
   pauseTimer: 0
+  player: {fileID: 0}
   isCoralNet: 0
   orphanize: 0
   placeNearPlayer: 0
   maxProcessingDistance: 100
   currentState: 0
   movementBehavior: 0
+  pastMovementBehavior: 0
+  leader: {fileID: 0}
   waitForPlayer: 1
   facePlayerWhenWaiting: 0
   maxDistanceFromPlayer: 5
@@ -506,6 +510,9 @@ MonoBehaviour:
   collisionSpeedFactor: 1
   minCollisionSpeed: 0.01
   kinematic: 1
+  targetDistance: 5
+  maxDistanceFromOrigin: 20
+  minDistanceFromTarget: 1
 --- !u!95 &4486267439246263101
 Animator:
   serializedVersion: 5
@@ -739,7 +746,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2221c69839550b14b8910271cfc1fbdc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  minAngle: 25
   minDistance: 10
 --- !u!1 &6297584611824266950
 GameObject:
