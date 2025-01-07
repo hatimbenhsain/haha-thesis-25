@@ -157,12 +157,15 @@ MonoBehaviour:
   path: []
   pathIndex: 0
   pauseTimer: 0
+  player: {fileID: 0}
   isCoralNet: 0
   orphanize: 0
   placeNearPlayer: 0
   maxProcessingDistance: 100
   currentState: 1
   movementBehavior: 0
+  pastMovementBehavior: 0
+  leader: {fileID: 0}
   waitForPlayer: 1
   facePlayerWhenWaiting: 0
   maxDistanceFromPlayer: 5
@@ -190,6 +193,9 @@ MonoBehaviour:
   collisionSpeedFactor: 1
   minCollisionSpeed: 0.01
   kinematic: 1
+  targetDistance: 5
+  maxDistanceFromOrigin: 20
+  minDistanceFromTarget: 1
 --- !u!114 &31606374
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -241,7 +247,8 @@ MonoBehaviour:
   imageOpacityLerpSpeed: 7
   maxOpacity: 0.4
   singing: 0
-  maxSwimmerDistance: 4
+  shortSwimmerDistance: 10
+  longSwimmerDistance: 10
   harmonyValue: 0
   harmonyTargetValue: 1
   canSing: 1
@@ -610,12 +617,15 @@ MonoBehaviour:
   path: []
   pathIndex: 0
   pauseTimer: 0
+  player: {fileID: 0}
   isCoralNet: 0
   orphanize: 0
   placeNearPlayer: 0
   maxProcessingDistance: 100
   currentState: 1
   movementBehavior: 0
+  pastMovementBehavior: 0
+  leader: {fileID: 0}
   waitForPlayer: 1
   facePlayerWhenWaiting: 0
   maxDistanceFromPlayer: 5
@@ -643,6 +653,9 @@ MonoBehaviour:
   collisionSpeedFactor: 1
   minCollisionSpeed: 0.01
   kinematic: 1
+  targetDistance: 5
+  maxDistanceFromOrigin: 20
+  minDistanceFromTarget: 1
 --- !u!114 &359917357
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -684,7 +697,8 @@ MonoBehaviour:
   imageOpacityLerpSpeed: 7
   maxOpacity: 0.4
   singing: 0
-  maxSwimmerDistance: 4
+  shortSwimmerDistance: 10
+  longSwimmerDistance: 10
   harmonyValue: 0
   harmonyTargetValue: 12
   canSing: 1
@@ -1230,12 +1244,15 @@ MonoBehaviour:
   path: []
   pathIndex: 0
   pauseTimer: 0
+  player: {fileID: 0}
   isCoralNet: 0
   orphanize: 0
   placeNearPlayer: 0
   maxProcessingDistance: 100
   currentState: 1
   movementBehavior: 0
+  pastMovementBehavior: 0
+  leader: {fileID: 0}
   waitForPlayer: 1
   facePlayerWhenWaiting: 0
   maxDistanceFromPlayer: 5
@@ -1263,6 +1280,9 @@ MonoBehaviour:
   collisionSpeedFactor: 1
   minCollisionSpeed: 0.01
   kinematic: 1
+  targetDistance: 5
+  maxDistanceFromOrigin: 20
+  minDistanceFromTarget: 1
 --- !u!114 &910747744
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1304,7 +1324,8 @@ MonoBehaviour:
   imageOpacityLerpSpeed: 7
   maxOpacity: 0.4
   singing: 0
-  maxSwimmerDistance: 4
+  shortSwimmerDistance: 10
+  longSwimmerDistance: 10
   harmonyValue: 0
   harmonyTargetValue: 12
   canSing: 1
@@ -1610,6 +1631,26 @@ PrefabInstance:
       propertyPath: m_Color.r
       value: 0.4117647
       objectReference: {fileID: 0}
+    - target: {fileID: 3247659776405994998, guid: 2aa108b2b25222c4baa855e54007b8d2,
+        type: 3}
+      propertyPath: isMC
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3247659776405994998, guid: 2aa108b2b25222c4baa855e54007b8d2,
+        type: 3}
+      propertyPath: bubbles
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3247659776405994998, guid: 2aa108b2b25222c4baa855e54007b8d2,
+        type: 3}
+      propertyPath: placeMe
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4005394593566284958, guid: 2aa108b2b25222c4baa855e54007b8d2,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4158006421785602753, guid: 2aa108b2b25222c4baa855e54007b8d2,
         type: 3}
       propertyPath: m_AnchoredPosition.x
@@ -1619,6 +1660,26 @@ PrefabInstance:
         type: 3}
       propertyPath: m_AnchoredPosition.y
       value: 358.42
+      objectReference: {fileID: 0}
+    - target: {fileID: 4162388084403116857, guid: 2aa108b2b25222c4baa855e54007b8d2,
+        type: 3}
+      propertyPath: bubbles
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4162388084403116857, guid: 2aa108b2b25222c4baa855e54007b8d2,
+        type: 3}
+      propertyPath: placeMe
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4162388084403116857, guid: 2aa108b2b25222c4baa855e54007b8d2,
+        type: 3}
+      propertyPath: moveMCRect
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4361627986518552913, guid: 2aa108b2b25222c4baa855e54007b8d2,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4861048073450827428, guid: 2aa108b2b25222c4baa855e54007b8d2,
         type: 3}
@@ -1656,6 +1717,11 @@ PrefabInstance:
       value: -151.99997
       objectReference: {fileID: 0}
     - target: {fileID: 5019203019055832619, guid: 2aa108b2b25222c4baa855e54007b8d2,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5327222610541002701, guid: 2aa108b2b25222c4baa855e54007b8d2,
         type: 3}
       propertyPath: m_IsActive
       value: 0
@@ -1733,6 +1799,11 @@ PrefabInstance:
     - target: {fileID: 7260195915705772074, guid: 2aa108b2b25222c4baa855e54007b8d2,
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7296009458389912912, guid: 2aa108b2b25222c4baa855e54007b8d2,
+        type: 3}
+      propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8454384670474871245, guid: 2aa108b2b25222c4baa855e54007b8d2,

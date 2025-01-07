@@ -567,6 +567,9 @@ public class Dialogue : MonoBehaviour
         story.BindExternalFunction("fadeOut",()=>{
             FadeOut();
         });
+        story.BindExternalFunction("setFMODGlobalParameter",(string name, float value)=>{
+            SetFMODGlobalParameter(name, value);
+        });
     }
 
     // EXTERNAL FUNCTIONS
@@ -654,6 +657,7 @@ public class Dialogue : MonoBehaviour
             if(npcInterlocutor!=null){
                 npcInterlocutor.FinishedDialogue(isAmbient);
             }
+            npcInterlocutor=newInterlocutor;
         }else if(g==null){
             Debug.Log("Tried switching interlocutor & couldn't find gameobject");
         }else{
@@ -728,6 +732,10 @@ public class Dialogue : MonoBehaviour
 
     void FadeOut(){
         FindObjectOfType<LevelLoader>().FadeOut();
+    }
+
+    void SetFMODGlobalParameter(string name, float value){
+        FMODUnity.RuntimeManager.StudioSystem.setParameterByName(name,value);
     }
 
 }

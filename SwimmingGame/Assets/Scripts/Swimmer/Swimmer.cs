@@ -112,13 +112,13 @@ public class Swimmer : MonoBehaviour
     }
 
     void Update(){
-        if(playerInput.movedForwardTrigger){
+        if(playerInput.movedForwardTrigger && canMove){
             swimmerSound.Stride();
             boostTimer=0f;
             animator.SetTrigger("boostForward");
             playerInput.movedForwardTrigger=false;
             forcesToAdd+=CheckForWallAndKick(Vector3.forward);
-        }else if(playerInput.movingBackward && !playerInput.prevMovingBackward){
+        }else if(playerInput.movingBackward && !playerInput.prevMovingBackward && canMove){
             Vector3 force=CheckForWallAndKick(-Vector3.forward);
             forcesToAdd+=force;
             if(force!=Vector3.zero){
