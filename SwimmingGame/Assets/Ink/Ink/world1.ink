@@ -224,7 +224,7 @@ Coralnet: motif: my entanglement
 > what was it exactly?
 > it was neither tail nor fin nor antenna. it was a tendril of sorts. 
 > it was long and sinewy and soft.
-> there was a eautiful burts of smaller wriggling tendrils at the end of it, like a flower.
+> there was a beautiful burst of smaller wriggling tendrils at the end of it, like a flower.
 > and what did you do with it?
 > at first we just sensed our surroundings
 > the organ felt more sensitive than the inside of my mouth.
@@ -260,8 +260,13 @@ Teacher: Yes, but I've never reached this "climax" that I've often heard spoken 
 Teacher: It always felt a bit scary. \\pause\\pauseLike maybe I would burst.
 MC: Ah.
 Teacher: ...
-Teacher: Say, I always see you here. Do you only come to browse or--
-MC: I really need to get going.
+Teacher: I always see you here. Do you only come to browse or...?
+MC: Uh... I'm not sure how to answer that...
+Teacher: ...
+MC: I like to read.
+Teacher: Yes, me too...
+Teacher: Say, it looks like the current is letting up. I could use a bite. Maybe we can continue this conversation at the diner?
+MC: I don't know. I really need to get going.
 ~ overrideRotation("Roadblock - Library")
 ~ switchObject("Roadblock - Library",false)
 ~ pauseTutorial(false)
@@ -314,6 +319,19 @@ Teacher: Are you excited? # time: 3
 MC: I think. # time: 3
 ~ pause(4)
 Teacher: Me too. #time: 3
+-> END
+
+=== teacherOnTheWay2 ===
+# ambient
+MC: Have you done this often? # time: 3
+Teacher: Only a couple times... With some friends. # time: 3
+Teacher: Don't worry, it's not scary or painful. # time: 3
+-> END
+
+=== teacherOnTheWay3 ===
+# ambient
+MC: How much farther away? # time: 3
+Teacher: Just a few more strokes... # time: 3
 -> END
 
 //TO-DO: add more things that they can say on the way.
@@ -609,11 +627,44 @@ NPC: YOU SEEM REALLY TRUSTWORTHY
 MC: That's good.
 ->->
 
+VAR libraryOpen=false
+
 === npcAtLibrary2 ===
 # color: 7E0D13
 -> npcStart ->
-NPC: 
- -> npcEnd ->
+NPC: I really should stop coming to the library... 
+The current in this corridor always ends up trapping me and I have to wait an ETERNITY before being able to go anywhere else.
+NPC: Ah well, I guess I can catch up on some epics...
+Did you hear the one about how they got their tail stuck in between two copulating clams?
++ Yes.
+    NPC: Isn't it riveting? I'm eager to hear if and how they got out.
+    Say, did you read the latest update? Have they gotten out yet?
+    No, actually don't tell me! I must find out for myself.
++ No.
+    NPC: I highly recommend it! It is simply riveting.
+    A true tale oƒ patience and woe...
+- -> npcEnd ->
+-> END
+
+=== npcAtLibrary3 ===
+-> npcStart ->
+NPC: I hear that the pink coral is supposed to pacify water currents, but this entryway is almost always blocked...
+I wonder if it is a ploy to get us to read more coralnet...
+Of course, the library is free to use so the ploymasters must be highly attention-seeking and greedy initiators seeking more audience...
+-> npcEnd ->
+-> END
+
+=== npcAtLibrary4 ===
+-> npcStart ->
+{ libraryOpen==false:
+    NPC: Hnnnmnghh... If I focus my psychic energy towards the pink coral... Maybe it will start working again...
+    Please don't distract me... I know I can do this...
+- else:
+    NPC: I did it! I reactivated the pink coral using my fierce psychic control!
+    It was all me! Pretty impressive right? Wait you didn't see it?
+    Just wait here... I can shut it down then on once more so that you can believe me! Just give me one moment...
+}
+-> npcEnd ->
 -> END
 
 === npcInCenter1 ===    //Eelor
