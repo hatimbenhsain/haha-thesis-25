@@ -249,6 +249,8 @@ Coralnet: motif: my entanglement
 === teacherAtLibrary ===
  -> npcStart ->
 Teacher: Sounds amazing, doesn't it?
+~ switchObject("Roadblock - Library",false)
+~ libraryOpen=true
 ~ fadeIn()
 MC: What?
 Teacher: The entanglement. \\pauseYou were reading about it just now, right? Have you done it yet?
@@ -266,18 +268,47 @@ Teacher: ...
 MC: I like to read.
 Teacher: Yes, me too...
 Teacher: Say, it looks like the current is letting up. I could use a bite. Maybe we can continue this conversation at the diner?
-MC: I don't know. I really need to get going.
-~ overrideRotation("Roadblock - Library")
-~ switchObject("Roadblock - Library",false)
++   No.
+    MC: No. Sorry. I really need to get going.
++   I don't know.
+    MC: I don't know. I really should get going.
++   I have other things to do.
+    MC: Sorry, I am doing other things. Not at the diner.
+- ~ overrideRotation("Roadblock - Library")
 ~ pauseTutorial(false)
 ~ restoreNPCsVolume()
 -> END
 
 // Same I feel like here the rest of the interaction is nice but I feel like MC should be more surprised by the teacher being next to them.
 
+VAR followingTeacher=false
+VAR talkedToTeacherAtDiner=false
+
 // MC finds teacher at diner sitting. They start singing when MC gets nearby to invite conversation
 === teacherAtDiner ===
  -> npcStart ->
+{ talkedToTeacherAtDiner:
+    ->chat->
+- else:
+    Teacher: <>
+    {stopping:
+        - Did you change your mind?
+        - Are you really sure you don't wanna go?
+        - Are you really really sure you don't wanna go? 
+        - ...
+    }
+    +   Let's go.
+        MC: Yes. Let's go now.
+        -> going
+    +   No.
+        MC: No.
+        Teacher: ...Okay then.
+        -> npcEnd ->
+        -> END
+}
+
+= chat
+~talkedToTeacherAtDiner=true
 Teacher: I'm surprised you've come to talk to me. 
 Teacher: I must've been really bothersome at the library.
 MC: I was really curt with you.
@@ -300,16 +331,31 @@ Teacher: Then I guess I do watch you a little bit.
 Teacher: Would you like to...
 MC: Yeah?
 Teacher: Go somewhere with fewer other people?
-MC: Sure.
-Teacher: Ok. Follow me. I'll show you one of my favorite places.
++   Let's go.
+    MC: Sure. Let's go.
+    -> going
++   No.
+    MC: Oh. Uhm...
+    Not really.
+    Teacher: Ah. Okay.
+    ~pause(2)
+    Let me know if you change your mind.
+    -> npcEnd ->
+- ->->
+
+= going
+Teacher: Okay. Follow me. I'll show you one of my favorite places.
 MC: What about your food...?
 Teacher: Oh, someone else will eat it.
+~ followingTeacher=true
 ~ switchObject("Roadblock - Edge",false)
 ~ nextBrain()
 ~ restoreNPCsVolume()
 ~ pauseTutorial(false)
 -> END
+
 // MC follows teacher in gameplay portion to edge 2
+
 
 //Appears if harmonizing while on the way to the edge
 === teacherOnTheWay1 ===
@@ -761,22 +807,125 @@ What do you believe?
 # color: 2b6136
 -> npcStart ->
 NPC: Ahem. Do you mind?
-- ~continueSinging()
+-> npcEnd ->
 ->END
 
 === npcInCenter5 ===    //Eelor
 # color: 6D6787
 -> npcStart ->
 NPC: I'm just standing next to the hole, no big deal.
- -> npcEnd ->
+-> npcEnd ->
 -> END
 
 === npcInCenter6 ===  //(Fonsh)
 #color: 99AFAA
 -> npcStart ->
 NPC: When I am swimming around this column I am filled with... a special feeling.
- -> npcEnd ->
+-> npcEnd ->
 -> END
+
+
+VAR hadChatWithFriend=false
+// Chat with virgin friend to try to establish more info about MC
+=== npcInCenter7 ===
+-> npcStart ->
+NPC: Little rock.
+How's your current?
++   Chilly.
+    NPC: I think it's been getting colder, hasn't it?
++   Just right.
+    NPC: Really?
+    NPC: It seems to me it's been getting colder...
++   Too warm.
+    NPC: In a way, you could say that.
+    To me, it feels it's been much colder than usual.
+- Something isn't right.
+{ hadChatWithFriend:
+    -> chat ->
+- else:
+    NPC: Anyway... Good luck with whatever happens out there.
+    MC: Thanks...
+}
+- -> npcEnd ->
+-> END
+= chat 
+NPC: ...
+Would you like to chat for a little bit?
++   I'm busy.
+    MC: Sorry, I have things to do.
++   Sure.
+    ~ hadChatWithFriend=true
+    MC: We're chatting aren't we?
+    NPC: We are.
+    ...
+    You've been spending a lot of time at the library.
+    MC: I like it there.
+    NPC: Read any good one lately?
+    MC: Same stuff as usual, mostly.
+    NPC: Right.
+    NPC: I don't think it's healthy.
+    The coralnet is for releasing excessive emotions, not for lingering and shutting one's self off.
+    MC: It's good for me. It's--
+    NPC: Yes?
+    MC: It's the only thing I can do anymore. These days.
+    NPC: Well...
+    At least you're not having... 
+    You know. Whatever everyone's been doing lately?
+    MC: You think there's something wrong with it?
+    NPC: Oh? I don't know. I mean, maybe?
+    It's just strange. It's not something that we used to do. I don't know if I trust it.
+    And with people disappearing left and right... Going to whatever the outside is... I don't know.
+    It doesn't flow right with me. This shouldn't be the time to "experiment".
+    What do YOU think?
+    ++  It's odd.
+        MC: It's odd. Um. The things I've been reading on the coralnet...
+        NPC: Yes?
+        MC: I don't know. It rubs me the wrong way. But I still don't really know what it is.
+        NPC: I don't even want to hear about it...
+        MC: Well, it's not that bad.
+        NPC: Huh.
+        MC: Still...
+    ++  I don't know.
+        MC: I have no idea, really. I guess I still don't know much about it.
+        NPC: Yeah, me neither, I guess.
+    ++  It's fine.
+        MC: It's fine. If people like it... I don't see anything wrong with it.
+        NPC: For now.
+        MC: We'll have to see I guess.
+        But...
+    - MC: You're not curious to try it? Even a little bit See what it's about?
+    NPC: No!! Really not.
+    MC: Haha, okay.
+    I'll let you know how it is if I do.
+    NPC: Is there anyone that...?
+    MC: No! No...
+    Well...
+    NPC: Well?
+    MC: There was someone, at the library. I don't know.
+    NPC: Yes??
+    {   
+    - followingTeacher:
+        MC: I'm actually going somewhere with them, right now.
+        NPC: Oh!
+        MC: I don't know. I'm not sure what to expect.
+        NPC: Hmm... I see... Well...
+    - talkedToTeacherAtDiner:
+        MC: They actually want to go with me somewhere.
+        NPC: Oh!
+        And do you...?
+        MC: I don't know. Maybe. I'm not sure what to expect.
+        NPC: I see... Well... If you do...
+    - else:
+        MC: They actually said they'd be at the diner. I was thinking maybe I'd go talk to them again.
+        NPC: Oh? And then what?
+        MC: I don't know. Maybe something could happen...
+        NPC: Hmmm... I see... Well...
+    }
+    Please, don't get eaten? I heard that that's what happens at the end.
+    MC: I'll try not to.
+- ->->
+
+
 
 === npcInDiner1 ===
 # color: 1F7A6E
