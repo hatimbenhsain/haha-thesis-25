@@ -357,6 +357,7 @@ MC: What about your food...?
 Teacher: Oh, someone else will eat it.
 ~ followingTeacher=true
 ~ switchObject("Roadblock - Edge",false)
+~ switchObject("Coral - Edge Tunnel",true)
 ~ nextBrain()
 ~ restoreNPCsVolume()
 ~ pauseTutorial(false)
