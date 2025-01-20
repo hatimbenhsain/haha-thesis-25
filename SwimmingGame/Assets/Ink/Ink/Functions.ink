@@ -31,3 +31,23 @@ EXTERNAL setFMODGlobalParameter(name,value)
 
 === function restoreNPCsVolume()
 ~ setFMODGlobalParameter("npcSingingVolume",1)
+
+
+
+//Colors:
+//Eelor
+//# color: 6D6787
+//Geluu
+//# color: 95B79B
+//Horma
+//# color: 7E0D13
+//Fonsh
+//#color: 99AFAA
+//Shrimptux
+//# color: 1F7A6E
+//Beloo
+//# color: 1d1c29
+//Popero
+//# color: 966382
+//Xrys
+//# color: 2b6136

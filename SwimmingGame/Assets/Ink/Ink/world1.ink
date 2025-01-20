@@ -3,7 +3,12 @@ INCLUDE Functions.ink
 VAR sexIntensity=0
 VAR npcsTalkedTo=0
 VAR coralTalkedTo=0
-VAR coralToTalkToBeforeProgress=3
+VAR coralToTalkToBeforeProgress=4
+VAR followingTeacher=false
+VAR talkedToTeacherAtDiner=false
+VAR retractHandTrigger=false
+VAR libraryOpen=false
+VAR hadChatWithFriend=false
 
 /* CORALNET */
 
@@ -250,6 +255,7 @@ Coralnet: motif: my entanglement
  -> npcStart ->
 Teacher: Sounds amazing, doesn't it?
 ~ switchObject("Roadblock - Library",false)
+~ switchObject("Coral - Library",true)
 ~ libraryOpen=true
 ~ fadeIn()
 MC: What?
@@ -268,11 +274,11 @@ Teacher: ...
 MC: I like to read.
 Teacher: Yes, me too...
 Teacher: Say, it looks like the current is letting up. I could use a bite. Maybe we can continue this conversation at the diner?
-+   No.
++   [No.]
     MC: No. Sorry. I really need to get going.
-+   I don't know.
++   [I don't know.]
     MC: I don't know. I really should get going.
-+   I have other things to do.
++   [I have other things to do.]
     MC: Sorry, I am doing other things. Not at the diner.
 - ~ overrideRotation("Roadblock - Library")
 ~ pauseTutorial(false)
@@ -281,15 +287,13 @@ Teacher: Say, it looks like the current is letting up. I could use a bite. Maybe
 
 // Same I feel like here the rest of the interaction is nice but I feel like MC should be more surprised by the teacher being next to them.
 
-VAR followingTeacher=false
-VAR talkedToTeacherAtDiner=false
+
 
 // MC finds teacher at diner sitting. They start singing when MC gets nearby to invite conversation
 === teacherAtDiner ===
  -> npcStart ->
-{ talkedToTeacherAtDiner:
-    ->chat->
-- else:
+{ 
+- talkedToTeacherAtDiner:
     Teacher: <>
     {stopping:
         - Did you change your mind?
@@ -297,14 +301,18 @@ VAR talkedToTeacherAtDiner=false
         - Are you really really sure you don't wanna go? 
         - ...
     }
-    +   Let's go.
+    Well?
+    +   [Let's go.]
         MC: Yes. Let's go now.
         -> going
-    +   No.
+    +   [No.]
         MC: No.
         Teacher: ...Okay then.
         -> npcEnd ->
         -> END
+- else:
+    ->chat->
+    -> END
 }
 
 = chat
@@ -331,10 +339,10 @@ Teacher: Then I guess I do watch you a little bit.
 Teacher: Would you like to...
 MC: Yeah?
 Teacher: Go somewhere with fewer other people?
-+   Let's go.
++   [Let's go.]
     MC: Sure. Let's go.
     -> going
-+   No.
++   [No.]
     MC: Oh. Uhm...
     Not really.
     Teacher: Ah. Okay.
@@ -480,7 +488,7 @@ MC: Ok.
 ~loadLevel("Main Act 1 - 2")
 -> END
 
-VAR retractHandTrigger=false
+
 //We could definitely cut parts of this if it's too long/too much to program, I tried to give as much choice opportunities as possible
 // I feel like we can definitely see after playtest. But I think we can keep it now its all good stuff to me
 === teacherCuddling ===
@@ -673,26 +681,27 @@ NPC: YOU SEEM REALLY TRUSTWORTHY
 MC: That's good.
 ->->
 
-VAR libraryOpen=false
+
 
 === npcAtLibrary2 ===
-# color: 7E0D13
+# color: 2b6136
 -> npcStart ->
 NPC: I really should stop coming to the library... 
 The current in this corridor always ends up trapping me and I have to wait an ETERNITY before being able to go anywhere else.
 NPC: Ah well, I guess I can catch up on some epics...
 Did you hear the one about how they got their tail stuck in between two copulating clams?
-+ Yes.
++ [Yes.]
     NPC: Isn't it riveting? I'm eager to hear if and how they got out.
     Say, did you read the latest update? Have they gotten out yet?
     No, actually don't tell me! I must find out for myself.
-+ No.
++ [No.]
     NPC: I highly recommend it! It is simply riveting.
     A true tale oƒ patience and woe...
 - -> npcEnd ->
 -> END
 
 === npcAtLibrary3 ===
+# color: 1F7A6E
 -> npcStart ->
 NPC: I hear that the pink coral is supposed to pacify water currents, but this entryway is almost always blocked...
 I wonder if it is a ploy to get us to read more coralnet...
@@ -701,6 +710,7 @@ Of course, the library is free to use so the ploymasters must be highly attentio
 -> END
 
 === npcAtLibrary4 ===
+#color: 99AFAA
 -> npcStart ->
 { libraryOpen==false:
     NPC: Hnnnmnghh... If I focus my psychic energy towards the pink coral... Maybe it will start working again...
@@ -825,37 +835,39 @@ NPC: When I am swimming around this column I am filled with... a special feeling
 -> END
 
 
-VAR hadChatWithFriend=false
+
 // Chat with virgin friend to try to establish more info about MC
 === npcInCenter7 ===
+# color: 95B79B
 -> npcStart ->
 NPC: Little rock.
 How's your current?
-+   Chilly.
++   [Chilly.]
     NPC: I think it's been getting colder, hasn't it?
-+   Just right.
++   [Just right.]
     NPC: Really?
     NPC: It seems to me it's been getting colder...
-+   Too warm.
++   [Too warm.]
     NPC: In a way, you could say that.
     To me, it feels it's been much colder than usual.
 - Something isn't right.
-{ hadChatWithFriend:
-    -> chat ->
-- else:
-    NPC: Anyway... Good luck with whatever happens out there.
-    MC: Thanks...
+{ 
+    - hadChatWithFriend:
+        NPC: Anyway... Good luck with whatever happens out there.
+        MC: Thanks...
+    - else:
+        -> chat ->
 }
 - -> npcEnd ->
 -> END
 = chat 
 NPC: ...
 Would you like to chat for a little bit?
-+   I'm busy.
++   [I'm busy.]
     MC: Sorry, I have things to do.
-+   Sure.
-    ~ hadChatWithFriend=true
++   [Sure.]
     MC: We're chatting aren't we?
+    ~hadChatWithFriend=true
     NPC: We are.
     ...
     You've been spending a lot of time at the library.
@@ -866,8 +878,7 @@ Would you like to chat for a little bit?
     NPC: I don't think it's healthy.
     The coralnet is for releasing excessive emotions, not for lingering and shutting one's self off.
     MC: It's good for me. It's--
-    NPC: Yes?
-    MC: It's the only thing I can do anymore. These days.
+    MC: It's the only thing I feel like doing anymore. These days.
     NPC: Well...
     At least you're not having... 
     You know. Whatever everyone's been doing lately?
@@ -877,7 +888,7 @@ Would you like to chat for a little bit?
     And with people disappearing left and right... Going to whatever the outside is... I don't know.
     It doesn't flow right with me. This shouldn't be the time to "experiment".
     What do YOU think?
-    ++  It's odd.
+    ++  [It's odd.]
         MC: It's odd. Um. The things I've been reading on the coralnet...
         NPC: Yes?
         MC: I don't know. It rubs me the wrong way. But I still don't really know what it is.
@@ -885,15 +896,15 @@ Would you like to chat for a little bit?
         MC: Well, it's not that bad.
         NPC: Huh.
         MC: Still...
-    ++  I don't know.
+    ++  [I don't know.]
         MC: I have no idea, really. I guess I still don't know much about it.
         NPC: Yeah, me neither, I guess.
-    ++  It's fine.
+    ++  [It's fine.]
         MC: It's fine. If people like it... I don't see anything wrong with it.
         NPC: For now.
         MC: We'll have to see I guess.
         But...
-    - MC: You're not curious to try it? Even a little bit See what it's about?
+    -- MC: You're not curious to try it? Even a little bit See what it's about?
     NPC: No!! Really not.
     MC: Haha, okay.
     I'll let you know how it is if I do.
