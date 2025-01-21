@@ -9,6 +9,7 @@ VAR talkedToTeacherAtDiner=false
 VAR retractHandTrigger=false
 VAR libraryOpen=false
 VAR hadChatWithFriend=false
+VAR desireStep=0
 
 /* CORALNET */
 
@@ -25,6 +26,13 @@ VAR hadChatWithFriend=false
 ~ stopSinging()
 ~ pauseTutorial(true)
 ~ muffleNPCsVolume()
+{
+    - desireStep==0:
+        ~desireStep=1
+        ~changeDesire("Read more coralnet.")
+    - desireStep==1:
+        ~changeDesire("Read more coralnet.")
+}
 ->->
 
 === coralnetEnd ===
@@ -283,6 +291,8 @@ Teacher: Say, it looks like the current is letting up. I could use a bite. Maybe
 - ~ overrideRotation("Roadblock - Library")
 ~ pauseTutorial(false)
 ~ restoreNPCsVolume()
+~ desireStep=2
+~ changeDesire("Exit library.")
 -> END
 
 // Same I feel like here the rest of the interaction is nice but I feel like MC should be more surprised by the teacher being next to them.
@@ -338,6 +348,8 @@ Teacher: Then I guess I do watch you a little bit.
 ~pause(4)
 Teacher: Would you like to...
 MC: Yeah?
+~changeDesire("Follow the library stranger.")
+~desireStep=4
 Teacher: Go somewhere with fewer other people?
 +   [Let's go.]
     MC: Sure. Let's go.
@@ -653,6 +665,11 @@ Let me know if you need any help.
     ~finishTutorialPart(6)
 }
 ~continueSinging()
+{
+    - desireStep==0:
+        ~desireStep=1
+        ~changeDesire("Read coralnet.")
+}
 - -> npcEnd ->
 -> END
 
@@ -864,8 +881,6 @@ How's your current?
 = chat 
 NPC: ...
 Would you like to chat for a little bit?
-+   [I'm busy.]
-    MC: Sorry, I have things to do.
 +   [Sure.]
     MC: We're chatting aren't we?
     ~hadChatWithFriend=true
@@ -932,9 +947,13 @@ Would you like to chat for a little bit?
         NPC: Oh? And then what?
         MC: I don't know. Maybe something could happen...
         NPC: Hmmm... I see... Well...
+        ~changeDesire("Find the library stranger in the diner.")
+        ~desireStep=3
     }
     Please, don't get eaten? I heard that that's what happens at the end.
     MC: I'll try not to.
++   [I'm busy.]
+    MC: Sorry, I have things to do.
 - ->->
 
 

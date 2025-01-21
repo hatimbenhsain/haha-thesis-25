@@ -21,6 +21,7 @@ EXTERNAL saveValue(name,value)
 EXTERNAL fadeIn()
 EXTERNAL fadeOut()
 EXTERNAL setFMODGlobalParameter(name,value)
+EXTERNAL changeDesire(text)
 
 === nextBrainKnot ===
 ~ nextBrain()
