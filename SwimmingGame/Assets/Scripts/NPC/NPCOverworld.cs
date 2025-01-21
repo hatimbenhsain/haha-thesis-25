@@ -240,7 +240,7 @@ public class NPCOverworld : MonoBehaviour
         if(distanceFromPlayer<maxProcessingDistance){
             if(!processing){
                 processing=true;
-                body.detectCollisions=false;
+                body.detectCollisions=true;
             }
 
             if(waitForPlayer && distanceFromPlayer>=maxDistanceFromPlayer){

@@ -140,6 +140,7 @@ public class Fish : NPCOverworld
 
     void OnCollisionEnter(Collision other){
         if(other.gameObject.tag=="Player"){
+            Debug.Log("Boop player");
             ChangeMovementBehavior(MovementBehavior.RunFromPlayer);
             awayFromPlayerTimer=0f;
             closeToPlayerTimer=0f;
