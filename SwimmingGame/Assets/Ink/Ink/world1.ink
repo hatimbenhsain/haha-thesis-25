@@ -3,7 +3,13 @@ INCLUDE Functions.ink
 VAR sexIntensity=0
 VAR npcsTalkedTo=0
 VAR coralTalkedTo=0
-VAR coralToTalkToBeforeProgress=3
+VAR coralToTalkToBeforeProgress=4
+VAR followingTeacher=false
+VAR talkedToTeacherAtDiner=false
+VAR retractHandTrigger=false
+VAR libraryOpen=false
+VAR hadChatWithFriend=false
+VAR desireStep=0
 
 /* CORALNET */
 
@@ -20,6 +26,13 @@ VAR coralToTalkToBeforeProgress=3
 ~ stopSinging()
 ~ pauseTutorial(true)
 ~ muffleNPCsVolume()
+{
+    - desireStep==0:
+        ~desireStep=1
+        ~changeDesire("Read more coralnet.")
+    - desireStep==1:
+        ~changeDesire("Read more coralnet.")
+}
 ->->
 
 === coralnetEnd ===
@@ -249,6 +262,9 @@ Coralnet: motif: my entanglement
 === teacherAtLibrary ===
  -> npcStart ->
 Teacher: Sounds amazing, doesn't it?
+~ switchObject("Roadblock - Library",false)
+~ switchObject("Coral - Library",true)
+~ libraryOpen=true
 ~ fadeIn()
 MC: What?
 Teacher: The entanglement. \\pauseYou were reading about it just now, right? Have you done it yet?
@@ -266,18 +282,51 @@ Teacher: ...
 MC: I like to read.
 Teacher: Yes, me too...
 Teacher: Say, it looks like the current is letting up. I could use a bite. Maybe we can continue this conversation at the diner?
-MC: I don't know. I really need to get going.
-~ overrideRotation("Roadblock - Library")
-~ switchObject("Roadblock - Library",false)
++   [No.]
+    MC: No. Sorry. I really need to get going.
++   [I don't know.]
+    MC: I don't know. I really should get going.
++   [I have other things to do.]
+    MC: Sorry, I am doing other things. Not at the diner.
+- ~ overrideRotation("Roadblock - Library")
 ~ pauseTutorial(false)
 ~ restoreNPCsVolume()
+~ desireStep=2
+~ changeDesire("Exit library.")
 -> END
 
 // Same I feel like here the rest of the interaction is nice but I feel like MC should be more surprised by the teacher being next to them.
 
+
+
 // MC finds teacher at diner sitting. They start singing when MC gets nearby to invite conversation
 === teacherAtDiner ===
  -> npcStart ->
+{ 
+- talkedToTeacherAtDiner:
+    Teacher: <>
+    {stopping:
+        - Did you change your mind?
+        - Are you really sure you don't wanna go?
+        - Are you really really sure you don't wanna go? 
+        - ...
+    }
+    Well?
+    +   [Let's go.]
+        MC: Yes. Let's go now.
+        -> going
+    +   [No.]
+        MC: No.
+        Teacher: ...Okay then.
+        -> npcEnd ->
+        -> END
+- else:
+    ->chat->
+    -> END
+}
+
+= chat
+~talkedToTeacherAtDiner=true
 Teacher: I'm surprised you've come to talk to me. 
 Teacher: I must've been really bothersome at the library.
 MC: I was really curt with you.
@@ -299,17 +348,35 @@ Teacher: Then I guess I do watch you a little bit.
 ~pause(4)
 Teacher: Would you like to...
 MC: Yeah?
+~changeDesire("Follow the library stranger.")
+~desireStep=4
 Teacher: Go somewhere with fewer other people?
-MC: Sure.
-Teacher: Ok. Follow me. I'll show you one of my favorite places.
++   [Let's go.]
+    MC: Sure. Let's go.
+    -> going
++   [No.]
+    MC: Oh. Uhm...
+    Not really.
+    Teacher: Ah. Okay.
+    ~pause(2)
+    Let me know if you change your mind.
+    -> npcEnd ->
+- ->->
+
+= going
+Teacher: Okay. Follow me. I'll show you one of my favorite places.
 MC: What about your food...?
 Teacher: Oh, someone else will eat it.
+~ followingTeacher=true
 ~ switchObject("Roadblock - Edge",false)
+~ switchObject("Coral - Edge Tunnel",true)
 ~ nextBrain()
 ~ restoreNPCsVolume()
 ~ pauseTutorial(false)
 -> END
+
 // MC follows teacher in gameplay portion to edge 2
+
 
 //Appears if harmonizing while on the way to the edge
 === teacherOnTheWay1 ===
@@ -434,7 +501,7 @@ MC: Ok.
 ~loadLevel("Main Act 1 - 2")
 -> END
 
-VAR retractHandTrigger=false
+
 //We could definitely cut parts of this if it's too long/too much to program, I tried to give as much choice opportunities as possible
 // I feel like we can definitely see after playtest. But I think we can keep it now its all good stuff to me
 === teacherCuddling ===
@@ -598,6 +665,11 @@ Let me know if you need any help.
     ~finishTutorialPart(6)
 }
 ~continueSinging()
+{
+    - desireStep==0:
+        ~desireStep=1
+        ~changeDesire("Read coralnet.")
+}
 - -> npcEnd ->
 -> END
 
@@ -627,26 +699,27 @@ NPC: YOU SEEM REALLY TRUSTWORTHY
 MC: That's good.
 ->->
 
-VAR libraryOpen=false
+
 
 === npcAtLibrary2 ===
-# color: 7E0D13
+# color: 2b6136
 -> npcStart ->
 NPC: I really should stop coming to the library... 
 The current in this corridor always ends up trapping me and I have to wait an ETERNITY before being able to go anywhere else.
 NPC: Ah well, I guess I can catch up on some epics...
 Did you hear the one about how they got their tail stuck in between two copulating clams?
-+ Yes.
++ [Yes.]
     NPC: Isn't it riveting? I'm eager to hear if and how they got out.
     Say, did you read the latest update? Have they gotten out yet?
     No, actually don't tell me! I must find out for myself.
-+ No.
++ [No.]
     NPC: I highly recommend it! It is simply riveting.
     A true tale oƒ patience and woe...
 - -> npcEnd ->
 -> END
 
 === npcAtLibrary3 ===
+# color: 1F7A6E
 -> npcStart ->
 NPC: I hear that the pink coral is supposed to pacify water currents, but this entryway is almost always blocked...
 I wonder if it is a ploy to get us to read more coralnet...
@@ -655,6 +728,7 @@ Of course, the library is free to use so the ploymasters must be highly attentio
 -> END
 
 === npcAtLibrary4 ===
+#color: 99AFAA
 -> npcStart ->
 { libraryOpen==false:
     NPC: Hnnnmnghh... If I focus my psychic energy towards the pink coral... Maybe it will start working again...
@@ -761,22 +835,128 @@ What do you believe?
 # color: 2b6136
 -> npcStart ->
 NPC: Ahem. Do you mind?
-- ~continueSinging()
+-> npcEnd ->
 ->END
 
 === npcInCenter5 ===    //Eelor
 # color: 6D6787
 -> npcStart ->
 NPC: I'm just standing next to the hole, no big deal.
- -> npcEnd ->
+-> npcEnd ->
 -> END
 
 === npcInCenter6 ===  //(Fonsh)
 #color: 99AFAA
 -> npcStart ->
 NPC: When I am swimming around this column I am filled with... a special feeling.
- -> npcEnd ->
+-> npcEnd ->
 -> END
+
+
+
+// Chat with virgin friend to try to establish more info about MC
+=== npcInCenter7 ===
+# color: 95B79B
+-> npcStart ->
+NPC: Little rock.
+How's your current?
++   [Chilly.]
+    NPC: I think it's been getting colder, hasn't it?
++   [Just right.]
+    NPC: Really?
+    NPC: It seems to me it's been getting colder...
++   [Too warm.]
+    NPC: In a way, you could say that.
+    To me, it feels it's been much colder than usual.
+- Something isn't right.
+{ 
+    - hadChatWithFriend:
+        NPC: Anyway... Good luck with whatever happens out there.
+        MC: Thanks...
+    - else:
+        -> chat ->
+}
+- -> npcEnd ->
+-> END
+= chat 
+NPC: ...
+Would you like to chat for a little bit?
++   [Sure.]
+    MC: We're chatting aren't we?
+    ~hadChatWithFriend=true
+    NPC: We are.
+    ...
+    You've been spending a lot of time at the library.
+    MC: I like it there.
+    NPC: Read any good one lately?
+    MC: Same stuff as usual, mostly.
+    NPC: Right.
+    NPC: I don't think it's healthy.
+    The coralnet is for releasing excessive emotions, not for lingering and shutting one's self off.
+    MC: It's good for me. It's--
+    MC: It's the only thing I feel like doing anymore. These days.
+    NPC: Well...
+    At least you're not having... 
+    You know. Whatever everyone's been doing lately?
+    MC: You think there's something wrong with it?
+    NPC: Oh? I don't know. I mean, maybe?
+    It's just strange. It's not something that we used to do. I don't know if I trust it.
+    And with people disappearing left and right... Going to whatever the outside is... I don't know.
+    It doesn't flow right with me. This shouldn't be the time to "experiment".
+    What do YOU think?
+    ++  [It's odd.]
+        MC: It's odd. Um. The things I've been reading on the coralnet...
+        NPC: Yes?
+        MC: I don't know. It rubs me the wrong way. But I still don't really know what it is.
+        NPC: I don't even want to hear about it...
+        MC: Well, it's not that bad.
+        NPC: Huh.
+        MC: Still...
+    ++  [I don't know.]
+        MC: I have no idea, really. I guess I still don't know much about it.
+        NPC: Yeah, me neither, I guess.
+    ++  [It's fine.]
+        MC: It's fine. If people like it... I don't see anything wrong with it.
+        NPC: For now.
+        MC: We'll have to see I guess.
+        But...
+    -- MC: You're not curious to try it? Even a little bit See what it's about?
+    NPC: No!! Really not.
+    MC: Haha, okay.
+    I'll let you know how it is if I do.
+    NPC: Is there anyone that...?
+    MC: No! No...
+    Well...
+    NPC: Well?
+    MC: There was someone, at the library. I don't know.
+    NPC: Yes??
+    {   
+    - followingTeacher:
+        MC: I'm actually going somewhere with them, right now.
+        NPC: Oh!
+        MC: I don't know. I'm not sure what to expect.
+        NPC: Hmm... I see... Well...
+    - talkedToTeacherAtDiner:
+        MC: They actually want to go with me somewhere.
+        NPC: Oh!
+        And do you...?
+        MC: I don't know. Maybe. I'm not sure what to expect.
+        NPC: I see... Well... If you do...
+    - else:
+        MC: They actually said they'd be at the diner. I was thinking maybe I'd go talk to them again.
+        NPC: Oh? And then what?
+        MC: I don't know. Maybe something could happen...
+        NPC: Hmmm... I see... Well...
+        ~changeDesire("Find the library stranger in the diner.")
+        ~desireStep=3
+    }
+    Please, don't get eaten? I heard that that's what happens at the end.
+    MC: I'll try not to.
++   [I'm busy.]
+    MC: Sorry, I have things to do.
+- ->->
+
+
 
 === npcInDiner1 ===
 # color: 1F7A6E

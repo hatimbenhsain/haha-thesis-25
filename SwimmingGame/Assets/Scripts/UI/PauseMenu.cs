@@ -38,6 +38,8 @@ public class PauseMenu : MonoBehaviour
     private UnityEvent[] events;
 
     FMOD.Studio.Bus masterBus;
+
+    public TMP_Text desireText;
     
 
     // Start is called before the first frame update
@@ -307,5 +309,9 @@ public class PauseMenu : MonoBehaviour
         float v;
         masterBus.getVolume(out v);
         PlayerPrefs.SetFloat("soundLevel",v);
+    }
+
+    public void ChangeDesire(string s){
+        desireText.text=s;
     }
 }
