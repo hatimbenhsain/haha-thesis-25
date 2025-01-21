@@ -240,7 +240,7 @@ public class NPCOverworld : MonoBehaviour
         if(distanceFromPlayer<maxProcessingDistance){
             if(!processing){
                 processing=true;
-                body.detectCollisions=false;
+                body.detectCollisions=true;
             }
 
             if(waitForPlayer && distanceFromPlayer>=maxDistanceFromPlayer){
@@ -397,7 +397,9 @@ public class NPCOverworld : MonoBehaviour
                     float modifier=1-(Mathf.Clamp(Quaternion.Angle(body.transform.rotation,targetRotation)-25f,0f,45f)/45f);
                     velocity+=body.transform.forward*acceleration*Time.fixedDeltaTime*modifier;
                 }
-                animator.SetBool("swimming",true);
+                float playerAngle=Vector3.Angle(transform.forward,player.transform.forward);
+                if(playerAngle<90f) animator.SetBool("swimming",true);
+                else animator.SetBool("swimming",false);
             }else{
                 animator.SetBool("swimming",false);
                 boostTimer=boostTime+1f;

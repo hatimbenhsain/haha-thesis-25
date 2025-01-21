@@ -570,6 +570,9 @@ public class Dialogue : MonoBehaviour
         story.BindExternalFunction("setFMODGlobalParameter",(string name, float value)=>{
             SetFMODGlobalParameter(name, value);
         });
+        story.BindExternalFunction("changeDesire",(string text)=>{
+            ChangeDesire(text);
+        });
     }
 
     // EXTERNAL FUNCTIONS
@@ -736,6 +739,10 @@ public class Dialogue : MonoBehaviour
 
     void SetFMODGlobalParameter(string name, float value){
         FMODUnity.RuntimeManager.StudioSystem.setParameterByName(name,value);
+    }
+
+    void ChangeDesire(string text){
+        FindObjectOfType<PauseMenu>().ChangeDesire(text);
     }
 
 }
