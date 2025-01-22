@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Security.Cryptography;
 using Cinemachine;
+using Unity.PlasticSCM.Editor.UI;
 using Unity.VisualScripting;
 using UnityEditor.Rendering;
 using UnityEngine;
@@ -23,6 +24,10 @@ public class Swimmer : MonoBehaviour
     [Tooltip("Can't dash when moving faster than this in dash direction.")]
     public float maxDashSpeed=5f;
     public float dashCooldownTime=0.3f;
+    [Tooltip("Register input and play it next if within this window of cooldown.")]
+    public float dashCooldownWindow=0.15f;
+    [Tooltip("How many dashes can be charged")]
+    public int maxDashes=3;
     private float dashTimer=1f; //time since last dash
     private Directions prevDashDirection;
     private Directions savedDashDirection; //Save input if clicking during cooldown
@@ -112,6 +117,9 @@ public class Swimmer : MonoBehaviour
 
     [Tooltip("Speed to lerp the color of the sprite, when dashing for e.g.")]
     public float colorLerpSpeed=5f;
+    [Tooltip("Value for color of sprite when cooling down for dash.")]
+    [Range(0f,1f)]
+    public float dashCooldownColorValue=2/3f;
 
     void Start()
     {
@@ -149,30 +157,32 @@ public class Swimmer : MonoBehaviour
         // We take the input if past the timer OR going in opposite direction, to allow cancel
         if(((playerInput.movingUp && !playerInput.prevMovingUp) || (savedDashDirection==Directions.UP)) && (dashTimer>dashCooldownTime || prevDashDirection==Directions.DOWN)){
             DashInput(Directions.UP);
-        }else if(playerInput.movingUp && !playerInput.prevMovingUp && dashTimer>=dashCooldownTime*2f/3f){
+        }else if(playerInput.movingUp && !playerInput.prevMovingUp && dashTimer-dashCooldownTime>=dashCooldownWindow){
             savedDashDirection=Directions.UP;
         }
         if(((playerInput.movingDown && !playerInput.prevMovingDown) || (savedDashDirection==Directions.DOWN)) && (dashTimer>dashCooldownTime || prevDashDirection==Directions.UP)){
             DashInput(Directions.DOWN);
-        }else if(playerInput.movingDown && !playerInput.prevMovingDown && dashTimer>=dashCooldownTime*2f/3f){
+        }else if(playerInput.movingDown && !playerInput.prevMovingDown && dashTimer-dashCooldownTime>=dashCooldownWindow){
             savedDashDirection=Directions.DOWN;
         }
         if(((playerInput.movingLeft && !playerInput.prevMovingLeft) || (savedDashDirection==Directions.LEFT)) && (dashTimer>dashCooldownTime || prevDashDirection==Directions.RIGHT)){
             DashInput(Directions.LEFT);
-        }else if(playerInput.movingLeft && !playerInput.prevMovingLeft && dashTimer>=dashCooldownTime*2f/3f){
+        }else if(playerInput.movingLeft && !playerInput.prevMovingLeft && dashTimer-dashCooldownTime>=dashCooldownWindow){
             savedDashDirection=Directions.LEFT;
         }
         if(((playerInput.movingRight && !playerInput.prevMovingRight) || (savedDashDirection==Directions.RIGHT)) && (dashTimer>dashCooldownTime || prevDashDirection==Directions.LEFT)){
             DashInput(Directions.RIGHT);
-        }else if(playerInput.movingRight && !playerInput.prevMovingRight && dashTimer>=dashCooldownTime*2f/3f){
+        }else if(playerInput.movingRight && !playerInput.prevMovingRight && dashTimer-dashCooldownTime>=dashCooldownWindow){
             savedDashDirection=Directions.RIGHT;
         }
         dashTimer+=Time.deltaTime;
 
-        if(dashTimer>dashCooldownTime){
+        if(dashTimer>dashCooldownTime*maxDashes){
             spriteRenderer.material.color=Color.Lerp(spriteRenderer.material.color,Color.white,Time.deltaTime*colorLerpSpeed);
         }else{
-            spriteRenderer.material.color=Color.Lerp(spriteRenderer.material.color,new Color(0.75f,0.75f,0.75f),Time.deltaTime*colorLerpSpeed);
+            float v=dashCooldownColorValue;
+            v=v+(1f-v)*Mathf.Floor(dashTimer-dashCooldownTime)/maxDashes;
+            spriteRenderer.material.color=Color.Lerp(spriteRenderer.material.color,new Color(v,v,v),Time.deltaTime*colorLerpSpeed);
         }
 
 
@@ -184,7 +194,8 @@ public class Swimmer : MonoBehaviour
 
     void DashInput(Directions d){
         dashDirection=d;
-        dashTimer=0f;
+        dashTimer=Mathf.Clamp(dashTimer,dashCooldownTime,dashCooldownTime*maxDashes);
+        dashTimer-=dashCooldownTime;
         savedDashDirection=Directions.NULL;
     }
 
