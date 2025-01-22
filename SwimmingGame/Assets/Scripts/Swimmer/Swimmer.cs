@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Security.Cryptography;
 using Cinemachine;
+using UnityEditor.Rendering;
 using UnityEngine;
 using UnityEngine.Timeline;
 
@@ -16,6 +17,9 @@ public class Swimmer : MonoBehaviour
     public float deceleration=5f;
     public float lateralAcceleration=1f;
     public float lateralMaxVelocity=5f;
+    [Tooltip("Dash when moving laterally (up/down/left/right with D-Pad)")]
+    public float dashSpeed=1f;
+    private Directions dashDirection=Directions.NULL;
 
     [Tooltip("Instant speed gain at the end of a stroke")]
     public float boostSpeed=1f;
@@ -39,6 +43,8 @@ public class Swimmer : MonoBehaviour
     [Header("Rotation")]
     public bool canRotate=true;
     public float rotationAcceleration=180f;
+    [Tooltip("If at top speed, multiply rotation acceleration by this factor")]
+    public float rotationVelocityFactor=2f;
     public float rotationMaxVelocity=180f;
     private Vector3 rotationVelocity=Vector3.zero;
     public float rotationDeceleration=180f;
@@ -95,6 +101,8 @@ public class Swimmer : MonoBehaviour
 
     public Transform respawnTransform;
 
+    private SwimmerTrails swimmerTrails;
+
     void Start()
     {
         controller=GetComponent<CharacterController>();
@@ -105,6 +113,7 @@ public class Swimmer : MonoBehaviour
         capsule=GetComponentInChildren<CapsuleCollider>();
         swimmerCamera=GetComponent<SwimmerCamera>();
         swimmerSound=GetComponent<SwimmerSound>();
+        swimmerTrails=GetComponentInChildren<SwimmerTrails>();
 
         Cursor.lockState = CursorLockMode.Locked;  // Locks the cursor to the center of the screen
 
@@ -125,6 +134,20 @@ public class Swimmer : MonoBehaviour
                 kickbackTimer=0f;
             }
         }
+        if(playerInput.movingUp && !playerInput.prevMovingUp){
+            dashDirection=Directions.UP;
+        }
+        if(playerInput.movingDown && !playerInput.prevMovingDown){
+            dashDirection=Directions.DOWN;
+        }
+        if(playerInput.movingLeft && !playerInput.prevMovingLeft){
+            dashDirection=Directions.LEFT;
+        }
+        if(playerInput.movingRight && !playerInput.prevMovingRight){
+            dashDirection=Directions.RIGHT;
+        }
+
+
 
         if(Input.GetKeyDown(KeyCode.R) && (Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift))){
             Respawn();
@@ -176,7 +199,10 @@ public class Swimmer : MonoBehaviour
                 }
 
                 if(playerInput.look!=Vector2.zero){//Setting rotation speed
-                    rotationVelocity+=new Vector3(playerInput.look.y,playerInput.look.x,0f)*rotationAcceleration*Time.fixedDeltaTime;
+                    float acceleration=rotationAcceleration;
+                    float f=Mathf.Clamp(playerVelocity.magnitude/maxVelocity,0f,1f);
+                    acceleration=acceleration+acceleration*f*(rotationVelocityFactor-1f);
+                    rotationVelocity+=new Vector3(playerInput.look.y,playerInput.look.x,0f)*acceleration*Time.fixedDeltaTime;
                     if(kickbackTimer>=1f) rotationVelocity=Vector3.ClampMagnitude(rotationVelocity,rotationMaxVelocity);
                     else rotationVelocity=Vector3.Lerp(rotationVelocity,Vector3.ClampMagnitude(rotationVelocity,rotationMaxVelocity),Time.fixedDeltaTime*rotationOverrideRestoreSpeed);
                 }
@@ -352,12 +378,33 @@ public class Swimmer : MonoBehaviour
                 playerVelocity+=transform.right*lateralAcceleration*Time.fixedDeltaTime;
             }
 
+            // Lateral Dash
+            if(dashDirection==Directions.LEFT){
+                playerVelocity-=dashSpeed*transform.right;
+                DashAnimation(playerVelocity);
+            }
+            if(dashDirection==Directions.RIGHT){
+                playerVelocity+=dashSpeed*transform.right;
+                DashAnimation(playerVelocity);
+            }
+
             //Vertical movement
             if(playerInput.movingUp && !playerInput.movingDown && Mathf.Abs((body.rotation*playerVelocity).y)<lateralMaxVelocity){
                 playerVelocity+=transform.up*lateralAcceleration*Time.deltaTime;
             }else if(playerInput.movingDown && !playerInput.movingUp && Mathf.Abs((body.rotation*playerVelocity).y)<lateralMaxVelocity){
                 playerVelocity+=-transform.up*lateralAcceleration*Time.fixedDeltaTime;
             }
+
+            // Vertical Dash
+            if(dashDirection==Directions.UP){
+                playerVelocity+=dashSpeed*transform.up;
+                DashAnimation(playerVelocity);
+            }
+            if(dashDirection==Directions.DOWN){
+                playerVelocity-=dashSpeed*transform.up;
+                DashAnimation(playerVelocity);
+            }
+
         }else{
             animator.SetBool("swimmingForward",false);
             animator.SetBool("swimmingBackward",false);
@@ -383,6 +430,8 @@ public class Swimmer : MonoBehaviour
             swimmerSound.StopSwimming();
         }
 
+        dashDirection=Directions.NULL;
+
         prevVelocity=body.velocity;
 
         allHits.Clear();
@@ -407,6 +456,30 @@ public class Swimmer : MonoBehaviour
     //Things to animate right after boost happens
     void BoostAnimation(){
         swimmerCamera.BoostAnimation();
+    }
+
+    //Things to animate right after Dash happens
+    void DashAnimation(Vector3 playerVelocity){
+        BoostAnimation();
+        Vector3 projectVector=transform.right;
+        switch(dashDirection){
+            case Directions.UP:
+                projectVector=transform.up;
+                break;
+            case Directions.DOWN:
+                projectVector=-transform.up;
+                break;
+            case Directions.LEFT:
+                projectVector=-transform.right;
+                break;
+            case Directions.RIGHT:
+                projectVector=transform.right;
+                break;
+        }
+        Vector3 projectedVector=Vector3.Project(playerVelocity,projectVector);
+        if(projectedVector.normalized==projectVector.normalized){
+            swimmerTrails.DashTrail(dashDirection,projectedVector.magnitude);
+        }
     }
 
     private void OnCollisionStay(Collision other) {
@@ -606,6 +679,14 @@ public class Swimmer : MonoBehaviour
         swimmerCamera.ResetCamera();
         FindObjectOfType<LevelLoader>().FadeIn();
     }
+}
+
+public enum Directions{
+    NULL,
+    UP,
+    DOWN,
+    LEFT,
+    RIGHT
 }
 
 

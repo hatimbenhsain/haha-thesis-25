@@ -14,6 +14,12 @@ public class SwimmerTrails : MonoBehaviour
     public float[] maxSpeeds;
     private float[] defaultRatesOverTime;
 
+    public GameObject[] pixelLinesHorizontal;
+    public GameObject[] pixelLinesVertical;
+    public float pixelLineMaxStretch=3f;
+    public float pixelLineMinSpeed=1f;
+    public float pixelLineMaxSpeed=3f;
+
     void Start()
     {
         swimmer=FindObjectOfType<Swimmer>();
@@ -38,5 +44,27 @@ public class SwimmerTrails : MonoBehaviour
         var r=Mathf.Clamp(velocity,minSpeed,maxSpeed);
         r=(r-minSpeed)/(maxSpeed-minSpeed);
         emission.rateOverTime=Mathf.Clamp(r*defaultRateOverTime,0,defaultRateOverTime);
+    }
+
+    public void DashTrail(Directions direction=Directions.RIGHT,float speed=1f){
+        if(speed>pixelLineMinSpeed){
+            GameObject pl;
+            if(direction==Directions.UP || direction==Directions.DOWN) pl=pixelLinesVertical[Random.Range(0,pixelLinesVertical.Length)];
+            else pl=pixelLinesHorizontal[Random.Range(0,pixelLinesHorizontal.Length)];
+            GameObject g=Instantiate(pl,pl.transform.position,pl.transform.rotation);
+            g.transform.SetParent(transform.parent.parent);
+            Vector3 scale=g.transform.localScale;
+            scale.x=scale.x*(1f+(pixelLineMaxStretch-1f)*Mathf.Clamp((speed-pixelLineMinSpeed)/(pixelLineMaxSpeed-pixelLineMinSpeed),0f,1f));
+            switch(direction){
+                case Directions.LEFT:
+                    scale=new Vector3(-scale.x,scale.y,scale.z);
+                    break;
+                case Directions.UP:
+                    scale=new Vector3(-scale.x,scale.y,scale.z);
+                    break;
+            }
+            g.transform.localScale=scale;
+            g.SetActive(true);
+        }
     }
 }
