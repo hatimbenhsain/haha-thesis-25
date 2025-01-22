@@ -20197,6 +20197,8 @@ MonoBehaviour:
   lateralAcceleration: 3
   lateralMaxVelocity: 1.5
   dashSpeed: 1.5
+  maxDashSpeed: 20
+  dashCooldownTime: 0.3
   boostSpeed: 1.5
   coastingSpeed: 3
   boostTimer: 0
@@ -20226,6 +20228,7 @@ MonoBehaviour:
     type: 3}
   maxKickbackPressingTime: 0.3
   respawnTransform: {fileID: 0}
+  colorLerpSpeed: 5
 --- !u!95 &5373492974550926125
 Animator:
   serializedVersion: 5
@@ -30321,7 +30324,7 @@ MonoBehaviour:
   pixelLinesHorizontal: []
   pixelLinesVertical: []
   pixelLineMaxStretch: 3
-  pixelLineMinSpeed: 1
+  pixelLineMinSpeed: 1.6
   pixelLineMaxSpeed: 3
 --- !u!1 &6093123650888756568
 GameObject:

@@ -29,6 +29,11 @@ public class SwimmerSound : Sound
         PlayOneShotVolume("event:/Swimming/Kick",masterVolume);
     }
 
+    public void Dash(){
+        PlayOneShotVolume("event:/Swimming/Dash",masterVolume);
+    }
+
+
     public void StartSwimming(float speed){
         if(!IsPlaying(ambientSwimmingInstance)){
             ambientSwimmingInstance.start();
