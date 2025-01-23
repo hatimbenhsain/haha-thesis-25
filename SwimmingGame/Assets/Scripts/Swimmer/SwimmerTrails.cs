@@ -52,6 +52,12 @@ public class SwimmerTrails : MonoBehaviour
             if(direction==Directions.UP || direction==Directions.DOWN) pl=pixelLinesVertical[Random.Range(0,pixelLinesVertical.Length)];
             else pl=pixelLinesHorizontal[Random.Range(0,pixelLinesHorizontal.Length)];
             GameObject g=Instantiate(pl,pl.transform.position,pl.transform.rotation);
+            g.transform.SetParent(pl.transform.parent);
+            if(direction==Directions.RIGHT){
+                g.transform.localPosition=new Vector3(-g.transform.localPosition.x,g.transform.localPosition.y,g.transform.localPosition.z);
+            }else if(direction==Directions.DOWN){
+                g.transform.localPosition=new Vector3(g.transform.localPosition.x,-g.transform.localPosition.y,g.transform.localPosition.z);
+            }
             g.transform.SetParent(transform.parent.parent);
             Vector3 scale=g.transform.localScale;
             scale.x=scale.x*(1f+(pixelLineMaxStretch-1f)*Mathf.Clamp((speed-pixelLineMinSpeed)/(pixelLineMaxSpeed-pixelLineMinSpeed),0f,1f));

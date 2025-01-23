@@ -8,13 +8,15 @@ public class DestroyAfter : MonoBehaviour
     private float timer;
 
     public bool fadeOut=false;
+    public bool fadeIn=false;
+    public float fadeInTime=0f;
     private SpriteRenderer spriteRenderer;
     private float originalOpacity;
     // Start is called before the first frame update
     void Start()
     {
         timer=0f;
-        if(fadeOut){
+        if(fadeOut || fadeIn){
             spriteRenderer=GetComponentInChildren<SpriteRenderer>();
             originalOpacity=spriteRenderer.color.a;
         }
@@ -24,9 +26,14 @@ public class DestroyAfter : MonoBehaviour
     void Update()
     {
         timer+=Time.deltaTime;
-        if(fadeOut){
+        if(fadeIn){
             Color c=spriteRenderer.color;
-            c.a=originalOpacity*(1f-timer/time);
+            c.a=originalOpacity*timer/fadeInTime;
+            spriteRenderer.color=c;
+        }
+        if(fadeOut && (!fadeIn || timer>fadeInTime)){
+            Color c=spriteRenderer.color;
+            c.a=originalOpacity*(1f-(timer-fadeInTime)/(time-fadeInTime));
             spriteRenderer.color=c;
         }
         if(timer>=time){

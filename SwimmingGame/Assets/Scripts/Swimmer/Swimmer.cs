@@ -96,6 +96,7 @@ public class Swimmer : MonoBehaviour
 
     [Header("Misc.")]
     public GameObject dustCloudPrefab;
+    public GameObject afterimageSprite;
     private Vector3 prevVelocity;
 
     ArrayList allHits=new ArrayList();
@@ -530,6 +531,9 @@ public class Swimmer : MonoBehaviour
         if(projectedVector.normalized==projectVector.normalized){
             swimmerTrails.DashTrail(dashDirection,projectedVector.magnitude);
         }
+        GameObject g=Instantiate(afterimageSprite,afterimageSprite.transform.position,afterimageSprite.transform.rotation);
+        g.SetActive(true);
+        g.GetComponent<SpriteRenderer>().sprite=spriteRenderer.sprite;
     }
 
     private void OnCollisionStay(Collision other) {
