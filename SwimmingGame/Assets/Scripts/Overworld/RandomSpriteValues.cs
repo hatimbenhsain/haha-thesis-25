@@ -29,7 +29,7 @@ public class RandomSpriteValues : MonoBehaviour
 
         if(randomizeScale){
             float s=Random.Range(minScale,maxScale);
-            transform.localScale=Vector3.one*s;
+            transform.localScale=transform.localScale*s;
             if(normalizeY){
                 Vector3 pos=transform.localPosition;
                 pos.y+=(s-1f)/2f;
