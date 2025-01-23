@@ -15,6 +15,9 @@ public class MigrationNPC : MonoBehaviour
     public MigrationGenerator migrationGenerator;
     public GameObject path;
 
+    public GameObject particleSystem;
+    public float particleSystemLikeliness=0.2f;
+
     void Start()
     {
         SpriteRenderer spriteRenderer=GetComponentInChildren<SpriteRenderer>();
@@ -25,6 +28,10 @@ public class MigrationNPC : MonoBehaviour
         GetComponentInChildren<SpriteLibrary>().spriteLibraryAsset=spriteLibraryAssets[Random.Range(0,spriteLibraryAssets.Length)];
         float s=Random.Range(0.9f,1.5f);
         spriteRenderer.transform.localScale=Vector3.one*s;
+
+        if(Random.Range(0f,1f)<=particleSystemLikeliness){
+            particleSystem.SetActive(true);
+        }
     }
 
     // Update is called once per frame

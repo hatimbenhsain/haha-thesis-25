@@ -495,8 +495,12 @@ public class NPCOverworld : MonoBehaviour
                 }
                 break;
             case MovementBehavior.FollowLeader:
-                targetPosition=leader.position;
-                targetRotation=Quaternion.LookRotation(targetPosition-body.transform.position,Vector3.up);
+                if(leader!=null){
+                    targetPosition=leader.position;
+                    targetRotation=Quaternion.LookRotation(targetPosition-body.transform.position,Vector3.up);
+                }else{
+                    Debug.LogWarning("Trying to follow leader but leaderless.");
+                }
                 break;
             case MovementBehavior.RunFromPlayer:
                 float distanceFromPlayer=Vector3.Distance(player.transform.position,body.position);
