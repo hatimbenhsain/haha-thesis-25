@@ -2,6 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Security.Cryptography;
 using Cinemachine;
+using Unity.PlasticSCM.Editor.UI;
+using Unity.VisualScripting;
+using UnityEditor.Rendering;
 using UnityEngine;
 using UnityEngine.Timeline;
 
@@ -16,6 +19,19 @@ public class Swimmer : MonoBehaviour
     public float deceleration=5f;
     public float lateralAcceleration=1f;
     public float lateralMaxVelocity=5f;
+    [Tooltip("Dash when moving laterally (up/down/left/right with D-Pad)")]
+    public float dashSpeed=1f;
+    [Tooltip("Can't dash when moving faster than this in dash direction.")]
+    public float maxDashSpeed=5f;
+    public float dashCooldownTime=0.3f;
+    [Tooltip("Register input and play it next if within this window of cooldown.")]
+    public float dashCooldownWindow=0.15f;
+    [Tooltip("How many dashes can be charged")]
+    public int maxDashes=3;
+    private float dashTimer=1f; //time since last dash
+    private Directions prevDashDirection;
+    private Directions savedDashDirection; //Save input if clicking during cooldown
+    private Directions dashDirection=Directions.NULL;
 
     [Tooltip("Instant speed gain at the end of a stroke")]
     public float boostSpeed=1f;
@@ -39,6 +55,8 @@ public class Swimmer : MonoBehaviour
     [Header("Rotation")]
     public bool canRotate=true;
     public float rotationAcceleration=180f;
+    [Tooltip("If at top speed, multiply rotation acceleration by this factor")]
+    public float rotationVelocityFactor=2f;
     public float rotationMaxVelocity=180f;
     private Vector3 rotationVelocity=Vector3.zero;
     public float rotationDeceleration=180f;
@@ -78,6 +96,7 @@ public class Swimmer : MonoBehaviour
 
     [Header("Misc.")]
     public GameObject dustCloudPrefab;
+    public GameObject afterimageSprite;
     private Vector3 prevVelocity;
 
     ArrayList allHits=new ArrayList();
@@ -95,6 +114,14 @@ public class Swimmer : MonoBehaviour
 
     public Transform respawnTransform;
 
+    private SwimmerTrails swimmerTrails;
+
+    [Tooltip("Speed to lerp the color of the sprite, when dashing for e.g.")]
+    public float colorLerpSpeed=5f;
+    [Tooltip("Value for color of sprite when cooling down for dash.")]
+    [Range(0f,1f)]
+    public float dashCooldownColorValue=2/3f;
+
     void Start()
     {
         controller=GetComponent<CharacterController>();
@@ -105,6 +132,7 @@ public class Swimmer : MonoBehaviour
         capsule=GetComponentInChildren<CapsuleCollider>();
         swimmerCamera=GetComponent<SwimmerCamera>();
         swimmerSound=GetComponent<SwimmerSound>();
+        swimmerTrails=GetComponentInChildren<SwimmerTrails>();
 
         Cursor.lockState = CursorLockMode.Locked;  // Locks the cursor to the center of the screen
 
@@ -125,10 +153,51 @@ public class Swimmer : MonoBehaviour
                 kickbackTimer=0f;
             }
         }
+        
+        // Dash input
+        // We take the input if past the timer OR going in opposite direction, to allow cancel
+        if(((playerInput.movingUp && !playerInput.prevMovingUp) || (savedDashDirection==Directions.UP)) && (dashTimer>dashCooldownTime || prevDashDirection==Directions.DOWN)){
+            DashInput(Directions.UP);
+        }else if(playerInput.movingUp && !playerInput.prevMovingUp && dashTimer-dashCooldownTime>=dashCooldownWindow){
+            savedDashDirection=Directions.UP;
+        }
+        if(((playerInput.movingDown && !playerInput.prevMovingDown) || (savedDashDirection==Directions.DOWN)) && (dashTimer>dashCooldownTime || prevDashDirection==Directions.UP)){
+            DashInput(Directions.DOWN);
+        }else if(playerInput.movingDown && !playerInput.prevMovingDown && dashTimer-dashCooldownTime>=dashCooldownWindow){
+            savedDashDirection=Directions.DOWN;
+        }
+        if(((playerInput.movingLeft && !playerInput.prevMovingLeft) || (savedDashDirection==Directions.LEFT)) && (dashTimer>dashCooldownTime || prevDashDirection==Directions.RIGHT)){
+            DashInput(Directions.LEFT);
+        }else if(playerInput.movingLeft && !playerInput.prevMovingLeft && dashTimer-dashCooldownTime>=dashCooldownWindow){
+            savedDashDirection=Directions.LEFT;
+        }
+        if(((playerInput.movingRight && !playerInput.prevMovingRight) || (savedDashDirection==Directions.RIGHT)) && (dashTimer>dashCooldownTime || prevDashDirection==Directions.LEFT)){
+            DashInput(Directions.RIGHT);
+        }else if(playerInput.movingRight && !playerInput.prevMovingRight && dashTimer-dashCooldownTime>=dashCooldownWindow){
+            savedDashDirection=Directions.RIGHT;
+        }
+        dashTimer+=Time.deltaTime;
+
+        if(dashTimer>dashCooldownTime*maxDashes){
+            spriteRenderer.material.color=Color.Lerp(spriteRenderer.material.color,Color.white,Time.deltaTime*colorLerpSpeed);
+        }else{
+            float v=dashCooldownColorValue;
+            v=v+(1f-v)*Mathf.Floor(dashTimer-dashCooldownTime)/maxDashes;
+            spriteRenderer.material.color=Color.Lerp(spriteRenderer.material.color,new Color(v,v,v),Time.deltaTime*colorLerpSpeed);
+        }
+
 
         if(Input.GetKeyDown(KeyCode.R) && (Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift))){
             Respawn();
         }
+
+    }
+
+    void DashInput(Directions d){
+        dashDirection=d;
+        dashTimer=Mathf.Clamp(dashTimer,dashCooldownTime,dashCooldownTime*maxDashes);
+        dashTimer-=dashCooldownTime;
+        savedDashDirection=Directions.NULL;
     }
 
     void FixedUpdate()
@@ -176,7 +245,10 @@ public class Swimmer : MonoBehaviour
                 }
 
                 if(playerInput.look!=Vector2.zero){//Setting rotation speed
-                    rotationVelocity+=new Vector3(playerInput.look.y,playerInput.look.x,0f)*rotationAcceleration*Time.fixedDeltaTime;
+                    float acceleration=rotationAcceleration;
+                    float f=Mathf.Clamp(playerVelocity.magnitude/maxVelocity,0f,1f);
+                    acceleration=acceleration+acceleration*f*(rotationVelocityFactor-1f);
+                    rotationVelocity+=new Vector3(playerInput.look.y,playerInput.look.x,0f)*acceleration*Time.fixedDeltaTime;
                     if(kickbackTimer>=1f) rotationVelocity=Vector3.ClampMagnitude(rotationVelocity,rotationMaxVelocity);
                     else rotationVelocity=Vector3.Lerp(rotationVelocity,Vector3.ClampMagnitude(rotationVelocity,rotationMaxVelocity),Time.fixedDeltaTime*rotationOverrideRestoreSpeed);
                 }
@@ -352,12 +424,37 @@ public class Swimmer : MonoBehaviour
                 playerVelocity+=transform.right*lateralAcceleration*Time.fixedDeltaTime;
             }
 
+            // Lateral Dash
+            if(dashDirection==Directions.LEFT){
+                if(Mathf.Abs((body.rotation*playerVelocity).x)<maxDashSpeed || (body.rotation*playerVelocity).x>0) playerVelocity-=dashSpeed*transform.right;
+                DashAnimation(playerVelocity);
+                swimmerSound.Dash();
+            }
+            if(dashDirection==Directions.RIGHT){
+                if(Mathf.Abs((body.rotation*playerVelocity).x)<maxDashSpeed || (body.rotation*playerVelocity).x<0) playerVelocity+=dashSpeed*transform.right;
+                DashAnimation(playerVelocity);
+                swimmerSound.Dash();
+            }
+
             //Vertical movement
             if(playerInput.movingUp && !playerInput.movingDown && Mathf.Abs((body.rotation*playerVelocity).y)<lateralMaxVelocity){
                 playerVelocity+=transform.up*lateralAcceleration*Time.deltaTime;
             }else if(playerInput.movingDown && !playerInput.movingUp && Mathf.Abs((body.rotation*playerVelocity).y)<lateralMaxVelocity){
                 playerVelocity+=-transform.up*lateralAcceleration*Time.fixedDeltaTime;
             }
+
+            // Vertical Dash
+            if(dashDirection==Directions.UP){
+                if(Mathf.Abs((body.rotation*playerVelocity).y)<maxDashSpeed || (body.rotation*playerVelocity).y<0) playerVelocity+=dashSpeed*transform.up;
+                DashAnimation(playerVelocity);
+                swimmerSound.Dash();
+            }
+            if(dashDirection==Directions.DOWN){
+                if(Mathf.Abs((body.rotation*playerVelocity).y)<maxDashSpeed || (body.rotation*playerVelocity).y>0) playerVelocity-=dashSpeed*transform.up;
+                DashAnimation(playerVelocity);
+                swimmerSound.Dash();
+            }
+
         }else{
             animator.SetBool("swimmingForward",false);
             animator.SetBool("swimmingBackward",false);
@@ -383,6 +480,9 @@ public class Swimmer : MonoBehaviour
             swimmerSound.StopSwimming();
         }
 
+        if(dashDirection!=Directions.NULL) prevDashDirection=dashDirection;
+        dashDirection=Directions.NULL;
+
         prevVelocity=body.velocity;
 
         allHits.Clear();
@@ -407,6 +507,33 @@ public class Swimmer : MonoBehaviour
     //Things to animate right after boost happens
     void BoostAnimation(){
         swimmerCamera.BoostAnimation();
+    }
+
+    //Things to animate right after Dash happens
+    void DashAnimation(Vector3 playerVelocity){
+        BoostAnimation();
+        Vector3 projectVector=transform.right;
+        switch(dashDirection){
+            case Directions.UP:
+                projectVector=transform.up;
+                break;
+            case Directions.DOWN:
+                projectVector=-transform.up;
+                break;
+            case Directions.LEFT:
+                projectVector=-transform.right;
+                break;
+            case Directions.RIGHT:
+                projectVector=transform.right;
+                break;
+        }
+        Vector3 projectedVector=Vector3.Project(playerVelocity,projectVector);
+        if(projectedVector.normalized==projectVector.normalized){
+            swimmerTrails.DashTrail(dashDirection,projectedVector.magnitude);
+        }
+        GameObject g=Instantiate(afterimageSprite,afterimageSprite.transform.position,afterimageSprite.transform.rotation);
+        g.SetActive(true);
+        g.GetComponent<SpriteRenderer>().sprite=spriteRenderer.sprite;
     }
 
     private void OnCollisionStay(Collision other) {
@@ -606,6 +733,14 @@ public class Swimmer : MonoBehaviour
         swimmerCamera.ResetCamera();
         FindObjectOfType<LevelLoader>().FadeIn();
     }
+}
+
+public enum Directions{
+    NULL,
+    UP,
+    DOWN,
+    LEFT,
+    RIGHT
 }
 
 

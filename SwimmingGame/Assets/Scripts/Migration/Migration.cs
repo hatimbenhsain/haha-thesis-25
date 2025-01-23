@@ -38,6 +38,13 @@ public class Migration : MonoBehaviour
     private float waitTimer=0f;
     public Transform[] migrationNodes;
 
+    [Tooltip("Saturation for ambient color")]
+    [Range(0f, 1f)]
+    public float ambientSaturation;
+    [Tooltip("Value for ambient color")]
+    [Range(0f, 1f)]
+    public float ambientValue;
+
 
     void Start()
     {
@@ -88,7 +95,10 @@ public class Migration : MonoBehaviour
         Color newColor=Color.HSVToRGB(h,s,v);  
 
         RenderSettings.fogColor=newColor;
-        camera.backgroundColor=newColor;      
+        camera.backgroundColor=newColor; 
+
+        Color ambientColor=Color.HSVToRGB(h,ambientSaturation,ambientValue); 
+        RenderSettings.ambientLight=ambientColor;
 
         float shadowH=shadowValue*h;
         float highlightH=highlightValue*h;
