@@ -9,6 +9,7 @@ public class TouchController : MonoBehaviour
     public float lerpSpeed = 1.0f; // the lerping speed for XZ movement
     public float yLerpSpeed = 1.0f; // the lerping speed for Y matching movement
     public float yOffset = 1.0f; // offset of the character from the top of touching objects
+    public float rotationLerpDamp = 0f;
     public Quaternion rotationOffset; // offset the rotation after timing normal
     public bool lockRotation = false;
 
