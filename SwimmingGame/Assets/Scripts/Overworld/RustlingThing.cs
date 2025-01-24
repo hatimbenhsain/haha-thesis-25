@@ -19,7 +19,7 @@ public class RustlingThing : MonoBehaviour
     }
 
     private void Update() {
-        if(swimmerSinging.singing && Vector3.Distance(transform.position,swimmerSinging.transform.position)<minimumSingingDistance*swimmerSinging.singingVolume){
+        if(swimmerSinging.singing && Vector3.Distance(transform.position,swimmerSinging.transform.position)<minimumSingingDistance*Mathf.Pow(swimmerSinging.singingVolume,2f)){
             Rustle(false);
         }
     }
