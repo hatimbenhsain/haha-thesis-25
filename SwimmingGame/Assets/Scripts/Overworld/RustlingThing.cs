@@ -9,14 +9,29 @@ public class RustlingThing : MonoBehaviour
     private Animator animator;
     public float pitch=0f;
 
+    private SwimmerSinging swimmerSinging;
+    [Tooltip("Minimum distance from singer to rustle")]
+    public float minimumSingingDistance=10f;
+
     private void Start() {
         animator = GetComponent<Animator>();
+        swimmerSinging=FindObjectOfType<SwimmerSinging>();
+    }
+
+    private void Update() {
+        if(swimmerSinging.singing && Vector3.Distance(transform.position,swimmerSinging.transform.position)<minimumSingingDistance*swimmerSinging.singingVolume){
+            Rustle(false);
+        }
     }
 
     private void OnTriggerEnter(Collider other){
         if(other.gameObject.tag=="Player"){
-            Sound.Play3DOneShotVolume(rustleSound,1f,transform,"",0,pitch);
-            animator.SetTrigger("Rustle");
+            Rustle();
         }
+    }
+
+    public void Rustle(bool playSound=true){
+        if(playSound) Sound.Play3DOneShotVolume(rustleSound,1f,transform,"",0,pitch);
+        animator.SetTrigger("Rustle");
     }
 }

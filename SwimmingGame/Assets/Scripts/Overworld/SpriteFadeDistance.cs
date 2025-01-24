@@ -12,6 +12,9 @@ public class SpriteFadeDistance : MonoBehaviour
 
     private Transform swimmer;
 
+    [Tooltip("If true, this disappears when getting close. If false, disappears when getting far.")]
+    public bool fadeWhenNear=false;
+
     void Start()
     {
         spriteRenderer=GetComponent<SpriteRenderer>();
@@ -22,7 +25,8 @@ public class SpriteFadeDistance : MonoBehaviour
     void Update()
     {
         float opacity=Mathf.Clamp(Vector3.Distance(transform.position,swimmer.position),minDistance,maxDistance);
-        opacity=originalOpacity*(1f-(opacity-minDistance)/(maxDistance-minDistance));
+        if(!fadeWhenNear) opacity=originalOpacity*(1f-(opacity-minDistance)/(maxDistance-minDistance));
+        else opacity=originalOpacity*(opacity-minDistance)/(maxDistance-minDistance);
         Color c=spriteRenderer.color;
         c.a=opacity;
         spriteRenderer.color=c;

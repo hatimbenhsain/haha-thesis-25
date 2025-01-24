@@ -370,6 +370,7 @@ Teacher: Oh, someone else will eat it.
 ~ followingTeacher=true
 ~ switchObject("Roadblock - Edge",false)
 ~ switchObject("Coral - Edge Tunnel",true)
+~ switchObject("Diner Light",false)
 ~ nextBrain()
 ~ restoreNPCsVolume()
 ~ pauseTutorial(false)
@@ -381,25 +382,24 @@ Teacher: Oh, someone else will eat it.
 //Appears if harmonizing while on the way to the edge
 === teacherOnTheWay1 ===
 # ambient
+{->one|->two|->three}
+= one
 Teacher: Are you excited? # time: 3
 ~ pause(4)
 MC: I think. # time: 3
 ~ pause(4)
 Teacher: Me too. #time: 3
 -> END
-
-=== teacherOnTheWay2 ===
-# ambient
-MC: Have you done this often? # time: 3
-Teacher: Only a couple times... With some friends. # time: 3
-Teacher: Don't worry, it's not scary or painful. # time: 3
+= two
+MC: Have you done this often? # time: 4
+Teacher: Only a couple times... With some friends. # time: 5
+Teacher: Don't worry, it's not scary or painful. # time: 4
 -> END
-
-=== teacherOnTheWay3 ===
-# ambient
+= three 
 MC: How much farther away? # time: 3
 Teacher: Just a few more strokes... # time: 3
 -> END
+
 
 //TO-DO: add more things that they can say on the way.
 
