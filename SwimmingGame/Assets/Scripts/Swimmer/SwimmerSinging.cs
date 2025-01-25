@@ -30,7 +30,12 @@ public class SwimmerSinging : Singing
     private Animator animator;
 
     public Light singingLight;
+    [Tooltip("Target intensity for spotlight when singing.")]
     public float singingTargetIntensity;
+
+    public SpriteRenderer auraSprite;
+    [Tooltip("Target intensity for spotlight when singing.")]
+    public float auraTargetOpacity=.05f;
 
     private int shiftingAmount=0; //Amount by which we are shifting notes (from -2 to 2)
 
@@ -49,6 +54,8 @@ public class SwimmerSinging : Singing
     public Color[] wheelColors;
     public Color[] auraColors;
     public float colorLerpValue=1f;
+
+    public RustlingThing[] rustlingThings;
 
     void Start()
     {
@@ -71,6 +78,8 @@ public class SwimmerSinging : Singing
         SingingStart();
 
         animator=GetComponentInParent<Animator>();
+
+        rustlingThings=FindObjectsOfType<RustlingThing>();
 
     }
 
@@ -159,14 +168,20 @@ public class SwimmerSinging : Singing
                 animator.SetBool("singing",false);
             }
 
+            Color c;
+
             for(int i=0;i<images.Length;i++){
                 Image image=images[i];
-                Color c=image.color;
+                c=image.color;
                 float a=Mathf.Lerp(c.a,targetOpacity*maxOpacities[i],imageOpacityLerpSpeed*Time.deltaTime);
                 image.color=new Color(c.r,c.g,c.b,a);
             }
 
             singingLight.intensity=Mathf.Lerp(singingLight.intensity,singingTargetIntensity*targetOpacity*singingVolume,lightIntensityLerpSpeed*Time.deltaTime);
+            
+            c=auraSprite.color;
+            c.a=Mathf.Lerp(c.a,auraTargetOpacity*singingVolume,lightIntensityLerpSpeed*Time.deltaTime);
+            auraSprite.color=c;
 
             //Changing color depending on shifting note amount
             Color targetWheelColor=Color.Lerp(wheelColors[1],wheelColors[Mathf.Clamp(1+shiftingAmount,0,wheelColors.Length-1)],Mathf.Abs(shiftingAmount)/2f);
@@ -177,6 +192,7 @@ public class SwimmerSinging : Singing
 
             images[0].color=Color.Lerp(images[0].color,targetWheelColor,colorLerpValue*Time.deltaTime);   //Changing wheel color
             images[1].color=Color.Lerp(images[1].color,targetAuraColor,colorLerpValue*Time.deltaTime);   //Changing wheel color
+            
         }
 
     }
