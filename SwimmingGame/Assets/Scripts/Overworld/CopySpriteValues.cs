@@ -48,7 +48,6 @@ public class CopySpriteValues : MonoBehaviour
             }
 
             copied=true;
-            Destroy(this);
         }
     }
 

@@ -23,7 +23,7 @@ public class RandomSpriteValues : MonoBehaviour
     public bool randomizeHue=false;
     public float randomizeHueIntensity=33f/255f;
 
-    void Start()
+    void Awake()
     {
         spriteRenderer=GetComponentInChildren<SpriteRenderer>();
 

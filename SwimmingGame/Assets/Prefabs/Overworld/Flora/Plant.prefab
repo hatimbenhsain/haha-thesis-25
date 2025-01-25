@@ -131,6 +131,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7a525ff6a91343e4ea70af0a1a435e0f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  lockX: 0
+  lockY: 0
+  lockZ: 0
 --- !u!114 &266718698812943828
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -166,7 +169,8 @@ GameObject:
   - component: {fileID: 3517655477764628164}
   - component: {fileID: 1376306947070552323}
   - component: {fileID: 1957262868107249622}
-  m_Layer: 0
+  - component: {fileID: 6129602031918282777}
+  m_Layer: 12
   m_Name: Plant
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -200,7 +204,7 @@ Animator:
   m_Enabled: 1
   m_Avatar: {fileID: 0}
   m_Controller: {fileID: 9100000, guid: da0f403e8205dc640803d5235f4786fc, type: 2}
-  m_CullingMode: 0
+  m_CullingMode: 2
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
   m_LinearVelocityBlending: 0
@@ -257,7 +261,7 @@ BoxCollider:
   m_Material: {fileID: 0}
   m_IncludeLayers:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 2048
   m_ExcludeLayers:
     serializedVersion: 2
     m_Bits: 0
@@ -268,3 +272,16 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 0.6, y: 0.55, z: 0.6}
   m_Center: {x: 0, y: 0.29, z: 0}
+--- !u!114 &6129602031918282777
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3155070073983480598}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a016a435cadfefe4c944aed5cbd6cff1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  active: 0
