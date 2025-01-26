@@ -57,6 +57,10 @@ public class Dialogue : MonoBehaviour
     private TMP_Text lineTMP;
     [Tooltip("Objects to display choices.")]
     public GameObject[] choiceTextBoxes;
+    [Tooltip("Move boxes to these positions if we only have 2 choices.")]
+    public RectTransform[] alternateChoiceTextBoxes2;
+    private Vector3[] choiceBoxesPositions3; //Use these positions if we have 3 choices
+    private Vector3[] choiceBoxesPositions2;  //Use these positions if we have 2 choices
     [HideInInspector]
     public TMP_Text[] choiceTMPs;
 
@@ -96,6 +100,18 @@ public class Dialogue : MonoBehaviour
         for(var i=0;i<defaultChoiceBoxOpacites.Length;i++){
             Color c=images[i].color;
             defaultChoiceBoxOpacites[i]=c.a;
+        }
+
+        choiceBoxesPositions3=new Vector3[choiceTextBoxes.Length];
+        for(var i=0;i<choiceTextBoxes.Length;i++){
+            choiceBoxesPositions3[i]=choiceTextBoxes[i].GetComponent<RectTransform>().anchoredPosition;
+        }
+
+        if(alternateChoiceTextBoxes2.Length>0){
+            choiceBoxesPositions2=new Vector3[2];
+            for(var i=0;i<alternateChoiceTextBoxes2.Length;i++){
+                choiceBoxesPositions2[i]=alternateChoiceTextBoxes2[i].anchoredPosition;
+            }
         }
 
         DialogueAwake();
@@ -259,6 +275,12 @@ public class Dialogue : MonoBehaviour
                 choiceTextBoxes[i].GetComponentInChildren<Animator>().StartPlayback();
                 choiceTextBoxes[i].GetComponentInChildren<Animator>().Play("Base Layer.smallDialogueBubbleIdle",-1,Random.Range(0f,1f));
                 choiceTextBoxes[i].GetComponentInChildren<Animator>().speed=1f;
+            }
+
+            if(story.currentChoices.Count==2 && choiceBoxesPositions2.Length>0){
+                choiceTextBoxes[i].GetComponent<RectTransform>().anchoredPosition=choiceBoxesPositions2[i];
+            }else if(story.currentChoices.Count==1 || story.currentChoices.Count==3){
+                choiceTextBoxes[i].GetComponent<RectTransform>().anchoredPosition=choiceBoxesPositions3[i];
             }
             
             choiceTMPs[i].text=story.currentChoices[i].text;
