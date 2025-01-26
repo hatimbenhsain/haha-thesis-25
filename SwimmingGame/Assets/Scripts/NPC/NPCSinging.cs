@@ -78,13 +78,17 @@ public class NPCSinging : Singing
     {
         SingingStart();
 
-        foreach(var e in events.Values){
-            Rigidbody body;
-            if(!TryGetComponent<Rigidbody>(out body)){
-                body=GetComponentInParent<Rigidbody>();
-            }
-            RuntimeManager.AttachInstanceToGameObject(e,transform,body);
+        Rigidbody body;
+        if(!TryGetComponent<Rigidbody>(out body)){
+            body=GetComponentInParent<Rigidbody>();
         }
+
+        if(singleVoiceMode) RuntimeManager.AttachInstanceToGameObject(voice,transform,body);
+        else{
+            foreach(var e in events.Values){
+                RuntimeManager.AttachInstanceToGameObject(e,transform,body);
+            }
+        }        
 
         swimmerSinging=FindObjectOfType<SwimmerSinging>();
 
@@ -192,10 +196,11 @@ public class NPCSinging : Singing
                 bool prevSinging=singing;
 
                 if(singing && !IsPlaying(singingNote)){
-                    StopAllNotes();
+                    if(!singleVoiceMode) StopAllNotes();
                     PlayNote(singingNote);     
                     prevNote=singingNote;      
-                    RuntimeManager.AttachInstanceToGameObject(events[singingNote],transform); // 3D Singing
+                    if(singleVoiceMode) RuntimeManager.AttachInstanceToGameObject(voice,transform); 
+                    else RuntimeManager.AttachInstanceToGameObject(events[singingNote],transform); // 3D Singing
                 }else if(!singing && timer==0f){
                     StopAllNotes();
                     targetOpacity=0f;

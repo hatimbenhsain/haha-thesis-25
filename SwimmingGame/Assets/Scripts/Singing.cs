@@ -8,6 +8,11 @@ public class Singing : Sound
 {
     [Tooltip("Name of folder inside of FMOD events (Swimmer, NPC1, etc).")]
     public string name="NPC1";
+    [Tooltip("If true, sing a single voice event as opposed to different events depending on notes.")]
+    public bool singleVoiceMode=false;
+    private string voiceLabel="";
+    [HideInInspector]
+    public EventInstance voice;
     public Dictionary<string,EventInstance> events;
     [Tooltip("Keys that player can play.")]
     public List<string> keys;
@@ -24,11 +29,17 @@ public class Singing : Sound
                 keys.Add(possibleNotes[i]);
             }
         }
-        events=new Dictionary<string,EventInstance>();
-        foreach(string key in keys){
-            EventInstance instance=FMODUnity.RuntimeManager.CreateInstance("event:/Singing/"+name+"/"+key.ToUpper());
-            events.Add(key,instance);
+    
+        if(singleVoiceMode){
+            voice=FMODUnity.RuntimeManager.CreateInstance("event:/Singing/"+name);
+        }else{
+            events=new Dictionary<string,EventInstance>();
+            foreach(string key in keys){
+                EventInstance instance=FMODUnity.RuntimeManager.CreateInstance("event:/Singing/"+name+"/"+key.ToUpper());
+                events.Add(key,instance);
+            }
         }
+        
     }
 
     public void SingingUpdate()
@@ -40,23 +51,38 @@ public class Singing : Sound
 
     
     public void StopAllNotes(){
-        foreach(var note in possibleNotes){
-            StopNote(note);
+        if(singleVoiceMode){
+            StopNote("");
+        }else{        
+            foreach(var note in possibleNotes){
+                StopNote(note);
+            }
         }
     }
 
     public void PlayNote(string note){
-        EventInstance instance=events[note];
-        instance.start();
+        if(singleVoiceMode){
+            if(!IsPlaying(note)) voice.start();
+            voiceLabel=note;
+            voice.setParameterByNameWithLabel("Note",voiceLabel.Substring(0,voiceLabel.Length-1));
+        }
+        else{
+            EventInstance instance=events[note];
+            instance.start();
+        }
     }
 
     public void SetVolume(string note,float v){
-        EventInstance instance=events[note];
+        EventInstance instance;
+        if(!singleVoiceMode) instance=events[note];
+        else instance=voice;
         instance.setParameterByName("Volume",v);
     }
 
     public void StopNote(string note){
-        if(events.ContainsKey(note)){
+        if(singleVoiceMode && (note=="" || possibleNotes.Contains(note))){
+            voice.stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
+        }else if(!singleVoiceMode && events.ContainsKey(note)){
             EventInstance instance=events[note];
             instance.stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
         }
@@ -71,13 +97,16 @@ public class Singing : Sound
     }
 
     public bool IsPlaying(string note){
-        EventInstance instance=events[note];
+        EventInstance instance;
+        if(singleVoiceMode) instance=voice;
+        else instance=events[note];
         PLAYBACK_STATE state;
         instance.getPlaybackState(out state);
         if(state==PLAYBACK_STATE.STOPPED){
             return false;
         }else{
-            return true;
+            if(!singleVoiceMode || voiceLabel==note) return true;
+            else return false;
         }
     }
 
@@ -87,6 +116,7 @@ public class Singing : Sound
                 e.release();
             }
         }
+        if(singleVoiceMode) voice.release();
     }
 
     private void OnDisable() {
