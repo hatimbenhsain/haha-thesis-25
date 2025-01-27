@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -9,10 +10,16 @@ public class CuddleCameraManager : MonoBehaviour
     public GameObject[] handPos;
     public GameObject[] handControlPos;
     public GameObject[] colliderViews;
+    public GameObject[] sexPartnerColliders;
+    public BoxCollider[] boundingBoxes;
+    public GameObject[] planes;
+    public bool[] sexPartnerAnimationSwitchPose;
+    public Quaternion[] handRotationOffset;
     public Transform sexPartnerBody;
     public Transform hand;
     public Transform handControlPoint;
     public TouchController handController;
+    public Animator sexPartnerAnimator;
 
     [Header("Head Bob Settings")]
     public float bobSpeed = 2f;      
@@ -30,6 +37,12 @@ public class CuddleCameraManager : MonoBehaviour
         UpdatePosition(sexPartnerBody, bodyPos);
         UpdatePosition(hand, handPos);
         UpdatePosition(handControlPoint, handControlPos);
+        SetActivePlane(shotIndex);
+        SetActiveBoundingBox(shotIndex);
+        SetActiveSexPartnerColliders(shotIndex);
+        handController.boundingBox = boundingBoxes[shotIndex];
+        handController.rotationOffset = handRotationOffset[shotIndex];
+        sexPartnerAnimator.SetBool("SwitchPose", sexPartnerAnimationSwitchPose[shotIndex]);
     }
 
     void FixedUpdate()
@@ -42,7 +55,13 @@ public class CuddleCameraManager : MonoBehaviour
             UpdatePosition(sexPartnerBody, bodyPos);
             UpdatePosition(hand, handPos);
             UpdatePosition(handControlPoint, handControlPos);
-            foreach(GameObject cv in colliderViews){
+            SetActivePlane(shotIndex);
+            SetActiveBoundingBox(shotIndex);
+            SetActiveSexPartnerColliders(shotIndex);
+            handController.boundingBox = boundingBoxes[shotIndex];
+            handController.rotationOffset = handRotationOffset[shotIndex];
+            sexPartnerAnimator.SetBool("SwitchPose", sexPartnerAnimationSwitchPose[shotIndex]);
+            foreach (GameObject cv in colliderViews){
                 cv.SetActive(false);
             }
             colliderViews[shotIndex].SetActive(true);
@@ -60,6 +79,29 @@ public class CuddleCameraManager : MonoBehaviour
         }
         // Reset bob timer when switching cameras
         bobTimer = 0f;
+    }
+
+    public void SetActivePlane(int index)
+    {
+        for (int i = 0; i < planes.Length; i++)
+        {
+            planes[i].gameObject.SetActive(i == index); // Enable the active plane, disable others
+        }
+    }
+    public void SetActiveBoundingBox(int index)
+    {
+        for (int i = 0; i < boundingBoxes.Length; i++)
+        {
+            boundingBoxes[i].gameObject.SetActive(i == index); // Enable the active bounding box, disable others
+        }
+    }
+
+    public void SetActiveSexPartnerColliders(int index) 
+    {
+        for (int i = 0; i < sexPartnerColliders.Length; i++)
+        {
+            sexPartnerColliders[i].gameObject.SetActive(i == index); // Enable the active sex partner collider, disable others
+        }
     }
 
     void ApplyHeadBob()

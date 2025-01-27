@@ -10,6 +10,7 @@ public class SpringController : SexSpring
     [Header("Game Objects")]
     public Camera playerCamera;
     public CinemachineVirtualCamera virtualCamera;
+    private CinemachineImpulseSource impulseSource;
 
     [Header("Camera Parameters")]
     public float lerpSpeed = 2f; // speed for the character to align with the camera direction
@@ -32,6 +33,7 @@ public class SpringController : SexSpring
         {
             originalCameraDistance = thirdPersonFollow.CameraDistance;
         }
+        impulseSource = virtualCamera.GetComponent<CinemachineImpulseSource>();
     }
 
     private void Update()
@@ -39,6 +41,7 @@ public class SpringController : SexSpring
         if (playerInput.movingForward && !playerInput.prevMovingForward)
         {
             StartInhaling();
+            InhaleCameraShake();
         }
 
         if (!playerInput.movingForward && playerInput.prevMovingForward)
@@ -112,7 +115,7 @@ public class SpringController : SexSpring
         }
     }
 
-    private void RestoreOriginalCameraDistance()
+    void RestoreOriginalCameraDistance()
     {
         isAligningWithCamera = false;
 
@@ -121,5 +124,10 @@ public class SpringController : SexSpring
         {
             thirdPersonFollow.CameraDistance = Mathf.Lerp(thirdPersonFollow.CameraDistance, originalCameraDistance, lerpSpeed * Time.fixedDeltaTime);
         }
+    }
+
+    void InhaleCameraShake()
+    {
+        impulseSource.GenerateImpulseWithForce(1f);
     }
 }
