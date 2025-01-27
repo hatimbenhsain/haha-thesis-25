@@ -13,14 +13,23 @@ public class SpringController : SexSpring
 
     [Header("Camera Parameters")]
     public float lerpSpeed = 2f; // speed for the character to align with the camera direction
-    public float zoomedInDistance;
+    public float defaultCameraDistance;
+    public float ZoomOutCameraDistance;
+    public float ZoomInCameraDistance;
+    public float shakeAmplitude = 0.2f; 
+
 
     private PlayerInput playerInput;
     private bool isAligningWithCamera = false;
+    private bool isShaking;
 
     private float originalCameraDistance;
     private Cinemachine3rdPersonFollow thirdPersonFollow;
     private Vector2 movementVector;
+    private Vector3 initialCameraPosition;
+    private int cameraDistance; // 0 zoom in, 1 default, 2 zoom out
+    private float targetCameraDistance;
+
 
     void Start()
     {
@@ -39,11 +48,13 @@ public class SpringController : SexSpring
         if (playerInput.movingForward && !playerInput.prevMovingForward)
         {
             StartInhaling();
+            isShaking = true;
         }
 
         if (!playerInput.movingForward && playerInput.prevMovingForward)
         {
             StartExhaling();
+            isShaking = false;
         }
         
         SpringUpdate();
@@ -59,7 +70,7 @@ public class SpringController : SexSpring
         else
         {
             isAligningWithCamera = false;
-            RestoreOriginalCameraDistance();
+            cameraDistance = 2;
         }
         if (playerInput.currentControlScheme == "Gamepad")
         {
@@ -70,8 +81,24 @@ public class SpringController : SexSpring
             ConvertMovementInput(playerInput.movingForward, playerInput.movingBackward, playerInput.movingLeft, playerInput.movingRight);
             HandleTurning(movementVector);
         }
+        if (isShaking)
+        {
+            InhaleCameraFeedback(shakeAmplitude);
+            if (isAligningWithCamera) // if not zooming out
+            {
+                cameraDistance = 0;
+            }
+        }
+        else
+        {
+            InhaleCameraFeedback(0f);
+            if (isAligningWithCamera) // if not zooming out
+            {
+                cameraDistance = 1;
+            }
+        }
 
-
+        LerpCameraDistance();
         SpringFixedUpdate();
     }
 
@@ -105,21 +132,45 @@ public class SpringController : SexSpring
         characterRb.MoveRotation(Quaternion.Lerp(characterRb.rotation, targetRotation, lerpSpeed * Time.fixedDeltaTime));
         characterRb.angularVelocity = Vector3.zero; // clear all angular acceleration
 
+        /*
         // Smoothly zoom in the camera
         if (thirdPersonFollow != null)
         {
-            thirdPersonFollow.CameraDistance = Mathf.Lerp(thirdPersonFollow.CameraDistance, zoomedInDistance, lerpSpeed * Time.fixedDeltaTime);
+            thirdPersonFollow.CameraDistance = Mathf.Lerp(thirdPersonFollow.CameraDistance, defaultCameraDistance, lerpSpeed * Time.fixedDeltaTime);
         }
+        */
     }
 
-    private void RestoreOriginalCameraDistance()
+    void ZoomOutCamera()
     {
         isAligningWithCamera = false;
 
         // Smoothly restore the original camera distance
         if (thirdPersonFollow != null)
         {
-            thirdPersonFollow.CameraDistance = Mathf.Lerp(thirdPersonFollow.CameraDistance, originalCameraDistance, lerpSpeed * Time.fixedDeltaTime);
+            thirdPersonFollow.CameraDistance = Mathf.Lerp(thirdPersonFollow.CameraDistance, ZoomOutCameraDistance, lerpSpeed * Time.fixedDeltaTime);
         }
+    }
+
+    void InhaleCameraFeedback(float intensity)
+    {
+        // Shake and zoom in camera
+        CinemachineBasicMultiChannelPerlin cinemachineBasicMultiChannelPerlin = virtualCamera.GetCinemachineComponent<CinemachineBasicMultiChannelPerlin>();
+        cinemachineBasicMultiChannelPerlin.m_AmplitudeGain = intensity;
+
+    }
+
+    void LerpCameraDistance()
+    {
+        switch (cameraDistance)
+        {
+            case 0:
+                targetCameraDistance = ZoomInCameraDistance; break;
+            case 1:
+                targetCameraDistance = defaultCameraDistance; break;
+            case 2:
+                targetCameraDistance = ZoomOutCameraDistance; break;
+        }
+        thirdPersonFollow.CameraDistance = Mathf.Lerp(thirdPersonFollow.CameraDistance, targetCameraDistance, lerpSpeed * Time.fixedDeltaTime);
     }
 }

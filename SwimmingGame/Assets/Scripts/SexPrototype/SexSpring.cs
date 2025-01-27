@@ -90,7 +90,7 @@ public class SexSpring : MonoBehaviour{
         inhaleDuration = Mathf.Clamp(inhaleTime, 0, maxInhaleTime);
 
         float t = inhaleDuration / maxInhaleTime;
-        character.transform.localScale = Vector3.Lerp(originalScale, new Vector3(1.2f, 1.2f, 1f), t); // for cylinder scale
+        character.transform.localScale = Vector3.Lerp(originalScale, new Vector3(1.7f, 1.7f, 1f), t); // for cylinder scale
     }
 
     public void HandleTurning(Vector2 input)
