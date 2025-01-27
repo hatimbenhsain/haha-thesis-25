@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<objects serializationModel="Studio.02.02.00">
+	<object class="MixerGroup" id="{d650b11d-d844-4d66-adfe-2dc1b36069d8}">
+		<property name="name">
+			<value>Rustling</value>
+		</property>
+		<relationship name="effectChain">
+			<destination>{e0863a27-b042-4b28-b8d1-31f0f76e1e01}</destination>
+		</relationship>
+		<relationship name="panner">
+			<destination>{7c1e9d15-2a87-4b74-bbea-c9aeebf1b811}</destination>
+		</relationship>
+		<relationship name="output">
+			<destination>{0216fdfc-f0aa-42bb-a872-9f323595c46b}</destination>
+		</relationship>
+	</object>
+	<object class="MixerBusEffectChain" id="{e0863a27-b042-4b28-b8d1-31f0f76e1e01}">
+		<relationship name="effects">
+			<destination>{a06756e6-76d1-4fb8-ba1c-c70cf716b137}</destination>
+			<destination>{6f9e8a4d-d62c-457a-b24f-215eed1b63f1}</destination>
+			<destination>{0d5ea566-1d52-412f-8134-3ff2944aa1ca}</destination>
+		</relationship>
+	</object>
+	<object class="MixerBusPanner" id="{7c1e9d15-2a87-4b74-bbea-c9aeebf1b811}" />
+	<object class="MixerBusFader" id="{a06756e6-76d1-4fb8-ba1c-c70cf716b137}" />
+	<object class="MultibandEqEffect" id="{6f9e8a4d-d62c-457a-b24f-215eed1b63f1}">
+		<property name="filterTypeA">
+			<value>2</value>
+		</property>
+		<property name="filterTypeB">
+			<value>4</value>
+		</property>
+		<property name="frequencyA">
+			<value>1551.14563</value>
+		</property>
+		<property name="frequencyB">
+			<value>126.435799</value>
+		</property>
+		<property name="frequencyC">
+			<value>677.211731</value>
+		</property>
+		<property name="qualityA">
+			<value>0.676091015</value>
+		</property>
+		<property name="qualityB">
+			<value>0.528780103</value>
+		</property>
+		<property name="qualityC">
+			<value>0.528780103</value>
+		</property>
+	</object>
+	<object class="SFXReverbEffect" id="{0d5ea566-1d52-412f-8134-3ff2944aa1ca}">
+		<property name="decayTime">
+			<value>2000</value>
+		</property>
+		<property name="lowShelfFrequency">
+			<value>240</value>
+		</property>
+		<property name="highCut">
+			<value>5200</value>
+		</property>
+		<property name="wetLevel">
+			<value>-14.5</value>
+		</property>
+	</object>
+</objects>

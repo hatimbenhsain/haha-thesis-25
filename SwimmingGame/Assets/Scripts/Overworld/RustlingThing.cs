@@ -8,6 +8,7 @@ public class RustlingThing : MonoBehaviour
     public string rustleSound="event:/Overworld/Things/Rustle/";    
     private Animator animator;
     public float pitch=0f;
+    public float volume=1f;
 
     private SwimmerSinging swimmerSinging;
     [Tooltip("Minimum distance from singer to rustle")]
@@ -31,7 +32,7 @@ public class RustlingThing : MonoBehaviour
     }
 
     public void Rustle(bool playSound=true){
-        if(playSound) Sound.Play3DOneShotVolume(rustleSound,1f,transform,"",0,pitch);
+        if(playSound) Sound.Play3DOneShotVolume(rustleSound,volume,transform,"",0,pitch);
         animator.SetTrigger("Rustle");
     }
 }
