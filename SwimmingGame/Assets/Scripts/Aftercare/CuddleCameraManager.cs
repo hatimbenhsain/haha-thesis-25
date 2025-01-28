@@ -11,6 +11,7 @@ public class CuddleCameraManager : MonoBehaviour
     public GameObject[] handControlPos;
     public GameObject[] colliderViews;
     public GameObject[] sexPartnerColliders;
+    public GameObject[] backPlane;
     public BoxCollider[] boundingBoxes;
     public GameObject[] planes;
     public bool[] sexPartnerAnimationSwitchPose;
@@ -32,14 +33,11 @@ public class CuddleCameraManager : MonoBehaviour
 
     void Start()
     {
-        SetActiveCamera(shotIndex);
+        SetActiveElements(shotIndex);
         defaultCameraY = cameras[shotIndex].transform.localPosition.y; // Store initial Y position
         UpdatePosition(sexPartnerBody, bodyPos);
         UpdatePosition(hand, handPos);
         UpdatePosition(handControlPoint, handControlPos);
-        SetActivePlane(shotIndex);
-        SetActiveBoundingBox(shotIndex);
-        SetActiveSexPartnerColliders(shotIndex);
         handController.boundingBox = boundingBoxes[shotIndex];
         handController.rotationOffset = handRotationOffset[shotIndex];
         sexPartnerAnimator.SetBool("SwitchPose", sexPartnerAnimationSwitchPose[shotIndex]);
@@ -50,14 +48,11 @@ public class CuddleCameraManager : MonoBehaviour
         if (shotIndex != prevShotIndex)
         {
             handController.lockRotation = true;
-            SetActiveCamera(shotIndex);
+            SetActiveElements(shotIndex);
             defaultCameraY = cameras[shotIndex].transform.localPosition.y; // Reset Y position for new active camera
             UpdatePosition(sexPartnerBody, bodyPos);
             UpdatePosition(hand, handPos);
             UpdatePosition(handControlPoint, handControlPos);
-            SetActivePlane(shotIndex);
-            SetActiveBoundingBox(shotIndex);
-            SetActiveSexPartnerColliders(shotIndex);
             handController.boundingBox = boundingBoxes[shotIndex];
             handController.rotationOffset = handRotationOffset[shotIndex];
             sexPartnerAnimator.SetBool("SwitchPose", sexPartnerAnimationSwitchPose[shotIndex]);
@@ -71,38 +66,21 @@ public class CuddleCameraManager : MonoBehaviour
         prevShotIndex = shotIndex;
     }
 
-    public void SetActiveCamera(int index)
+    public void SetActiveElements(int index)
     {
         for (int i = 0; i < cameras.Length; i++)
         {
             cameras[i].gameObject.SetActive(i == index); // Enable the active camera, disable others
+            planes[i].gameObject.SetActive(i == index); // Enable the active plane, disable others
+            boundingBoxes[i].gameObject.SetActive(i == index); // Enable the active bounding box, disable others
+            sexPartnerColliders[i].gameObject.SetActive(i == index); // Enable the active sex partner collider, disable others
+            backPlane[i].gameObject.SetActive(i == index); // Enable the active background plane, disable others
         }
         // Reset bob timer when switching cameras
         bobTimer = 0f;
     }
 
-    public void SetActivePlane(int index)
-    {
-        for (int i = 0; i < planes.Length; i++)
-        {
-            planes[i].gameObject.SetActive(i == index); // Enable the active plane, disable others
-        }
-    }
-    public void SetActiveBoundingBox(int index)
-    {
-        for (int i = 0; i < boundingBoxes.Length; i++)
-        {
-            boundingBoxes[i].gameObject.SetActive(i == index); // Enable the active bounding box, disable others
-        }
-    }
 
-    public void SetActiveSexPartnerColliders(int index) 
-    {
-        for (int i = 0; i < sexPartnerColliders.Length; i++)
-        {
-            sexPartnerColliders[i].gameObject.SetActive(i == index); // Enable the active sex partner collider, disable others
-        }
-    }
 
     void ApplyHeadBob()
     {
