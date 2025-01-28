@@ -23,7 +23,7 @@ public class Fish : NPCOverworld
 
     [Tooltip("FMOD Path sound for when player boops fish.")]
     public string boopSound="event:/Overworld/Fish/Boop";
-    public float pitch=0f;
+    public float pitch=1f;
 
     void Start(){
         swimmerSinging=FindObjectOfType<SwimmerSinging>();
@@ -130,6 +130,13 @@ public class Fish : NPCOverworld
                     awayFromPlayerTimer=0f;
                     closeToPlayerTimer=0f;
                 }                
+                break;
+            case MovementBehavior.None:     //Bandaid fix of sometimes fish lose their movement behavior -- not sure what triggers it
+                if(leader!=null){
+                    ChangeMovementBehavior(MovementBehavior.FollowLeader);
+                }else{
+                    ChangeMovementBehavior(MovementBehavior.Wander);
+                }
                 break;
         }
 
