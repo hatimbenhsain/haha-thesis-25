@@ -141,7 +141,7 @@ public class Tutorial : MonoBehaviour
                         }
                     }else if(targetOpacity==0f){
                         timer+=Time.deltaTime;
-                        if(currentlyUsed){
+                        if(currentlyUsed && !currentTutorialPart.skipEvenIfUsing){
                             timer=0f;
                         }
                         if(!currentTutorialPart.disappearsAutomatically && timer>=currentTutorialPart.timeBeforeReappearing){
@@ -249,4 +249,6 @@ public struct TutorialPart{
     public bool active, triggered;
     public bool done;
     public bool disappearsAfterTime, disappearsAfterLeavingZone, disappearsAutomatically, isHarmony;
+    [Tooltip("If this is false, the tutorial doesn't move on until you stopped using the input.")]
+    public bool skipEvenIfUsing;
 }
