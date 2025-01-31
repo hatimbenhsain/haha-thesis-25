@@ -16,6 +16,8 @@ public class SwimmerSinging : Singing
     private Vector2 singingNotePosition; // Relative position on the wheel
 
     private float startingAngle=1.5f;
+    [HideInInspector]
+    public float singingAngle;
 
     private Vector2 inputNote;
 
@@ -130,15 +132,15 @@ public class SwimmerSinging : Singing
 
             singingVolume=singingNotePosition.magnitude;
 
-            float angle=Mathf.Atan2(singingNotePosition.y,singingNotePosition.x)/Mathf.PI+1;
+            singingAngle=Mathf.Atan2(singingNotePosition.y,singingNotePosition.x)/Mathf.PI+1;
 
             string note="";
 
             for(var i=0;i<possibleNotes.Count;i++){
                 float minAngle=(startingAngle-((i*2f+1f)/possibleNotes.Count)+2f)%2f;
                 float maxAngle=(startingAngle-((i*2f-1f)/possibleNotes.Count)+2f)%2f;
-                if((angle<maxAngle && angle>=minAngle) ||
-                (angle<maxAngle && angle>=0 && maxAngle<minAngle) || (angle<=2 && angle>=minAngle && maxAngle<minAngle)){
+                if((singingAngle<maxAngle && singingAngle>=minAngle) ||
+                (singingAngle<maxAngle && singingAngle>=0 && maxAngle<minAngle) || (singingAngle<=2 && singingAngle>=minAngle && maxAngle<minAngle)){
                     note=possibleNotes[i];
                     //Finding correct note if shifting
                     if(shiftingAmount!=0){

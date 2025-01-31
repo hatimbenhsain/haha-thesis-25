@@ -26,6 +26,7 @@ public class Dialogue : MonoBehaviour
     
     private PlayerInput playerInput;   
     private GameManager gameManager;
+    private SwimmerSinging swimmerSinging;
 
     public bool startStoryTrigger;
 
@@ -88,6 +89,9 @@ public class Dialogue : MonoBehaviour
     [HideInInspector]
     public float[] defaultChoiceBoxOpacites;
 
+    public float choiceSingingMinAngle=100f;
+    public float choiceSingingMaxAngle=200f;
+
     void Awake()
     {
         playerInput=FindObjectOfType<PlayerInput>();
@@ -124,6 +128,8 @@ public class Dialogue : MonoBehaviour
         if(inkJSONAsset!=null){
             StartStory();
         }
+
+        swimmerSinging=FindObjectOfType<SwimmerSinging>();
 
     }
 
@@ -181,15 +187,28 @@ public class Dialogue : MonoBehaviour
 
                 //Handling player input: picking choice
                 if(story.currentChoices.Count>0 && currentCharacterIndex>=displayText.Length && controlChoice){
-                    if((playerInput.navigateDown && !playerInput.prevNavigateDown) || 
-                        (playerInput.navigateRight && !playerInput.prevNavigateRight)){
-                        currentChoiceIndex+=1;
-                        currentChoiceIndex=(currentChoiceIndex+story.currentChoices.Count)%story.currentChoices.Count;
-                    }
-                    if((playerInput.navigateUp && !playerInput.prevNavigateUp) ||
-                        (playerInput.navigateLeft && !playerInput.prevNavigateLeft)){
-                        currentChoiceIndex-=1;
-                        currentChoiceIndex=(currentChoiceIndex+story.currentChoices.Count)%story.currentChoices.Count;
+                    if(swimmerSinging.singing && swimmerSinging.singingVolume>.2f){
+                        float angle=swimmerSinging.singingAngle;
+                        Debug.Log(angle);
+                        if(angle>choiceSingingMinAngle && angle<choiceSingingMaxAngle){
+                            for(var i=0;i<story.currentChoices.Count;i++){
+                                if(angle>=choiceSingingMinAngle+i*(choiceSingingMaxAngle-choiceSingingMaxAngle)/story.currentChoices.Count &&
+                                angle<=choiceSingingMinAngle+(i+1)*(choiceSingingMaxAngle-choiceSingingMaxAngle)/story.currentChoices.Count){
+                                    currentChoiceIndex=i;
+                                }
+                            }
+                        }
+                    }else{
+                        if((playerInput.navigateDown && !playerInput.prevNavigateDown) || 
+                            (playerInput.navigateRight && !playerInput.prevNavigateRight)){
+                            currentChoiceIndex+=1;
+                            currentChoiceIndex=(currentChoiceIndex+story.currentChoices.Count)%story.currentChoices.Count;
+                        }
+                        if((playerInput.navigateUp && !playerInput.prevNavigateUp) ||
+                            (playerInput.navigateLeft && !playerInput.prevNavigateLeft)){
+                            currentChoiceIndex-=1;
+                            currentChoiceIndex=(currentChoiceIndex+story.currentChoices.Count)%story.currentChoices.Count;
+                        }
                     }
                 }
 
