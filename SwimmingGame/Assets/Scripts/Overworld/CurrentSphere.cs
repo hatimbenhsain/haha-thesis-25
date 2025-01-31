@@ -22,6 +22,9 @@ public class CurrentSphere : MonoBehaviour
 
         children=new List<GameObject>();
 
+        float scale=transform.lossyScale.magnitude;
+        emitRadius=emitRadius*scale;
+
         for(float n=0f;n<180f;n+=stepLength){
             float offset=Random.Range(-stepLength,stepLength);
             for(float k=0f;k<360f;k+=stepLength){
