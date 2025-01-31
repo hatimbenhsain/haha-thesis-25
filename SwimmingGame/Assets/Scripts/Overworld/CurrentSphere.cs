@@ -22,7 +22,7 @@ public class CurrentSphere : MonoBehaviour
 
         children=new List<GameObject>();
 
-        float scale=transform.lossyScale.magnitude;
+        float scale=(transform.lossyScale.x+transform.lossyScale.y+transform.lossyScale.z)/3f;
         emitRadius=emitRadius*scale;
 
         for(float n=0f;n<180f;n+=stepLength){

@@ -55,7 +55,12 @@ public class SwimmerSinging : Singing
     public Color[] auraColors;
     public float colorLerpValue=1f;
 
-    public RustlingThing[] rustlingThings;
+    private float targetWheelRotation;
+    [Tooltip("How much to rotate singing wheel when shifting a tone.")]
+    public float wheelRotationPerTone=2.5f;
+    public RectTransform wheelRect;
+
+    private RustlingThing[] rustlingThings;
 
     void Start()
     {
@@ -98,6 +103,8 @@ public class SwimmerSinging : Singing
             }else if(!playerInput.shiftRight && !playerInput.shiftLeft){
                 shiftingAmount=0;
             }
+
+            targetWheelRotation=wheelRotationPerTone*shiftingAmount;
 
             if(playerInput.currentControlScheme=="Gamepad"){
                 inputNote=playerInput.singingNote;
@@ -192,6 +199,10 @@ public class SwimmerSinging : Singing
 
             images[0].color=Color.Lerp(images[0].color,targetWheelColor,colorLerpValue*Time.deltaTime);   //Changing wheel color
             images[1].color=Color.Lerp(images[1].color,targetAuraColor,colorLerpValue*Time.deltaTime);   //Changing wheel color
+
+            Vector3 rot=wheelRect.rotation.eulerAngles;
+            rot.z=targetWheelRotation;
+            wheelRect.rotation=Quaternion.Lerp(wheelRect.rotation,Quaternion.Euler(rot),colorLerpValue*Time.deltaTime);
             
         }
 
