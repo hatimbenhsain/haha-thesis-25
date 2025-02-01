@@ -10,15 +10,13 @@ public class CuddleDialogue : Dialogue
     public bool caressing;
     public float caressRequiredLength=1f;
     public float caressTimer=0f;
-    public float caressCancelSpeed=.5f;
+    public float caressCancelSpeed=0.5f;
 
-    public float scaleSpeed=1f;
     public float opacitySpeed=1f;
     public float notSelectedOpacity=0.625f;
     public float hoveredOpacity=0.9f;
     public float chosenOpacity=1f;
     public float hoveredScale=1.1f;
-    public float chosenScale=2f;
 
     private RectTransform[] choiceRects;
 
@@ -161,8 +159,5 @@ public class CuddleDialogue : Dialogue
         SetUpView();
     }
 
-    float EaseOutSine(float x){
-        return Mathf.Sin((x*Mathf.PI)/2f);
-    }
 
 }

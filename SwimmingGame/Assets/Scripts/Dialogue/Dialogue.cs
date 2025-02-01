@@ -89,8 +89,16 @@ public class Dialogue : MonoBehaviour
     [HideInInspector]
     public float[] defaultChoiceBoxOpacites;
 
-    public float choiceSingingMinAngle=100f;
-    public float choiceSingingMaxAngle=200f;
+    [Header("Singing & Choice")]
+
+    [Tooltip("The angle value for pointing straight down according to swimmerSinging angle.")]
+    public float choiceSingingAngleOffset=0.5f;
+    public float choiceSingingAngleWindow=0.2f;
+    private float singingTimer=0f;
+    public float singingRequiredLength=1f;
+    public float singingCancelSpeed=.5f;
+    public float chosenScale=1.5f;
+    public float scaleSpeed=1f;
 
     void Awake()
     {
@@ -187,17 +195,33 @@ public class Dialogue : MonoBehaviour
 
                 //Handling player input: picking choice
                 if(story.currentChoices.Count>0 && currentCharacterIndex>=displayText.Length && controlChoice){
+                    singingTimer -= Time.deltaTime * singingCancelSpeed * singingRequiredLength;
                     if(swimmerSinging.singing && swimmerSinging.singingVolume>.2f){
-                        float angle=swimmerSinging.singingAngle;
-                        Debug.Log(angle);
-                        if(angle>choiceSingingMinAngle && angle<choiceSingingMaxAngle){
-                            for(var i=0;i<story.currentChoices.Count;i++){
-                                if(angle>=choiceSingingMinAngle+i*(choiceSingingMaxAngle-choiceSingingMaxAngle)/story.currentChoices.Count &&
-                                angle<=choiceSingingMinAngle+(i+1)*(choiceSingingMaxAngle-choiceSingingMaxAngle)/story.currentChoices.Count){
+                        for(var i=0;i<choiceTextBoxes.Length;i++){
+                            if(choiceTextBoxes[i].activeInHierarchy){
+                                float a=Vector2.SignedAngle(choiceTextBoxes[i].GetComponent<RectTransform>().anchoredPosition,new Vector2(0f,-1f))/180f;
+                                a=(2-a+choiceSingingAngleOffset)%2f;
+                                if(Mathf.Abs(a-swimmerSinging.singingAngle)<=choiceSingingAngleWindow || Mathf.Abs(a-swimmerSinging.singingAngle-2f)<=choiceSingingAngleWindow){
+                                    if(currentChoiceIndex!=i){
+                                        singingTimer=0f;
+                                    }
                                     currentChoiceIndex=i;
+                                    singingTimer+=Time.deltaTime;
+                                    if(singingTimer>=singingRequiredLength){
+                                        PickChoice(currentChoiceIndex);
+                                    }
                                 }
                             }
-                        }
+                        }                        
+                        Debug.Log(singingTimer);
+                        // if(angle>choiceSingingMinAngle && angle<choiceSingingMaxAngle){
+                        //     for(var i=0;i<story.currentChoices.Count;i++){
+                        //         if(angle>=choiceSingingMinAngle+i*(choiceSingingMaxAngle-choiceSingingMinAngle)/story.currentChoices.Count &&
+                        //         angle<=choiceSingingMinAngle+(i+1)*(choiceSingingMaxAngle-choiceSingingMinAngle)/story.currentChoices.Count){
+                        //             currentChoiceIndex=i;
+                        //         }
+                        //     }
+                        // }
                     }else{
                         if((playerInput.navigateDown && !playerInput.prevNavigateDown) || 
                             (playerInput.navigateRight && !playerInput.prevNavigateRight)){
@@ -210,6 +234,7 @@ public class Dialogue : MonoBehaviour
                             currentChoiceIndex=(currentChoiceIndex+story.currentChoices.Count)%story.currentChoices.Count;
                         }
                     }
+                    singingTimer = Mathf.Clamp(singingTimer, 0f, singingRequiredLength);
                 }
 
                 //Move on with picking
@@ -296,19 +321,26 @@ public class Dialogue : MonoBehaviour
                 choiceTextBoxes[i].GetComponentInChildren<Animator>().speed=1f;
             }
 
+            RectTransform rect=choiceTextBoxes[i].GetComponent<RectTransform>();
+
             if(story.currentChoices.Count==2 && choiceBoxesPositions2.Length>0){
-                choiceTextBoxes[i].GetComponent<RectTransform>().anchoredPosition=choiceBoxesPositions2[i];
+                rect.anchoredPosition=choiceBoxesPositions2[i];
             }else if(story.currentChoices.Count==1 || story.currentChoices.Count==3){
-                choiceTextBoxes[i].GetComponent<RectTransform>().anchoredPosition=choiceBoxesPositions3[i];
+                rect.anchoredPosition=choiceBoxesPositions3[i];
             }
             
             choiceTMPs[i].text=story.currentChoices[i].text;
+            float targetS=1f;
             if(i==currentChoiceIndex){
                 Image[] images=choiceTextBoxes[i].GetComponentsInChildren<Image>();
                 for(var k=0;k<images.Length;k++){
                     Color c=images[k].color;
                     c.a=1*defaultChoiceBoxOpacites[k];
                     images[k].color=c;
+                }
+                if(singingTimer>0f){
+                    float k=EaseOutSine(singingTimer/singingRequiredLength);
+                    targetS=targetS+(chosenScale-1f)*k;
                 }
                 choiceTextBoxes[i].GetComponentInChildren<Animator>().speed=1.25f;
             }else{
@@ -320,7 +352,16 @@ public class Dialogue : MonoBehaviour
                 }
                 choiceTextBoxes[i].GetComponentInChildren<Animator>().speed=0.5f;
             }
+
+            Vector3 localScale=rect.localScale;
+            float s=Mathf.Lerp(localScale.x,targetS,scaleSpeed*Time.deltaTime);
+            localScale=new Vector3(s,s,s);
+            rect.localScale=localScale;
         }
+    }
+
+    public float EaseOutSine(float x){
+        return Mathf.Sin((x*Mathf.PI)/2f);
     }
 
     //Remove all UI elements
@@ -334,9 +375,10 @@ public class Dialogue : MonoBehaviour
 
     //Remove choice UI elements
     public virtual void HideChoices(){
-
+        singingTimer=0f;
         for(int i=0;i<choiceTextBoxes.Length;i++){
             choiceTextBoxes[i].gameObject.SetActive(false);
+            choiceTextBoxes[i].GetComponent<RectTransform>().localScale=Vector3.one;
         }
     }
     
