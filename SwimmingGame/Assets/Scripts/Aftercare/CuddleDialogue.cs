@@ -42,6 +42,7 @@ public class CuddleDialogue : Dialogue
         if (caressing)
         {
             caressTimer += Time.deltaTime;
+            Rumble.AddRumble("Picking Dialogue",caressTimer/caressRequiredLength);
         }
 
         if (caressTimer >= caressRequiredLength && story.currentChoices.Count > 0 &&

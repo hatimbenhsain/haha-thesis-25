@@ -5,8 +5,11 @@ using UnityEngine.UI;
 
 public class AnimatedImage : MonoBehaviour
 {
-    private float imageIndex=0f;
+    [HideInInspector]
+    public float imageIndex=0f;
     public float imageSpeed=4f;
+    public bool synchronizeImageWithParent=false;
+    public AnimatedImage parentImage;
     public Sprite[] sprites;
     private Image image;
     private RectTransform rect;
@@ -29,8 +32,12 @@ public class AnimatedImage : MonoBehaviour
 
     void Update()
     {
-        imageIndex+=imageSpeed*Time.unscaledDeltaTime;
-        imageIndex=imageIndex%sprites.Length;
+        if(!synchronizeImageWithParent){
+            imageIndex+=imageSpeed*Time.unscaledDeltaTime;
+            imageIndex=imageIndex%sprites.Length;
+        }else{
+            imageIndex=parentImage.imageIndex;
+        }
 
         image.sprite=sprites[Mathf.FloorToInt(imageIndex)];
 

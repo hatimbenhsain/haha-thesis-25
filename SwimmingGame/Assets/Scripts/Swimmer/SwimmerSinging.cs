@@ -7,6 +7,8 @@ using System.Runtime.InteropServices;
 using System.Dynamic;
 using System.Reflection;
 using UnityEngine.UI;
+using UnityEngine.InputSystem;
+using UnityEditor.ShaderGraph.Internal;
 
 public class SwimmerSinging : Singing
 {
@@ -63,6 +65,9 @@ public class SwimmerSinging : Singing
     public RectTransform wheelRect;
 
     private RustlingThing[] rustlingThings;
+
+
+    private bool isHarmonizing=false;
 
     void Start()
     {
@@ -135,6 +140,7 @@ public class SwimmerSinging : Singing
             singingAngle=Mathf.Atan2(singingNotePosition.y,singingNotePosition.x)/Mathf.PI+1;
 
             string note="";
+            int keyIndex=0;
 
             for(var i=0;i<possibleNotes.Count;i++){
                 float minAngle=(startingAngle-((i*2f+1f)/possibleNotes.Count)+2f)%2f;
@@ -142,9 +148,9 @@ public class SwimmerSinging : Singing
                 if((singingAngle<maxAngle && singingAngle>=minAngle) ||
                 (singingAngle<maxAngle && singingAngle>=0 && maxAngle<minAngle) || (singingAngle<=2 && singingAngle>=minAngle && maxAngle<minAngle)){
                     note=possibleNotes[i];
+                    keyIndex=keys.IndexOf(note);
                     //Finding correct note if shifting
                     if(shiftingAmount!=0){
-                        int keyIndex=keys.IndexOf(note);
                         if(keyIndex!=-1){
                             keyIndex=keyIndex+shiftingAmount;
                             if(keyIndex>=0 && keyIndex<keys.Count){
@@ -205,9 +211,24 @@ public class SwimmerSinging : Singing
             Vector3 rot=wheelRect.rotation.eulerAngles;
             rot.z=targetWheelRotation;
             wheelRect.rotation=Quaternion.Lerp(wheelRect.rotation,Quaternion.Euler(rot),colorLerpValue*Time.deltaTime);
-            
+
+            if(singing){
+                // float k=((float)Mathf.Clamp(keyIndex,2,12)-2f)/((float)keys.Count-5f);       //Different rumble types if singing up or low
+                // Gamepad.current.SetMotorSpeeds(leftRumbleSinging*singingVolume*(1-k),rightRumbleSinging*singingVolume*k);
+                Rumble.AddRumble("Singing",singingVolume);
+            }
+            if(isHarmonizing){
+                Rumble.AddRumble("Harmonizing");
+            }
+
         }
 
+        isHarmonizing=false;
+
+    }
+
+    public void Harmonizing(){
+        isHarmonizing=true;
     }
 
 }

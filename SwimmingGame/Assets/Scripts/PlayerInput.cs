@@ -49,6 +49,9 @@ public class PlayerInput : MonoBehaviour
 
     public string currentControlScheme;
 
+    public InputActionAsset[] actionAssets;
+    private int actionsIndex=0;
+
     [Tooltip("More sensitivity means more movement")]
     public float mouseSensitivity=50f; 
 
@@ -65,6 +68,12 @@ public class PlayerInput : MonoBehaviour
             }
         }
 
+        for(int i=0;i<actionAssets.Length;i++){
+            if(actionAssets[i].name==playerInput.actions.name){
+                actionsIndex=i;
+            }
+        }
+
     }
 
     void Update(){
@@ -72,6 +81,24 @@ public class PlayerInput : MonoBehaviour
         if(Input.GetKeyDown(KeyCode.I)){
             InvertYAxis();
         }
+
+        if(Input.GetKeyDown(KeyCode.Return)){
+            SwitchActions();
+        }
+    }
+
+    //Change the action map (what buttons do what)
+    public void SwitchActions(int i=-1){
+        if(i==-1){
+            actionsIndex++;
+        }else{
+            actionsIndex=i;
+        }
+        actionsIndex=actionsIndex%actionAssets.Length;
+
+        playerInput.actions=actionAssets[actionsIndex];
+
+        RestoreDefaultMap();
     }
 
     public void InvertYAxis(){

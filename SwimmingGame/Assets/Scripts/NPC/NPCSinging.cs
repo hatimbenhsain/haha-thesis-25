@@ -225,6 +225,7 @@ public class NPCSinging : Singing
                     if(isHarmonizing(swimmerSinging) || harmonized){
                         harmonyValue+=Time.deltaTime;
                         targetOpacity=1f;
+                        swimmerSinging.Harmonizing();
                     }
                     if(harmonyValue>=harmonyTargetValue){
                         Harmonized();

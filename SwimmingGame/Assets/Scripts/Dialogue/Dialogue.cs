@@ -207,6 +207,7 @@ public class Dialogue : MonoBehaviour
                                     }
                                     currentChoiceIndex=i;
                                     singingTimer+=Time.deltaTime;
+                                    Rumble.AddRumble("Picking Dialogue",singingTimer/singingRequiredLength);
                                     if(singingTimer>=singingRequiredLength){
                                         PickChoice(currentChoiceIndex);
                                     }
@@ -526,6 +527,8 @@ public class Dialogue : MonoBehaviour
             currentTextSpeed=GetTextSpeed(story.currentTags);
 
             currentCharacterIndex=0;
+
+            Rumble.AddRumble("Advancing Dialogue");
 		}
     }
 
