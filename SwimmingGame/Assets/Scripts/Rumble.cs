@@ -15,15 +15,20 @@ public class Rumble : MonoBehaviour
 
     static RumbleSettings[] settings;
 
+    private PlayerInput playerInput;
+
     void Start()
     {
         settings=rumbleSettings;
+        playerInput=GetComponent<PlayerInput>();
     }
 
     private void LateUpdate() {
-        Gamepad.current.SetMotorSpeeds(currentLeftMotorIntensity*maxRumbleIntensity,currentRightMotorIntensity*maxRumbleIntensity);
-        currentLeftMotorIntensity=0f;
-        currentRightMotorIntensity=0f;
+        if(playerInput.currentControlScheme=="Gamepad"){
+            Gamepad.current.SetMotorSpeeds(currentLeftMotorIntensity*maxRumbleIntensity,currentRightMotorIntensity*maxRumbleIntensity);
+            currentLeftMotorIntensity=0f;
+            currentRightMotorIntensity=0f;
+        }
     }
 
     public static void AddRumble(string nameOfAction,float modifier=1f){
