@@ -14,6 +14,7 @@ public class RubbingGameManager : MonoBehaviour
     public ObiRope ropeB;
     public GameObject climaxBase;
     public GameObject MCClimaxhead;
+    public ClimaxCameraManager climaxCameraManager;
 
     [Header("Threshold Settings")]
     public float maxThreshold = 2.0f; // Maximum threshold where grow speed is at max
@@ -82,11 +83,10 @@ public class RubbingGameManager : MonoBehaviour
                 meterValue = Mathf.Max(meterValue - decaySpeed * Time.deltaTime, 0f);
             }
         }
-
-        // Load the next level when the meter reaches max value
         if (meterValue == 100f && moveOnAfterThresholdReached)
         {
             Detach();
+            climaxCameraManager.isClimaxCompleted = true;
         }
 
         // Update the meter text
@@ -111,6 +111,7 @@ public class RubbingGameManager : MonoBehaviour
             obiParticleAttachmentA[i].enabled = false;
             obiParticleAttachmentB[i].enabled = false;
         }
+
     }
 
     public void MoveOn()
