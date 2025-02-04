@@ -57,7 +57,9 @@ public class Rumble : MonoBehaviour
 [System.Serializable]
 public struct RumbleSettings{
     public string name;
+    [Range(0f,1f)]
     public float leftMotorIntensity;
+    [Range(0f,1f)]
     public float rightMotorIntensity;
     public RumbleType rumbleType;
 }
