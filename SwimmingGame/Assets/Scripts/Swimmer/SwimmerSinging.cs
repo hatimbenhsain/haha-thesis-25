@@ -219,6 +219,9 @@ public class SwimmerSinging : Singing
             }
             if(isHarmonizing){
                 Rumble.AddRumble("Harmonizing");
+                FMODUnity.RuntimeManager.StudioSystem.setParameterByName("harmonizing",1f);
+            }else{
+                FMODUnity.RuntimeManager.StudioSystem.setParameterByName("harmonizing",0f);
             }
 
         }

@@ -72,6 +72,7 @@ public class NPCSinging : Singing
     private Animator animator;
 
     private string prevNote;
+    private bool prevHarmonizing;
 
 
     void Start()
@@ -107,7 +108,11 @@ public class NPCSinging : Singing
             canSing=false;
         }
 
+        bool harmonizing=false;
+
         if(canSing){
+            harmonizing=isHarmonizing(swimmerSinging);
+
             float distanceFromPlayer=Vector3.Distance(transform.position,swimmerSinging.transform.position);
 
             timer+=Time.deltaTime;
@@ -157,7 +162,7 @@ public class NPCSinging : Singing
                             singingNote=PickHarmony(swimmerSinging);
                             currentEventLength=Random.Range(-timerMaxVariationLength,timerMaxVariationLength);
                         }
-                    }else if(!InRange() || !swimmerSinging.singing || !isHarmonizing(swimmerSinging)){
+                    }else if(!InRange() || !swimmerSinging.singing || !harmonizing){
                         if(timer>=timeBeforeDroppingHarmony+currentEventLength){
                             singing=false;
                             singingVolume=0f;
@@ -222,7 +227,7 @@ public class NPCSinging : Singing
                 // Checking harmony and starting dialogue if harmony is achieved
                 // Right now harmony only goes up/down if the npc is currently
                 if(singing && swimmerSinging.singing && InRange()){
-                    if(isHarmonizing(swimmerSinging) || harmonized){
+                    if(harmonizing || harmonized){
                         harmonyValue+=Time.deltaTime;
                         targetOpacity=1f;
                         swimmerSinging.Harmonizing();
@@ -234,7 +239,7 @@ public class NPCSinging : Singing
                     harmonyValue-=Time.deltaTime/2f;
                 }
 
-                if(singing && swimmerSinging.singing && isHarmonizing(swimmerSinging)){
+                if(singing && swimmerSinging.singing && harmonizing){
                     singingTraceSpriteRenderer.GetComponent<Animator>().SetBool("growing",true);
                 }else{
                     singingTraceSpriteRenderer.GetComponent<Animator>().SetBool("growing",false);
@@ -257,10 +262,16 @@ public class NPCSinging : Singing
 
         
         Color c=singingTraceSpriteRenderer.color;
-        float a=Mathf.Lerp(c.a,targetOpacity,imageOpacityLerpSpeed*Time.deltaTime);
+        float a;
+        if(canSing && prevHarmonizing){
+            a=Mathf.Lerp(c.a,targetOpacity,imageOpacityLerpSpeed*4f*Time.deltaTime);
+        }else{
+            a=Mathf.Lerp(c.a,targetOpacity,imageOpacityLerpSpeed*Time.deltaTime);
+        }
         singingTraceSpriteRenderer.color=new Color(c.r,c.g,c.b,a);
 
         prevCanSing=canSing;
+        prevHarmonizing=harmonizing;
     }
 
     public bool InRange(){

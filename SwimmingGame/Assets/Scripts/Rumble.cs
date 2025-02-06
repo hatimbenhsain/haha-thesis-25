@@ -57,6 +57,12 @@ public class Rumble : MonoBehaviour
         }
     }
 
+    private void OnDestroy() {
+        if(playerInput.currentControlScheme=="Gamepad"){
+            Gamepad.current.SetMotorSpeeds(0f,0f);
+        }
+    }
+
 }
 
 [System.Serializable]
