@@ -34,6 +34,20 @@ EXTERNAL changeDesire(text)
 ~ setFMODGlobalParameter("npcSingingVolume",1)
 
 
+=== npcStart ===
+~ stopSinging()
+~ pauseTutorial(true)
+~ muffleNPCsVolume()
+~ setDialogueBubble("standard")
+->->
+
+=== npcEnd ===
+~pauseTutorial(false)
+~ continueSinging()
+~ restoreNPCsVolume()
+->->
+
+
 
 //Colors:
 //Eelor

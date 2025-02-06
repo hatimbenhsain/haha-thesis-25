@@ -621,20 +621,6 @@ MC: Let's never do this again.
 
 /* RANDOM NPCS */
 
-
-=== npcStart ===
-~ stopSinging()
-~ pauseTutorial(true)
-~ muffleNPCsVolume()
-~ setDialogueBubble("standard")
-->->
-
-=== npcEnd ===
-~pauseTutorial(false)
-~ continueSinging()
-~ restoreNPCsVolume()
-->->
-
 === libraryReceptionist ===
 # color: 95B79B
 { npcsTalkedTo==0:
@@ -858,7 +844,7 @@ NPC: When I am swimming around this column I am filled with... a special feeling
 === npcInCenter7 ===
 # color: 95B79B
 -> npcStart ->
-NPC: Little rock.
+NPC: Good tidings friend.
 How's your current?
 +   [Chilly.]
     NPC: I think it's been getting colder, hasn't it?
