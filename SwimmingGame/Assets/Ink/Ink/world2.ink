@@ -524,6 +524,11 @@ VAR talkedToJanitor=0
 // At this point, what if you can actually choose to try the surface or just migrate? :thinking:
 // I guess there'd be less emotional impact if you do the former
 
+
+// When you go to surface, MC can't breathe
+
+// Then migration
+
 // * OVERWORLD NPCS *
 
 
