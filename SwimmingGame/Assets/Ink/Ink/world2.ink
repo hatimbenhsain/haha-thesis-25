@@ -16,6 +16,7 @@ NPC: Good tidings friend.
 { 
     - talkedToVirgin:
         NPC: Please be careful in there.
+        // I feel like the virgin should just say ... here because of their disapproval
         MC: I will be.
     - else:
         -> chat ->
@@ -52,6 +53,8 @@ Care for a chat?
     MC: Uh... I don't know. I was just saying.
     NPC: No, really. What would you do here that you wouldn't do in other instances?
     MC: I don't know! It's just, I guess maybe I don't have to think about what others will think about what I do differently for once.
+    // I think MC might not be as honest at their feelings here
+    // I feel like a shy person would try to cover it up or try to act normal here because the virgin is definitely someone they feel less comfortable talking about sex and inner feelings with. Its like MC accidently opened up a bit and got disapproved so now they are pretending nothing happened
     NPC: ...
     NPC: I know you think I'm judgemental.
     MC: I wasn't saying that.
@@ -73,6 +76,7 @@ NPC: So,\pause how have you been feeling? I know that last one you had relations
     NPC ...in a row doesn't necessarily mean that it's a pattern. Lots of people nowadays are heading up there and...
     MC: I said it's fine!!! I don't think it's a pattern!!!
     I'm great and lovable and besides I don't even need that sort of stuff anyway!!
+    // I think MC might be a bit more passive agressive here instead of being super up front and honest about their feelings
     NPC: ....
     If you put it that way.
 +   [Bad.]
@@ -105,6 +109,7 @@ NPC: So,\pause how have you been feeling? I know that last one you had relations
     NPC: ....
     If you put it that way.
 - NPC: Anyway...
+
 Did you see that Enkidu person? What's their deal?
 What's with the name? I've never needed one before, or anyone else that I know. What makes them think they're so important?
 MC: Well it does make it easier to refer to them.
@@ -114,6 +119,7 @@ Still. There's something kind of intriguing about them.
 NPC: Intriguing? Really? Say more.
 MC: I don't know. I guess I just wonder what it must be like to have that much attention put upon you.
 NPC: Must be asphyxiating. //im trying to think of a better word that also would make sense for a fish to say
+// haha i think this is fish vocab
 MC: I'm sure, yeah.
 ...
 Can I ask you a question?
@@ -140,6 +146,8 @@ I know you've done "it" before but with all the other changes you never know wha
 MC: Ok. And that's not why I'm going back in there.
 NPC: Right.
 MC: Right.
+
+    // Same here I think overall its good but MC might be more hiding their feelings? I feel like talking to the virgin is somewhat like how I used to talk to my straight friends in middle school and I was trying very hard to pretending to be nonchalant because I dont want to be seen as a freak? I feel like MC with the virgin has this kind of energy so maybe the expressions of feelings could be more subtle here?
 ->->
 
 
@@ -151,6 +159,7 @@ Enkidu: That's how they start conversations on the surface!
 MC: Oh...
 -> npcEnd ->
 -> END
+// could be fun if this dialogue is initiated by enkidu
 
 //Maybe for this one they're hanging from the ceiling or sth crazy/not dancing
 === EnkiduAtParty2 ===
@@ -215,6 +224,7 @@ VAR chosenName=false
     ->chat->
 }
 Enkidu: {Let's do it.|Come on.|There is only one time.|I want to entangle with you.}
+// I feel like it starts a bit too abruptly? I feel like as experienced as enkidu they will do some starter just to make MC feel more comfortable like "you know what it means when we are here alone right" or some complements like "I might sound like a freak but I know I like you at the first glance, I just have to get it out"
 Now.
 +   [Yes!]
     MC: Don't we need to harmonize more first?
@@ -454,6 +464,7 @@ I want to...
     NPCs: Move.
 +   [Grow.]
     NPCs: row.
+    // typo here?
 +   [Transform.]
     NPCs: Transform.
 - MC: Yes...
@@ -470,6 +481,7 @@ NPC3: We should go now.
 NPC1: There's only now.
 NPC5: Let's go now!
 NPC2: Now! Now! Now!
+// maybe mention the tunnel here? 
 ->END
 
 //MC wakes up later. everyone is gone. they go to the center near the big tunnel to the surface and they find the janitor.
