@@ -206,6 +206,8 @@ Enkidu: You'll find me!
 
 
 VAR talkedToEnkiduBeforeMainAct1=false
+VAR mcName="Haten"
+VAR chosenName=false
 
 === EnkiduBeforeMainAct1 ===
 -> npcStart ->
@@ -236,8 +238,17 @@ Enkidu: Do you like it?
 - MC: It's --
 ->->
 
+// Main act happens, then short climax interrupted by Enkidu
+
 // goals: MC talks about ambivalence of sex, enkidu proposes naming
 === EnkiduAftercare1 ===
+MC: You stopped us there.
+Enkidu: I did.
+MC: Why?
+Enkidu: I wanted the moment to last longer.
+MC: Ah...
+I see.
+~pause(4)
 MC: To be honest...
 Enkidu: Yes?
 MC: I didn't think I was going to entangle ever again.
@@ -282,17 +293,241 @@ Enkidu: And why is that?
     MC: Well... When you put it that way... I guess so, Yeah.
 Enkidu: But there's more to it, isn't it?
 // LOOP BACK LOGIC
+// [...]
 Enkidu: The way I see it... If something feels this good, why resist it?
 You say you fear change. Yet, isn't it in our nature to go with the current?
 MC: Huh.
 I guess so.
-    
-// the way i see it... if something feels this good, why resist it?
-// hmm yeah maybe 
-// can i ask u about name?
-// why/how/ ...
-//do u want one?
+Enkidu: You don't sound so convinced.
+MC: Well... There's still so much I don't understand.
+Enkidu: Such as?
+MC: Like...
+Well, your name for example.
+Enkidu: What about it?
++   [Why have one?]
+    MC: What's... the point of having one?
+    Enkidu: I supposed... I enjoy having something that is entirely mine, and hearing it inside other's minds.
++   [How did you pick it?]
+    MC: How did you pick it?
+    Enkidu: I just liked the way it sounded.
+-MC: "Enkidu"... Huh.
+Enkidu: Would you like one too?
+MC: ...Oh!
+Hmm...
++   [Yes.]
+    MC: Yes, I think I'd like to try it.
+    // Naming section
+    //At this point, transition to overworld?
+    Enkidu: {mcName}. Very... evocative.
+    MC: Do you like it?
+    Enkidu: What matters is whether you like it, little minnow. {mcName}.
+    MC: Yeah.
+    ~chosenName=true
++   [No.]
+    MC: No, I think I'm okay with not having one.
+    //At this point, transition to overworld?
+    Enkidu: That's perfectly fine. You should have it your way. And no one else's.
+    MC: I guess so.
+- MC: Well...
+MC: What now?
+Enkidu: Now...
+I'd like to introduce you to some friends.
+// A lot of NPCs enter. 
+// Transition to harmonizing/foreplay with everyone
 -> END
+
+//After harmonizing, we enter a cuddle/aftercare scnene with Main Character stroking a big pile of bodies
+// It would be cool if we can do a big "collective" speech bubble that is a bunch of overlapping ones at once
+=== OrgyAftercare1 ===
+MC: This feels...
+NPC2: Ecstatic?
+NPC3: Euphoric!
+NPC4: Transcendental!!!
+MC: Yes...
+And also...
++   [Snug.]
+    NPC2: Snug?
++   [Warm.]
+    NPC2: Warm?
++   [Electrifying.]
+    NPC2: Electrifying?
++   [Serene.]
+    NPC2: Serene?
++   [Thrilling.]
+    NPC2: Thrilling?
+- MC: Yeah! Exactly...
+MC: I've never felt this connected before...
+NPC3: There's nothing like it.
+MC: Before this, when I was alone...
+It was...
++   [Cold.]
++   [Suffocating.]
++   [Burning.]
++   [Throbbing.]
+- NPC4: It was as if there was no one else in the world.
+MC: It seemed that no matter how hard I tried...
+NPC5: To reach out to others.
+NPC2: To occupy myself.
+NPC3: To stop thinking about it.
+NPC1: It felt like it would always be that way.
+MC: It felt like no one was ever going to...
++   [Understand me.]
+    MC:...understand me again.
++   [Hold me.]
+    MC:...hold me again.
++   [Love me.]
+    MC:...love me again.
+NPC5: But now, everyone's thoughts...
+NPC1:...feelings...
+Enkidu: Desires.
+MC:...are like my own.
+NPC4: There's no need to be...
++   [Afraid.]
++   [Bitter.]
++   [Hopeless.]
+MC: ...again.
+~pause(4)
+NPC4: I want to be closer.
+NPC5: Me too.
+NPC1: Me too.
+NPC2: Me too.
+//These would appear everywhere and be hard to avoid
++   [Me too.]
++   [Me too.]
++   [Me too.]
++   [Me too.]
++   [Me too.]
++   [Me too.]
++   [Me too.]
++   [Me too.]
++   [Me too.]
+- //Transition to Orgy Main Act
+-> END
+
+//Orgy main act + climax happens
+//Go back to aftercare orgy/cuddle
+
+=== OrgyAftercare2 ===
+NPC2: I wish...
+NPC5: If I could...
+NPC1: I'd like to...
+MC: If this could last forever...
+~pause(2)
+NPC4: I can't wait...
+NPC1: I want it now.
+NPC2: I'm counting the cycles...
+NPC5: To be on the surface.
+MC: I--
+~pause(2)
+MC: Is this what life is like? On the surface?
+NPC4: I hear they do this everyday.
+NPC1: Or maybe every other day.
+NPC2: I hear gravity makes it even better!
+Enkidu: What is everyone the most excited to do on the surface?
+NPC1: I want to count stars!
+NPC2: I want to cross a street!
+NPC4: I want to eat a tree!
+NPC5: I want to crochet!
+NPC3: I want to walk on clouds!
+NPC4: I want to lick a fire!
+Enkidu: And what about you?
+MC: I want to...
++   [I want to see them again.]
+- MC: Sorry, I...
+NPC2: It's okay.
+NPC5: We have each other.
+NPCs: We're together now.
+Enkidu: Yes. You don't have to know what comes next. 
+NPCs: Focus on the now.
++   [Now...]
++   [Now.]
++   [Now!]
+- MC: Maybe...
+Maybe it will be okay...
+Up there...
+I want to...
++   [Go.]
+    NPCs: Go.
++   [Change.]
+    NPCs: Change.
++   [Move.]
+    NPCs: Move.
++   [Grow.]
+    NPCs: row.
++   [Transform.]
+    NPCs: Transform.
+- MC: Yes...
+// At this point begin to fade to black
+Maybe sometime soon...
+NPCs: We'll all be together.
+//MC's hand can become slack or withdraw slowly/they're falling asleep
+// it continues fading to black, and overshadows the dialogue too/u can't see it to completion
+NPC1: I really can't wait.
+NPC4: Can we go now?
+NPC5: I want someone to hold my hand when we go.
+NPC2: I want to be in front!
+NPC3: We should go now.
+NPC1: There's only now.
+NPC5: Let's go now!
+NPC2: Now! Now! Now!
+->END
+
+//MC wakes up later. everyone is gone. they go to the center near the big tunnel to the surface and they find the janitor.
+VAR talkedToJanitor=0
+=== janitor ===
+-> npcStart ->
+{ 
+- talkedToJanitor==0:
+    MC: Where is everyone?
+    Janitor: Where do you think?
+    MC: They-- But--
+    They went to the surface?
+    Janitor: Wasn't it what this was all about?
+    MC: But they... went without me.
+    Janitor: Weren't you snoozing back there?
+    MC: ...
+    Janitor: Hey, they probably just didn't want to bother you, I'm sure. I mean, the way is still open if you wanna join them.
+    MC: I...
+    I don't know.. if I'm ready.
+    Janitor: Well there's only one way to find out, isn't it?
+    MC: But I'm... what if...
+    Janitor: You know, it's not so bad, down here. You could always stay with the rest of us.
+    MC: .....
+    ~talkedToJanitor=talkedToJanitor+1
+- talkedToJanitor==1:
+    MC: What are you still doing here?
+    Janitor: Oh, I like to stick around a bit longer here and clean up after everyone's partied out. Someone's got to do it.
+    MC: ...I see.
+    MC: And did everyone really..?
+    Janitor: Well, not everyone. Those more old-fashioned like myself are getting to migrate to the next world. I'll join them once I feel I've done enough.
+    But something tells me there won't be a party like this one again...
+    ~talkedToJanitor=talkedToJanitor+1
+- talkedToJanitor==2:
+    MC: Is it really time for migration? I feel like it usually takes longer than this.
+    Janitor: Well, when you feel the call, you've gotta heed it, right?
+    MC: I guess.
+    Janitor: All the others moving up also maybe sorta... steered the current a different way, perhaps. Kind of a mood killer.
+    MC: ...
+    ~talkedToJanitor=talkedToJanitor+1
+- talkedToJanitor==3:
+    Janitor: So what do you think you're gonna do?
+    MC: I don't know. I'm...
+    Janitor: Scared, huh?
+    MC: ...
+    Janitor: But you don't wanna get left behind.
+    MC: It's...
+    ...
+}
+-> npcEnd ->
+-> END
+
+// At this point, what if you can actually choose to try the surface or just migrate? :thinking:
+// I guess there'd be less emotional impact if you do the former
+
+
+// When you go to surface, MC can't breathe
+
+// Then migration
 
 // * OVERWORLD NPCS *
 
