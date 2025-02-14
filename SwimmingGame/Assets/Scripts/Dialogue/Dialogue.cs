@@ -38,6 +38,11 @@ public class Dialogue : MonoBehaviour
 
     [Tooltip("Can the player control choice with buttons?")]
     public bool controlChoice=true;
+    [Tooltip("Can select dialogue with D-Pad or equivalent vs singing?")]
+    public bool canSelectDialogue=true;
+
+    [Tooltip("Place choice boxes along singing wheel?")]
+    public bool placeChoiceBoxesAroundWheel=false;
 
 
     [Header("Canvas objects")]
@@ -60,8 +65,11 @@ public class Dialogue : MonoBehaviour
     public GameObject[] choiceTextBoxes;
     [Tooltip("Move boxes to these positions if we only have 2 choices.")]
     public RectTransform[] alternateChoiceTextBoxes2;
+    [Tooltip("Holder of position for choice boxes along singing wheel.")]
+    public RectTransform[] choiceBoxesSingingWheelPlaces;
     private Vector3[] choiceBoxesPositions3; //Use these positions if we have 3 choices
     private Vector3[] choiceBoxesPositions2;  //Use these positions if we have 2 choices
+    private Vector3[] choiceBoxesPositionsWheel;
     [HideInInspector]
     public TMP_Text[] choiceTMPs;
 
@@ -126,6 +134,13 @@ public class Dialogue : MonoBehaviour
             }
         }
 
+        if(placeChoiceBoxesAroundWheel){
+            choiceBoxesPositionsWheel=new Vector3[choiceBoxesSingingWheelPlaces.Length];
+            for(var i=0;i<choiceBoxesPositionsWheel.Length;i++){
+                choiceBoxesPositionsWheel[i]=choiceBoxesSingingWheelPlaces[i].anchoredPosition;
+            }
+        }
+
         DialogueAwake();
 
         HideText();
@@ -182,7 +197,8 @@ public class Dialogue : MonoBehaviour
                         }else if(story.currentChoices.Count>0 && currentChoiceIndex<=story.currentChoices.Count 
                             && currentChoiceIndex>=0 && controlChoice){
                             PickChoice(currentChoiceIndex);
-                        }else if(story.currentChoices.Count>0 && currentChoiceIndex<=story.currentChoices.Count){
+                        }else if(story.currentChoices.Count>0 && currentChoiceIndex<=story.currentChoices.Count &&
+                        canSelectDialogue){
                             currentChoiceIndex=0;
                         }else{
                             EndDialogue();
@@ -197,6 +213,7 @@ public class Dialogue : MonoBehaviour
                 if(story.currentChoices.Count>0 && currentCharacterIndex>=displayText.Length && controlChoice){
                     singingTimer -= Time.deltaTime * singingCancelSpeed * singingRequiredLength;
                     if(swimmerSinging.singing && swimmerSinging.singingVolume>.2f){
+                        bool pointingToAChoice=false;
                         for(var i=0;i<choiceTextBoxes.Length;i++){
                             if(choiceTextBoxes[i].activeInHierarchy){
                                 float a=Vector2.SignedAngle(choiceTextBoxes[i].GetComponent<RectTransform>().anchoredPosition,new Vector2(0f,-1f))/180f;
@@ -205,6 +222,7 @@ public class Dialogue : MonoBehaviour
                                     if(currentChoiceIndex!=i){
                                         singingTimer=0f;
                                     }
+                                    pointingToAChoice=true;
                                     currentChoiceIndex=i;
                                     singingTimer+=Time.deltaTime;
                                     Rumble.AddRumble("Picking Dialogue",singingTimer/singingRequiredLength);
@@ -213,7 +231,10 @@ public class Dialogue : MonoBehaviour
                                     }
                                 }
                             }
-                        }                        
+                        }              
+                        if(!pointingToAChoice){
+                            currentChoiceIndex=-1;
+                        }          
                         Debug.Log(singingTimer);
                         // if(angle>choiceSingingMinAngle && angle<choiceSingingMaxAngle){
                         //     for(var i=0;i<story.currentChoices.Count;i++){
@@ -223,7 +244,7 @@ public class Dialogue : MonoBehaviour
                         //         }
                         //     }
                         // }
-                    }else{
+                    }else if(canSelectDialogue){
                         if((playerInput.navigateDown && !playerInput.prevNavigateDown) || 
                             (playerInput.navigateRight && !playerInput.prevNavigateRight)){
                             currentChoiceIndex+=1;
@@ -314,7 +335,23 @@ public class Dialogue : MonoBehaviour
 
     //Show choices on UI
     public virtual void ShowChoices(){
+        if(placeChoiceBoxesAroundWheel && !choiceTextBoxes[0].gameObject.activeInHierarchy){
+            // int[] positions=new int[choiceBoxesPositionsWheel.Length];
+            // for(int k=0;k<positions.Length;k++){
+            //     positions[k]=k;
+            // }
+            //Shuffle(positions);
+            int offsetInt=Random.Range(0,choiceBoxesPositionsWheel.Length);
+            for(int i=0;i<Mathf.Min(story.currentChoices.Count,choiceTextBoxes.Length);i++){
+                RectTransform rect=choiceTextBoxes[i].GetComponent<RectTransform>();
+                //Randomize starting position of where choice boxes appear
+                rect.anchoredPosition=choiceBoxesPositionsWheel[i+offsetInt%choiceBoxesPositionsWheel.Length];
+            }
+        }
+
         for(int i=0;i<Mathf.Min(story.currentChoices.Count,choiceTextBoxes.Length);i++){
+            RectTransform rect=choiceTextBoxes[i].GetComponent<RectTransform>();
+
             if(!choiceTextBoxes[i].gameObject.activeInHierarchy){
                 choiceTextBoxes[i].gameObject.SetActive(true);
                 choiceTextBoxes[i].GetComponentInChildren<Animator>().StartPlayback();
@@ -322,12 +359,12 @@ public class Dialogue : MonoBehaviour
                 choiceTextBoxes[i].GetComponentInChildren<Animator>().speed=1f;
             }
 
-            RectTransform rect=choiceTextBoxes[i].GetComponent<RectTransform>();
-
-            if(story.currentChoices.Count==2 && choiceBoxesPositions2.Length>0){
-                rect.anchoredPosition=choiceBoxesPositions2[i];
-            }else if(story.currentChoices.Count==1 || story.currentChoices.Count==3){
-                rect.anchoredPosition=choiceBoxesPositions3[i];
+            if(!placeChoiceBoxesAroundWheel){
+                if(story.currentChoices.Count==2 && choiceBoxesPositions2.Length>0){
+                    rect.anchoredPosition=choiceBoxesPositions2[i];
+                }else if(story.currentChoices.Count==1 || story.currentChoices.Count==3){
+                    rect.anchoredPosition=choiceBoxesPositions3[i];
+                }
             }
             
             choiceTMPs[i].text=story.currentChoices[i].text;
