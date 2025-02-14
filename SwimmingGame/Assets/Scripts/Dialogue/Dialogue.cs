@@ -4,6 +4,8 @@ using UnityEngine;
 using Ink.Runtime;
 using TMPro;
 using UnityEngine.UI;
+using FMOD.Studio;
+using FMODUnity;
 
 public class Dialogue : MonoBehaviour
 {
@@ -108,6 +110,9 @@ public class Dialogue : MonoBehaviour
     public float chosenScale=1.5f;
     public float scaleSpeed=1f;
 
+    
+    private EventInstance bubblesInstance;
+
     void Awake()
     {
         playerInput=FindObjectOfType<PlayerInput>();
@@ -154,6 +159,8 @@ public class Dialogue : MonoBehaviour
 
         swimmerSinging=FindObjectOfType<SwimmerSinging>();
 
+        bubblesInstance=RuntimeManager.CreateInstance("event:/Non-Diagetic SFX/Bubbles - Loop");
+
     }
 
     public void SetUpView(){
@@ -197,9 +204,8 @@ public class Dialogue : MonoBehaviour
                         }else if(story.currentChoices.Count>0 && currentChoiceIndex<=story.currentChoices.Count 
                             && currentChoiceIndex>=0 && controlChoice){
                             PickChoice(currentChoiceIndex);
-                        }else if(story.currentChoices.Count>0 && currentChoiceIndex<=story.currentChoices.Count &&
-                        canSelectDialogue){
-                            currentChoiceIndex=0;
+                        }else if(story.currentChoices.Count>0 && currentChoiceIndex<=story.currentChoices.Count){
+                            if(canSelectDialogue) currentChoiceIndex=0;
                         }else{
                             EndDialogue();
                         }
@@ -221,6 +227,7 @@ public class Dialogue : MonoBehaviour
                                 if(Mathf.Abs(a-swimmerSinging.singingAngle)<=choiceSingingAngleWindow || Mathf.Abs(a-swimmerSinging.singingAngle-2f)<=choiceSingingAngleWindow){
                                     if(currentChoiceIndex!=i){
                                         singingTimer=0f;
+                                        bubblesInstance.start();
                                     }
                                     pointingToAChoice=true;
                                     currentChoiceIndex=i;
@@ -231,9 +238,10 @@ public class Dialogue : MonoBehaviour
                                     }
                                 }
                             }
-                        }              
+                        }             
                         if(!pointingToAChoice){
                             currentChoiceIndex=-1;
+                            bubblesInstance.stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
                         }          
                         Debug.Log(singingTimer);
                         // if(angle>choiceSingingMinAngle && angle<choiceSingingMaxAngle){
@@ -244,16 +252,19 @@ public class Dialogue : MonoBehaviour
                         //         }
                         //     }
                         // }
-                    }else if(canSelectDialogue){
-                        if((playerInput.navigateDown && !playerInput.prevNavigateDown) || 
-                            (playerInput.navigateRight && !playerInput.prevNavigateRight)){
-                            currentChoiceIndex+=1;
-                            currentChoiceIndex=(currentChoiceIndex+story.currentChoices.Count)%story.currentChoices.Count;
-                        }
-                        if((playerInput.navigateUp && !playerInput.prevNavigateUp) ||
-                            (playerInput.navigateLeft && !playerInput.prevNavigateLeft)){
-                            currentChoiceIndex-=1;
-                            currentChoiceIndex=(currentChoiceIndex+story.currentChoices.Count)%story.currentChoices.Count;
+                    }else{
+                        bubblesInstance.stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
+                        if(canSelectDialogue){
+                            if((playerInput.navigateDown && !playerInput.prevNavigateDown) || 
+                                (playerInput.navigateRight && !playerInput.prevNavigateRight)){
+                                currentChoiceIndex+=1;
+                                currentChoiceIndex=(currentChoiceIndex+story.currentChoices.Count)%story.currentChoices.Count;
+                            }
+                            if((playerInput.navigateUp && !playerInput.prevNavigateUp) ||
+                                (playerInput.navigateLeft && !playerInput.prevNavigateLeft)){
+                                currentChoiceIndex-=1;
+                                currentChoiceIndex=(currentChoiceIndex+story.currentChoices.Count)%story.currentChoices.Count;
+                            }
                         }
                     }
                     singingTimer = Mathf.Clamp(singingTimer, 0f, singingRequiredLength);
@@ -319,6 +330,8 @@ public class Dialogue : MonoBehaviour
     public void PickChoice(int choiceIndex){
         currentChoiceIndex=choiceIndex;
         choicePicked=true;
+        bubblesInstance.stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
+        Sound.PlayOneShotVolume("event:/Non-Diagetic SFX/Bubbles - Burst",1f);
     }
 
     //Show spoken text (not choices) on UI
