@@ -165,4 +165,8 @@ public class BulgeEffect : MonoBehaviour
         isFinishedBulging = false;
         isBulgingLocked = false;
     }
+
+    public bool IsBulging(){
+        return isPulseStarted;
+    }
 }

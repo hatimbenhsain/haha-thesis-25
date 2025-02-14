@@ -2,6 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using FMOD.Studio;
+using FMODUnity;
 
 public class SexGameManager : MonoBehaviour
 {
@@ -34,9 +36,20 @@ public class SexGameManager : MonoBehaviour
 
     private bool movingOn=false;
 
+    //[Header("Sound")]
+
+    private EventInstance ambianceEvent;
+    private NPCSpring[] npcSprings;
+    private BulgeEffect[] bulgeEffects;
+
+
     private void Start()
     {
         startCounting = false;
+
+        ambianceEvent=FindObjectOfType<StudioEventEmitter>().EventInstance;
+        npcSprings=FindObjectsOfType<NPCSpring>();
+        bulgeEffects=FindObjectsOfType<BulgeEffect>();
     }
 
     void Update()
@@ -78,6 +91,23 @@ public class SexGameManager : MonoBehaviour
 
         // Update the meter text
         meterText.text = $"Meter: {meterValue:F2}";
+
+        // Sound stuff
+        float averageIntensity=0f;
+        foreach(NPCSpring npcSpring in npcSprings){
+            averageIntensity+=npcSpring.currentIntensity;
+        }
+        averageIntensity=averageIntensity/npcSprings.Length;
+        ambianceEvent.setParameterByName("intensity",Mathf.Round(averageIntensity));
+
+        bool isBulging=false;
+        foreach(BulgeEffect bulgeEffect in bulgeEffects){
+            isBulging=bulgeEffect.IsBulging();
+            if(isBulging) break;
+        }
+        if(isBulging) ambianceEvent.setParameterByName("bulging",1f);
+        else ambianceEvent.setParameterByName("bulging",0f);
+
     }
 
     public float GetMeanDistance()

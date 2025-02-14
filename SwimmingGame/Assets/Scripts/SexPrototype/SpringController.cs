@@ -1,4 +1,6 @@
 using Cinemachine;
+using FMOD.Studio;
+using FMODUnity;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -32,6 +34,8 @@ public class SpringController : SexSpring
     private float targetCameraDistance;
     private float cameraLerpSpeed;
 
+    private EventInstance chargingInstance;
+
 
     void Start()
     {
@@ -39,6 +43,8 @@ public class SpringController : SexSpring
 
         playerInput = FindObjectOfType<PlayerInput>();
         thirdPersonFollow = virtualCamera.GetCinemachineComponent<Cinemachine3rdPersonFollow>();
+
+        chargingInstance=RuntimeManager.CreateInstance("event:/Sex/Charge");
     }
 
     private void Update()
@@ -49,6 +55,7 @@ public class SpringController : SexSpring
             // enable screenshake and quick camera lerp speed
             isShaking = true;
             cameraLerpSpeed = quickCameraLerpSpeed;
+            chargingInstance.start();
         }
 
         if (!playerInput.movingForward && playerInput.prevMovingForward)
@@ -57,6 +64,9 @@ public class SpringController : SexSpring
             // disable screenshake and return to default camera lerp speed
             isShaking = false;
             cameraLerpSpeed = defaultCameraLerpSpeed;
+
+            chargingInstance.stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
+            Sound.PlayOneShotVolume("event:/Sex/Thrust",1f,"force",1f);
         }
         
         SpringUpdate();
@@ -174,5 +184,10 @@ public class SpringController : SexSpring
                 targetCameraDistance = ZoomOutCameraDistance; break;
         }
         thirdPersonFollow.CameraDistance = Mathf.Lerp(thirdPersonFollow.CameraDistance, targetCameraDistance, cameraLerpSpeed * Time.fixedDeltaTime);
+    }
+
+    void OnDestroy()
+    {
+        chargingInstance.release();
     }
 }

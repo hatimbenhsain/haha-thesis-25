@@ -21,7 +21,7 @@ public class TeacherSexAI : NPCSexAI
                 }
                 break;
             case MovementBehavior.Wander:
-                if(distanceMeter>=50f){
+                if(distanceMeter>=50f || timeSinceStateChange>=maxTimeBeforeStateChange*1.5f){
                     //Start follow player when player gets close
                     ChangeState(MovementBehavior.FollowPlayer);
                 }
