@@ -223,6 +223,7 @@ public class Dialogue : MonoBehaviour
                         for(var i=0;i<choiceTextBoxes.Length;i++){
                             if(choiceTextBoxes[i].activeInHierarchy){
                                 float a=Vector2.SignedAngle(choiceTextBoxes[i].GetComponent<RectTransform>().anchoredPosition,new Vector2(0f,-1f))/180f;
+                                //float a=Vector2.SignedAngle(choiceTextBoxes[i].GetComponent<RectTransform>().position,FindObjectOfType<SwimmerSinging>().wheelRect.position)/180f;
                                 a=(2-a+choiceSingingAngleOffset)%2f;
                                 if(Mathf.Abs(a-swimmerSinging.singingAngle)<=choiceSingingAngleWindow || Mathf.Abs(a-swimmerSinging.singingAngle-2f)<=choiceSingingAngleWindow){
                                     if(currentChoiceIndex!=i){
