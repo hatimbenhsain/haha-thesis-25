@@ -194,7 +194,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.65882355, g: 0.7058824, b: 0.3764706, a: 1}
+  m_Color: {r: 0.4117647, g: 0.49411765, b: 0.44313726, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -982,7 +982,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.65882355, g: 0.7058824, b: 0.3764706, a: 1}
+  m_Color: {r: 0.4117647, g: 0.49411765, b: 0.44313726, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -1205,7 +1205,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.65882355, g: 0.7058824, b: 0.3764706, a: 1}
+  m_Color: {r: 0.4117647, g: 0.49411765, b: 0.44313726, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -2035,7 +2035,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.6579855, g: 0.7075472, b: 0.377136, a: 0.41960785}
+  m_Color: {r: 0.4117647, g: 0.49411765, b: 0.44313726, a: 0.42352942}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -3785,6 +3785,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   interlocutorTextBox: {fileID: 5351142483601156095}
   playerTextBox: {fileID: 5023155942894295645}
+  interlocutorsTextBoxes: []
   standardTextBox: {fileID: 5351142483601156095}
   floralTextBox: {fileID: 8673957210958858496}
   boneTextBox: {fileID: 9129418606065629583}
@@ -3932,7 +3933,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.6579855, g: 0.7075472, b: 0.377136, a: 0.41960785}
+  m_Color: {r: 0.4117647, g: 0.49411765, b: 0.44313726, a: 0.42352942}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -6739,7 +6740,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.6579855, g: 0.7075472, b: 0.377136, a: 0.41960785}
+  m_Color: {r: 0.4117647, g: 0.49411765, b: 0.44313726, a: 0.42352942}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -6844,6 +6845,8 @@ MonoBehaviour:
   inDialogue: 0
   npcInterlocutor: {fileID: 0}
   controlChoice: 0
+  canSelectDialogue: 1
+  placeChoiceBoxesAroundWheel: 0
   canvasParent: {fileID: 759095323287598843}
   views:
   - {fileID: 2625833148384061319}
@@ -6853,10 +6856,13 @@ MonoBehaviour:
   currentViewIndex: 0
   interlocutorTextBox: {fileID: 5351142483601156095}
   playerTextBox: {fileID: 5023155942894295645}
+  interlocutorsTextBoxes: []
   choiceTextBoxes:
   - {fileID: 632821811737355153}
   - {fileID: 1958570676869973565}
   - {fileID: 6131145766109291516}
+  alternateChoiceTextBoxes2: []
+  choiceBoxesSingingWheelPlaces: []
   choiceTMPs: []
   dialogueSpeedSlow: 10
   dialogueSpeedNormal: 30
@@ -6866,17 +6872,21 @@ MonoBehaviour:
   floralTextBox: {fileID: 8673957210958858496}
   boneTextBox: {fileID: 9129418606065629583}
   defaultChoiceBoxOpacites: []
+  choiceSingingAngleOffset: 0.5
+  choiceSingingAngleWindow: 0.2
+  singingRequiredLength: 1
+  singingCancelSpeed: 0.5
+  chosenScale: 1.5
+  scaleSpeed: 1
   caressing: 0
   caressRequiredLength: 2.5
   caressTimer: 0
   caressCancelSpeed: 0.1
-  scaleSpeed: 1
   opacitySpeed: 1
   notSelectedOpacity: 0.625
   hoveredOpacity: 0.9
   chosenOpacity: 1
   hoveredScale: 1.1
-  chosenScale: 1.5
 --- !u!1 &5297517107945325751
 GameObject:
   m_ObjectHideFlags: 0
@@ -7536,6 +7546,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   interlocutorTextBox: {fileID: 3892616270380008876}
   playerTextBox: {fileID: 5870183076280163257}
+  interlocutorsTextBoxes: []
   standardTextBox: {fileID: 3892616270380008876}
   floralTextBox: {fileID: 5146659247119502127}
   boneTextBox: {fileID: 7195173075554984154}
@@ -7870,6 +7881,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   interlocutorTextBox: {fileID: 186925752390514127}
   playerTextBox: {fileID: 2201572428917941394}
+  interlocutorsTextBoxes: []
   standardTextBox: {fileID: 186925752390514127}
   floralTextBox: {fileID: 736290917235475542}
   boneTextBox: {fileID: 1889216197571392613}
@@ -8671,6 +8683,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   interlocutorTextBox: {fileID: 8794713545827221696}
   playerTextBox: {fileID: 7354296315135595252}
+  interlocutorsTextBoxes: []
   standardTextBox: {fileID: 8794713545827221696}
   floralTextBox: {fileID: 6702894629374689382}
   boneTextBox: {fileID: 4347510343175618452}
@@ -10139,7 +10152,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.6579855, g: 0.7075472, b: 0.377136, a: 0.41960785}
+  m_Color: {r: 0.4117647, g: 0.49411765, b: 0.44313726, a: 0.42352942}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -10249,7 +10262,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.65882355, g: 0.7058824, b: 0.3764706, a: 1}
+  m_Color: {r: 0.4117647, g: 0.49411765, b: 0.44313726, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1

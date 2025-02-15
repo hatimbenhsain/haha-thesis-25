@@ -61,6 +61,8 @@ public class Dialogue : MonoBehaviour
     public GameObject playerTextBox;
     // TMP object for the spoken line
     private TMP_Text playerLineTMP;
+    [Tooltip("Textboxes for individual characters")]
+    public InterlocutorBox[] interlocutorsTextBoxes;
     private GameObject textBox;
     private TMP_Text lineTMP;
     [Tooltip("Objects to display choices.")]
@@ -113,6 +115,8 @@ public class Dialogue : MonoBehaviour
     
     private EventInstance bubblesInstance;
 
+    private List<GameObject> lingeringBoxes;    //Storing boxes that stay on screen
+
     void Awake()
     {
         playerInput=FindObjectOfType<PlayerInput>();
@@ -160,6 +164,8 @@ public class Dialogue : MonoBehaviour
         swimmerSinging=FindObjectOfType<SwimmerSinging>();
 
         bubblesInstance=RuntimeManager.CreateInstance("event:/Non-Diagetic SFX/Bubbles - Loop");
+
+        lingeringBoxes=new List<GameObject>();
 
     }
 
@@ -418,11 +424,15 @@ public class Dialogue : MonoBehaviour
 
     //Remove all UI elements
     void HideText(){
+        Debug.Log("Hide text");
         interlocutorLineTMP.text="";
         playerLineTMP.text="";
         canvasParent.SetActive(false);
         playerTextBox.SetActive(false);
         interlocutorTextBox.SetActive(false);
+        foreach(InterlocutorBox interlocutorBox in interlocutorsTextBoxes){
+            interlocutorBox.textBox.SetActive(false);
+        }
     }
 
     //Remove choice UI elements
@@ -550,23 +560,53 @@ public class Dialogue : MonoBehaviour
     void Continue(){
         if(story.canContinue){
 			displayText="";
+
+            GameObject prevTextBox=textBox;
+
+            if(ContainsTag(story.currentTags,"stayonscreen")){
+                Debug.Log("instantiate new box");
+                GameObject lingeringBox=Instantiate(prevTextBox,prevTextBox.GetComponentInParent<Canvas>().transform);
+                lingeringBox.GetComponentInChildren<Animator>().speed=0.5f;
+                lingeringBoxes.Add(lingeringBox);
+                lingeringBox.GetComponent<RectTransform>().position=prevTextBox.GetComponent<RectTransform>().position;
+            }
+
             while(displayText=="" && story.canContinue){
                 displayText=story.Continue().Trim();
             }
             displayText=FindTalker(displayText); //Remove "NPC: " from display text
-            GameObject prevTextBox=textBox;
+
             if(talker=="MC"){
                 textBox=playerTextBox;
                 lineTMP=playerLineTMP;
             }else{
-                textBox=interlocutorTextBox;
-                lineTMP=interlocutorLineTMP;
+                bool foundName=false;
+                foreach(InterlocutorBox interlocutorBox in interlocutorsTextBoxes){
+                    if(interlocutorBox.name==talker){
+                        textBox=interlocutorBox.textBox;
+                        lineTMP=textBox.GetComponentInChildren<TMP_Text>();
+                        foundName=true;
+                        break;
+                    }
+                }
+                if(!foundName){
+                    textBox=interlocutorTextBox;
+                    lineTMP=interlocutorLineTMP;
+                }
             }
             if(textBox!=prevTextBox){
                 HideText();
             }
 
             // PARSING INLINE TAGS:
+
+            if(ContainsTag(story.currentTags,"notambient")){
+                isAmbient=false;
+                Debug.Log("not ambient");
+            }else if(ContainsTag(story.currentTags,"ambient")){
+                isAmbient=true;
+                Debug.Log("Yes ambient");
+            }
 
             //Get text display time length
             if(ContainsTag(story.currentTags,"time")){
@@ -710,6 +750,9 @@ public class Dialogue : MonoBehaviour
         story.BindExternalFunction("changeDesire",(string text)=>{
             ChangeDesire(text);
         });
+        story.BindExternalFunction("clearScreen",()=>{
+            ClearScreen();
+        });
     }
 
     // EXTERNAL FUNCTIONS
@@ -826,6 +869,7 @@ public class Dialogue : MonoBehaviour
         standardTextBox=dialogueView.standardTextBox;
         boneTextBox=dialogueView.boneTextBox;
         floralTextBox=dialogueView.floralTextBox;
+        interlocutorsTextBoxes=dialogueView.interlocutorsTextBoxes;
 
         choiceTextBoxes=dialogueView.choiceTextBoxes;
 
@@ -882,4 +926,19 @@ public class Dialogue : MonoBehaviour
         FindObjectOfType<PauseMenu>().ChangeDesire(text);
     }
 
+    void ClearScreen(){
+        foreach (GameObject lingeringBox in lingeringBoxes){
+            Destroy(lingeringBox);
+        }
+        lingeringBoxes.Clear();
+    }
+
+}
+
+[System.Serializable]
+public struct InterlocutorBox{
+    [Tooltip("Name of NPC to whom to assign this text box to")]
+    public string name;
+    [Tooltip("Textbox game object for this interlocutor")]
+    public GameObject textBox;
 }

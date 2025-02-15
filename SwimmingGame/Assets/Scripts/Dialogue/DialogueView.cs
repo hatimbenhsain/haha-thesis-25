@@ -10,6 +10,8 @@ public class DialogueView : MonoBehaviour
     // TMP object for the interlocutor spoken line
     [Tooltip("Object to display player dialogue line.")]
     public GameObject playerTextBox;
+    [Tooltip("Textboxes for individual characters")]
+    public InterlocutorBox[] interlocutorsTextBoxes;
 
     public GameObject standardTextBox;
     public GameObject floralTextBox;
