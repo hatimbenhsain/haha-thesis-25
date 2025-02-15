@@ -569,6 +569,7 @@ public class Dialogue : MonoBehaviour
                 lingeringBox.GetComponentInChildren<Animator>().speed=0.5f;
                 lingeringBoxes.Add(lingeringBox);
                 lingeringBox.GetComponent<RectTransform>().position=prevTextBox.GetComponent<RectTransform>().position;
+                lingeringBox.transform.SetSiblingIndex(lingeringBoxes.Count-1);
             }
 
             while(displayText=="" && story.canContinue){

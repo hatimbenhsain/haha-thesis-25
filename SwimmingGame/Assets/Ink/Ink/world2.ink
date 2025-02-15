@@ -164,6 +164,8 @@ MC: Right.
 
 
 === EnkiduAtParty1 ===
+# color: 2A3B5A
+# outline: FFF383
 -> npcStart ->
 Enkidu: Hello there!
 MC: ...Hello?
@@ -175,6 +177,8 @@ MC: Oh...
 
 //Maybe for this one they're hanging from the ceiling or sth crazy/not dancing
 === EnkiduAtParty2 ===
+# color: 2A3B5A
+# outline: FFF383
 -> npcStart ->
 Enkidu: You are not dancing!
 MC: Neither are you.
@@ -183,6 +187,8 @@ Enkidu: I'm using psychic power to recenter the party vibes!
 -> END
 
 === EnkiduAtParty3 ===
+# color: 2A3B5A
+# outline: FFF383
 -> npcStart ->
 Enkidu: You are still not dancing!
 MC: I'm aware.
@@ -191,6 +197,8 @@ Enkidu: Make that be different!!
 -> END
 
 === EnkiduAtParty4 ===
+# color: 2A3B5A
+# outline: FFF383
 -> npcStart ->
 MC: So... About your whole "name" thing --
 Enkidu: Are you seriously trying to have a conversation with me right now??
@@ -200,6 +208,8 @@ Enkidu: Dance! Now!
 -> END
 
 === EnkiduAtParty5 ===
+# color: 2A3B5A
+# outline: FFF383
 -> npcStart ->
 Enkidu: Little minnow!
 MC: What?
@@ -209,6 +219,8 @@ MC: ...
 -> END
 
 === EnkiduAtParty6 ===
+# color: 2A3B5A
+# outline: FFF383
 -> npcStart ->
 Enkidu: I like your style!
 MC: I think I'm acting really awkwardly...
@@ -218,6 +230,8 @@ Enkidu: You are! There's a quiet melancholy about you! It's so different! I love
 
 
 === EnkiduAtParty7 ===
+# color: 2A3B5A
+# outline: FFF383
 -> npcStart ->
 Enkidu: Meet me later!
 MC: Why? I mean, um. Where? #speed: fast
@@ -231,6 +245,8 @@ VAR mcName="Haten"
 VAR chosenName=false
 
 === EnkiduBeforeMainAct1 ===
+# color: 2A3B5A
+# outline: FFF383
 -> npcStart ->
 {talkedToEnkiduBeforeMainAct1:
     ->chat->
@@ -467,11 +483,13 @@ NPC5: I'd like to... # stayonscreen # speed:20 # time:1
 MCSmall: If this could last forever... # stayonscreen # notambient # speed:20 # time:1
 ~clearScreen()
 ~pause(2)
-NPC4: I can't wait.
-NPC1: I want it now..
-NPC2: I'm counting the cycles...
-NPC5: To be on the surface.
-MCSmall: I--
+NPC6: I can't wait. # speed:fast # stayonscreen # ambient # time:0.2
+NPC7: I want it now.. # speed:fast # stayonscreen # time:0.2
+NPC8: I'm counting the cycles... # speed:150 # stayonscreen # time:0.2
+NPC9: To be on the surface. # speed:150 # stayonscreen # time:0.2
+NPC10: To be UP THERE. # speed:120 # stayonscreen # time:0.2
+MCSmall: I-- # notambient
+~clearScreen()
 ~pause(2)
 MC: Is this what life is like? On the surface?
 NPC4: I hear they do this everyday.
