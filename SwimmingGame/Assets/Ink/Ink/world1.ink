@@ -594,6 +594,7 @@ Teacher: Would you have liked to... with them?
 - Teacher: But, you know... \\pause\\pause\\pause things could be different once we're up there.
 ~ retractHandTrigger=true
 MC: What?
+~ fadeOut()
 MC: What do you mean?
 Teacher: Well you know... 
 Teacher: They're saying that we're all starting to change to be able to live in the outside.

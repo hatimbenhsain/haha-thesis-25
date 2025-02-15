@@ -282,8 +282,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 0.8195911, y: 2.4149861, z: 1.884946}
-  m_Center: {x: -0.9015896, y: -0.7074937, z: 0.26087105}
+  m_Size: {x: 0.8195911, y: 2.4149861, z: 1.1785624}
+  m_Center: {x: -0.9015896, y: -0.7074937, z: 0.20741771}
 --- !u!23 &11222842
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -2394,8 +2394,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4d0a6521fb23bb948b92f118bc952c92, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hand: {fileID: 2126474088}
-  handRetractSpeed: 4
+  hand: {fileID: 1958684657}
+  handRetractSpeed: 7.5
 --- !u!4 &653889856
 Transform:
   m_ObjectHideFlags: 0
@@ -2869,7 +2869,6 @@ MonoBehaviour:
   dialogueResponse1: 'What do you mean by that? '
   dialogueResponse2: I don't know...
   dialogueResponse3: Up where?
-  controllerDeadZone: 0.1
 --- !u!1 &823012239
 GameObject:
   m_ObjectHideFlags: 0
@@ -4114,11 +4113,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2153178369731169505, guid: 54ee2c803d46c6648878673f7fe5c681,
         type: 3}
-      propertyPath: m_Color.a
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2153178369731169505, guid: 54ee2c803d46c6648878673f7fe5c681,
-        type: 3}
       propertyPath: m_Color.b
       value: 0.10980392
       objectReference: {fileID: 0}
@@ -4210,7 +4204,7 @@ PrefabInstance:
     - target: {fileID: 5661031363680635953, guid: 54ee2c803d46c6648878673f7fe5c681,
         type: 3}
       propertyPath: transitionTime
-      value: 0.2
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 5661031363680635953, guid: 54ee2c803d46c6648878673f7fe5c681,
         type: 3}
@@ -23381,11 +23375,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1986153374961182649, guid: bb5aab30e2bebfc47aa2562ffd6246c8,
         type: 3}
-      propertyPath: canSelectDialogue
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1986153374961182649, guid: bb5aab30e2bebfc47aa2562ffd6246c8,
-        type: 3}
       propertyPath: startStoryTrigger
       value: 0
       objectReference: {fileID: 0}
@@ -23628,11 +23617,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Color.r
       value: 0.5019608
-      objectReference: {fileID: 0}
-    - target: {fileID: 7560338232094923032, guid: bb5aab30e2bebfc47aa2562ffd6246c8,
-        type: 3}
-      propertyPath: m_SortingOrder
-      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 7696346839079074366, guid: bb5aab30e2bebfc47aa2562ffd6246c8,
         type: 3}
