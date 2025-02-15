@@ -250,7 +250,6 @@ public class Dialogue : MonoBehaviour
                             currentChoiceIndex=-1;
                             bubblesInstance.stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
                         }          
-                        Debug.Log(singingTimer);
                         // if(angle>choiceSingingMinAngle && angle<choiceSingingMaxAngle){
                         //     for(var i=0;i<story.currentChoices.Count;i++){
                         //         if(angle>=choiceSingingMinAngle+i*(choiceSingingMaxAngle-choiceSingingMinAngle)/story.currentChoices.Count &&
@@ -514,6 +513,23 @@ public class Dialogue : MonoBehaviour
                 }
             }
         }
+        if(ContainsTag(story.TagsForContentAtPath(currentKnotName),"outline")){
+            Image[] images=interlocutorTextBox.GetComponentsInChildren<Image>();
+            string tag=GetTag(story.TagsForContentAtPath(currentKnotName),"outline");
+            Color newColor;
+            if(!changedColor){
+                defaultTextBoxColor=images[0].color;
+            }
+            changedColor=true;
+            if(ColorUtility.TryParseHtmlString("#"+tag.Replace("outline:","").Trim(),out newColor)){
+            foreach(Image image in images){
+                if(image.gameObject.name=="Outline"){
+                        newColor.a=image.color.a;
+                        image.color=newColor;
+                    }
+                }
+            }
+        }
         //if(!isAmbient) playerInput.SwitchMap("UI");
         
         if(swimmer!=null) swimmer.StartedDialogue(isAmbient);
@@ -564,7 +580,6 @@ public class Dialogue : MonoBehaviour
             GameObject prevTextBox=textBox;
 
             if(ContainsTag(story.currentTags,"stayonscreen")){
-                Debug.Log("instantiate new box");
                 GameObject lingeringBox=Instantiate(prevTextBox,prevTextBox.GetComponentInParent<Canvas>().transform);
                 lingeringBox.GetComponentInChildren<Animator>().speed=0.5f;
                 lingeringBoxes.Add(lingeringBox);
@@ -603,10 +618,8 @@ public class Dialogue : MonoBehaviour
 
             if(ContainsTag(story.currentTags,"notambient")){
                 isAmbient=false;
-                Debug.Log("not ambient");
             }else if(ContainsTag(story.currentTags,"ambient")){
                 isAmbient=true;
-                Debug.Log("Yes ambient");
             }
 
             //Get text display time length
