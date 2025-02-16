@@ -4,6 +4,8 @@ using UnityEngine;
 using Ink.Runtime;
 using TMPro;
 using UnityEngine.UI;
+using FMOD.Studio;
+using FMODUnity;
 
 public class Dialogue : MonoBehaviour
 {
@@ -38,6 +40,11 @@ public class Dialogue : MonoBehaviour
 
     [Tooltip("Can the player control choice with buttons?")]
     public bool controlChoice=true;
+    [Tooltip("Can select dialogue with D-Pad or equivalent vs singing?")]
+    public bool canSelectDialogue=true;
+
+    [Tooltip("Place choice boxes along singing wheel?")]
+    public bool placeChoiceBoxesAroundWheel=false;
 
 
     [Header("Canvas objects")]
@@ -54,14 +61,19 @@ public class Dialogue : MonoBehaviour
     public GameObject playerTextBox;
     // TMP object for the spoken line
     private TMP_Text playerLineTMP;
+    [Tooltip("Textboxes for individual characters")]
+    public InterlocutorBox[] interlocutorsTextBoxes;
     private GameObject textBox;
     private TMP_Text lineTMP;
     [Tooltip("Objects to display choices.")]
     public GameObject[] choiceTextBoxes;
     [Tooltip("Move boxes to these positions if we only have 2 choices.")]
     public RectTransform[] alternateChoiceTextBoxes2;
+    [Tooltip("Holder of position for choice boxes along singing wheel.")]
+    public RectTransform[] choiceBoxesSingingWheelPlaces;
     private Vector3[] choiceBoxesPositions3; //Use these positions if we have 3 choices
     private Vector3[] choiceBoxesPositions2;  //Use these positions if we have 2 choices
+    private Vector3[] choiceBoxesPositionsWheel;
     [HideInInspector]
     public TMP_Text[] choiceTMPs;
 
@@ -100,6 +112,11 @@ public class Dialogue : MonoBehaviour
     public float chosenScale=1.5f;
     public float scaleSpeed=1f;
 
+    
+    private EventInstance bubblesInstance;
+
+    private List<GameObject> lingeringBoxes;    //Storing boxes that stay on screen
+
     void Awake()
     {
         playerInput=FindObjectOfType<PlayerInput>();
@@ -126,6 +143,13 @@ public class Dialogue : MonoBehaviour
             }
         }
 
+        if(placeChoiceBoxesAroundWheel){
+            choiceBoxesPositionsWheel=new Vector3[choiceBoxesSingingWheelPlaces.Length];
+            for(var i=0;i<choiceBoxesPositionsWheel.Length;i++){
+                choiceBoxesPositionsWheel[i]=choiceBoxesSingingWheelPlaces[i].anchoredPosition;
+            }
+        }
+
         DialogueAwake();
 
         HideText();
@@ -138,6 +162,10 @@ public class Dialogue : MonoBehaviour
         }
 
         swimmerSinging=FindObjectOfType<SwimmerSinging>();
+
+        bubblesInstance=RuntimeManager.CreateInstance("event:/Non-Diagetic SFX/Bubbles - Loop");
+
+        lingeringBoxes=new List<GameObject>();
 
     }
 
@@ -183,7 +211,7 @@ public class Dialogue : MonoBehaviour
                             && currentChoiceIndex>=0 && controlChoice){
                             PickChoice(currentChoiceIndex);
                         }else if(story.currentChoices.Count>0 && currentChoiceIndex<=story.currentChoices.Count){
-                            currentChoiceIndex=0;
+                            if(canSelectDialogue) currentChoiceIndex=0;
                         }else{
                             EndDialogue();
                         }
@@ -197,14 +225,18 @@ public class Dialogue : MonoBehaviour
                 if(story.currentChoices.Count>0 && currentCharacterIndex>=displayText.Length && controlChoice){
                     singingTimer -= Time.deltaTime * singingCancelSpeed * singingRequiredLength;
                     if(swimmerSinging.singing && swimmerSinging.singingVolume>.2f){
+                        bool pointingToAChoice=false;
                         for(var i=0;i<choiceTextBoxes.Length;i++){
                             if(choiceTextBoxes[i].activeInHierarchy){
                                 float a=Vector2.SignedAngle(choiceTextBoxes[i].GetComponent<RectTransform>().anchoredPosition,new Vector2(0f,-1f))/180f;
+                                //float a=Vector2.SignedAngle(choiceTextBoxes[i].GetComponent<RectTransform>().position,FindObjectOfType<SwimmerSinging>().wheelRect.position)/180f;
                                 a=(2-a+choiceSingingAngleOffset)%2f;
                                 if(Mathf.Abs(a-swimmerSinging.singingAngle)<=choiceSingingAngleWindow || Mathf.Abs(a-swimmerSinging.singingAngle-2f)<=choiceSingingAngleWindow){
                                     if(currentChoiceIndex!=i){
                                         singingTimer=0f;
+                                        bubblesInstance.start();
                                     }
+                                    pointingToAChoice=true;
                                     currentChoiceIndex=i;
                                     singingTimer+=Time.deltaTime;
                                     Rumble.AddRumble("Picking Dialogue",singingTimer/singingRequiredLength);
@@ -213,8 +245,11 @@ public class Dialogue : MonoBehaviour
                                     }
                                 }
                             }
-                        }                        
-                        Debug.Log(singingTimer);
+                        }             
+                        if(!pointingToAChoice){
+                            currentChoiceIndex=-1;
+                            bubblesInstance.stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
+                        }          
                         // if(angle>choiceSingingMinAngle && angle<choiceSingingMaxAngle){
                         //     for(var i=0;i<story.currentChoices.Count;i++){
                         //         if(angle>=choiceSingingMinAngle+i*(choiceSingingMaxAngle-choiceSingingMinAngle)/story.currentChoices.Count &&
@@ -224,15 +259,18 @@ public class Dialogue : MonoBehaviour
                         //     }
                         // }
                     }else{
-                        if((playerInput.navigateDown && !playerInput.prevNavigateDown) || 
-                            (playerInput.navigateRight && !playerInput.prevNavigateRight)){
-                            currentChoiceIndex+=1;
-                            currentChoiceIndex=(currentChoiceIndex+story.currentChoices.Count)%story.currentChoices.Count;
-                        }
-                        if((playerInput.navigateUp && !playerInput.prevNavigateUp) ||
-                            (playerInput.navigateLeft && !playerInput.prevNavigateLeft)){
-                            currentChoiceIndex-=1;
-                            currentChoiceIndex=(currentChoiceIndex+story.currentChoices.Count)%story.currentChoices.Count;
+                        bubblesInstance.stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
+                        if(canSelectDialogue){
+                            if((playerInput.navigateDown && !playerInput.prevNavigateDown) || 
+                                (playerInput.navigateRight && !playerInput.prevNavigateRight)){
+                                currentChoiceIndex+=1;
+                                currentChoiceIndex=(currentChoiceIndex+story.currentChoices.Count)%story.currentChoices.Count;
+                            }
+                            if((playerInput.navigateUp && !playerInput.prevNavigateUp) ||
+                                (playerInput.navigateLeft && !playerInput.prevNavigateLeft)){
+                                currentChoiceIndex-=1;
+                                currentChoiceIndex=(currentChoiceIndex+story.currentChoices.Count)%story.currentChoices.Count;
+                            }
                         }
                     }
                     singingTimer = Mathf.Clamp(singingTimer, 0f, singingRequiredLength);
@@ -298,6 +336,8 @@ public class Dialogue : MonoBehaviour
     public void PickChoice(int choiceIndex){
         currentChoiceIndex=choiceIndex;
         choicePicked=true;
+        bubblesInstance.stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
+        Sound.PlayOneShotVolume("event:/Non-Diagetic SFX/Bubbles - Burst",1f);
     }
 
     //Show spoken text (not choices) on UI
@@ -314,7 +354,23 @@ public class Dialogue : MonoBehaviour
 
     //Show choices on UI
     public virtual void ShowChoices(){
+        if(placeChoiceBoxesAroundWheel && !choiceTextBoxes[0].gameObject.activeInHierarchy){
+            // int[] positions=new int[choiceBoxesPositionsWheel.Length];
+            // for(int k=0;k<positions.Length;k++){
+            //     positions[k]=k;
+            // }
+            //Shuffle(positions);
+            int offsetInt=Random.Range(0,choiceBoxesPositionsWheel.Length);
+            for(int i=0;i<Mathf.Min(story.currentChoices.Count,choiceTextBoxes.Length);i++){
+                RectTransform rect=choiceTextBoxes[i].GetComponent<RectTransform>();
+                //Randomize starting position of where choice boxes appear
+                rect.anchoredPosition=choiceBoxesPositionsWheel[i+offsetInt%choiceBoxesPositionsWheel.Length];
+            }
+        }
+
         for(int i=0;i<Mathf.Min(story.currentChoices.Count,choiceTextBoxes.Length);i++){
+            RectTransform rect=choiceTextBoxes[i].GetComponent<RectTransform>();
+
             if(!choiceTextBoxes[i].gameObject.activeInHierarchy){
                 choiceTextBoxes[i].gameObject.SetActive(true);
                 choiceTextBoxes[i].GetComponentInChildren<Animator>().StartPlayback();
@@ -322,12 +378,12 @@ public class Dialogue : MonoBehaviour
                 choiceTextBoxes[i].GetComponentInChildren<Animator>().speed=1f;
             }
 
-            RectTransform rect=choiceTextBoxes[i].GetComponent<RectTransform>();
-
-            if(story.currentChoices.Count==2 && choiceBoxesPositions2.Length>0){
-                rect.anchoredPosition=choiceBoxesPositions2[i];
-            }else if(story.currentChoices.Count==1 || story.currentChoices.Count==3){
-                rect.anchoredPosition=choiceBoxesPositions3[i];
+            if(!placeChoiceBoxesAroundWheel){
+                if(story.currentChoices.Count==2 && choiceBoxesPositions2.Length>0){
+                    rect.anchoredPosition=choiceBoxesPositions2[i];
+                }else if(story.currentChoices.Count==1 || story.currentChoices.Count==3){
+                    rect.anchoredPosition=choiceBoxesPositions3[i];
+                }
             }
             
             choiceTMPs[i].text=story.currentChoices[i].text;
@@ -367,11 +423,15 @@ public class Dialogue : MonoBehaviour
 
     //Remove all UI elements
     void HideText(){
+        Debug.Log("Hide text");
         interlocutorLineTMP.text="";
         playerLineTMP.text="";
         canvasParent.SetActive(false);
         playerTextBox.SetActive(false);
         interlocutorTextBox.SetActive(false);
+        foreach(InterlocutorBox interlocutorBox in interlocutorsTextBoxes){
+            interlocutorBox.textBox.SetActive(false);
+        }
     }
 
     //Remove choice UI elements
@@ -453,6 +513,23 @@ public class Dialogue : MonoBehaviour
                 }
             }
         }
+        if(ContainsTag(story.TagsForContentAtPath(currentKnotName),"outline")){
+            Image[] images=interlocutorTextBox.GetComponentsInChildren<Image>();
+            string tag=GetTag(story.TagsForContentAtPath(currentKnotName),"outline");
+            Color newColor;
+            if(!changedColor){
+                defaultTextBoxColor=images[0].color;
+            }
+            changedColor=true;
+            if(ColorUtility.TryParseHtmlString("#"+tag.Replace("outline:","").Trim(),out newColor)){
+            foreach(Image image in images){
+                if(image.gameObject.name=="Outline"){
+                        newColor.a=image.color.a;
+                        image.color=newColor;
+                    }
+                }
+            }
+        }
         //if(!isAmbient) playerInput.SwitchMap("UI");
         
         if(swimmer!=null) swimmer.StartedDialogue(isAmbient);
@@ -499,23 +576,51 @@ public class Dialogue : MonoBehaviour
     void Continue(){
         if(story.canContinue){
 			displayText="";
+
+            GameObject prevTextBox=textBox;
+
+            if(ContainsTag(story.currentTags,"stayonscreen")){
+                GameObject lingeringBox=Instantiate(prevTextBox,prevTextBox.GetComponentInParent<Canvas>().transform);
+                lingeringBox.GetComponentInChildren<Animator>().speed=0.5f;
+                lingeringBoxes.Add(lingeringBox);
+                lingeringBox.GetComponent<RectTransform>().position=prevTextBox.GetComponent<RectTransform>().position;
+                lingeringBox.transform.SetSiblingIndex(lingeringBoxes.Count-1);
+            }
+
             while(displayText=="" && story.canContinue){
                 displayText=story.Continue().Trim();
             }
             displayText=FindTalker(displayText); //Remove "NPC: " from display text
-            GameObject prevTextBox=textBox;
+
             if(talker=="MC"){
                 textBox=playerTextBox;
                 lineTMP=playerLineTMP;
             }else{
-                textBox=interlocutorTextBox;
-                lineTMP=interlocutorLineTMP;
+                bool foundName=false;
+                foreach(InterlocutorBox interlocutorBox in interlocutorsTextBoxes){
+                    if(interlocutorBox.name==talker){
+                        textBox=interlocutorBox.textBox;
+                        lineTMP=textBox.GetComponentInChildren<TMP_Text>();
+                        foundName=true;
+                        break;
+                    }
+                }
+                if(!foundName){
+                    textBox=interlocutorTextBox;
+                    lineTMP=interlocutorLineTMP;
+                }
             }
             if(textBox!=prevTextBox){
                 HideText();
             }
 
             // PARSING INLINE TAGS:
+
+            if(ContainsTag(story.currentTags,"notambient")){
+                isAmbient=false;
+            }else if(ContainsTag(story.currentTags,"ambient")){
+                isAmbient=true;
+            }
 
             //Get text display time length
             if(ContainsTag(story.currentTags,"time")){
@@ -659,6 +764,9 @@ public class Dialogue : MonoBehaviour
         story.BindExternalFunction("changeDesire",(string text)=>{
             ChangeDesire(text);
         });
+        story.BindExternalFunction("clearScreen",()=>{
+            ClearScreen();
+        });
     }
 
     // EXTERNAL FUNCTIONS
@@ -775,6 +883,7 @@ public class Dialogue : MonoBehaviour
         standardTextBox=dialogueView.standardTextBox;
         boneTextBox=dialogueView.boneTextBox;
         floralTextBox=dialogueView.floralTextBox;
+        interlocutorsTextBoxes=dialogueView.interlocutorsTextBoxes;
 
         choiceTextBoxes=dialogueView.choiceTextBoxes;
 
@@ -831,4 +940,19 @@ public class Dialogue : MonoBehaviour
         FindObjectOfType<PauseMenu>().ChangeDesire(text);
     }
 
+    void ClearScreen(){
+        foreach (GameObject lingeringBox in lingeringBoxes){
+            Destroy(lingeringBox);
+        }
+        lingeringBoxes.Clear();
+    }
+
+}
+
+[System.Serializable]
+public struct InterlocutorBox{
+    [Tooltip("Name of NPC to whom to assign this text box to")]
+    public string name;
+    [Tooltip("Textbox game object for this interlocutor")]
+    public GameObject textBox;
 }

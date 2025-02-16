@@ -143,16 +143,27 @@ public class DialogueBoxPlacement : MonoBehaviour
 
             if(bubbles){
                 Color c=rect.GetComponentInChildren<Image>().color;
+                Color outlineColor=rect.transform.Find("Image/Outline").GetComponent<Image>().color;
                 c.a=c.a*(1f-bubbleOutsideBoundsTimer);
                 Image[] bubbleImages=bubble1.GetComponentsInChildren<Image>();
                 foreach(Image image in bubbleImages){
-                    c.a=image.color.a;
-                    image.color=c;
+                    if(image.gameObject.name=="Outline"){
+                        outlineColor.a=image.color.a;
+                        image.color=outlineColor;
+                    }else{
+                        c.a=image.color.a;
+                        image.color=c;
+                    }
                 }
                 bubbleImages=bubble2.GetComponentsInChildren<Image>();
                 foreach(Image image in bubbleImages){
-                    c.a=image.color.a;
-                    image.color=c;
+                    if(image.gameObject.name=="Outline"){
+                        outlineColor.a=image.color.a;
+                        image.color=outlineColor;
+                    }else{
+                        c.a=image.color.a;
+                        image.color=c;
+                    }
                 }
                 //Vector2 circleCenter=(npcPos+rect.anchoredPosition)/2f;
 

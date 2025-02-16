@@ -87,7 +87,7 @@ public class FingerTipsController : MonoBehaviour
 
         float inputAngle;    //input angle
 
-        if (Mathf.Abs(moveX) > 0.01f || Mathf.Abs(moveY) > 0.01f)
+        if (Mathf.Abs(moveX) > gameManager.controllerDeadZone || Mathf.Abs(moveY) > gameManager.controllerDeadZone)
         {
             Vector3 inputDirection = new Vector3(moveX, moveY, 0).normalized;
             velocity = inputDirection * moveSpeed * Time.fixedDeltaTime;

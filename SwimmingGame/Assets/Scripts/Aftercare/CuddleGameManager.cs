@@ -11,6 +11,8 @@ public class CuddleGameManager : MonoBehaviour
     public string dialogueResponse2;
     public string dialogueResponse3; 
 
+    public float controllerDeadZone=0.1f;
+
     // for proof of concept, can change later
     public void UpdateDialogueText(string detectedOption)
     {
