@@ -30,6 +30,8 @@ public class SwimmerCamera : MonoBehaviour
     public float targetFov=80f;
     [Tooltip("FOV to change to when boosting")]
     public float boostFov=90f;
+    [Tooltip("Lerp the FOV to this when swimming slowly.")]
+    public float slowFov=60f;
     [Tooltip("At this velocity start attenuating effects such as FOV change.")]
     public float minVelocityToAttenuateEffects=7f;
     [Tooltip("At this velocity stop effects such as FOV change.")]
@@ -56,6 +58,8 @@ public class SwimmerCamera : MonoBehaviour
     CinemachineVirtualCamera cinemachineVirtualCamera;
     private bool restoreDampingTrigger=false;
     private Vector3 savedDamping;
+
+    private Animator animator;
 
 
 
@@ -85,6 +89,7 @@ public class SwimmerCamera : MonoBehaviour
         playerInput=FindObjectOfType<PlayerInput>();
         swimmer=GetComponent<Swimmer>();
         profile=FindObjectOfType<Volume>().sharedProfile;
+        animator=GetComponentInChildren<Animator>();
         if(profile.TryGet<ChromaticAberration>(out chromaticAberration)){
             hasChromaticAberration=true;
             chromaticAberrationBaseIntensity=chromaticAberration.intensity.value;
@@ -183,6 +188,9 @@ public class SwimmerCamera : MonoBehaviour
         //mod=(Mathf.Clamp(swimmer.GetVelocity().magnitude,minVelocityToAttenuateEffects,maxVelocityToAttenuateEffects)-minVelocityToAttenuateEffects)/
         //    (maxVelocityToAttenuateEffects-minVelocityToAttenuateEffects);
         float currentBaseFOV=baseFov+(boostFov-baseFov)*mod;
+        if(swimmer.IsCoasting()){
+            currentBaseFOV=slowFov;
+        }
         targetFov=Mathf.Lerp(targetFov,currentBaseFOV,boostEffectRestoreSpeed*Time.deltaTime);
 
         if(hasChromaticAberration){

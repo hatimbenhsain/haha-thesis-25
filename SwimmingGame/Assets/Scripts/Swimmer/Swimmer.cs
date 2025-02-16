@@ -59,7 +59,11 @@ public class Swimmer : MonoBehaviour
     public float rotationAcceleration=180f;
     [Tooltip("If at top speed, multiply rotation acceleration by this factor")]
     public float rotationVelocityFactor=2f;
-    public float rotationMaxVelocity=180f;
+    [Tooltip("If coasting, multiply rotation acceleration by this much (to make it slow.)")]
+    public float rotationCoastingVelocityFactor=.7f;
+    public float rotationMaxVelocity=40f;
+    [Tooltip("If coasting, this is max rotation velocity")]
+    public float rotationCoastingMaxVelocity=45f;
     private Vector3 rotationVelocity=Vector3.zero;
     public float rotationDeceleration=180f;
     public float maxRotationXAngle=60f;
@@ -257,9 +261,14 @@ public class Swimmer : MonoBehaviour
                     float acc=rotationAcceleration;
                     float f=Mathf.Clamp(playerVelocity.magnitude/maxVelocity,0f,1f);
                     acc=acc+acc*f*(rotationVelocityFactor-1f);
+                    float rotMaxVelocity=rotationMaxVelocity;
+                    if(IsCoasting() || IsSwimmingBackwards()){
+                        acc=acc*rotationCoastingVelocityFactor;
+                        rotMaxVelocity=rotationCoastingMaxVelocity;
+                    }
                     rotationVelocity+=new Vector3(playerInput.look.y,playerInput.look.x,0f)*acc*Time.fixedDeltaTime;
-                    if(pressedBackTimer>=1f) rotationVelocity=Vector3.ClampMagnitude(rotationVelocity,rotationMaxVelocity);
-                    else rotationVelocity=Vector3.Lerp(rotationVelocity,Vector3.ClampMagnitude(rotationVelocity,rotationMaxVelocity),Time.fixedDeltaTime*rotationOverrideRestoreSpeed);
+                    if(pressedBackTimer>=1f) rotationVelocity=Vector3.ClampMagnitude(rotationVelocity,rotMaxVelocity);
+                    else rotationVelocity=Vector3.Lerp(rotationVelocity,Vector3.ClampMagnitude(rotationVelocity,rotMaxVelocity),Time.fixedDeltaTime*rotationOverrideRestoreSpeed);
                 }
 
                 //Finding rotation to do
@@ -713,6 +722,18 @@ public class Swimmer : MonoBehaviour
 
     public Vector3 GetVelocity(){
         return body.velocity;
+    }
+
+    public bool IsCoasting(){
+        if(animator.GetCurrentAnimatorStateInfo(0).IsName("swimForwardSlow") || animator.GetCurrentAnimatorStateInfo(0).IsName("swimForwardSlower")){
+            return true;
+        }else return false;
+    }
+
+    public bool IsSwimmingBackwards(){
+        if(animator.GetCurrentAnimatorStateInfo(0).IsName("swimBackward") || animator.GetCurrentAnimatorStateInfo(0).IsName("startSwimBackwardFast")){
+            return true;
+        }else return false;
     }
 
     public void StartedDialogue(bool isAmbient=false){
