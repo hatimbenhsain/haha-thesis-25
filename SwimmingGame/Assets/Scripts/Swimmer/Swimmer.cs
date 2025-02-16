@@ -223,6 +223,8 @@ public class Swimmer : MonoBehaviour
             overridingRotation=false;
             rotationVelocity=(Quaternion.Lerp(body.rotation,targetRotationOverride,rotationOverrideSpeed*Time.fixedDeltaTime).eulerAngles-body.rotation.eulerAngles)/Time.fixedDeltaTime;
             rotationVelocity.z=0f;
+        }else if(pressedBackTimer<=maxKickbackPressingTime && overridingRotation){
+            pressedBackTimer=maxKickbackPressingTime;
         }
         pressedBackTimer+=Time.fixedDeltaTime;
 
