@@ -221,7 +221,7 @@ public class Swimmer : MonoBehaviour
             justKickedBack=false;
         }else if(overridingRotation && (playerInput.look!=Vector2.zero || Quaternion.Angle(targetRotationOverride,transform.rotation)<=1f)){
             overridingRotation=false;
-            rotationVelocity=(Quaternion.Lerp(body.rotation,targetRotationOverride,rotationOverrideSpeed*Time.fixedDeltaTime).eulerAngles-body.rotation.eulerAngles)/Time.fixedDeltaTime;
+            rotationVelocity=(Quaternion.Slerp(body.rotation,targetRotationOverride,rotationOverrideSpeed*Time.fixedDeltaTime).eulerAngles-body.rotation.eulerAngles)/Time.fixedDeltaTime;
             rotationVelocity.z=0f;
         }else if(pressedBackTimer<=maxKickbackPressingTime && overridingRotation){
             pressedBackTimer=maxKickbackPressingTime;
@@ -287,7 +287,7 @@ public class Swimmer : MonoBehaviour
             }
             newRotationQ=Quaternion.Euler(newRotation);
         }else{
-            newRotationQ=Quaternion.Lerp(body.rotation,targetRotationOverride,rotationOverrideSpeed*Time.fixedDeltaTime);
+            newRotationQ=Quaternion.Slerp(body.rotation,targetRotationOverride,rotationOverrideSpeed*Time.fixedDeltaTime);
         }
 
         
