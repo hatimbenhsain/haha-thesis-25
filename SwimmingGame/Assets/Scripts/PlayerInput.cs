@@ -33,6 +33,7 @@ public class PlayerInput : MonoBehaviour
 
     public bool shiftLeft;
     public bool shiftRight;
+    public bool shiftTwice;
 
 
     [HideInInspector]
@@ -41,13 +42,14 @@ public class PlayerInput : MonoBehaviour
     public bool yAxisInverted=false;
 
     //[HideInInspector]
-    public bool prevMovingForward, prevMovingBackward, prevMovingLeft, prevMovingRight, prevMovingUp, prevMovingDown, prevBoosting, prevInteracting, prevAiming, prevSinging, prevNavigateLeft, prevNavigateRight, prevNavigateUp, prevNavigateDown, prevPausing, prevEntering, prevShiftLeft, prevShiftRight;
+    public bool prevMovingForward, prevMovingBackward, prevMovingLeft, prevMovingRight, prevMovingUp, prevMovingDown, prevBoosting, prevInteracting, prevAiming, prevSinging, prevNavigateLeft, prevNavigateRight, prevNavigateUp, prevNavigateDown, prevPausing, prevEntering, prevShiftLeft, prevShiftRight, prevShiftTwice;
 
     public bool movedForwardTrigger;
 
     private UnityEngine.InputSystem.PlayerInput playerInput;
 
     public string currentControlScheme;
+    private string prevControlScheme;
 
     public InputActionAsset[] actionAssets;
     private int actionsIndex=0;
@@ -77,7 +79,7 @@ public class PlayerInput : MonoBehaviour
     }
 
     void Update(){
-        values=new object[] {look.x,look.y,rotation.x,rotation.y,singingNote.x,singingNote.y,movingForward,movingBackward,movingLeft,movingRight,movingUp,movingDown,boosting,interacting,aiming,singing,pausing,entering,shiftLeft,shiftRight};
+        values=new object[] {look.x,look.y,rotation.x,rotation.y,singingNote.x,singingNote.y,movingForward,movingBackward,movingLeft,movingRight,movingUp,movingDown,boosting,interacting,aiming,singing,pausing,entering,shiftLeft,shiftRight,shiftTwice};
         if(Input.GetKeyDown(KeyCode.I)){
             InvertYAxis();
         }
@@ -106,6 +108,10 @@ public class PlayerInput : MonoBehaviour
     }
 
     void LateUpdate() {
+        if(playerInput.currentControlScheme!=currentControlScheme && currentControlScheme=="Gamepad"){
+            Rumble.ResetRumble();
+        }
+
         prevMovingForward=movingForward;
         prevMovingBackward=movingBackward;
         prevMovingUp=movingUp;
@@ -126,6 +132,7 @@ public class PlayerInput : MonoBehaviour
         prevEntering=entering;
         prevShiftLeft=shiftLeft;
         prevShiftRight=shiftRight;
+        prevShiftTwice=shiftTwice;
     }
 
     public void OnMoveForward(InputAction.CallbackContext value){
@@ -217,6 +224,10 @@ public class PlayerInput : MonoBehaviour
 
     public void OnShiftRight(InputAction.CallbackContext value){
         ShiftRightInput(value.performed || value.started);
+    }
+
+    public void OnShiftTwice(InputAction.CallbackContext value){
+        ShiftTwiceInput(value.performed || value.started);
     }
 
     void MoveForwardInput(float f){
@@ -339,5 +350,9 @@ public class PlayerInput : MonoBehaviour
 
     void ShiftRightInput(bool b){
         shiftRight=b;
+    }
+
+    void ShiftTwiceInput(bool b){
+        shiftTwice=b;
     }
 }

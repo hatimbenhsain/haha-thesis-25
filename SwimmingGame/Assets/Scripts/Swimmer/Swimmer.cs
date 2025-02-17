@@ -44,6 +44,9 @@ public class Swimmer : MonoBehaviour
     public float boostTimer=0f;
     [Tooltip("Total time it takes before boost takes effect")]
     public float boostTime=1f;     //time before boost takes effect
+    [Tooltip("Ignore new strides during this time right after last input.")]
+    private float timerSinceMoveForwardInput=0f;
+    public float ignoreStrideTime=.3f;
     [Tooltip("Max speed gained from kicking wall")]
     public float wallBoost=1.5f;
     [Tooltip("Number to multiply the capsule radius when checking for walls")]
@@ -148,9 +151,12 @@ public class Swimmer : MonoBehaviour
     }
 
     void Update(){
-        if(playerInput.movedForwardTrigger && canMove){
+        timerSinceMoveForwardInput+=Time.deltaTime;
+        
+        if(playerInput.movedForwardTrigger && canMove && timerSinceMoveForwardInput>=ignoreStrideTime){
             swimmerSound.Stride();
             boostTimer=0f;
+            timerSinceMoveForwardInput=0f;
             animator.SetTrigger("boostForward");
             playerInput.movedForwardTrigger=false;
             forcesToAdd+=CheckForWallAndKick(Vector3.forward);

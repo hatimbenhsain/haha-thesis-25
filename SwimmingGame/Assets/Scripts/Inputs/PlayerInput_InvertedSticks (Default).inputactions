@@ -1,5 +1,5 @@
 {
-    "name": "PlayerInput_InvertedSticks",
+    "name": "PlayerInput_InvertedSticks (Default)",
     "maps": [
         {
             "name": "Player",
@@ -193,20 +193,18 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": true
+                },
+                {
+                    "name": "ShiftTwice",
+                    "type": "Value",
+                    "id": "f115ba69-55ce-48d9-8c23-d0d54d215e65",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
                 }
             ],
             "bindings": [
-                {
-                    "name": "",
-                    "id": "ec829daf-e627-4c2e-a0c7-54973907ca47",
-                    "path": "<Gamepad>/buttonEast",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "Gamepad",
-                    "action": "MoveForward",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
                 {
                     "name": "",
                     "id": "dc30db1a-8f27-4145-9132-37fe10130aff",
@@ -572,17 +570,6 @@
                 },
                 {
                     "name": "",
-                    "id": "ad3614b7-fe0a-490a-9160-dc5e8f4435b6",
-                    "path": "<Gamepad>/buttonEast",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "Gamepad",
-                    "action": "MoveForwardTrigger",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
                     "id": "4f9aa6bd-cfdb-437a-818e-435b60c96e86",
                     "path": "<Gamepad>/leftTrigger",
                     "interactions": "",
@@ -936,7 +923,7 @@
                 {
                     "name": "",
                     "id": "e60f026c-3110-4aa6-91ba-540d83e8f7a9",
-                    "path": "<Gamepad>/rightShoulder",
+                    "path": "<Gamepad>/buttonEast",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
@@ -958,11 +945,33 @@
                 {
                     "name": "",
                     "id": "23455d64-e28c-455f-bead-0f181086944b",
-                    "path": "<Gamepad>/leftShoulder",
+                    "path": "<Gamepad>/buttonWest",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
                     "action": "ShiftLeft",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "f86f8b43-a428-4eb9-a712-28d55ce1b157",
+                    "path": "<Keyboard>/3",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "ShiftTwice",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "ca99e9be-7a69-418e-b769-b486be845030",
+                    "path": "<Gamepad>/buttonNorth",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "ShiftTwice",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
