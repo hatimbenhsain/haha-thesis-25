@@ -14,6 +14,8 @@ public class Swimmer : MonoBehaviour
     public bool canMove=true;
     public float acceleration=1f;
     public float backwardAcceleration=1f;
+    [Tooltip("If at top speed, multiply backward acceleration by this factor")]
+    public float backwardAccelerationFactor=3f;
     public float maxVelocity=10f;
     [Tooltip("Deceleration always takes effect")]
     public float deceleration=5f;
@@ -57,7 +59,11 @@ public class Swimmer : MonoBehaviour
     public float rotationAcceleration=180f;
     [Tooltip("If at top speed, multiply rotation acceleration by this factor")]
     public float rotationVelocityFactor=2f;
-    public float rotationMaxVelocity=180f;
+    [Tooltip("If coasting, multiply rotation acceleration by this much (to make it slow.)")]
+    public float rotationCoastingVelocityFactor=.7f;
+    public float rotationMaxVelocity=40f;
+    [Tooltip("If coasting, this is max rotation velocity")]
+    public float rotationCoastingMaxVelocity=45f;
     private Vector3 rotationVelocity=Vector3.zero;
     public float rotationDeceleration=180f;
     public float maxRotationXAngle=60f;
@@ -108,7 +114,9 @@ public class Swimmer : MonoBehaviour
 
     [Tooltip("Maximum time before the player lets go of the moving backwards button before a camera adjustment is triggered.")]
     public float maxKickbackPressingTime=0.3f;
-    private float kickbackTimer=10f; //Timer to check how long it's been since we kicked back against a wall for the purpose of rotating camera
+    private float pressedBackTimer=10f; //Timer to check how long it's been since we kicked back against a wall for the purpose of rotating camera
+    private bool justKickedBack=false;
+
 
     private SwimmerSound swimmerSound;
 
@@ -150,8 +158,9 @@ public class Swimmer : MonoBehaviour
             Vector3 force=CheckForWallAndKick(-Vector3.forward);
             forcesToAdd+=force;
             if(force!=Vector3.zero){
-                kickbackTimer=0f;
+                justKickedBack=true;
             }
+            pressedBackTimer=0f;
         }
         
         // Dash input
@@ -210,14 +219,18 @@ public class Swimmer : MonoBehaviour
         Vector3 playerVelocity=currentVelocity;
 
         //Overriding rotation if a kickback just happened
-        if(kickbackTimer<=maxKickbackPressingTime && playerInput.look==Vector2.zero && !playerInput.movingBackward && !overridingRotation){
-            OverrideRotation(Quaternion.LookRotation(playerVelocity,Vector3.up));
+        if((pressedBackTimer<=maxKickbackPressingTime) && playerInput.look.magnitude<0.2f && !playerInput.movingBackward && !overridingRotation){
+            if(justKickedBack && playerVelocity.magnitude!=0f) OverrideRotation(Quaternion.LookRotation(playerVelocity,Vector3.up));
+            else OverrideRotation(Quaternion.LookRotation(-transform.forward,transform.up));
+            justKickedBack=false;
         }else if(overridingRotation && (playerInput.look!=Vector2.zero || Quaternion.Angle(targetRotationOverride,transform.rotation)<=1f)){
             overridingRotation=false;
-            rotationVelocity=(Quaternion.Lerp(body.rotation,targetRotationOverride,rotationOverrideSpeed*Time.fixedDeltaTime).eulerAngles-body.rotation.eulerAngles)/Time.fixedDeltaTime;
+            rotationVelocity=(Quaternion.Slerp(body.rotation,targetRotationOverride,rotationOverrideSpeed*Time.fixedDeltaTime).eulerAngles-body.rotation.eulerAngles)/Time.fixedDeltaTime;
             rotationVelocity.z=0f;
+        }else if(pressedBackTimer<=maxKickbackPressingTime && overridingRotation){
+            pressedBackTimer=maxKickbackPressingTime;
         }
-        kickbackTimer+=Time.fixedDeltaTime;
+        pressedBackTimer+=Time.fixedDeltaTime;
 
         Quaternion newRotationQ;
         if(!overridingRotation){
@@ -245,12 +258,17 @@ public class Swimmer : MonoBehaviour
                 }
 
                 if(playerInput.look!=Vector2.zero){//Setting rotation speed
-                    float acceleration=rotationAcceleration;
+                    float acc=rotationAcceleration;
                     float f=Mathf.Clamp(playerVelocity.magnitude/maxVelocity,0f,1f);
-                    acceleration=acceleration+acceleration*f*(rotationVelocityFactor-1f);
-                    rotationVelocity+=new Vector3(playerInput.look.y,playerInput.look.x,0f)*acceleration*Time.fixedDeltaTime;
-                    if(kickbackTimer>=1f) rotationVelocity=Vector3.ClampMagnitude(rotationVelocity,rotationMaxVelocity);
-                    else rotationVelocity=Vector3.Lerp(rotationVelocity,Vector3.ClampMagnitude(rotationVelocity,rotationMaxVelocity),Time.fixedDeltaTime*rotationOverrideRestoreSpeed);
+                    acc=acc+acc*f*(rotationVelocityFactor-1f);
+                    float rotMaxVelocity=rotationMaxVelocity;
+                    if(IsCoasting() || IsSwimmingBackwards()){
+                        acc=acc*rotationCoastingVelocityFactor;
+                        rotMaxVelocity=rotationCoastingMaxVelocity;
+                    }
+                    rotationVelocity+=new Vector3(playerInput.look.y,playerInput.look.x,0f)*acc*Time.fixedDeltaTime;
+                    if(pressedBackTimer>=1f) rotationVelocity=Vector3.ClampMagnitude(rotationVelocity,rotMaxVelocity);
+                    else rotationVelocity=Vector3.Lerp(rotationVelocity,Vector3.ClampMagnitude(rotationVelocity,rotMaxVelocity),Time.fixedDeltaTime*rotationOverrideRestoreSpeed);
                 }
 
                 //Finding rotation to do
@@ -278,7 +296,7 @@ public class Swimmer : MonoBehaviour
             }
             newRotationQ=Quaternion.Euler(newRotation);
         }else{
-            newRotationQ=Quaternion.Lerp(body.rotation,targetRotationOverride,rotationOverrideSpeed*Time.fixedDeltaTime);
+            newRotationQ=Quaternion.Slerp(body.rotation,targetRotationOverride,rotationOverrideSpeed*Time.fixedDeltaTime);
         }
 
         
@@ -406,7 +424,12 @@ public class Swimmer : MonoBehaviour
                 animator.SetBool("swimmingBackward",false);
             }else if(playerInput.movingBackward && !playerInput.movingForward){
                 if(playerVelocity.magnitude<coastingSpeed || Vector3.Angle(playerVelocity,-transform.forward)>=90f){
-                    playerVelocity+=-transform.forward*backwardAcceleration*Time.fixedDeltaTime;
+                    float acc=backwardAcceleration;
+                    float f=0f;
+                    //if(Vector3.Angle(playerVelocity,-transform.forward)>=90f) f=Mathf.Clamp(Vector3.Project(playerVelocity,transform.forward).magnitude/maxVelocity,0f,1f);
+                    if(Vector3.Angle(playerVelocity,-transform.forward)>=90f) f=Mathf.Clamp(playerVelocity.magnitude/maxVelocity,0f,1f);
+                    acc=acc+acc*f*(backwardAccelerationFactor-1f);
+                    playerVelocity+=-transform.forward*acc*Time.fixedDeltaTime;
                 }
                 animator.SetBool("swimmingBackward",true);
                 animator.SetBool("swimmingForward",false);
@@ -699,6 +722,18 @@ public class Swimmer : MonoBehaviour
 
     public Vector3 GetVelocity(){
         return body.velocity;
+    }
+
+    public bool IsCoasting(){
+        if(animator.GetCurrentAnimatorStateInfo(0).IsName("swimForwardSlow") || animator.GetCurrentAnimatorStateInfo(0).IsName("swimForwardSlower")){
+            return true;
+        }else return false;
+    }
+
+    public bool IsSwimmingBackwards(){
+        if(animator.GetCurrentAnimatorStateInfo(0).IsName("swimBackward") || animator.GetCurrentAnimatorStateInfo(0).IsName("startSwimBackwardFast")){
+            return true;
+        }else return false;
     }
 
     public void StartedDialogue(bool isAmbient=false){
