@@ -13,6 +13,7 @@ public class TouchController : MonoBehaviour
     public float rotationLerpDamp; 
     public Quaternion rotationOffset; // offset the rotation after timing normal
     public bool lockRotation = false;
+    public bool isMoving = true;
 
     public float rotationDampFactor = 1.0f; // public variable to control how much to dampen rotation
 
@@ -46,7 +47,11 @@ public class TouchController : MonoBehaviour
             ConvertMovementInput(playerInput.movingForward, playerInput.movingBackward, playerInput.movingLeft, playerInput.movingRight);
         }
 
-        Moving();
+        if (isMoving)
+        {
+            Moving();
+        }
+
         AdjustPositionAndRotation();
     }
 
