@@ -99,13 +99,15 @@ public class SwimmerSinging : Singing
     {
         if(canSing){
             
-            if(playerInput.shiftLeft && !playerInput.shiftRight){
+            if(playerInput.shiftLeft && !playerInput.shiftRight && !playerInput.shiftTwice){
                 shiftingAmount=-1;
-            }else if(playerInput.shiftLeft && !playerInput.prevShiftLeft && playerInput.shiftRight){
+            }else if((playerInput.shiftLeft && !playerInput.prevShiftLeft && playerInput.shiftRight)
+             || (playerInput.shiftRight && playerInput.shiftTwice && !playerInput.shiftLeft)){
                 shiftingAmount=2;
-            }else if(playerInput.shiftRight && !playerInput.shiftLeft){
+            }else if(playerInput.shiftRight && !playerInput.shiftLeft && !playerInput.shiftTwice){
                 shiftingAmount=1;
-            }else if(playerInput.shiftRight && !playerInput.prevShiftRight && playerInput.shiftLeft){
+            }else if((playerInput.shiftRight && !playerInput.prevShiftRight && playerInput.shiftLeft)
+             || (playerInput.shiftLeft && playerInput.shiftTwice && !playerInput.shiftRight)){
                 shiftingAmount=-2;
             }else if(!playerInput.shiftRight && !playerInput.shiftLeft){
                 shiftingAmount=0;
@@ -217,7 +219,7 @@ public class SwimmerSinging : Singing
                 // Gamepad.current.SetMotorSpeeds(leftRumbleSinging*singingVolume*(1-k),rightRumbleSinging*singingVolume*k);
                 Rumble.AddRumble("Singing",singingVolume);
             }
-            if(isHarmonizing){
+            if(singing && isHarmonizing){
                 Rumble.AddRumble("Harmonizing");
                 FMODUnity.RuntimeManager.StudioSystem.setParameterByName("harmonizing",1f);
             }else{

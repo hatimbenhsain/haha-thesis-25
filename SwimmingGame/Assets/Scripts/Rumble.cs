@@ -57,10 +57,14 @@ public class Rumble : MonoBehaviour
         }
     }
 
-    private void OnDestroy() {
-        if(playerInput.currentControlScheme=="Gamepad"){
+    public static void ResetRumble(){
+        if(Gamepad.current!=null){
             Gamepad.current.SetMotorSpeeds(0f,0f);
         }
+    }
+
+    private void OnDestroy() {
+        ResetRumble();
     }
 
 }

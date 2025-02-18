@@ -20354,15 +20354,18 @@ MonoBehaviour:
   dashCooldownWindow: 0.15
   maxDashes: 3
   boostSpeed: 1.5
-  coastingSpeed: 3
+  coastingSpeed: 4
   boostTimer: 0
   boostTime: 0.3
+  ignoreStrideTime: 0.5
   wallBoost: 3
   wallCheckCapsuleRadiusMultiplier: 3
   canRotate: 1
   rotationAcceleration: 120
   rotationVelocityFactor: 2.5
+  rotationCoastingVelocityFactor: 0.6
   rotationMaxVelocity: 90
+  rotationCoastingMaxVelocity: 45
   rotationDeceleration: 60
   maxRotationXAngle: 80
   maxTiltAngle: 10
@@ -20456,6 +20459,7 @@ MonoBehaviour:
   boostEffectRestoreSpeed: 2
   targetFov: 80
   boostFov: 90
+  slowFov: 60
   minVelocityToAttenuateEffects: 7
   maxVelocityToAttenuateEffects: 10
   chromaticAberrationIntensityChange: 0.2
@@ -35488,12 +35492,15 @@ MonoBehaviour:
   - {fileID: 5745019375270009885}
   - {fileID: 4629568838027435821}
   - {fileID: 2533152536892366652}
+  - {fileID: 4430173013480823029}
   minSpeeds:
   - 4
   - 6
   - 8
   - 9
+  - 7
   maxSpeeds:
+  - 10
   - 10
   - 10
   - 10
@@ -36011,8 +36018,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8896260278929868894}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -9.313226e-10, w: 1}
-  m_LocalPosition: {x: 2.6600113, y: 1.8200002, z: -1.3300079}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 2.6600037, y: 1.8199997, z: -1.3300018}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
