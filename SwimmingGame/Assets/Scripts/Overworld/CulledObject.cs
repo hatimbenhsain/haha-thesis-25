@@ -8,10 +8,17 @@ public class CulledObject : MonoBehaviour
 
     private Behaviour[] components;
 
+    private bool started=false;
+
     void Start()
     {
         components=gameObject.GetComponentsInChildren<Behaviour>();
         Activate(active);
+    }
+
+    void LateUpdate()
+    {
+
     }
 
     public void Activate(bool b=true){

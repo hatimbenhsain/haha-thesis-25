@@ -108,8 +108,12 @@ public class NPCOverworld : MonoBehaviour
     {
         originPosition=transform.position;
 
+
         if(TryGetComponent<Rigidbody>(out body)==false){
             body=GetComponentInParent<Rigidbody>();
+            if(body==null){
+                body=GetComponentInChildren<Rigidbody>();
+            }
         }
 
         player=FindObjectOfType<Swimmer>();
