@@ -8,6 +8,8 @@ public class LevelLoader : MonoBehaviour
 {
     public bool fadeIn;
     public float fadeInTime=1f;
+    public Color fadeInColor;
+    public Color fadeOutColor;
     public string destinationScene;
     [Header("Load level after countdown")]
     public bool countdown;
@@ -18,11 +20,11 @@ public class LevelLoader : MonoBehaviour
     public bool pressP;
     [Header("Transition animation")]
     public float transitionTime;
-    public Animator transition;
     public Image image;
     private float timer;
     private float transitionTimer=0f;
     public bool fadingOut=false;
+    public bool useUnscaledTime = false; 
 
     void Start()
     {
@@ -36,7 +38,8 @@ public class LevelLoader : MonoBehaviour
 
     void Update()
     {
-        transitionTimer+=Time.deltaTime;
+        float deltaTime = useUnscaledTime ? Time.unscaledDeltaTime : Time.deltaTime;
+        transitionTimer += deltaTime;
         
         if(fadeIn){
             Color c=image.color;
@@ -56,7 +59,7 @@ public class LevelLoader : MonoBehaviour
         }
 
         // Load level after countdown
-        timer -= Time.deltaTime;
+        timer -= deltaTime;
         if (timer <= 0f && countdown)
         {
             LoadLevel(); 
