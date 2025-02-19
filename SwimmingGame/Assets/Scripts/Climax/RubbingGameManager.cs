@@ -87,6 +87,7 @@ public class RubbingGameManager : MonoBehaviour
         {
             Detach();
             climaxCameraManager.isClimaxCompleted = true;
+            levelLoader.LoadLevel();
         }
 
         // Update the meter text
@@ -117,6 +118,6 @@ public class RubbingGameManager : MonoBehaviour
     public void MoveOn()
     {
         rb.isKinematic = false;
-        levelLoader.LoadLevel();
+
     }
 }

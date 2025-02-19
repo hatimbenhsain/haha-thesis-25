@@ -25,7 +25,7 @@ public class RubbingTips : MonoBehaviour
         {
             isUsingGamepad = true;
             ApplyMovement(object1, playerInput.look.x, playerInput.look.y);
-            ApplyMovement(object2, playerInput.rotation.x, playerInput.rotation.x);
+            ApplyMovement(object2, playerInput.rotation.x, -playerInput.rotation.y);
         }
         else
         {

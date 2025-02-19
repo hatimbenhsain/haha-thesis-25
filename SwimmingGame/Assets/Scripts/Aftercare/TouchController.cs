@@ -71,7 +71,7 @@ public class TouchController : MonoBehaviour
         else
         {
             moveX = playerInput.look.x;
-            moveZ = playerInput.look.y;
+            moveZ = -playerInput.look.y;
         }
 
         // calculate the target position based on input
