@@ -31,10 +31,20 @@ public class CullingArea : MonoBehaviour
     }
 
     private void OnTriggerEnter(Collider other) {
-        objectsToActivate.Add(other.gameObject.GetComponent<CulledObject>());
+        CulledObject c=other.gameObject.GetComponent<CulledObject>();
+        if(c==null){
+            c=other.gameObject.GetComponentInParent<CulledObject>();
+        }
+        Debug.Log(c.gameObject);
+        objectsToActivate.Add(c);
     }
 
     private void OnTriggerExit(Collider other) {
-        objectsToDeactivate.Add(other.gameObject.GetComponent<CulledObject>());
+        CulledObject c=other.gameObject.GetComponent<CulledObject>();
+        if(c==null){
+            c=other.gameObject.GetComponentInParent<CulledObject>();
+        }
+        Debug.Log(c.gameObject);
+        objectsToDeactivate.Add(c);
     }
 }
