@@ -152,17 +152,17 @@ PrefabInstance:
     - target: {fileID: 208488173231077330, guid: 69e30b0902a766747ab0ecbf30adbe70,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 2.9117243
+      value: -0.5047924
       objectReference: {fileID: 0}
     - target: {fileID: 208488173231077330, guid: 69e30b0902a766747ab0ecbf30adbe70,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: -9.205534
+      value: -13.347164
       objectReference: {fileID: 0}
     - target: {fileID: 208488173231077330, guid: 69e30b0902a766747ab0ecbf30adbe70,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: -14.840944
+      value: -0.8900147
       objectReference: {fileID: 0}
     - target: {fileID: 285791284795773293, guid: 69e30b0902a766747ab0ecbf30adbe70,
         type: 3}
@@ -227,12 +227,12 @@ PrefabInstance:
     - target: {fileID: 1331919550265084178, guid: 69e30b0902a766747ab0ecbf30adbe70,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: -16.774755
+      value: -10.755598
       objectReference: {fileID: 0}
     - target: {fileID: 1331919550265084178, guid: 69e30b0902a766747ab0ecbf30adbe70,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: -7.4870615
+      value: 5.889771
       objectReference: {fileID: 0}
     - target: {fileID: 1931768846624674934, guid: 69e30b0902a766747ab0ecbf30adbe70,
         type: 3}
@@ -2384,6 +2384,17 @@ PrefabInstance:
       propertyPath: indexInSystem
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 5446898386463817291, guid: 69e30b0902a766747ab0ecbf30adbe70,
+        type: 3}
+      propertyPath: m_Actions
+      value: 
+      objectReference: {fileID: -944628639613478452, guid: aa28c5da415df6a41b8d148a00a6b40b,
+        type: 3}
+    - target: {fileID: 5446898386463817291, guid: 69e30b0902a766747ab0ecbf30adbe70,
+        type: 3}
+      propertyPath: m_ActionEvents.Array.size
+      value: 49
+      objectReference: {fileID: 0}
     - target: {fileID: 6374422094002906858, guid: 69e30b0902a766747ab0ecbf30adbe70,
         type: 3}
       propertyPath: material
@@ -4522,7 +4533,7 @@ PrefabInstance:
     - target: {fileID: 8260862210090603618, guid: 69e30b0902a766747ab0ecbf30adbe70,
         type: 3}
       propertyPath: field of view
-      value: 34.777805
+      value: 32.404404
       objectReference: {fileID: 0}
     - target: {fileID: 8872421805567248110, guid: 69e30b0902a766747ab0ecbf30adbe70,
         type: 3}
@@ -4957,6 +4968,52 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &1594436791
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1594436793}
+  - component: {fileID: 1594436792}
+  m_Layer: 0
+  m_Name: BurstCollisionWorld
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1594436792
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1594436791}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f1a161c4294214a4fbcb7e9e94800494, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cellSpans:
+    m_AlignBytes: 16
+--- !u!4 &1594436793
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1594436791}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &2015931543
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -5099,3 +5156,4 @@ SceneRoots:
   - {fileID: 2015931543}
   - {fileID: 1002191678}
   - {fileID: 652877150}
+  - {fileID: 1594436793}
