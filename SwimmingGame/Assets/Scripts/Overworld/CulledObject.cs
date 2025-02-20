@@ -27,4 +27,11 @@ public class CulledObject : MonoBehaviour
             if(component!=this) component.enabled=b;
         }
     }
+
+    void OnTriggerEnter(Collider other)
+    {
+        if(other.gameObject.tag=="Culling Sphere"){
+            Debug.Log(gameObject);
+        }
+    }
 }

@@ -118,6 +118,7 @@ public class Swimmer : MonoBehaviour
     [Tooltip("Maximum time before the player lets go of the moving backwards button before a camera adjustment is triggered.")]
     public float maxKickbackPressingTime=0.3f;
     private float pressedBackTimer=10f; //Timer to check how long it's been since we kicked back against a wall for the purpose of rotating camera
+    private float prevPressedBackTimer=0f; //For the previous pressed back input to check double presses to turn around
     private bool justKickedBack=false;
 
 
@@ -227,7 +228,15 @@ public class Swimmer : MonoBehaviour
         //Overriding rotation if a kickback just happened
         if((pressedBackTimer<=maxKickbackPressingTime) && playerInput.look.magnitude<0.2f && !playerInput.movingBackward && !overridingRotation){
             if(justKickedBack && playerVelocity.magnitude!=0f) OverrideRotation(Quaternion.LookRotation(playerVelocity,Vector3.up));
-            else OverrideRotation(Quaternion.LookRotation(-transform.forward,transform.up));
+            else{
+                if(prevPressedBackTimer<=maxKickbackPressingTime){
+                    OverrideRotation(Quaternion.LookRotation(-transform.forward,transform.up));
+                    prevPressedBackTimer=maxKickbackPressingTime;
+                }else{
+                    prevPressedBackTimer=0f;
+                    pressedBackTimer=maxKickbackPressingTime;
+                }
+            }
             justKickedBack=false;
         }else if(overridingRotation && (playerInput.look!=Vector2.zero || Quaternion.Angle(targetRotationOverride,transform.rotation)<=1f)){
             overridingRotation=false;
@@ -237,6 +246,7 @@ public class Swimmer : MonoBehaviour
             pressedBackTimer=maxKickbackPressingTime;
         }
         pressedBackTimer+=Time.fixedDeltaTime;
+        prevPressedBackTimer+=Time.deltaTime;
 
         Quaternion newRotationQ;
         if(!overridingRotation){

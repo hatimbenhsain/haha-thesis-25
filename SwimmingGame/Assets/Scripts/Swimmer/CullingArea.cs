@@ -8,6 +8,7 @@ public class CullingArea : MonoBehaviour
     private List<CulledObject> objectsToDeactivate;
     public int maxObjectsToCullInAFrame=5;
 
+
     void Start(){
         objectsToActivate=new List<CulledObject>();
         objectsToDeactivate=new List<CulledObject>();

@@ -241,7 +241,7 @@ public class NPCOverworld : MonoBehaviour
 
         float distanceFromPlayer=Vector3.Distance(body.transform.position,player.transform.position);
 
-        if(distanceFromPlayer<maxProcessingDistance){
+        if(distanceFromPlayer<maxProcessingDistance || maxProcessingDistance==-1){
             if(!processing){
                 processing=true;
                 body.detectCollisions=true;

@@ -30,6 +30,7 @@ public class Fish : NPCOverworld
     }
 
     void Update(){
+
         if(movementBehavior==MovementBehavior.FollowLeader && leader==null){
             int tries=0;
             Fish[] fishArray=FindObjectsOfType<Fish>();

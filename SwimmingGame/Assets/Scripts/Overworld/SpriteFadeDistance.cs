@@ -30,7 +30,7 @@ public class SpriteFadeDistance : MonoBehaviour
         Color c=spriteRenderer.color;
         c.a=opacity;
         spriteRenderer.color=c;
-        if(c.a<=0.01f){
+        if(c.a<=0.001f){
             spriteRenderer.enabled=false;
         }else{
             spriteRenderer.enabled=true;
