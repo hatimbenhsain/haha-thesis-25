@@ -86,7 +86,7 @@ public class SpringController : SexSpring
         }
         if (playerInput.currentControlScheme == "Gamepad")
         {
-            HandleTurning(playerInput.look);
+            HandleTurning(new Vector2(playerInput.look.x, -playerInput.look.y) );
         }
         else
         {

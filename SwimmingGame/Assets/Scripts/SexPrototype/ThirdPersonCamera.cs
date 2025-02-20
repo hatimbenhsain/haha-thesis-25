@@ -33,11 +33,11 @@ public class ThirdPersonCamera : MonoBehaviour
     {
         // Get mouse input
         float mouseX = playerInput.rotation.x * sensitivity * Time.fixedDeltaTime;
-        float mouseY = playerInput.rotation.y * sensitivity * Time.fixedDeltaTime;
+        float mouseY = -playerInput.rotation.y * sensitivity * Time.fixedDeltaTime;
 
         // Get look input
         float lookX = playerInput.look.x * sensitivity * Time.fixedDeltaTime;
-        float lookY = playerInput.look.y * sensitivity * Time.fixedDeltaTime;
+        float lookY = -playerInput.look.y * sensitivity * Time.fixedDeltaTime;
 
         // Combine mouse input and look input
         targetRotation.y += mouseX + lookX;  // Horizontal rotation (combined)
