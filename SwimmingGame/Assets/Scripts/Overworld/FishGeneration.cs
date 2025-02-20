@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class FishGeneration : MonoBehaviour
@@ -46,6 +47,7 @@ public class FishGeneration : MonoBehaviour
         spriteRenderer.transform.localScale=Vector3.one*s;
         Fish f=fish.GetComponent<Fish>();
         f.pitch=f.pitch+pitchVariance*2f*((s-minScale)/(maxScale-minScale)-0.5f);
+        f.transform.parent=transform;
         return f;
     }
 
