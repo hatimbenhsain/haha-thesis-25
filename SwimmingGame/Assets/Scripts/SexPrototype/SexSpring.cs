@@ -99,7 +99,7 @@ public class SexSpring : MonoBehaviour{
         bool isMoving = false;
 
         // Backward tilt (up direction)
-        if (input.y > 0f)
+        if (input.y < 0f)
         {
             Quaternion targetTilt = Quaternion.Euler(-90, characterRb.rotation.eulerAngles.y, 0);
             characterRb.MoveRotation(Quaternion.Slerp(characterRb.rotation, targetTilt, turnSpeed * Time.fixedDeltaTime));
@@ -107,7 +107,7 @@ public class SexSpring : MonoBehaviour{
             isMoving = true;
         }
         // Forward tilt (down direction)
-        else if (input.y < 0f)
+        else if (input.y > 0f)
         {
             Quaternion targetTilt = Quaternion.Euler(90, characterRb.rotation.eulerAngles.y, 0);
             characterRb.MoveRotation(Quaternion.Slerp(characterRb.rotation, targetTilt, turnSpeed * Time.fixedDeltaTime));
