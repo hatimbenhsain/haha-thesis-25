@@ -197,6 +197,7 @@ GameObject:
   - component: {fileID: 2260346965044553998}
   - component: {fileID: 235094812804088037}
   - component: {fileID: 3631727766338851139}
+  - component: {fileID: 3144422495135174912}
   m_Layer: 0
   m_Name: Sprite
   m_TagString: Untagged
@@ -314,6 +315,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7a525ff6a91343e4ea70af0a1a435e0f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  lockX: 0
+  lockY: 0
+  lockZ: 0
 --- !u!65 &3631727766338851139
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -335,6 +339,21 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 0.4, y: 1.28, z: 0.20000012}
   m_Center: {x: -0.000030517578, y: -0.0000038146973, z: 0.000015258789}
+--- !u!114 &3144422495135174912
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4280882485286813214}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2221c69839550b14b8910271cfc1fbdc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  minDistance: 4
+  maxDistance: 12
+  resizeFactor: 0.2
 --- !u!1 &4720774764992607001
 GameObject:
   m_ObjectHideFlags: 0
@@ -414,6 +433,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   masterVolume: 1
   name: NPC1
+  singleVoiceMode: 0
   keys: []
   possibleNotes:
   - A4
@@ -632,6 +652,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7a525ff6a91343e4ea70af0a1a435e0f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  lockX: 0
+  lockY: 0
+  lockZ: 0
 --- !u!95 &9067979356776709212
 Animator:
   serializedVersion: 5
@@ -747,6 +770,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   minDistance: 10
+  maxDistance: -1
+  resizeFactor: 1
 --- !u!1 &6297584611824266950
 GameObject:
   m_ObjectHideFlags: 0
