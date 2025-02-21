@@ -14,6 +14,7 @@ public class TouchController : MonoBehaviour
     public Quaternion rotationOffset; // offset the rotation after timing normal
     public bool lockRotation = false;
     public bool isMoving = true;
+    public bool isRandmlyMovingAround;
 
     public float rotationDampFactor = 1.0f; // public variable to control how much to dampen rotation
 
@@ -50,6 +51,10 @@ public class TouchController : MonoBehaviour
         if (isMoving)
         {
             Moving();
+        }
+        if (isRandmlyMovingAround)
+        {
+            MoveAround();
         }
 
         AdjustPositionAndRotation();
@@ -144,4 +149,9 @@ public class TouchController : MonoBehaviour
             }
         }
     }
+
+    void MoveAround(){
+
+    }
+
 }

@@ -21,11 +21,12 @@ public class CuddleCameraManager : MonoBehaviour
     public Transform handControlPoint;
     public TouchController handController;
     public Animator sexPartnerAnimator;
+    public bool isApplyingHeadBob;
 
     [Header("Head Bob Settings")]
     public float bobSpeed = 2f;      
     public float bobAmount = 0.05f;  
-    private float defaultCameraY;    
+    public float defaultCameraY;    
     private float bobTimer;
 
     public int shotIndex;
@@ -40,7 +41,8 @@ public class CuddleCameraManager : MonoBehaviour
         UpdatePosition(handControlPoint, handControlPos);
         handController.boundingBox = boundingBoxes[shotIndex];
         handController.rotationOffset = handRotationOffset[shotIndex];
-        sexPartnerAnimator.SetBool("SwitchPose", sexPartnerAnimationSwitchPose[shotIndex]);
+
+
     }
 
     void FixedUpdate()
@@ -55,14 +57,18 @@ public class CuddleCameraManager : MonoBehaviour
             UpdatePosition(handControlPoint, handControlPos);
             handController.boundingBox = boundingBoxes[shotIndex];
             handController.rotationOffset = handRotationOffset[shotIndex];
-            sexPartnerAnimator.SetBool("SwitchPose", sexPartnerAnimationSwitchPose[shotIndex]);
+            if (sexPartnerAnimator != null){
+                sexPartnerAnimator.SetBool("SwitchPose", sexPartnerAnimationSwitchPose[shotIndex]);
+        }
             foreach (GameObject cv in colliderViews){
                 cv.SetActive(false);
             }
             colliderViews[shotIndex].SetActive(true);
             handController.lockRotation = false;
         }
-        ApplyHeadBob(); 
+        if (isApplyingHeadBob){
+            ApplyHeadBob();
+        }
         prevShotIndex = shotIndex;
     }
 
@@ -73,26 +79,32 @@ public class CuddleCameraManager : MonoBehaviour
             cameras[i].gameObject.SetActive(i == index); // Enable the active camera, disable others
             planes[i].gameObject.SetActive(i == index); // Enable the active plane, disable others
             boundingBoxes[i].gameObject.SetActive(i == index); // Enable the active bounding box, disable others
-            sexPartnerColliders[i].gameObject.SetActive(i == index); // Enable the active sex partner collider, disable others
+            if (sexPartnerColliders[i] != null){
+                sexPartnerColliders[i].gameObject.SetActive(i == index); // Enable
+            }
             backPlane[i].gameObject.SetActive(i == index); // Enable the active background plane, disable others
         }
         // Reset bob timer when switching cameras
         bobTimer = 0f;
+        defaultCameraY = cameras[index].transform.position.y; // Reset Y position for new active camera
     }
 
 
 
-    void ApplyHeadBob()
+void ApplyHeadBob()
+{
+    if (cameras[shotIndex].gameObject.activeSelf)
     {
-        if (cameras[shotIndex].gameObject.activeSelf)
-        {
-            bobTimer += Time.fixedDeltaTime * bobSpeed;
-            float newY = defaultCameraY + Mathf.Sin(bobTimer) * bobAmount; // Calculate new Y position based on sine wave
-            Vector3 newPosition = cameras[shotIndex].transform.localPosition;
-            newPosition.y = newY;
-            cameras[shotIndex].transform.localPosition = newPosition;
-        }
+        // Record the current local position of the active camera
+        Vector3 currentLocalPosition = cameras[shotIndex].transform.localPosition;
+
+        // Apply head bob effect to the local position
+        bobTimer += Time.fixedDeltaTime * bobSpeed;
+        float newY = defaultCameraY + Mathf.Sin(bobTimer) * bobAmount; // Calculate new Y position based on sine wave
+        currentLocalPosition.y = newY;
+        cameras[shotIndex].transform.localPosition = currentLocalPosition;
     }
+}
 
     void UpdatePosition(Transform transform, GameObject[] transformObject)
     {
