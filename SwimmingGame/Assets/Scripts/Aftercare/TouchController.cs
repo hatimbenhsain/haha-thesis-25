@@ -14,7 +14,8 @@ public class TouchController : MonoBehaviour
     public Quaternion rotationOffset; // offset the rotation after timing normal
     public bool lockRotation = false;
     public bool isMoving = true;
-    public bool isRandmlyMovingAround;
+    public bool isMovingAround;
+    public Vector2 moveXZ;
 
     public float rotationDampFactor = 1.0f; // public variable to control how much to dampen rotation
 
@@ -23,6 +24,8 @@ public class TouchController : MonoBehaviour
     public Quaternion initialRotation;
     private Vector2 movementVector;
     private bool isUsingGamepad;
+    public float circularMotionSpeed;
+    public float circularMotionRadius;
 
     public BoxCollider boundingBox; // bounding box for movement
 
@@ -30,8 +33,6 @@ public class TouchController : MonoBehaviour
     {
         playerInput = FindObjectOfType<PlayerInput>();
         targetPosition = transform.position;
-
-        // Store the initial rotation of the object
         initialRotation = transform.rotation;
     }
 
@@ -52,35 +53,35 @@ public class TouchController : MonoBehaviour
         {
             Moving();
         }
-        if (isRandmlyMovingAround)
+        if (isMovingAround)
         {
             MoveAround();
         }
-
+        HandlingInput();
         AdjustPositionAndRotation();
+    }
+
+    void HandlingInput()
+    {
+        // using keyboard
+        if (!isUsingGamepad)
+        {
+            moveXZ.x = -movementVector.y;
+            moveXZ.y = movementVector.x;
+        }
+        // using gamepad
+        else
+        {
+            moveXZ.x = playerInput.look.x;
+            moveXZ.y = -playerInput.look.y;
+        }
     }
 
     // handle movement of the character around
     void Moving()
     {
-        float moveX = 0f;
-        float moveZ = 0f;
-
-        // using keyboard
-        if (!isUsingGamepad)
-        {
-            moveX = -movementVector.y;
-            moveZ = movementVector.x;
-        }
-        // using gamepad
-        else
-        {
-            moveX = playerInput.look.x;
-            moveZ = -playerInput.look.y;
-        }
-
         // calculate the target position based on input
-        Vector3 move = new Vector3(moveX, 0, moveZ) * moveSpeed * Time.fixedDeltaTime;
+        Vector3 move = new Vector3(moveXZ.x, 0, moveXZ.y) * moveSpeed * Time.fixedDeltaTime;
         targetPosition = transform.position + move;
 
         // Constrain the target position within the bounding box
@@ -150,8 +151,15 @@ public class TouchController : MonoBehaviour
         }
     }
 
-    void MoveAround(){
+void MoveAround()
+{
+    float angle = Time.time * circularMotionSpeed;
+    float x = Mathf.Cos(angle) * circularMotionRadius;
+    float z = Mathf.Sin(angle) * circularMotionRadius;
 
-    }
+    Vector3 circularPosition = new Vector3(x, 0, z);
+    targetPosition = transform.position + circularPosition;
+    transform.position = Vector3.Lerp(transform.position, targetPosition, lerpSpeed * Time.fixedDeltaTime);
+}
 
 }
