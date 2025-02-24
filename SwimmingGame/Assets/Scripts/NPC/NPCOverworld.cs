@@ -587,6 +587,7 @@ public class NPCOverworld : MonoBehaviour
     public void ChangeState(NPCStates state){
         pastState=currentState;
         currentState=state;
+        if(animator!=null && currentState!=NPCStates.Swimming && currentState!=NPCStates.SwimmingAndSinging && currentState!=NPCStates.SexSwimmingAndSinging) animator.SetBool("swimming",false);
     }
 
     public void ChangeMovementBehavior(MovementBehavior mb){

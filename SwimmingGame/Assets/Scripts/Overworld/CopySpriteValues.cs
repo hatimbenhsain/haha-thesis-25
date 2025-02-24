@@ -19,11 +19,15 @@ public class CopySpriteValues : MonoBehaviour
 
     public bool copyHue=false;
 
+    public bool copyColor=false;
+
     private bool copied=false;
+    [Tooltip("If permanent copy throughout runtime, not just at the start of scene.")]
+    public bool permanent=false;
 
     void LateUpdate()
     {
-        if(!copied){
+        if(!copied || permanent){
             spriteRenderer=GetComponentInChildren<SpriteRenderer>();
 
             if(copyScale){
@@ -45,6 +49,10 @@ public class CopySpriteValues : MonoBehaviour
 
             if(copyHue){
                 spriteRenderer.material.color=spriteToCopy.material.color;
+            }
+
+            if(copyColor){
+                spriteRenderer.color=spriteToCopy.color;
             }
 
             copied=true;

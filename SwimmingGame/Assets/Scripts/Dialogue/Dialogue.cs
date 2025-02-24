@@ -337,6 +337,7 @@ public class Dialogue : MonoBehaviour
         currentChoiceIndex=choiceIndex;
         choicePicked=true;
         bubblesInstance.stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
+        singingTimer=0f;
         Sound.PlayOneShotVolume("event:/Non-Diagetic SFX/Bubbles - Burst",1f);
     }
 
