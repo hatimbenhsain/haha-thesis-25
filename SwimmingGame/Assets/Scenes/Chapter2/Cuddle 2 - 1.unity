@@ -998,8 +998,8 @@ Transform:
   m_GameObject: {fileID: 300580214}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalPosition: {x: 0, y: -1, z: 0}
+  m_LocalScale: {x: 0.7, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 86807000}
@@ -1888,6 +1888,37 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 383277712}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!1 &385598091
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 385598092}
+  m_Layer: 0
+  m_Name: HandControllerPos
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &385598092
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 385598091}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -0.15, y: 0.183, z: -0.091}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1316033644}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &398152365 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -2525213446790289079, guid: ff9b4ae7ed8b5f54fb13b66d04382804,
@@ -2394,13 +2425,13 @@ MonoBehaviour:
   fixTransforms: 1
   solver:
     executedInEditor: 0
-    IKPosition: {x: -0.052292433, y: 0.22770119, z: -9.364689}
+    IKPosition: {x: -0.052292436, y: 0.22770119, z: -9.364688}
     IKPositionWeight: 1
     root: {fileID: 502986412}
-    target: {fileID: 1316033644}
-    IKRotationWeight: 1
+    target: {fileID: 385598092}
+    IKRotationWeight: 0.3
     IKRotation: {x: 0.9457219, y: 0.103867345, z: 0.07202572, w: -0.29939044}
-    bendNormal: {x: -0.013692793, y: -0.22186111, z: 0.68842727}
+    bendNormal: {x: -0.013694289, y: -0.22186089, z: 0.68842727}
     bone1:
       transform: {fileID: 502986413}
       weight: 1
@@ -3453,6 +3484,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 783058851}
+  - component: {fileID: 783058852}
   m_Layer: 0
   m_Name: Body
   m_TagString: Untagged
@@ -3475,6 +3507,30 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &783058852
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 783058850}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4c95309edda5dbd47a8422d3a7554327, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  bodyPos: {fileID: 783058851}
+  neck: {fileID: 964670288}
+  lerpSpeed: 1.5
+  neckLerpSpeed: 1
+  maxX: 2
+  minX: -1
+  maxY: 0.5
+  minY: -2
+  minNeckRotationX: -35
+  maxNeckRotationX: 35
+  minNeckRotationZ: -45
+  maxNeckRotationZ: 45
 --- !u!1 &784808672 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: -3308420977792381891, guid: 2d3c0eb47e75e3542aafcd92e61d94e3,
@@ -4042,6 +4098,12 @@ MeshCollider:
   m_Convex: 1
   m_CookingOptions: -1
   m_Mesh: {fileID: 4300000, guid: 8fe62af3f571c5945b61ea78266d4bc7, type: 2}
+--- !u!4 &964670288 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: -2444406315379408139, guid: 2d3c0eb47e75e3542aafcd92e61d94e3,
+    type: 3}
+  m_PrefabInstance: {fileID: 1772638150}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &972115271
 GameObject:
   m_ObjectHideFlags: 0
@@ -5070,13 +5132,14 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1316033643}
   serializedVersion: 2
-  m_LocalRotation: {x: -0.4370427, y: -0.44089738, z: -0.34992018, w: 0.7015405}
-  m_LocalPosition: {x: -0.547, y: 1.7901158, z: -9.773}
+  m_LocalRotation: {x: -0.5162083, y: -0.23175456, z: -0.21674815, w: 0.7955119}
+  m_LocalPosition: {x: -0.32, y: 1.7901158, z: -9.63}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 385598092}
   m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: -67.185, y: -21.952, z: -15.801}
 --- !u!114 &1316033645
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5094,16 +5157,19 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 64
   lerpSpeed: 4
-  yLerpSpeed: 10
+  yLerpSpeed: 15
   yOffset: 0.05
   targetRotationDamp: 0
   rotationLerpDamp: 0
   rotationOffset: {x: 0, y: 0, z: 0, w: 1}
-  lockRotation: 1
+  lockRotation: 0
   isMoving: 0
-  isRandmlyMovingAround: 0
+  isMovingAround: 1
+  moveXZ: {x: 0, y: 0}
   rotationDampFactor: 1
   initialRotation: {x: 0, y: 0, z: 0, w: 1}
+  circularMotionSpeed: 2
+  circularMotionRadius: 0.03
   boundingBox: {fileID: 212013062}
 --- !u!1 &1318302721
 GameObject:
@@ -6051,7 +6117,7 @@ MonoBehaviour:
   sexPartnerBody: {fileID: 408359580}
   hand: {fileID: 2126474088}
   handControlPoint: {fileID: 3970362562353206725}
-  handController: {fileID: 7354296594006236174}
+  handController: {fileID: 0}
   sexPartnerAnimator: {fileID: 0}
   isApplyingHeadBob: 0
   bobSpeed: 0.7
@@ -8165,7 +8231,7 @@ Transform:
   m_GameObject: {fileID: 2043555722}
   serializedVersion: 2
   m_LocalRotation: {x: 0.15849093, y: 0.8302856, z: -0.4450086, w: 0.2957599}
-  m_LocalPosition: {x: -1.3299136, y: 10.384969, z: -10.488797}
+  m_LocalPosition: {x: -0.84400004, y: 9.472, z: -10.468}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -9427,7 +9493,6 @@ GameObject:
   - component: {fileID: 4165707146106903109}
   - component: {fileID: 4060508993525939141}
   - component: {fileID: 6412284047391516582}
-  - component: {fileID: 7354296594006236174}
   - component: {fileID: 3554254910476590281}
   m_Layer: 0
   m_Name: Hand
@@ -9585,34 +9650,6 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8774138523053302816}
   m_Mesh: {fileID: 10207, guid: 0000000000000000e000000000000000, type: 0}
---- !u!114 &7354296594006236174
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6367004869224022726}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4bf7d2825880c374baad23abfb5799b3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  moveSpeed: 10
-  sexPartnerMask:
-    serializedVersion: 2
-    m_Bits: 64
-  lerpSpeed: 5
-  yLerpSpeed: 10
-  yOffset: 0
-  targetRotationDamp: 0.8
-  rotationLerpDamp: 0.8
-  rotationOffset: {x: 0.70710677, y: 0, z: 0, w: -0.70710677}
-  lockRotation: 0
-  isMoving: 1
-  isRandmlyMovingAround: 0
-  rotationDampFactor: 1
-  initialRotation: {x: 0, y: 0, z: 0, w: 0}
-  boundingBox: {fileID: 678738186}
 --- !u!23 &7515150354383956701
 MeshRenderer:
   m_ObjectHideFlags: 0
