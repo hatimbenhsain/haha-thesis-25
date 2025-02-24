@@ -39,6 +39,8 @@ public class PauseMenu : MonoBehaviour
 
     FMOD.Studio.Bus masterBus;
 
+    FMOD.Studio.Bus singingBus;
+
     public TMP_Text desireText;
     
 
@@ -60,6 +62,10 @@ public class PauseMenu : MonoBehaviour
 
         //Getting FMOD master bus
         masterBus = FMODUnity.RuntimeManager.GetBus("bus:/");
+
+        singingBus = FMODUnity.RuntimeManager.GetBus("bus:/Singing");
+
+        
 
         if(PlayerPrefs.HasKey("soundLevel")){
             masterBus.setVolume(PlayerPrefs.GetFloat("soundLevel"));
@@ -289,6 +295,7 @@ public class PauseMenu : MonoBehaviour
         UnityEngine.Cursor.visible = false;
         UnityEngine.Cursor.lockState = myLockState;
         inSettings=false;
+        singingBus.setVolume(1f);
 
     }
 
@@ -303,12 +310,14 @@ public class PauseMenu : MonoBehaviour
         GameIsPaused = true;
         UnityEngine.Cursor.visible = true;
         GetButtons();
+        singingBus.setVolume(0f);
     }
 
     void OnDestroy(){
         float v;
         masterBus.getVolume(out v);
         PlayerPrefs.SetFloat("soundLevel",v);
+        singingBus.setVolume(1f);
     }
 
     public void ChangeDesire(string s){
