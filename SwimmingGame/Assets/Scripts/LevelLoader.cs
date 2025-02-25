@@ -31,9 +31,16 @@ public class LevelLoader : MonoBehaviour
         timer = countdownTime;  // Initialize the timer with the countdown time
 
         if(fadeIn){
+            // if fade in color is not black set fade in color
+            if (Mathf.Abs(fadeInColor.r+fadeInColor.g+fadeInColor.b)>0f){
+                image.color=fadeInColor;
+            }
+            else{   
             Color c=image.color;
             image.color=new Color(c.r,c.g,c.b,1f);
+            }
         }
+
     }
 
     void Update()
@@ -52,7 +59,13 @@ public class LevelLoader : MonoBehaviour
 
         if(fadingOut){
             Color c=image.color;
-            image.color=new Color(c.r,c.g,c.b,transitionTimer/transitionTime);
+            if (Mathf.Abs(fadeOutColor.r+fadeOutColor.g+fadeOutColor.b) > 0f)
+            {
+                image.color = fadeOutColor;
+            }
+            else{
+                image.color=new Color(c.r,c.g,c.b,transitionTimer/transitionTime);
+            }
             if(c.a<=0f){
                 fadeIn=false;
             }
