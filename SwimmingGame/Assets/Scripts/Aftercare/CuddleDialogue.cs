@@ -8,6 +8,8 @@ public class CuddleDialogue : Dialogue
 {
     [Header("Cuddle Specific")]
     public bool caressing;
+    [Tooltip("If true, the camera moves with the arm.")]
+    public bool traveling=false;
     public float caressRequiredLength=1f;
     public float caressTimer=0f;
     public float caressCancelSpeed=0.5f;
@@ -29,7 +31,13 @@ public class CuddleDialogue : Dialogue
     {
         base.DialogueAwake();
 
-        ChangeView(currentViewIndex);
+        if(!traveling) ChangeView(currentViewIndex);
+        else{
+            choiceRects=new RectTransform[choiceTextBoxes.Length];
+            for(var k=0;k<choiceTextBoxes.Length;k++){
+                choiceRects[k]=choiceTextBoxes[k].GetComponent<RectTransform>();
+            }
+        }
     }
 
     public override void DialogueUpdate()

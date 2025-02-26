@@ -47,6 +47,12 @@ public class DialogueBoxPlacement : MonoBehaviour
 
     private float bubbleOutsideBoundsTimer=0f;
 
+    public Transform overrideTarget;
+
+    private Transform target;
+    private GameObject npc;
+    private Vector2 npcPos;
+
     // public RectTransform mcBubble1;
     // public RectTransform mcBubble2;
     // private Vector2 mcBubble1targetPos;
@@ -84,51 +90,61 @@ public class DialogueBoxPlacement : MonoBehaviour
 
     void Update()
     {
-        if(dialogue.npcInterlocutor!=null){
-            GameObject npc=dialogue.npcInterlocutor.gameObject;
-            if(isMC){
-                npc=FindObjectOfType<Swimmer>().gameObject;
-            }
-
-            camera=Camera.main;
+        if(dialogue.npcInterlocutor!=null || overrideTarget!=null){
+            Vector2 pos;
             bool success;
-            SpriteRenderer spriteRenderer=npc.GetComponentInChildren<SpriteRenderer>();
-            if(spriteRenderer==null){
-                spriteRenderer=npc.transform.parent.GetComponentInChildren<SpriteRenderer>();
-            }
-            BoxCollider collider;
-            spriteRenderer.TryGetComponent<BoxCollider>(out collider);
-            Vector3 customBounds;
-            if(collider!=null){ 
-                customBounds=collider.size*0.5f;
-                customBounds.x=customBounds.x+skinWidth;
-                customBounds.y=customBounds.y+skinWidth;
-            }
-            else customBounds=spriteRenderer.sprite.bounds.extents;
-            customBounds=new Vector3(customBounds.x*spriteRenderer.transform.lossyScale.x,customBounds.y*spriteRenderer.transform.lossyScale.y,
-            customBounds.z*spriteRenderer.transform.lossyScale.z);
-            customBounds=spriteRenderer.transform.rotation*customBounds;
-            if(spriteRenderer!=null){
-                Vector2 boundsMin=WorldToCanvasPoint(canvasRect,spriteRenderer.transform.position-customBounds,camera,out success);
-                Vector2 boundsMax=WorldToCanvasPoint(canvasRect,spriteRenderer.transform.position+customBounds,camera,out success);
-                ovalWidth=Mathf.Abs(boundsMax.x-boundsMin.x)+minOvalWidth;
-                ovalHeight=Mathf.Abs(boundsMax.y-boundsMin.y)+minOvalHeight;
-            }
-            ovalWidth=Mathf.Max(ovalWidth,minOvalWidth);
-            ovalHeight=Mathf.Max(ovalHeight,minOvalHeight);
-            Vector2 npcPos=WorldToCanvasPoint(canvasRect,npc.transform.position,camera,out success);
+            int tries=0;
 
-            Vector2 pos=new Vector2(Mathf.Cos(angle*Mathf.PI/180f)*ovalWidth/2f+npcPos.x,Mathf.Sin(angle*Mathf.PI/180f)*ovalHeight/2f+npcPos.y);
+            // Find position on screen to place this bubble
+            if(overrideTarget!=null){
+                pos=WorldToCanvasPoint(canvasRect,overrideTarget.position,camera,out success);
+            }else{
+                npc=dialogue.npcInterlocutor.gameObject;
+                if(isMC){
+                    npc=FindObjectOfType<Swimmer>().gameObject;
+                }
+
+                camera=Camera.main;
+                
+                SpriteRenderer spriteRenderer=npc.GetComponentInChildren<SpriteRenderer>();
+                if(spriteRenderer==null){
+                    spriteRenderer=npc.transform.parent.GetComponentInChildren<SpriteRenderer>();
+                }
+                BoxCollider collider;
+                spriteRenderer.TryGetComponent<BoxCollider>(out collider);
+                Vector3 customBounds;
+                if(collider!=null){ 
+                    customBounds=collider.size*0.5f;
+                    customBounds.x=customBounds.x+skinWidth;
+                    customBounds.y=customBounds.y+skinWidth;
+                }
+                else customBounds=spriteRenderer.sprite.bounds.extents;
+                customBounds=new Vector3(customBounds.x*spriteRenderer.transform.lossyScale.x,customBounds.y*spriteRenderer.transform.lossyScale.y,
+                customBounds.z*spriteRenderer.transform.lossyScale.z);
+                customBounds=spriteRenderer.transform.rotation*customBounds;
+                if(spriteRenderer!=null){
+                    Vector2 boundsMin=WorldToCanvasPoint(canvasRect,spriteRenderer.transform.position-customBounds,camera,out success);
+                    Vector2 boundsMax=WorldToCanvasPoint(canvasRect,spriteRenderer.transform.position+customBounds,camera,out success);
+                    ovalWidth=Mathf.Abs(boundsMax.x-boundsMin.x)+minOvalWidth;
+                    ovalHeight=Mathf.Abs(boundsMax.y-boundsMin.y)+minOvalHeight;
+                }
+                ovalWidth=Mathf.Max(ovalWidth,minOvalWidth);
+                ovalHeight=Mathf.Max(ovalHeight,minOvalHeight);
+                npcPos=WorldToCanvasPoint(canvasRect,npc.transform.position,camera,out success);
+
+                pos=new Vector2(Mathf.Cos(angle*Mathf.PI/180f)*ovalWidth/2f+npcPos.x,Mathf.Sin(angle*Mathf.PI/180f)*ovalHeight/2f+npcPos.y);
+
+            }
 
             //Check it off-screen
-            int tries=0;
             float initAngle=angle;
             float a=1;
             while((pos.y-minOvalHeight/2f<-canvasRect.sizeDelta.y/2f || pos.y+minOvalHeight/2f>canvasRect.sizeDelta.y/2f || pos.x-minOvalWidth/2f<-canvasRect.sizeDelta.x/2f ||
             pos.x+minOvalWidth/2f>canvasRect.sizeDelta.x/2f || OverlapsChoiceBoxes(rect,pos+canvasRect.sizeDelta/2f))&& tries<180){
                 a+=Mathf.Sign(a);
                 a=-a;
-                pos=new Vector2(Mathf.Cos((initAngle+a)*Mathf.PI/180f)*ovalWidth/2f+npcPos.x,Mathf.Sin((initAngle+a)*Mathf.PI/180f)*ovalHeight/2f+npcPos.y);
+                if(!overrideTarget) pos=new Vector2(Mathf.Cos((initAngle+a)*Mathf.PI/180f)*ovalWidth/2f+npcPos.x,Mathf.Sin((initAngle+a)*Mathf.PI/180f)*ovalHeight/2f+npcPos.y);
+                else break;
                 tries++;
             }
 
@@ -306,13 +322,15 @@ public class DialogueBoxPlacement : MonoBehaviour
         }
         camera=Camera.main;
         canvasRect=GetComponentInParent<Canvas>().GetComponent<RectTransform>();
-        GameObject npc=dialogue.npcInterlocutor.gameObject;
-        if(isMC){
-            npc=FindObjectOfType<Swimmer>().gameObject;
+        if(overrideTarget==null){
+            npc=dialogue.npcInterlocutor.gameObject;
+            if(isMC){
+                npc=FindObjectOfType<Swimmer>().gameObject;
+            }
+            bool success;
+            npcPos=WorldToCanvasPoint(canvasRect,npc.transform.position,camera,out success);
+            angle=Mathf.Atan2((rect.anchoredPosition.y-npcPos.y)/minOvalHeight,(rect.anchoredPosition.x-npcPos.x)/minOvalWidth)*180f/Mathf.PI;
         }
-        bool success;
-        Vector2 npcPos=WorldToCanvasPoint(canvasRect,npc.transform.position,camera,out success);
-        angle=Mathf.Atan2((rect.anchoredPosition.y-npcPos.y)/minOvalHeight,(rect.anchoredPosition.x-npcPos.x)/minOvalWidth)*180f/Mathf.PI;
         Debug.Log(angle);
         targetPos=rect.anchoredPosition;
     }

@@ -474,6 +474,29 @@ NPC2: Me too.
 //Orgy main act + climax happens
 //Go back to aftercare orgy/cuddle
 
+=== OrgyAftercareTest ===
+MC: I want to...
++   [Go.]
+    NPC1: Go.
++   [Change.]
+    NPC2: Change.
++   [Move.]
+    NPC3: Move.
++   [Grow.]
+    NPC4: Grow.
+    // typo here?
++   [Transform.]
+    NPCs: Transform.
+- MC: Yes...
+Maybe sometime soon...
+NPC6: I can't wait. # speed:fast # stayonscreen # ambient # time:0.2
+NPC7: I want it now.. # speed:fast # stayonscreen # time:0.2
+NPC8: I'm counting the cycles... # speed:150 # stayonscreen # time:0.2
+NPC9: To be on the surface. # speed:150 # stayonscreen # time:0.2
+NPC10: To be UP THERE. # speed:120 # stayonscreen # time:0.2
+MCSmall: I-- # notambient
+-> END
+
 === OrgyAftercare2 ===
 MCSmall: I...
 NPC1: I wish... # stayonscreen # speed:20 # ambient # time:1
