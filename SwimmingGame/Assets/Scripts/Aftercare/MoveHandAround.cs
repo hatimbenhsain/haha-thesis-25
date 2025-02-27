@@ -61,7 +61,7 @@ public class MoveHandAround : MonoBehaviour
         }
 
         // calculate the target position based on input
-        Vector3 move = new Vector3(moveX, 0, moveZ) * moveSpeed * Time.fixedDeltaTime;
+        Vector3 move = new Vector3(moveX, 0, moveZ) * moveSpeed * Time.deltaTime;
         targetPosition = handController.position + move;
 
         // Check if the handController is within the radius
@@ -69,18 +69,18 @@ public class MoveHandAround : MonoBehaviour
         {
             // Move the parent object if the handController is out of bounds
             Vector3 direction = (targetPosition - transform.position).normalized;
-            parentVelocity = direction * parentMoveSpeed * Time.fixedDeltaTime;
+            parentVelocity = direction * parentMoveSpeed * Time.deltaTime;
             transform.position += parentVelocity;
         }
         else
         {
             // Move the handController if within bounds
-            handController.position = Vector3.Lerp(handController.position, targetPosition, lerpSpeed * Time.fixedDeltaTime);
+            handController.position = Vector3.Lerp(handController.position, targetPosition, lerpSpeed * Time.deltaTime);
 
             // Smoothly reduce the parent's velocity to zero if it has a non-zero speed
             if (parentVelocity != Vector3.zero)
             {
-                parentVelocity = Vector3.Lerp(parentVelocity, Vector3.zero, decelerationSpeed * Time.fixedDeltaTime);
+                parentVelocity = Vector3.Lerp(parentVelocity, Vector3.zero, decelerationSpeed * Time.deltaTime);
                 transform.position += parentVelocity;
             }
         }
