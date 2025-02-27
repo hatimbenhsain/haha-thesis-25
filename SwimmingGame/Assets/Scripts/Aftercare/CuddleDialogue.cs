@@ -20,12 +20,18 @@ public class CuddleDialogue : Dialogue
     public float chosenOpacity=1f;
     public float hoveredScale=1.1f;
 
+    public float offscreenBoxScale=.75f;
+
     private RectTransform[] choiceRects;
 
     private int prevChoiceIndex=-1;
 
     private bool justHovered = false;
     private bool justCaressed = false;
+
+    private int[] choiceBoxIndexes;
+    private bool differentChoiceBoxOrder; //If true, the choice boxes are assigned to specific ones in the world instead of in hierarchical order.
+    public Transform[] choiceCollisionBoxes;
 
     public override void DialogueAwake()
     {
@@ -82,22 +88,41 @@ public class CuddleDialogue : Dialogue
     }
 
     public void HoveringChoice(int choiceIndex){
-        currentChoiceIndex=choiceIndex;
+        if(differentChoiceBoxOrder){
+            // Find index of this choice box depending on order dictated in dialogue file
+            for(var i=0;i<choiceBoxIndexes.Length;i++){
+                if(choiceBoxIndexes[i]==choiceIndex){
+                    currentChoiceIndex=i;
+                    break;
+                }
+            }
+            Debug.Log(choiceIndex);
+            Debug.Log(currentChoiceIndex);
+            Debug.Log("-");
+        }
+        else currentChoiceIndex=choiceIndex;
         if(currentChoiceIndex!=prevChoiceIndex){
             caressTimer=0f;
         }
         prevChoiceIndex=currentChoiceIndex;
-        justHovered = true;
+        justHovered=true;
     }
 
     public void CaressingChoice(int choiceIndex){
         caressing=true;
-        justCaressed = true;
+        justCaressed=true;
     }
 
     public override void ShowChoices()
     {
+        choiceBoxIndexes=new int[story.currentChoices.Count];
+        for(var i=0;i<choiceBoxIndexes.Length;i++){
+            choiceBoxIndexes[i]=i;
+        }
+
         for(int i=0;i<Mathf.Min(story.currentChoices.Count,choiceTextBoxes.Length);i++){
+
+
             if(!choiceTextBoxes[i].gameObject.activeInHierarchy){
                 choiceTextBoxes[i].gameObject.SetActive(true);
                 choiceTextBoxes[i].GetComponentInChildren<Animator>().StartPlayback();
@@ -106,6 +131,17 @@ public class CuddleDialogue : Dialogue
             }
             
             choiceTMPs[i].text=story.currentChoices[i].text;
+
+            DialogueBoxPlacement dbp=choiceTextBoxes[i].GetComponent<DialogueBoxPlacement>();
+
+            if(ContainsTag(story.currentChoices[i].tags,"place")){
+                string tag=GetTag(story.currentChoices[i].tags,"place");
+                int index=int.Parse(tag.Replace("place:","").Trim());
+                choiceBoxIndexes[i]=index;
+                differentChoiceBoxOrder=true;
+
+            }
+
             float targetS=1f;
             float targetA=1f;
             if(i==currentChoiceIndex){
@@ -130,16 +166,26 @@ public class CuddleDialogue : Dialogue
                 images[k].color=c;
             }
 
+            if(dbp!=null){
+                if(dbp.isOffscreen){
+                    targetS=offscreenBoxScale;
+                }
+                dbp.overrideTarget=choiceCollisionBoxes[choiceBoxIndexes[i]];
+            }
+
             Vector3 localScale=choiceRects[i].localScale;
             float s=Mathf.Lerp(localScale.x,targetS,scaleSpeed*Time.deltaTime);
             localScale=new Vector3(s,s,s);
             choiceRects[i].localScale=localScale;
 
         }
+
     }
 
     public override void HideChoices()
     {
+        differentChoiceBoxOrder=false;
+
         base.HideChoices();
 
         for(int i=0;i<choiceTextBoxes.Length;i++){

@@ -475,18 +475,17 @@ NPC2: Me too.
 //Go back to aftercare orgy/cuddle
 
 === OrgyAftercareTest ===
-MC: I want to...
-+   [Go.]
+MC: I..
+I want to...
++   [Go. #place: 1] 
     NPC1: Go.
-+   [Change.]
++   [Change.#place: 3] 
     NPC2: Change.
-+   [Move.]
++   [Move. #place: 6] 
     NPC3: Move.
-+   [Grow.]
++   [Grow. #place: 7] 
     NPC4: Grow.
     // typo here?
-+   [Transform.]
-    NPCs: Transform.
 - MC: Yes...
 Maybe sometime soon...
 NPC6: I can't wait. # speed:fast # stayonscreen # ambient # time:0.2

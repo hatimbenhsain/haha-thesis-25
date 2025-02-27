@@ -48,10 +48,14 @@ public class DialogueBoxPlacement : MonoBehaviour
     private float bubbleOutsideBoundsTimer=0f;
 
     public Transform overrideTarget;
+    public Camera secondaryCamera;
 
     private Transform target;
     private GameObject npc;
     private Vector2 npcPos;
+
+    [HideInInspector]
+    public bool isOffscreen=false;
 
     // public RectTransform mcBubble1;
     // public RectTransform mcBubble2;
@@ -139,14 +143,40 @@ public class DialogueBoxPlacement : MonoBehaviour
             //Check it off-screen
             float initAngle=angle;
             float a=1;
-            while((pos.y-minOvalHeight/2f<-canvasRect.sizeDelta.y/2f || pos.y+minOvalHeight/2f>canvasRect.sizeDelta.y/2f || pos.x-minOvalWidth/2f<-canvasRect.sizeDelta.x/2f ||
-            pos.x+minOvalWidth/2f>canvasRect.sizeDelta.x/2f || OverlapsChoiceBoxes(rect,pos+canvasRect.sizeDelta/2f))&& tries<180){
-                a+=Mathf.Sign(a);
-                a=-a;
-                if(!overrideTarget) pos=new Vector2(Mathf.Cos((initAngle+a)*Mathf.PI/180f)*ovalWidth/2f+npcPos.x,Mathf.Sin((initAngle+a)*Mathf.PI/180f)*ovalHeight/2f+npcPos.y);
-                else break;
-                tries++;
+
+            CheckIfOffscreen(pos);
+            
+            if(overrideTarget==null){
+                while((isOffscreen || OverlapsChoiceBoxes(rect,pos+canvasRect.sizeDelta/2f)) && tries<180){
+                    a+=Mathf.Sign(a);
+                    a=-a;
+                    pos=new Vector2(Mathf.Cos((initAngle+a)*Mathf.PI/180f)*ovalWidth/2f+npcPos.x,Mathf.Sin((initAngle+a)*Mathf.PI/180f)*ovalHeight/2f+npcPos.y);
+                    CheckIfOffscreen(pos);
+                    tries++;
+                }
+            }else{
+                if(isOffscreen){
+                    pos=WorldToCanvasPoint(canvasRect,overrideTarget.position,secondaryCamera,out success);
+                    initAngle=Mathf.Atan2(pos.y,pos.x);
+                    // pos.x=Mathf.Cos(initAngle)*canvasRect.sizeDelta.x/2f-Mathf.Sign(Mathf.Cos(initAngle))*minOvalWidth/2f;       
+                    // pos.y=Mathf.Sin(initAngle)*canvasRect.sizeDelta.y/2f-Mathf.Sign(Mathf.Sin(initAngle))*minOvalHeight/2f;
+                    pos.x=Mathf.Clamp(pos.x,-canvasRect.sizeDelta.x/2f+minOvalWidth/2f,canvasRect.sizeDelta.x/2f-minOvalWidth/2f);
+                    pos.y=Mathf.Clamp(pos.y,-canvasRect.sizeDelta.y/2f+minOvalHeight/2f,canvasRect.sizeDelta.y/2f-minOvalHeight/2f);
+                    targetPos=pos;
+                    
+                    while(OverlapsChoiceBoxes(rect,pos+canvasRect.sizeDelta/2f) && tries<180){
+                        // a=-a;
+                        // pos.x=Mathf.Cos(initAngle+a)*canvasRect.sizeDelta.x/2f-Mathf.Sign(Mathf.Cos(initAngle+a))*minOvalWidth/2f;       
+                        // pos.y=Mathf.Sin(initAngle+a)*canvasRect.sizeDelta.y/2f-Mathf.Sign(Mathf.Sin(initAngle+a))*minOvalHeight/2f;
+                        // a+=Mathf.Sign(a);
+                        tries++;
+                        break;
+                    }
+                }
+
+                a-=Mathf.Sign(a);
             }
+
 
             if(placeMe){
                 if(tries<180){
@@ -284,6 +314,11 @@ public class DialogueBoxPlacement : MonoBehaviour
         }
     }
 
+    private void CheckIfOffscreen(Vector2 pos){
+        isOffscreen=pos.y-minOvalHeight/2f<-canvasRect.sizeDelta.y/2f || pos.y+minOvalHeight/2f>canvasRect.sizeDelta.y/2f || pos.x-minOvalWidth/2f<-canvasRect.sizeDelta.x/2f ||
+                pos.x+minOvalWidth/2f>canvasRect.sizeDelta.x/2f;
+    }
+
     private Vector2 GetRightTrianglePoint(Vector2 point1,Vector2 point2,float ang,bool useOvalDimensions=false){
         Vector2 pos;
         Vector2 circleCenter=(point1+point2)/2f;
@@ -346,6 +381,9 @@ public class DialogueBoxPlacement : MonoBehaviour
     public Vector2 WorldToCanvasPoint(RectTransform rectTransform, Vector3 WorldPosition, [NotNull] Camera WorldCamera, out bool Success, Camera CanvasCamera = null)
     {
         Success = RectTransformUtility.ScreenPointToLocalPointInRectangle(rectTransform, WorldCamera.WorldToScreenPoint(WorldPosition), CanvasCamera, out var CanvasPoint);
+        // if(Success==false && overrideTarget!=null){
+        //     return (Vector2)WorldCamera.WorldToScreenPoint(WorldPosition)-canvasRect.sizeDelta/2f;
+        // }
         return CanvasPoint;
     }
 
@@ -353,7 +391,7 @@ public class DialogueBoxPlacement : MonoBehaviour
         GameObject[] choiceBoxes=dialogue.choiceTextBoxes;
         for(var i=0;i<choiceBoxes.Length;i++){
             RectTransform choiceRect=choiceBoxes[i].GetComponent<RectTransform>();
-            if(choiceBoxes[i].activeInHierarchy && RectOverlap(rect1,choiceRect,position,choiceRect.position)){
+            if(choiceBoxes[i].activeInHierarchy && rect1!=choiceRect && RectOverlap(rect1,choiceRect,position,choiceRect.position)){
                 Debug.Log("overlap choice box");
                 return true;
             }

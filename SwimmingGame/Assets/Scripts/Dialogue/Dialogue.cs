@@ -668,7 +668,7 @@ public class Dialogue : MonoBehaviour
     }
 
     //Does the story or current line contain this tag?
-    bool ContainsTag(List<string> list,string tag){
+    public bool ContainsTag(List<string> list,string tag){
         if(list!=null && list.Count>0){
             foreach(string s in list){
                 if(s.ToLower().Contains(tag.ToLower())){
@@ -680,7 +680,7 @@ public class Dialogue : MonoBehaviour
     }
 
     //Get tag from story by name
-    string GetTag(List<string> list,string tag){
+    public string GetTag(List<string> list,string tag){
         if(list!=null && list.Count>0){
             foreach(string s in list){
                 if(s.ToLower().Contains(tag.ToLower())){

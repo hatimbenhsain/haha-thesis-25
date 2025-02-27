@@ -149,7 +149,9 @@ public class FingerTipsController : MonoBehaviour
                 //gameManager.UpdateDialogueText(currentOption); 
             }
 
-            int i=int.Parse(currentOption.Substring(0,1))-1;
+            //int i=int.Parse(currentOption.Substring(0,1))-1;
+
+            int i=hitCollider.gameObject.transform.GetSiblingIndex();
             
             cuddleDialogue.HoveringChoice(i);
             
