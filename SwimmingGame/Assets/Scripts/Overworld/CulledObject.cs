@@ -13,6 +13,9 @@ public class CulledObject : MonoBehaviour
     void Start()
     {
         components=gameObject.GetComponentsInChildren<Behaviour>();
+        //Debug.Log(gameObject.name);
+        //Debug.Log(components.Length);
+        
         Activate(active);
     }
 

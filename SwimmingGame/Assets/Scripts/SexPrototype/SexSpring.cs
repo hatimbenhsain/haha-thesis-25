@@ -18,6 +18,7 @@ public class SexSpring : MonoBehaviour{
     public float movementLerpSpeed = 5f;
     public bool isExhaling = false;
     public bool isInhaling = false;
+    public Vector3 inhaleScale;
 
     [System.NonSerialized]
     public Rigidbody characterRb;
@@ -90,54 +91,58 @@ public class SexSpring : MonoBehaviour{
         inhaleDuration = Mathf.Clamp(inhaleTime, 0, maxInhaleTime);
 
         float t = inhaleDuration / maxInhaleTime;
-        character.transform.localScale = Vector3.Lerp(originalScale, new Vector3(1.7f, 1.7f, 1f), t); // for cylinder scale
+        character.transform.localScale = Vector3.Lerp(originalScale, inhaleScale, t);
     }
 
-    public void HandleTurning(Vector2 input)
+    public void HandleTurning(Vector2 input, bool lockCamera)
     {
-        Vector3 moveDirection = Vector3.zero;
+        Vector3 moveDirection = Vector3.back;
         bool isMoving = false;
 
         // Backward tilt (up direction)
-        if (input.y < 0f)
-        {
-            Quaternion targetTilt = Quaternion.Euler(-90, characterRb.rotation.eulerAngles.y, 0);
-            characterRb.MoveRotation(Quaternion.Slerp(characterRb.rotation, targetTilt, turnSpeed * Time.fixedDeltaTime));
-            moveDirection += character.transform.up;
-            isMoving = true;
-        }
-        // Forward tilt (down direction)
-        else if (input.y > 0f)
-        {
-            Quaternion targetTilt = Quaternion.Euler(90, characterRb.rotation.eulerAngles.y, 0);
-            characterRb.MoveRotation(Quaternion.Slerp(characterRb.rotation, targetTilt, turnSpeed * Time.fixedDeltaTime));
-            moveDirection -= character.transform.up;
-            isMoving = true;
-        }
-        // Left tilt (around y-axis)
-        else if (input.x < 0f)
-        {
-            Quaternion targetTilt = Quaternion.Euler(characterRb.rotation.eulerAngles.x, characterRb.rotation.eulerAngles.y - 90, 0);
-            characterRb.MoveRotation(Quaternion.Slerp(characterRb.rotation, targetTilt, turnSpeed * Time.fixedDeltaTime));
-            moveDirection -= character.transform.right;  
-            isMoving = true;
-        }
-        // Right tilt (around y-axis)
-        else if (input.x > 0f)
-        {
-            Quaternion targetTilt = Quaternion.Euler(characterRb.rotation.eulerAngles.x, characterRb.rotation.eulerAngles.y + 90, 0);
-            characterRb.MoveRotation(Quaternion.Slerp(characterRb.rotation, targetTilt, turnSpeed * Time.fixedDeltaTime));
-            moveDirection += character.transform.right;  
-            isMoving = true;
+        if (!lockCamera){
+            if (input.y < 0f)
+            {
+                Quaternion targetTilt = Quaternion.Euler(-90, characterRb.rotation.eulerAngles.y, 0);
+                characterRb.MoveRotation(Quaternion.Slerp(characterRb.rotation, targetTilt, turnSpeed * Time.fixedDeltaTime));
+                moveDirection += character.transform.up;
+                isMoving = true;
+            }
+            // Forward tilt (down direction) 
+            else if (input.y > 0f)
+            {
+                Quaternion targetTilt = Quaternion.Euler(90, characterRb.rotation.eulerAngles.y, 0);
+                characterRb.MoveRotation(Quaternion.Slerp(characterRb.rotation, targetTilt, turnSpeed * Time.fixedDeltaTime));
+                moveDirection -= character.transform.up;
+                isMoving = true;
+            }
+            // Left tilt (around y-axis)
+            else if (input.x < 0f)
+            {
+                Quaternion targetTilt = Quaternion.Euler(characterRb.rotation.eulerAngles.x, characterRb.rotation.eulerAngles.y - 90, 0);
+                characterRb.MoveRotation(Quaternion.Slerp(characterRb.rotation, targetTilt, turnSpeed * Time.fixedDeltaTime));
+                moveDirection -= character.transform.right;  
+                isMoving = true;
+            }
+            // Right tilt (around y-axis)
+            else if (input.x > 0f)
+            {
+                Quaternion targetTilt = Quaternion.Euler(characterRb.rotation.eulerAngles.x, characterRb.rotation.eulerAngles.y + 90, 0);
+                characterRb.MoveRotation(Quaternion.Slerp(characterRb.rotation, targetTilt, turnSpeed * Time.fixedDeltaTime));
+                moveDirection += character.transform.right;  
+                isMoving = true;
+            }
+                    // Handle movement
+            if (isMoving && characterRb.velocity.magnitude > movementVelocityThreshold)
+            {
+                Vector3 targetVelocity = moveDirection.normalized * movementMultiplier;
+                currentVelocity = Vector3.Lerp(currentVelocity, targetVelocity, Time.fixedDeltaTime * movementLerpSpeed);
+                //characterRb.AddForce(currentVelocity, ForceMode.Acceleration);
+            }
         }
 
-        // Handle movement
-        if (isMoving && characterRb.velocity.magnitude > movementVelocityThreshold)
-        {
-            Vector3 targetVelocity = moveDirection.normalized * movementMultiplier;
-            currentVelocity = Vector3.Lerp(currentVelocity, targetVelocity, Time.fixedDeltaTime * movementLerpSpeed);
-            //characterRb.AddForce(currentVelocity, ForceMode.Acceleration);
-        }
+
+
     }
 
     public void TurnTowards(Vector3 position,float rotationSpeed){
