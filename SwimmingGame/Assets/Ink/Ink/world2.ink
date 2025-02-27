@@ -287,6 +287,25 @@ Enkidu: Sweetheart, I'm all about forwardness.
 
 VAR feelingsCounter=0
 
+=== EnkiduAftercareTest ===
+MC: You stopped us there.
+Enkidu: I did.
++   [I was disguted.]
+    MC: I was... disgusted.
+    Enkidu: Why?
+    ~feelingsCounter+=1
++   [I was afraid.]
+    MC: I was afraid.
+    Enkidu: Of?
+    MC: I'm not sure. Well... of changes, I guess, happening to me. That I don't understand.
+    ~feelingsCounter+=1
++   [I was angry.]
+    MC: I was angry.
+    Enkidu: At?
+    ~feelingsCounter+=1
+- Enkidu: Ok I see.
+-> EnkiduAftercareTest
+
 // goals: MC talks about ambivalence of sex, enkidu proposes naming
 === EnkiduAftercare1 ===
 MC: You stopped us there.

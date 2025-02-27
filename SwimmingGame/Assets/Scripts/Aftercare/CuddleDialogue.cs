@@ -10,6 +10,8 @@ public class CuddleDialogue : Dialogue
     public bool caressing;
     [Tooltip("If true, the camera moves with the arm.")]
     public bool traveling=false;
+    [Tooltip("If true, the control is moving the MC's body not hand.")]
+    public bool moving=false;
     public float caressRequiredLength=1f;
     public float caressTimer=0f;
     public float caressCancelSpeed=0.5f;
@@ -28,6 +30,8 @@ public class CuddleDialogue : Dialogue
 
     private bool justHovered = false;
     private bool justCaressed = false;
+
+    private float selectingIntensity=1f;
 
     private int[] choiceBoxIndexes;
     private bool differentChoiceBoxOrder; //If true, the choice boxes are assigned to specific ones in the world instead of in hierarchical order.
@@ -55,13 +59,20 @@ public class CuddleDialogue : Dialogue
     void LateUpdate(){
         if (caressing)
         {
-            caressTimer += Time.deltaTime;
+            caressTimer += Time.deltaTime*selectingIntensity;
             Rumble.AddRumble("Picking Dialogue",caressTimer/caressRequiredLength);
         }
 
         if (caressTimer >= caressRequiredLength && story.currentChoices.Count > 0 &&
             currentChoiceIndex <= story.currentChoices.Count && currentChoiceIndex >= 0)
         {
+            if(moving){
+                FindObjectOfType<MoveBody>().PickedChoice(currentChoiceIndex);
+                GameObject cb=choiceTextBoxes[choiceTextBoxes.Length-1];
+                choiceTextBoxes[choiceTextBoxes.Length-1]=choiceTextBoxes[currentChoiceIndex];
+                choiceTextBoxes[currentChoiceIndex]=cb;
+                ChangeView(currentViewIndex);
+            }
             PickChoice(currentChoiceIndex);
         }
         else if (story.currentChoices.Count == 0)
@@ -108,10 +119,12 @@ public class CuddleDialogue : Dialogue
         justHovered=true;
     }
 
-    public void CaressingChoice(int choiceIndex){
+    public void SelectingChoice(int choiceIndex, float intensity=1f){
         caressing=true;
         justCaressed=true;
+        selectingIntensity=intensity;
     }
+
 
     public override void ShowChoices()
     {

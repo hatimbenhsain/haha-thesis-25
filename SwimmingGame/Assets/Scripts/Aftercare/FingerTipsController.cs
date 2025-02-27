@@ -156,7 +156,7 @@ public class FingerTipsController : MonoBehaviour
             cuddleDialogue.HoveringChoice(i);
             
             if(c){
-                cuddleDialogue.CaressingChoice(i);
+                cuddleDialogue.SelectingChoice(i);
             }
 
         }
