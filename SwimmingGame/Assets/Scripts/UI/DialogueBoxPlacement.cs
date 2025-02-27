@@ -158,17 +158,17 @@ public class DialogueBoxPlacement : MonoBehaviour
                 if(isOffscreen){
                     pos=WorldToCanvasPoint(canvasRect,overrideTarget.position,secondaryCamera,out success);
                     initAngle=Mathf.Atan2(pos.y,pos.x);
-                    // pos.x=Mathf.Cos(initAngle)*canvasRect.sizeDelta.x/2f-Mathf.Sign(Mathf.Cos(initAngle))*minOvalWidth/2f;       
-                    // pos.y=Mathf.Sin(initAngle)*canvasRect.sizeDelta.y/2f-Mathf.Sign(Mathf.Sin(initAngle))*minOvalHeight/2f;
+                    //pos.x=Mathf.Cos(initAngle)*canvasRect.sizeDelta.x/2f-Mathf.Sign(Mathf.Cos(initAngle))*minOvalWidth/2f;       
+                    //pos.y=Mathf.Sin(initAngle)*canvasRect.sizeDelta.y/2f-Mathf.Sign(Mathf.Sin(initAngle))*minOvalHeight/2f;
                     pos.x=Mathf.Clamp(pos.x,-canvasRect.sizeDelta.x/2f+minOvalWidth/2f,canvasRect.sizeDelta.x/2f-minOvalWidth/2f);
                     pos.y=Mathf.Clamp(pos.y,-canvasRect.sizeDelta.y/2f+minOvalHeight/2f,canvasRect.sizeDelta.y/2f-minOvalHeight/2f);
                     targetPos=pos;
                     
                     while(OverlapsChoiceBoxes(rect,pos+canvasRect.sizeDelta/2f) && tries<180){
-                        // a=-a;
-                        // pos.x=Mathf.Cos(initAngle+a)*canvasRect.sizeDelta.x/2f-Mathf.Sign(Mathf.Cos(initAngle+a))*minOvalWidth/2f;       
-                        // pos.y=Mathf.Sin(initAngle+a)*canvasRect.sizeDelta.y/2f-Mathf.Sign(Mathf.Sin(initAngle+a))*minOvalHeight/2f;
-                        // a+=Mathf.Sign(a);
+                        a=-a;
+                        pos.x=Mathf.Cos(initAngle+a)*canvasRect.sizeDelta.x/2f-Mathf.Sign(Mathf.Cos(initAngle+a))*minOvalWidth/2f;       
+                        pos.y=Mathf.Sin(initAngle+a)*canvasRect.sizeDelta.y/2f-Mathf.Sign(Mathf.Sin(initAngle+a))*minOvalHeight/2f;
+                        a+=Mathf.Sign(a);
                         tries++;
                         break;
                     }
@@ -402,8 +402,8 @@ public class DialogueBoxPlacement : MonoBehaviour
     bool RectOverlap(RectTransform rect1,RectTransform rect2){
         Vector2 pos1=rect1.position;
         Vector2 pos2=rect2.position;
-        Vector2 dimensions1=rect1.sizeDelta;
-        Vector2 dimensions2=rect2.sizeDelta;
+        Vector2 dimensions1=rect1.sizeDelta*rect1.lossyScale;
+        Vector2 dimensions2=rect2.sizeDelta*rect2.lossyScale;
         return !(pos2.x-dimensions2.x/2>=pos1.x+dimensions1.x/2 || pos2.x+dimensions2.x/2<=pos1.x-dimensions1.x/2 || pos2.y-dimensions2.y/2>=pos1.y+dimensions1.y/2 || 
         pos2.y+dimensions2.y/2<=pos1.y-dimensions1.y/2);
     }
