@@ -424,7 +424,6 @@ public class Dialogue : MonoBehaviour
 
     //Remove all UI elements
     void HideText(){
-        Debug.Log("Hide text");
         interlocutorLineTMP.text="";
         playerLineTMP.text="";
         canvasParent.SetActive(false);

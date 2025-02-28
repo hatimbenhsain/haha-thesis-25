@@ -1,6 +1,5 @@
 using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -107,13 +106,10 @@ public class CuddleDialogue : Dialogue
                     break;
                 }
             }
-            Debug.Log(choiceIndex);
-            Debug.Log(currentChoiceIndex);
-            Debug.Log("-");
         }
         else currentChoiceIndex=choiceIndex;
         if(currentChoiceIndex!=prevChoiceIndex){
-            caressTimer=0f;
+            //caressTimer=0f;
         }
         prevChoiceIndex=currentChoiceIndex;
         justHovered=true;
