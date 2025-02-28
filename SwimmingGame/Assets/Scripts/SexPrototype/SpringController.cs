@@ -21,6 +21,7 @@ public class SpringController : SexSpring
     public float ZoomOutCameraDistance;
     public float ZoomInCameraDistance;
     public float shakeAmplitude = 0.2f; 
+    public bool lockCamera;
 
 
     private PlayerInput playerInput;
@@ -75,7 +76,7 @@ public class SpringController : SexSpring
     void FixedUpdate()
     {
 
-        if (!playerInput.aiming)
+        if (!playerInput.aiming&&!lockCamera)
         {
             AlignWithCamera();
         }
@@ -84,14 +85,15 @@ public class SpringController : SexSpring
             isAligningWithCamera = false;
             cameraDistance = 2;
         }
+         
         if (playerInput.currentControlScheme == "Gamepad")
         {
-            HandleTurning(new Vector2(playerInput.look.x, -playerInput.look.y) );
+            HandleTurning(new Vector2(playerInput.look.x, -playerInput.look.y), lockCamera);
         }
         else
         {
             ConvertMovementInput(playerInput.movingForward, playerInput.movingBackward, playerInput.movingLeft, playerInput.movingRight);
-            HandleTurning(movementVector);
+            HandleTurning(movementVector, lockCamera);
         }
         if (isShaking)
         {
@@ -143,14 +145,6 @@ public class SpringController : SexSpring
         isAligningWithCamera = true; // start aligning
         characterRb.MoveRotation(Quaternion.Lerp(characterRb.rotation, targetRotation, cameraLerpSpeed * Time.fixedDeltaTime));
         characterRb.angularVelocity = Vector3.zero; // clear all angular acceleration
-
-        /*
-        // Smoothly zoom in the camera
-        if (thirdPersonFollow != null)
-        {
-            thirdPersonFollow.CameraDistance = Mathf.Lerp(thirdPersonFollow.CameraDistance, defaultCameraDistance, defaultCameraLerpSpeed * Time.fixedDeltaTime);
-        }
-        */
     }
 
     void ZoomOutCamera()
