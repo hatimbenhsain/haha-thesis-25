@@ -672,6 +672,11 @@ VAR talkedToJanitor=0
 
 // * OVERWORLD NPCS *
 
-
+=== alienDancer1 ===
+# color: d6eaf6
+-> npcStart ->
+NPC: Let's dance! Dance! Dance!!!
+-> npcEnd ->
+-> END
 
 
