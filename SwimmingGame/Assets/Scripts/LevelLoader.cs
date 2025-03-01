@@ -57,17 +57,20 @@ public class LevelLoader : MonoBehaviour
             }
         }
 
-        if(fadingOut){
-            Color c=image.color;
-            if (Mathf.Abs(fadeOutColor.r+fadeOutColor.g+fadeOutColor.b) > 0f)
+        if (fadingOut)
+        {
+            Color c = image.color;
+            if (Mathf.Abs(fadeOutColor.r + fadeOutColor.g + fadeOutColor.b) > 0f)
             {
-                image.color = fadeOutColor;
+                image.color = new Color(fadeOutColor.r, fadeOutColor.g, fadeOutColor.b, transitionTimer / transitionTime);
             }
-            else{
-                image.color=new Color(c.r,c.g,c.b,transitionTimer/transitionTime);
+            else
+            {
+                image.color = new Color(c.r, c.g, c.b, transitionTimer / transitionTime);
             }
-            if(c.a<=0f){
-                fadeIn=false;
+            if (c.a <= 0f)
+            {
+                fadeIn = false;
             }
         }
 
