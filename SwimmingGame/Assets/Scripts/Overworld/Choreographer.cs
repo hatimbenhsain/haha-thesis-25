@@ -20,6 +20,6 @@ public class Choreographer : MonoBehaviour
     {
         //animator.speed=animationSpeedFactor*musicBeat.timelineInfo.currentTempo/120f;
         float period=60f/(musicBeat.timelineInfo.currentTempo*animationSpeedFactor);
-        animator.SetFloat("time",(musicBeat.timelineInfo.currentTime*0.001f%(period))/period);
+        animator.SetFloat("time",((musicBeat.timelineInfo.currentTime*0.001f)%(period))/period);
     }
 }
