@@ -57,6 +57,7 @@ public class NPCOverworld : MonoBehaviour
         public bool sitting=false;
         [Tooltip("If swimming and singing, stop when harmonized.")]
         public bool stopToTalk=true;
+        public bool animateSwimming=true;
 
     [Header("Movement")]
         public float acceleration=4f;
@@ -224,7 +225,7 @@ public class NPCOverworld : MonoBehaviour
             DialogueStart();
         }
 
-        if(animator!=null && currentState!=NPCStates.Swimming && currentState!=NPCStates.SwimmingAndSinging && currentState!=NPCStates.SexSwimmingAndSinging) animator.SetBool("swimming",false);
+        if(animateSwimming && animator!=null && currentState!=NPCStates.Swimming && currentState!=NPCStates.SwimmingAndSinging && currentState!=NPCStates.SexSwimmingAndSinging) animator.SetBool("swimming",false);
     }
 
     void Sing(){
@@ -402,10 +403,12 @@ public class NPCOverworld : MonoBehaviour
                     velocity+=body.transform.forward*acceleration*Time.fixedDeltaTime*modifier;
                 }
                 float playerAngle=Vector3.Angle(transform.forward,player.transform.forward);
-                if(playerAngle<90f) animator.SetBool("swimming",true);
-                else animator.SetBool("swimming",false);
+                if(animateSwimming){
+                    if(playerAngle<90f) animator.SetBool("swimming",true);
+                    else animator.SetBool("swimming",false);
+                }
             }else{
-                animator.SetBool("swimming",false);
+                if(animateSwimming) animator.SetBool("swimming",false);
                 boostTimer=boostTime+1f;
             }
 
@@ -587,7 +590,7 @@ public class NPCOverworld : MonoBehaviour
     public void ChangeState(NPCStates state){
         pastState=currentState;
         currentState=state;
-        if(animator!=null && currentState!=NPCStates.Swimming && currentState!=NPCStates.SwimmingAndSinging && currentState!=NPCStates.SexSwimmingAndSinging) animator.SetBool("swimming",false);
+        if(animateSwimming && animator!=null && currentState!=NPCStates.Swimming && currentState!=NPCStates.SwimmingAndSinging && currentState!=NPCStates.SexSwimmingAndSinging) animator.SetBool("swimming",false);
     }
 
     public void ChangeMovementBehavior(MovementBehavior mb){
