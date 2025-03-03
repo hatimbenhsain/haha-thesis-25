@@ -28,7 +28,7 @@ public class NPCOverworld : MonoBehaviour
     private bool processing=true;
     
     [Header("Behavior")]
-        public NPCStates currentState;
+        public NPCStates currentState=NPCStates.Singing;
         private NPCStates pastState; //State before any "ChangeState"
         public MovementBehavior movementBehavior;
         [HideInInspector]

@@ -20,6 +20,12 @@ public class NPCSinging : Singing
     public List<MusicalEvent> sequence;
     public int sequenceIndex=0;
 
+    [Tooltip("Is this synched to the current music playing (values are in beats) or not (in seconds).")]
+    public bool synchedToMusic=false;
+    private MusicBeat musicBeat;
+    private float totalSequenceTime;
+    private float startTime; //Time at which we started counting the current beats
+
 
 
 
@@ -77,6 +83,11 @@ public class NPCSinging : Singing
 
     void Start()
     {
+        if(synchedToMusic){
+            musicBeat=FindObjectOfType<MusicBeat>();
+            startTime=0f;
+        }
+
         SingingStart();
 
         Rigidbody body;
@@ -100,6 +111,8 @@ public class NPCSinging : Singing
         if(!TryGetComponent<Animator>(out animator)){
             transform.parent.TryGetComponent<Animator>(out animator);
         }
+
+
     }
 
     void Update()
@@ -120,10 +133,39 @@ public class NPCSinging : Singing
             //Picking note and telling what/whether to sing
             switch(singingMode){
                 case SingingMode.Sequence:
+                    if(synchedToMusic){
+                        float period=60f/(musicBeat.timelineInfo.currentTempo);
+                        totalSequenceTime=0f;
+                        for(var i=0;i<sequence.Count;i++){
+                            totalSequenceTime+=sequence[i].length*period;
+                        }
+                        float tempTime=0f;
+                        for(var i=0;i<sequence.Count;i++){
+                            if(i==sequenceIndex){
+                                timer=((musicBeat.timelineInfo.currentTime*0.001f)-startTime)-tempTime;
+                                break;
+                            }
+                            tempTime+=sequence[i].length*period;
+                        }
+                        Debug.Log(startTime);
+                    }
+                    
+
                     if(timer>=currentEventLength){
                         sequenceIndex+=1;
                         sequenceIndex=sequenceIndex%sequence.Count;
                         currentEventLength=sequence[sequenceIndex].length+Random.Range(-timerMaxVariationLength,timerMaxVariationLength);
+                        if(synchedToMusic){
+                            float period=60f/(musicBeat.timelineInfo.currentTempo);
+                            currentEventLength=currentEventLength*period;
+                            if(sequenceIndex==0f){
+                                if(musicBeat.timelineInfo.currentTime<startTime){
+                                    startTime=0f;
+                                }
+                                startTime=Mathf.Floor((musicBeat.timelineInfo.currentTime*0.001f)/totalSequenceTime)*totalSequenceTime+
+                                    (musicBeat.timelineInfo.currentTime*0.001f)%totalSequenceTime;
+                            }
+                        }
                         timer=0f;
                         if(harmonized){ //Only do harmonized effects at the end of a singing event, so there's no abrupt cutoff
                             StopAllNotes();
@@ -405,6 +447,10 @@ public class NPCSinging : Singing
     void StartSequence(){
         sequenceIndex=0;
         currentEventLength=sequence[sequenceIndex].length;
+        // if(synchedToMusic){
+        //     float period=60f/(FindObjectOfType<MusicBeat>().timelineInfo.currentTempo);
+        //     currentEventLength=currentEventLength*period;
+        // }
     }
 
     void StartResponding(){

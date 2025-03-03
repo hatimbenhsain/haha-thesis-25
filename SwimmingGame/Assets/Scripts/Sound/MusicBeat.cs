@@ -39,7 +39,6 @@ public class MusicBeat : MonoBehaviour
     void Update()
     {
         musicInstance.getTimelinePosition(out timelineInfo.currentTime);
-        Debug.Log(timelineInfo.currentTime);
     }
 
     void OnGUI()
