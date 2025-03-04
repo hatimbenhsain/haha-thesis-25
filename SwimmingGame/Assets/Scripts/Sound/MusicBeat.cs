@@ -68,17 +68,12 @@ public class MusicBeat : MonoBehaviour
                     timelineInfo.currentBeat = parameter.beat;
                     timelineInfo.beatPosition = parameter.position;
                     timelineInfo.currentTempo = parameter.tempo;
-                    Debug.Log("current music bar");
-                    Debug.Log(timelineInfo.currentBar);
-                    Debug.Log(timelineInfo.currentTempo);
                     break;
                 }
                 case FMOD.Studio.EVENT_CALLBACK_TYPE.TIMELINE_MARKER:
                 {
                     var parameter = (FMOD.Studio.TIMELINE_MARKER_PROPERTIES)Marshal.PtrToStructure(parameterPtr, typeof(FMOD.Studio.TIMELINE_MARKER_PROPERTIES));
                     timelineInfo.lastMarker = parameter.name;
-                    Debug.Log("timeline marker");
-                    Debug.Log(timelineInfo.lastMarker);
                     break;
                 }          
                 case FMOD.Studio.EVENT_CALLBACK_TYPE.DESTROYED:
