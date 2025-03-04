@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class MigrationGenerator : MonoBehaviour
@@ -32,6 +33,11 @@ public class MigrationGenerator : MonoBehaviour
 
     public float maxDistance;
 
+    public bool moveOrigin=true;
+
+    [Tooltip("If superior to 0 and distance from player is inferior to this value stop generating.")]
+    public float minPlayerDistance=-1f;
+
     void Start()
     {
         scale=transform.lossyScale;
@@ -44,6 +50,10 @@ public class MigrationGenerator : MonoBehaviour
 
     void Update()
     {
+        if(minPlayerDistance>0 && Vector3.Distance(origin.position,player.transform.position)<=minPlayerDistance){
+            return;
+        }
+
         if(npcNum<maxNPCnum){
             timer+=Time.deltaTime;
 
@@ -56,7 +66,7 @@ public class MigrationGenerator : MonoBehaviour
                 }
                 timer=timer%period;
 
-                if(npcNum<maxNPCnum/2){
+                if(npcNum<maxNPCnum/2 && origin2!=null){
                     Generate(origin2);
                 }
             }
@@ -75,22 +85,24 @@ public class MigrationGenerator : MonoBehaviour
 
         closestIndex=index;
 
-        origin=path[Mathf.Clamp(index-backDistance,0,path.Length-1)];
-        float d=Vector3.Distance(origin.position,player.position);
-        if(d>maxDistance){
-            backDistance-=1;
-        }else if(d<maxDistance/2){
-            backDistance+=1;
+        if(moveOrigin){
+            origin=path[Mathf.Clamp(index-backDistance,0,path.Length-1)];
+            float d=Vector3.Distance(origin.position,player.position);
+            if(d>maxDistance){
+                backDistance-=1;
+            }else if(d<maxDistance/2){
+                backDistance+=1;
+            }
+            backDistance=Mathf.Clamp(backDistance,0,3);
+            origin2=path[Mathf.Clamp(index+forwardDistance,0,path.Length-1)];
+            d=Vector3.Distance(origin2.position,player.position);
+            if(d>maxDistance){
+                forwardDistance-=1;
+            }else if(d<maxDistance/2){
+                forwardDistance+=1;
+            }
+            forwardDistance=Mathf.Clamp(forwardDistance,0,3);
         }
-        backDistance=Mathf.Clamp(backDistance,0,3);
-        origin2=path[Mathf.Clamp(index+forwardDistance,0,path.Length-1)];
-        d=Vector3.Distance(origin2.position,player.position);
-        if(d>maxDistance){
-            forwardDistance-=1;
-        }else if(d<maxDistance/2){
-            forwardDistance+=1;
-        }
-        forwardDistance=Mathf.Clamp(forwardDistance,0,3);
 
         
     }

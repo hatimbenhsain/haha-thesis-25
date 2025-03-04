@@ -147,7 +147,6 @@ public class NPCSinging : Singing
                             }
                             tempTime+=sequence[i].length*period;
                         }
-                        Debug.Log(startTime);
                     }
                     
 

@@ -111,7 +111,7 @@ public class Singing : Sound
     }
 
     private void OnDestroy() {
-        if(events.Count>0){
+        if(events!=null && events.Count>0){
             foreach(var e in events.Values){
                 e.release();
             }
