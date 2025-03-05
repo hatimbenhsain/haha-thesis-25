@@ -50,6 +50,10 @@ public class LevelLoader : MonoBehaviour
         
         if(fadeIn){
             Color c=image.color;
+            if (fadeInColor.a > 0f)
+            {
+                c=fadeInColor;
+            }
             c.a=(fadeInTime-transitionTimer)/fadeInTime;
             image.color=c;
             if(c.a<=0f){
@@ -60,7 +64,7 @@ public class LevelLoader : MonoBehaviour
         if (fadingOut)
         {
             Color c = image.color;
-            if (Mathf.Abs(fadeOutColor.r + fadeOutColor.g + fadeOutColor.b) > 0f)
+            if (fadeOutColor.a > 0f)
             {
                 image.color = new Color(fadeOutColor.r, fadeOutColor.g, fadeOutColor.b, transitionTimer / transitionTime);
             }
@@ -85,6 +89,7 @@ public class LevelLoader : MonoBehaviour
         {
             LoadLevel();
         }
+
 
     }
 
