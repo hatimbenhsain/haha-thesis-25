@@ -23,6 +23,7 @@ NPC: Friend.
         -> chat ->
 }
 - -> npcEnd ->
+~ switchObject("Roadblock 5",false)
 -> END
 =chat 
 Care for a chat?
@@ -163,7 +164,7 @@ MC: Right.
 ->->
 
 
-=== EnkiduAtParty1 ===
+=== EnkiduAtParty1 ===  //Room 3
 # color: 2A3B5A
 # outline: FFF383
 -> npcStart ->
@@ -171,6 +172,8 @@ Enkidu: Hello there!
 MC: ...Hello?
 Enkidu: That's how they start conversations on the surface!
 MC: Oh...
+~ changeStartKnot("EnkiduAtParty2")
+~ switchObject("Roadblock 1",false)
 -> npcEnd ->
 -> END
 // could be fun if this dialogue is initiated by enkidu
@@ -186,13 +189,15 @@ Enkidu: I'm using psychic power to recenter the party vibes!
 -> npcEnd ->
 -> END
 
-=== EnkiduAtParty3 ===
+=== EnkiduAtParty3 === //Room 5
 # color: 2A3B5A
 # outline: FFF383
 -> npcStart ->
 Enkidu: You are still not dancing!
 MC: I'm aware.
 Enkidu: Make that be different!!
+~changeStartKnot("EnkiduAtParty4")
+~ switchObject("Roadblock 2",false)
 -> npcEnd ->
 -> END
 
@@ -204,6 +209,7 @@ MC: So... About your whole "name" thing --
 Enkidu: Are you seriously trying to have a conversation with me right now??
 MC: Yes?
 Enkidu: Dance! Now!
+~changeStartKnot("EnkiduAtParty3")
 -> npcEnd ->
 -> END
 
@@ -215,27 +221,31 @@ Enkidu: Little minnow!
 MC: What?
 Enkidu: That's you! That's what you look like!
 MC: ...
+~changeStartKnot("EnkiduAtParty4")
 -> npcEnd ->
 -> END
 
-=== EnkiduAtParty6 ===
+=== EnkiduAtParty6 === // White Room 1
 # color: 2A3B5A
 # outline: FFF383
 -> npcStart ->
 Enkidu: I like your style!
 MC: I think I'm acting really awkwardly...
 Enkidu: You are! There's a quiet melancholy about you! It's so different! I love it!
+~changeStartKnot("EnkiduAtParty5")
+~ switchObject("Roadblock 3",false)
 -> npcEnd ->
 -> END
 
 
-=== EnkiduAtParty7 ===
+=== EnkiduAtParty7 === // Room 7
 # color: 2A3B5A
 # outline: FFF383
 -> npcStart ->
 Enkidu: Meet me later!
 MC: Why? I mean, um. Where? #speed: fast
 Enkidu: You'll find me!
+~ switchObject("Roadblock 4",false)
 -> npcEnd ->
 -> END
 

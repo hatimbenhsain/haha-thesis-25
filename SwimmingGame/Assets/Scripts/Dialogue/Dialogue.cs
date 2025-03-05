@@ -767,6 +767,9 @@ public class Dialogue : MonoBehaviour
         story.BindExternalFunction("clearScreen",()=>{
             ClearScreen();
         });
+        story.BindExternalFunction("changeStartKnot",(string name)=>{
+            ChangeStartKnot(name);
+        });
     }
 
     // EXTERNAL FUNCTIONS
@@ -945,6 +948,12 @@ public class Dialogue : MonoBehaviour
             Destroy(lingeringBox);
         }
         lingeringBoxes.Clear();
+    }
+
+    void ChangeStartKnot(string knotName){
+        if(npcInterlocutor!=null){
+            npcInterlocutor.knotName=knotName;
+        }
     }
 
 }

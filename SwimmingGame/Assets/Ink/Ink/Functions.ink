@@ -23,6 +23,7 @@ EXTERNAL fadeOut()
 EXTERNAL setFMODGlobalParameter(name,value)
 EXTERNAL changeDesire(text)
 EXTERNAL clearScreen()
+EXTERNAL changeStartKnot(name)
 
 === nextBrainKnot ===
 ~ nextBrain()
