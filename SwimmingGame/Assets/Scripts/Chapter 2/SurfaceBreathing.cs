@@ -1,0 +1,37 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class SurfaceBreathing : MonoBehaviour
+{
+    PlayerInput playerInput;
+    public Animator swimmerAnimator;
+
+    public float maxTimeBetweenBreaths=3f;
+    private float breathTimer=0f;
+
+    public int maxBreathes=10;
+
+    public SpriteAnimator seaSurfaceAnimator;
+    public float fastAnimationSpeed=4f;
+    public float slowAnimationSpeed=1f;
+
+    void Start()
+    {
+        playerInput=FindObjectOfType<PlayerInput>();
+    }
+
+    void Update()
+    {
+        breathTimer+=Time.deltaTime;
+        if(playerInput.movingForward && breathTimer>=maxTimeBetweenBreaths){
+            swimmerAnimator.SetTrigger("breathe");
+            Sound.PlayOneShotVolume("event:/Overworld/Choke/Choke",1f);
+            breathTimer=0f;
+            seaSurfaceAnimator.imageSpeed=fastAnimationSpeed;
+            playerInput.movedForwardTrigger=false;
+        }else if(breathTimer>maxTimeBetweenBreaths*.5f){
+            seaSurfaceAnimator.imageSpeed=slowAnimationSpeed;
+        }
+    }
+}
