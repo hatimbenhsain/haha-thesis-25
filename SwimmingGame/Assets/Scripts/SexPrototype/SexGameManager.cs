@@ -90,7 +90,7 @@ public class SexGameManager : MonoBehaviour
         }
 
         // Update the meter text
-        meterText.text = $"Meter: {meterValue:F2}";
+        //meterText.text = $"Meter: {meterValue:F2}";
 
         // Sound stuff
         float averageIntensity=0f;
