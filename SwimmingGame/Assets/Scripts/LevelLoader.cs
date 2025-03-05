@@ -50,6 +50,10 @@ public class LevelLoader : MonoBehaviour
         
         if(fadeIn){
             Color c=image.color;
+            if (fadeInColor.a > 0f)
+            {
+                c=fadeInColor;
+            }
             c.a=(fadeInTime-transitionTimer)/fadeInTime;
             image.color=c;
             if(c.a<=0f){
