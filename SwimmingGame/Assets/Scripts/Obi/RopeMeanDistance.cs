@@ -67,7 +67,7 @@ public class RopeMeanDistance : MonoBehaviour
 
         // Calculate the mean of close distances
         meanDistance = closeDistances.Count > 0 ? CalculateMean(closeDistances) : 0;
-        distanceText.text = $"Mean Distance: {meanDistance:F2}";
+        //distanceText.text = $"Mean Distance: {meanDistance:F2}";
     }
 
     private float CalculateMean(List<float> distances)
