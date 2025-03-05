@@ -16,6 +16,8 @@ public class SurfaceBreathing : MonoBehaviour
     public float fastAnimationSpeed=4f;
     public float slowAnimationSpeed=1f;
 
+    private int breathCounter=0;
+
     void Start()
     {
         playerInput=FindObjectOfType<PlayerInput>();
@@ -30,6 +32,11 @@ public class SurfaceBreathing : MonoBehaviour
             breathTimer=0f;
             seaSurfaceAnimator.imageSpeed=fastAnimationSpeed;
             playerInput.movedForwardTrigger=false;
+            breathCounter+=1;
+            if(breathCounter==maxBreathes){
+                FindObjectOfType<LevelLoader>().LoadLevel();
+            }
+
         }else if(breathTimer>maxTimeBetweenBreaths*.5f){
             seaSurfaceAnimator.imageSpeed=slowAnimationSpeed;
         }
