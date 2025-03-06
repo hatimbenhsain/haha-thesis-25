@@ -11,6 +11,7 @@ VAR talkedToVirgin=false
 // virgin being disgusted by sex
 //    HMM this is probably too long, maybe could be broken up in more convos.. but fear played wont know that u can talk several times
 === virgin ===
+# color: ffae1e
 -> npcStart ->
 NPC: Friend.
 { 
@@ -34,7 +35,7 @@ Care for a chat?
     MC: Maybe later. There are things on my mind.
     -> npcEnd ->
     -> END
-- How's your current?
+- NPC: How's your current?
 +   [Crowded.]
     MC: Feels suffocating.
     I cannot swim a pace without bumping into certain others doing... whatever.
@@ -69,7 +70,7 @@ MC: Yeah. There's a lot going on.
 NPC: I used to enjoy these parties. Really. But they've... perverted it. It's against current.
 MC: ...It's not that bad.
 ~pause(2)
-NPC: So,\pause how have you been feeling? I know that last one you had relations with also went away...
+NPC: So,\\pause how have you been feeling? I know that last one you had relations with also went away...
 +   [Fine.]
     MC: I'm fine. Really.
     NPC: Really?
@@ -261,7 +262,7 @@ VAR chosenName=false
 # color: 2A3B5A
 # outline: FFF383
 -> npcStart ->
-{talkedToEnkiduBeforeMainAct1:
+{talkedToEnkiduBeforeMainAct1==false:
     ->chat->
 }
 Enkidu: {Let's do it.|Come on.|There is only one time.|I want to entangle with you.}
@@ -272,6 +273,7 @@ Now.
     MC: Don't we need to harmonize more first?
     Enkidu: You don't need to when you're with me little minnow.
     Enkidu: Just let it out.
+    ~loadLevel("Main Act 2 - 1")
     MC: Oh... Oh!
     // Transition to Main Act
 +   [No!]
@@ -427,12 +429,22 @@ Hmm... Would I?
     Enkidu: That's perfectly fine. You should have it your way. And no one else's.
     MC: Yeah. I agree.
     ~pause(2)
-- MC: Well...
+- -> END
+
+=== EnkiduForeplay1 ===
+# color: 2A3B5A
+# outline: FFF383
+-> npcStart ->
+~stopSinging()
+~pause(3)
+MC: Well...
 MC: What now?
 Enkidu: Now...
 I'd like to introduce you to some friends.
 // A lot of NPCs enter. 
 // Transition to harmonizing/foreplay with everyone
+-> npcEnd ->
+~ nextBrain()
 -> END
 
 //After harmonizing, we enter a cuddle/aftercare scnene with Main Character stroking a big pile of bodies

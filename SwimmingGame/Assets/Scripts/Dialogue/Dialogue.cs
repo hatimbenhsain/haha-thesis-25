@@ -324,7 +324,7 @@ public class Dialogue : MonoBehaviour
 
         //Trigger mostly for debug purposes, remove later
         if(startStoryTrigger){
-            StartDialogue(inkJSONAsset,currentKnotName);
+            StartDialogue(inkJSONAsset,currentKnotName,npcInterlocutor);
             startStoryTrigger=false;
         }
     }

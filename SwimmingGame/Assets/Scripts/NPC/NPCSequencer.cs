@@ -15,8 +15,10 @@ public class NPCSequencer : MonoBehaviour
     public bool nextBrainTrigger=false;
 
     public bool looping=false;
+    [Tooltip("Start looping from this index onwards, ignoring brains before this one.")]
+    public int loopOffset=0; 
 
-    public bool progressWhenHarmonized=true;
+    //public bool progressWhenHarmonized=true; //Commented out since it doesn't do anything
 
     void Awake(){
         //Changing path's parent so it doesn't move with self
@@ -32,7 +34,7 @@ public class NPCSequencer : MonoBehaviour
         if(nextBrainTrigger){
             brainIndex++;
             if(looping){
-                brainIndex=brainIndex%brains.Length;
+                brainIndex=Mathf.Max(brainIndex%brains.Length,loopOffset);
             }
             SetBrain(brainIndex);
             nextBrainTrigger=false;

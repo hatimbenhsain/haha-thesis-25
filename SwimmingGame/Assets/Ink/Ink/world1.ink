@@ -843,7 +843,7 @@ NPC: When I am swimming around this column I am filled with... a special feeling
 
 // Chat with virgin friend to try to establish more info about MC
 === npcInCenter7 ===
-# color: 95B79B
+# color: ffae1e
 -> npcStart ->
 NPC: Good tidings friend.
 How's your current?

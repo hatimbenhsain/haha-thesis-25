@@ -34,8 +34,11 @@ public class SwimmerSinging : Singing
     private Animator animator;
 
     public Light singingLight;
-    [Tooltip("Target intensity for spotlight when singing.")]
+    [Tooltip("Target intensity for point light when singing.")]
     public float singingTargetIntensity;
+    public Light spotlight;
+    [Tooltip("Target intensity for spotlight when singing.")]
+    public float spotlightTargetIntensity=0.4f;
 
     public SpriteRenderer auraSprite;
     [Tooltip("Target intensity for spotlight when singing.")]
@@ -195,6 +198,10 @@ public class SwimmerSinging : Singing
             }
 
             singingLight.intensity=Mathf.Lerp(singingLight.intensity,singingTargetIntensity*targetOpacity*singingVolume,lightIntensityLerpSpeed*Time.deltaTime);
+
+            if(spotlight!=null){
+                spotlight.intensity=Mathf.Lerp(spotlight.intensity,spotlightTargetIntensity*targetOpacity*singingVolume,lightIntensityLerpSpeed*Time.deltaTime);
+            }
             
             c=auraSprite.color;
             c.a=Mathf.Lerp(c.a,auraTargetOpacity*singingVolume,lightIntensityLerpSpeed*Time.deltaTime);

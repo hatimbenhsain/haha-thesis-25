@@ -111,7 +111,8 @@ public class MigrationGenerator : MonoBehaviour
         npcNum+=1;
         Vector3 pos=new Vector3(Random.Range(-scale.x,scale.x),Random.Range(-scale.y,scale.y),Random.Range(-scale.z,scale.z));
         GameObject npc=Instantiate(npcPrefab,t.position+pos,npcPrefab.transform.rotation);
-        npc.GetComponent<MigrationNPC>().path.transform.position=transform.position+pos;
+        MigrationNPC migrationNPC;
+        if(npc.TryGetComponent<MigrationNPC>(out migrationNPC)) migrationNPC.path.transform.position=transform.position+pos;
         //npc.transform.position=pos;
         npc.SetActive(true);
         //npc.transform.position=origin.position+pos;
