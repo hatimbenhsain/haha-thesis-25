@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class RubbingTips : MonoBehaviour
 {
-    public Rigidbody object1;  
-    public Rigidbody object2;  
+    public Rigidbody[] object1;  
+    public Rigidbody[] object2;  
     public float moveForce = 10f;  // Force applied for movement
     public float dragFactor = 0.95f;  // Drag factor to slow down objects
 
@@ -24,15 +24,29 @@ public class RubbingTips : MonoBehaviour
         if (playerInput.currentControlScheme == "Gamepad")
         {
             isUsingGamepad = true;
-            ApplyMovement(object1, playerInput.look.x, playerInput.look.y);
-            ApplyMovement(object2, playerInput.rotation.x, -playerInput.rotation.y);
+            for (int i = 0; i < object1.Length; i++)
+            {
+                ApplyMovement(object1[i], playerInput.look.x, playerInput.look.y);
+            }
+            for (int i = 0; i < object2.Length; i++)
+            {
+                ApplyMovement(object2[i], playerInput.rotation.x, -playerInput.rotation.y);
+            }
+
         }
         else
         {
             isUsingGamepad = false;
+            
             ConvertMovementInput(playerInput.movingForward, playerInput.movingBackward, playerInput.movingLeft, playerInput.movingRight);
-            ApplyMovement(object1, playerInput.look.x, playerInput.look.y);
-            ApplyMovement(object2, -movementVector.y, movementVector.x);
+            for (int i = 0; i < object1.Length; i++)
+            {
+                ApplyMovement(object1[i], playerInput.look.x, playerInput.look.y);
+            }
+            for (int i = 0; i < object2.Length; i++)
+            {
+                ApplyMovement(object2[i], -movementVector.y, movementVector.x);
+            }
         }
 
     }
