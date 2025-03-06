@@ -34,7 +34,7 @@ Care for a chat?
     MC: Maybe later. There are things on my mind.
     -> npcEnd ->
     -> END
-- How's your current?
+- NPC: How's your current?
 +   [Crowded.]
     MC: Feels suffocating.
     I cannot swim a pace without bumping into certain others doing... whatever.
