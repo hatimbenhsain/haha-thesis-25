@@ -233,6 +233,8 @@ public class NPCOverworld : MonoBehaviour
     }
 
     void StopSinging(){
+        Debug.Log("stop singing");
+        Debug.Log(gameObject);
         singer.canSing=false;
     }
 
@@ -599,12 +601,13 @@ public class NPCOverworld : MonoBehaviour
     }
 
     void DialogueStart(){
-        Debug.Log("Start dialogue!");
-        if(!forceDialogue){
-            FindObjectOfType<Dialogue>().TryStartDialogue(inkJSONAsset,knotName,this);
-        }else{
-            FindObjectOfType<Dialogue>().EndDialogue();
-            FindObjectOfType<Dialogue>().StartDialogue(inkJSONAsset,knotName,this);
+        if(knotName!=""){
+            if(!forceDialogue){
+                FindObjectOfType<Dialogue>().TryStartDialogue(inkJSONAsset,knotName,this);
+            }else{
+                FindObjectOfType<Dialogue>().EndDialogue();
+                FindObjectOfType<Dialogue>().StartDialogue(inkJSONAsset,knotName,this);
+            }
         }
     }
 

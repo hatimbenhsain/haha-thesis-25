@@ -11,6 +11,7 @@ VAR talkedToVirgin=false
 // virgin being disgusted by sex
 //    HMM this is probably too long, maybe could be broken up in more convos.. but fear played wont know that u can talk several times
 === virgin ===
+# color: ffae1e
 -> npcStart ->
 NPC: Friend.
 { 
@@ -68,7 +69,7 @@ MC: Yeah. There's a lot going on.
 NPC: I used to enjoy these parties. Really. But they've... perverted it. It's against current.
 MC: ...It's not that bad.
 ~pause(2)
-NPC: So,\pause how have you been feeling? I know that last one you had relations with also went away...
+NPC: So,\\pause how have you been feeling? I know that last one you had relations with also went away...
 +   [Fine.]
     MC: I'm fine. Really.
     NPC: Really?
@@ -425,12 +426,22 @@ Hmm... Would I?
     Enkidu: That's perfectly fine. You should have it your way. And no one else's.
     MC: Yeah. I agree.
     ~pause(2)
-- MC: Well...
+- -> END
+
+=== EnkiduForeplay1 ===
+# color: 2A3B5A
+# outline: FFF383
+-> npcStart ->
+~stopSinging()
+~pause(3)
+MC: Well...
 MC: What now?
 Enkidu: Now...
 I'd like to introduce you to some friends.
 // A lot of NPCs enter. 
 // Transition to harmonizing/foreplay with everyone
+-> npcEnd ->
+~ nextBrain()
 -> END
 
 //After harmonizing, we enter a cuddle/aftercare scnene with Main Character stroking a big pile of bodies
