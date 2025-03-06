@@ -59,9 +59,10 @@ Care for a chat?
     // I feel like a shy person would try to cover it up or try to act normal here because the virgin is definitely someone they feel less comfortable talking about sex and inner feelings with. Its like MC accidently opened up a bit and got disapproved so now they are pretending nothing happened
     //[RESOLVED?]
     NPC: ...
-    NPC: I know you think I'm judgemental.
+    NPC: I know you think I'm judgemental.//ISABELLE could think through a slightly judgemental/tension point for the crowded option too, because both cozy and liberatng options have a moment of NPC being judgey 
     MC: I wasn't saying that.
     Besides, it's also a lot. I couldn't really bear it anymore so I had to come out here.
+    //ISABELLE this is a little repetitive if you choose the Crowded option
 - NPC: I see.
 I'm sure you've... seen a lot in there.
 MC: Yeah. There's a lot going on.
@@ -154,7 +155,7 @@ NPC: Really?
 MC: Yeah, I don't know. I guess I'm just curious to see if anything big happened. Maybe Enkidu dropped their vizor or something.
 NPC: ...
 Well, be careful in there please. 
-I know you've done "it" before but with all the other changes you never know what might happen this time. They might eat you this time.
+I know you've done "it" before but with all the other changes you never know what might happen this time. They might eat you this time. //ISABELLE nitpicky but you end two sentences with this time
 MC: ...Ok. And that's not why I'm going back in there.
 NPC: Right.
 MC: Right.
@@ -176,6 +177,7 @@ MC: Oh...
 ~ switchObject("Roadblock 1",false)
 -> npcEnd ->
 -> END
+//ISABELLE possibility-MC shares slang they know from the surface but it's wrong or they get embarassed?
 // could be fun if this dialogue is initiated by enkidu
 
 //Maybe for this one they're hanging from the ceiling or sth crazy/not dancing
@@ -196,6 +198,7 @@ Enkidu: I'm using psychic power to recenter the party vibes!
 Enkidu: You are still not dancing!
 MC: I'm aware.
 Enkidu: Make that be different!!
+//ISABELLE could be a fun flirt moment for Enkidu?
 ~changeStartKnot("EnkiduAtParty4")
 ~ switchObject("Roadblock 2",false)
 -> npcEnd ->
@@ -318,7 +321,7 @@ Enkidu: I did.
 
 // goals: MC talks about ambivalence of sex, enkidu proposes naming
 === EnkiduAftercare1 ===
-MC: You stopped us there.
+MC: You stopped us there. 
 Enkidu: I did.
 MC: Why?
 Enkidu: I wanted the moment to last longer.
@@ -333,7 +336,7 @@ Enkidu: And why is that?
 
 =part1
 //Maybe at this point loop and explore all of these
-*   [I was disguted.]
+*   [I was disgusted.]
     MC: I was... disgusted.
     Enkidu: Why?
     MC: Well it's... kind of gross, isn't it?
