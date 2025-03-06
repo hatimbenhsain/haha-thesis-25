@@ -258,7 +258,7 @@ VAR chosenName=false
 # color: 2A3B5A
 # outline: FFF383
 -> npcStart ->
-{talkedToEnkiduBeforeMainAct1:
+{talkedToEnkiduBeforeMainAct1==false:
     ->chat->
 }
 Enkidu: {Let's do it.|Come on.|There is only one time.|I want to entangle with you.}
@@ -269,6 +269,7 @@ Now.
     MC: Don't we need to harmonize more first?
     Enkidu: You don't need to when you're with me little minnow.
     Enkidu: Just let it out.
+    ~loadLevel("Main Act 2 - 1")
     MC: Oh... Oh!
     // Transition to Main Act
 +   [No!]
