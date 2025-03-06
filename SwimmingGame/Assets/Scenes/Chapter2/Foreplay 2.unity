@@ -6509,7 +6509,7 @@ MonoBehaviour:
   shortSwimmerDistance: 3
   longSwimmerDistance: 4
   harmonyValue: 0
-  harmonyTargetValue: 5
+  harmonyTargetValue: 4
   canSing: 1
   timerMaxVariationLength: 0.2
   harmonyType: 0
@@ -7045,6 +7045,159 @@ Light:
   m_UseViewFrustumForShadowCasterCull: 1
   m_ShadowRadius: 0
   m_ShadowAngle: 0
+--- !u!1 &946535092
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 946535095}
+  - component: {fileID: 946535094}
+  - component: {fileID: 946535093}
+  m_Layer: 0
+  m_Name: Brain 5
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &946535093
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 946535092}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d02b7b7658607244db710fde9df1fcd3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  pathParent: {fileID: 636810077}
+  path: []
+  pathIndex: 0
+  pauseTimer: 0
+  player: {fileID: 0}
+  isCoralNet: 0
+  orphanize: 0
+  placeNearPlayer: 0
+  maxProcessingDistance: 100
+  currentState: 1
+  movementBehavior: 1
+  pastMovementBehavior: 0
+  leader: {fileID: 0}
+  waitForPlayer: 0
+  facePlayerWhenWaiting: 0
+  maxDistanceFromPlayer: 5
+  minDistanceFromPlayer: 8
+  strokeFrequency: 0
+  loopingPath: 0
+  findClosestPathNode: 0
+  knotName: nextBrainKnot
+  inkJSONAsset: {fileID: 4900000, guid: e91984904f07a5e4a9e878a077ff19b1, type: 3}
+  startDialogueOnEnable: 0
+  forceDialogue: 0
+  sitting: 0
+  stopToTalk: 0
+  animateSwimming: 0
+  acceleration: 10
+  maxVelocity: 3
+  deceleration: 1.5
+  boostSpeed: 1
+  coastingSpeed: 3
+  boostTimer: 0
+  boostTime: 0.3
+  rotationAcceleration: 120
+  rotationMaxVelocity: 5
+  rotationDeceleration: 60
+  maxNodeDistance: 2
+  collisionSpeedFactor: 1
+  minCollisionSpeed: 0.01
+  kinematic: 1
+  targetDistance: 5
+  maxDistanceFromOrigin: 20
+  minDistanceFromTarget: 1
+--- !u!114 &946535094
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 946535092}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2c4f3513be819b14c983225610aa77a2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  masterVolume: 1
+  name: NPC5_Soprano
+  singleVoiceMode: 1
+  keys: []
+  possibleNotes:
+  - A4
+  - B4
+  - C#5
+  - D#5
+  - G#5
+  singingNote: B4
+  singingVolume: 0
+  maxSingingVolume: 1
+  singingMode: 0
+  singingTraceSpriteRenderer: {fileID: 1274682367}
+  singingTraceSprites:
+  - {fileID: -564246579, guid: 9eaabeef8a2711f46980fb51160fd866, type: 3}
+  - {fileID: 922491493, guid: 9eaabeef8a2711f46980fb51160fd866, type: 3}
+  - {fileID: -335704537, guid: 9eaabeef8a2711f46980fb51160fd866, type: 3}
+  - {fileID: -401761717, guid: 9eaabeef8a2711f46980fb51160fd866, type: 3}
+  - {fileID: 607537459, guid: 9eaabeef8a2711f46980fb51160fd866, type: 3}
+  sequence:
+  - musicNote: D#5
+    length: 1
+  - musicNote: G#5
+    length: 1
+  - musicNote: D#5
+    length: 1
+  - musicNote: 
+    length: 2
+  - musicNote: G#5
+    length: 1
+  - musicNote: D#5
+    length: 1
+  - musicNote: C#5
+    length: 1
+  sequenceIndex: 0
+  synchedToMusic: 1
+  timeBeforePickingUpHarmony: 1
+  timeBeforeDroppingHarmony: 1
+  gettingTiredTime: 4
+  timer: 0
+  imageOpacityLerpSpeed: 7
+  maxOpacity: 0.4
+  singing: 0
+  shortSwimmerDistance: 3
+  longSwimmerDistance: 4
+  harmonyValue: 0
+  harmonyTargetValue: 4
+  canSing: 1
+  timerMaxVariationLength: 0.2
+  harmonyType: 0
+--- !u!4 &946535095
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 946535092}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1841468747}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &961325291
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -12308,8 +12461,8 @@ MonoBehaviour:
     m_NumAlphaKeys: 2
   intensityFromLight: 1
   intensityModeAdvanced: 0
-  intensityInside: 0.4
-  intensityOutside: 0.4
+  intensityInside: 0
+  intensityOutside: 0
   intensityMultiplier: 1
   hdrpExposureWeight: 0
   blendingMode: 0
@@ -12383,7 +12536,7 @@ Light:
   m_Type: 0
   m_Shape: 0
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_Intensity: 0.4
+  m_Intensity: 0
   m_Range: 10.9
   m_SpotAngle: 36.70098
   m_InnerSpotAngle: 23.477325
@@ -17263,6 +17416,159 @@ ParticleSystem:
         m_PostInfinity: 2
         m_RotationOrder: 4
     vectorLabel1_3: W
+--- !u!1 &1129480267
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1129480270}
+  - component: {fileID: 1129480269}
+  - component: {fileID: 1129480268}
+  m_Layer: 0
+  m_Name: Brain 4
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1129480268
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1129480267}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d02b7b7658607244db710fde9df1fcd3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  pathParent: {fileID: 636810077}
+  path: []
+  pathIndex: 0
+  pauseTimer: 0
+  player: {fileID: 0}
+  isCoralNet: 0
+  orphanize: 0
+  placeNearPlayer: 0
+  maxProcessingDistance: 100
+  currentState: 1
+  movementBehavior: 1
+  pastMovementBehavior: 0
+  leader: {fileID: 0}
+  waitForPlayer: 0
+  facePlayerWhenWaiting: 0
+  maxDistanceFromPlayer: 5
+  minDistanceFromPlayer: 8
+  strokeFrequency: 0
+  loopingPath: 0
+  findClosestPathNode: 0
+  knotName: nextBrainKnot
+  inkJSONAsset: {fileID: 4900000, guid: e91984904f07a5e4a9e878a077ff19b1, type: 3}
+  startDialogueOnEnable: 0
+  forceDialogue: 0
+  sitting: 0
+  stopToTalk: 0
+  animateSwimming: 0
+  acceleration: 10
+  maxVelocity: 3
+  deceleration: 1.5
+  boostSpeed: 1
+  coastingSpeed: 3
+  boostTimer: 0
+  boostTime: 0.3
+  rotationAcceleration: 120
+  rotationMaxVelocity: 5
+  rotationDeceleration: 60
+  maxNodeDistance: 2
+  collisionSpeedFactor: 1
+  minCollisionSpeed: 0.01
+  kinematic: 1
+  targetDistance: 5
+  maxDistanceFromOrigin: 20
+  minDistanceFromTarget: 1
+--- !u!114 &1129480269
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1129480267}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2c4f3513be819b14c983225610aa77a2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  masterVolume: 1
+  name: NPC5_Soprano
+  singleVoiceMode: 1
+  keys: []
+  possibleNotes:
+  - A4
+  - B4
+  - C#5
+  - D#5
+  - G#5
+  singingNote: B4
+  singingVolume: 0
+  maxSingingVolume: 1
+  singingMode: 0
+  singingTraceSpriteRenderer: {fileID: 1274682367}
+  singingTraceSprites:
+  - {fileID: -564246579, guid: 9eaabeef8a2711f46980fb51160fd866, type: 3}
+  - {fileID: 922491493, guid: 9eaabeef8a2711f46980fb51160fd866, type: 3}
+  - {fileID: -335704537, guid: 9eaabeef8a2711f46980fb51160fd866, type: 3}
+  - {fileID: -401761717, guid: 9eaabeef8a2711f46980fb51160fd866, type: 3}
+  - {fileID: 607537459, guid: 9eaabeef8a2711f46980fb51160fd866, type: 3}
+  sequence:
+  - musicNote: C#5
+    length: 1
+  - musicNote: G#5
+    length: 1
+  - musicNote: C#5
+    length: 1
+  - musicNote: 
+    length: 2
+  - musicNote: G#5
+    length: 1
+  - musicNote: C#5
+    length: 1
+  - musicNote: B4
+    length: 1
+  sequenceIndex: 0
+  synchedToMusic: 1
+  timeBeforePickingUpHarmony: 1
+  timeBeforeDroppingHarmony: 1
+  gettingTiredTime: 4
+  timer: 0
+  imageOpacityLerpSpeed: 7
+  maxOpacity: 0.4
+  singing: 0
+  shortSwimmerDistance: 3
+  longSwimmerDistance: 4
+  harmonyValue: 0
+  harmonyTargetValue: 4
+  canSing: 1
+  timerMaxVariationLength: 0.2
+  harmonyType: 0
+--- !u!4 &1129480270
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1129480267}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1841468747}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1141704882 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 1425932281175441680, guid: f3243293640d4b04f83f564187edf6be,
@@ -17710,7 +18016,7 @@ MonoBehaviour:
   shortSwimmerDistance: 3
   longSwimmerDistance: 4
   harmonyValue: 0
-  harmonyTargetValue: 10
+  harmonyTargetValue: 4
   canSing: 1
   timerMaxVariationLength: 0.2
   harmonyType: 0
@@ -18250,7 +18556,7 @@ MonoBehaviour:
   singingNote: B4
   singingVolume: 0
   maxSingingVolume: 1
-  singingMode: 1
+  singingMode: 0
   singingTraceSpriteRenderer: {fileID: 1758248632}
   singingTraceSprites:
   - {fileID: -564246579, guid: 9eaabeef8a2711f46980fb51160fd866, type: 3}
@@ -19217,6 +19523,8 @@ MonoBehaviour:
   - {fileID: 1686801126}
   - {fileID: 850283484}
   - {fileID: 1943494877}
+  - {fileID: 1129480267}
+  - {fileID: 946535092}
   pathTransforms:
   - {fileID: 636810077}
   brainIndex: 0
@@ -19395,7 +19703,7 @@ MonoBehaviour:
   shortSwimmerDistance: 3
   longSwimmerDistance: 4
   harmonyValue: 0
-  harmonyTargetValue: 5
+  harmonyTargetValue: 4
   canSing: 1
   timerMaxVariationLength: 0.2
   harmonyType: 0
@@ -19900,6 +20208,14 @@ PrefabInstance:
         type: 3}
       insertIndex: -1
       addedObject: {fileID: 1943494878}
+    - targetCorrespondingSourceObject: {fileID: 4207886329843537051, guid: 8035d05e340c35f41a1886581fbb1af3,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1129480270}
+    - targetCorrespondingSourceObject: {fileID: 4207886329843537051, guid: 8035d05e340c35f41a1886581fbb1af3,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 946535095}
     - targetCorrespondingSourceObject: {fileID: 7010175069890335208, guid: 8035d05e340c35f41a1886581fbb1af3,
         type: 3}
       insertIndex: -1
