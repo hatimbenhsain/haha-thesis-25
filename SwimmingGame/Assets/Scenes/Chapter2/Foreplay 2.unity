@@ -5952,27 +5952,27 @@ PrefabInstance:
     - target: {fileID: 5661031363680635953, guid: 54ee2c803d46c6648878673f7fe5c681,
         type: 3}
       propertyPath: fadeOutColor.b
-      value: 0.24705884
+      value: 0.5157974
       objectReference: {fileID: 0}
     - target: {fileID: 5661031363680635953, guid: 54ee2c803d46c6648878673f7fe5c681,
         type: 3}
       propertyPath: fadeOutColor.g
-      value: 0.10588236
+      value: 0.4442417
       objectReference: {fileID: 0}
     - target: {fileID: 5661031363680635953, guid: 54ee2c803d46c6648878673f7fe5c681,
         type: 3}
       propertyPath: fadeOutColor.r
-      value: 0.03529412
+      value: 0.6320754
       objectReference: {fileID: 0}
     - target: {fileID: 5661031363680635953, guid: 54ee2c803d46c6648878673f7fe5c681,
         type: 3}
       propertyPath: transitionTime
-      value: 3
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 5661031363680635953, guid: 54ee2c803d46c6648878673f7fe5c681,
         type: 3}
       propertyPath: destinationScene
-      value: Main Act 2 - 1
+      value: Main Act 2 - 2
       objectReference: {fileID: 0}
     - target: {fileID: 7520034976802511986, guid: 54ee2c803d46c6648878673f7fe5c681,
         type: 3}
@@ -6594,7 +6594,12 @@ PrefabInstance:
     - target: {fileID: 7593576549542059873, guid: 18883a2698f861d48af8542813b5dfdf,
         type: 3}
       propertyPath: m_Name
-      value: Enkidu Variant
+      value: Enkidu
+      objectReference: {fileID: 0}
+    - target: {fileID: 7593576549542059873, guid: 18883a2698f861d48af8542813b5dfdf,
+        type: 3}
+      propertyPath: m_TagString
+      value: Enkidu
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 2047559037774986760, guid: 18883a2698f861d48af8542813b5dfdf, type: 3}
@@ -18159,6 +18164,54 @@ MonoBehaviour:
   nextBrainTrigger: 0
   looping: 1
   loopOffset: 1
+--- !u!1 &1354580422
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1354580424}
+  - component: {fileID: 1354580423}
+  m_Layer: 0
+  m_Name: Foreplay
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1354580423
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1354580422}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0c5ec8099716b94d8d91fc370a94b5e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  harmonyCounter: 0
+  harmonyNumberToReach: 10
+  cooldownTimer: 0
+  cooldownTime: 2
+--- !u!4 &1354580424
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1354580422}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 257.47913, y: 17.385118, z: -152.29004}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1473032250
 GameObject:
   m_ObjectHideFlags: 0
@@ -20552,3 +20605,4 @@ SceneRoots:
   - {fileID: 1473032251}
   - {fileID: 912503325}
   - {fileID: 2139978454}
+  - {fileID: 1354580424}

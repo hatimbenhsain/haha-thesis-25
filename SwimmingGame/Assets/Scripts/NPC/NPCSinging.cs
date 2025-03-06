@@ -396,6 +396,10 @@ public class NPCSinging : Singing
         harmonized=true;
     }
 
+    public bool HasHarmonized(){
+        return harmonized;
+    }
+
     public void StopSinging(){
         canSing=false;
         targetOpacity=0f;
