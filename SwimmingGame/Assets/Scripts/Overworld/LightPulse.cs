@@ -26,7 +26,7 @@ public class LightPulse : MonoBehaviour
     {
         float period=60f/(musicBeat.timelineInfo.currentTempo*animationSpeedFactor);
         float value;
-        if(Mathf.Floor(musicBeat.timelineInfo.currentTime*0.001f/period)%1/ratio==0f){
+        if(Mathf.Floor(musicBeat.timelineInfo.currentTime*0.001f/period+offset)%(1/ratio)==0f){
             value=Mathf.Abs(Mathf.Sin(Mathf.PI*(((musicBeat.timelineInfo.currentTime*0.001f)%(period))/period+offset)));
         }else{
             value=0f;
