@@ -22,7 +22,7 @@ public class Migration : MonoBehaviour
     float shadowValue, highlightValue;
     private Color splitToningHighlights;
 
-    private MigrationGenerator migrationGenerator;
+    public MigrationGenerator migrationGenerator;
 
     public Transform lightTransform;
     public float lightRotationSpeed=1f;
@@ -64,7 +64,7 @@ public class Migration : MonoBehaviour
         Color.RGBToHSV(splitToningHighlights,out h1,out s1,out v1);
         highlightValue=h1/h;
 
-        migrationGenerator=FindObjectOfType<MigrationGenerator>();
+        if(migrationGenerator==null) migrationGenerator=FindObjectOfType<MigrationGenerator>();
 
         swimmer=FindObjectOfType<Swimmer>();
 
