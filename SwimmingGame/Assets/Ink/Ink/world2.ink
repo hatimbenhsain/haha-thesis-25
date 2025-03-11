@@ -166,6 +166,8 @@ MC: Right.
 ->->
 
 
+VAR metEnkidu=false
+
 === EnkiduAtParty1 ===  //Room 3
 # color: 2A3B5A
 # outline: FFF383
@@ -174,6 +176,7 @@ Enkidu: Hello there!
 MC: ...Hello?
 Enkidu: That's how they start conversations on the surface!
 MC: Oh...
+~ metEnkidu=true
 ~ changeStartKnot("EnkiduAtParty2")
 ~ switchObject("Roadblock 1",false)
 -> npcEnd ->
@@ -695,7 +698,20 @@ VAR talkedToJanitor=0
 
 // Then migration
 
-// * OVERWORLD NPCS *
+
+
+
+
+// =*=*=*=* OVERWORLD NPCS *=*=*=*=
+
+
+
+
+
+
+
+
+
 
 === alienDancer1 ===
 # color: d6eaf6
@@ -703,5 +719,362 @@ VAR talkedToJanitor=0
 NPC: Let's dance! Dance! Dance!!!
 -> npcEnd ->
 -> END
+
+
+=== alienThisIsWhatTheyDo ===
+# color: d6eaf6
+-> npcStart ->
+NPC: This is what they do on the surface!!!
+-> npcEnd ->
+-> END
+
+=== alienSuit1 ===
+# color: d6eaf6
+-> npcStart ->
+NPC: Do you like my suit??
+MC: What's it made of?
+NPC: If you're wondering whether it's edible, it's not!!!
+-> npcEnd ->
+-> END
+
+=== alienSuit2 ===
+# color: d6eaf6
+-> npcStart ->
+NPC: Ever since Enkidu started wearing clothing, we knew we had to do the same!
+And now look at us! So beautiful!
+-> npcEnd ->
+-> END
+
+=== alienSuit3 ===
+# color: d6eaf6
+-> npcStart ->
+NPC: I wear this to show my belonging to my in-group!!!
+-> npcEnd ->
+-> END
+
+=== alienSuit4 ===
+# color: d6eaf6
+-> npcStart ->
+NPC: On the surface, they have created a highly arbitrary moral system that govern all aspects of their society, so they wear these to hide their true selves!!!
+-> npcEnd ->
+-> END
+
+=== alienChair1 ===
+# color: d6eaf6
+-> npcStart ->
+NPC: People on the surface have butts that are so bony they need to cushion these! For comfort!!!
+I've been starving myself so that you could feel my bones too! Do you want to feel it?!
++   [Yes.]
+    NPC: How does it feel???
+    MC: Kind of soft.
+    NPC: Aghhh!!! It was all for nothing!!!!
++   [No.]
+    NPC: Feel free tome back whenever!!!
+- -> npcEnd ->
+-> END
+
+=== alienChair2 ===
+# color: d6eaf6
+-> npcStart ->
+NPC: On the surface, the pull of the Earth is so attractive that they need to be on these to keep from being swallowed into its inside!!! 
+-> npcEnd ->
+-> END
+
+=== alienChair3 ===
+# color: d6eaf6
+-> npcStart ->
+NPC: Even though my head is physically beneath yours, me "sitting" is a signifier of my potentially justified feelings of superiority over you!
+Verticality has very strong connotations on the surface!!!
+-> npcEnd ->
+-> END
+
+=== alienWalking1 ===
+# color: d6eaf6
+-> npcStart ->
+NPC: This may be how they physically move their bodies on the surface, but their actual usual means of locomotion are way more complex!!!
+NPC: Like, so complex that it tears up every material thing around them! It's spectacular!!!
+-> npcEnd ->
+-> END
+
+=== alienWalking2 ===
+# color: d6eaf6
+-> npcStart ->
+NPC: In the surface, they move around like this because they're born with feet stuck to the ground!
+I wonder if it hurts all the time!! Can you imagine the sexual implications?!?!
+-> npcEnd ->
+-> END
+
+=== alienWalking3 ===
+# color: d6eaf6
+-> npcStart ->
+NPC: On the surface there is this heavy and oppressive substance everywhere that forces them to move like this!!!
+-> npcEnd ->
+-> END
+
+=== alienJournal1 ===
+# color: d6eaf6
+-> npcStart ->
+NPC: Surfaceans love their own thoughts so much that they've invented this method to materialize it!
+The method is so fast that in the blink of an eye they can make copies for everyone in the world to ingest!!!
+-> npcEnd ->
+-> END
+
+=== alienJournal2 ===
+# color: d6eaf6
+-> npcStart ->
+NPC: Surface people wipe their asses with this!!!
+-> npcEnd ->
+-> END
+
+=== alienJournal3 ===
+# color: d6eaf6
+-> npcStart ->
+NPC: Have you read the noose? Have you read the noose?
+This is how they talk on the surface! I don't know what it means but I love nooses!!!
+-> npcEnd ->
+-> END
+
+=== alienJournal4 ===
+# color: d6eaf6
+-> npcStart ->
+NPC: I have marked on this shaped rock standardized symbols of my inner being!!! 
+-> npcEnd ->
+-> END
+
+=== alienStab1 ===
+# color: d6eaf6
+-> npcStart ->
+NPC: This person has wronged me so I take it out on them but without using my teeth or claws!!!
+-> npcEnd ->
+-> END
+
+=== alienStab2 ===
+# color: d6eaf6
+-> npcStart ->
+NPC: On the surface they have way more complex means to deal with disagreements, but none of them actually address the problem!! It's so sophisticated!!!
+-> npcEnd ->
+-> END
+
+=== alienStab3 ===
+# color: d6eaf6
+-> npcStart ->
+NPC: The most important part of stabbing is to make sure your partner is comfortable and having fun!!!
+-> npcEnd ->
+-> END
+
+=== alienSexTalk1 ===
+# color: d6eaf6
+-> npcStart ->
+NPC: My favorite part about the entanglement? Figuring out what to do with the residue at the end!!!
+MC: I didn't ask..?
+NPC: This is just how they start conversations on the surface!!!
+-> npcEnd ->
+-> END
+
+=== alienSexTalk2 ===
+# color: d6eaf6
+-> npcStart ->
+NPC: The entanglement isn't enough for me anymore! I want something deeper!! Something closer!!!
+I want to merge everyone's consciousness together until there are no borders between selves!!!
+MC: Is such a thing even possible..?
+NPC: I hope so!! I can't take being apart anymore!!!!!
+-> npcEnd ->
+-> END
+
+=== alienSexTalk3 ===
+# color: d6eaf6
+-> npcStart ->
+NPC: They are sucking on each others' organs but with out the intention of consuming! I didn't even know you could use mouths for things other than eating!
+Can you imagine how many more uses for mouths they have on the surface? Probably more than a million!!!
+-> npcEnd ->
+-> END
+
+=== alienSexTalk4 ===
+# color: d6eaf6
+-> npcStart ->
+NPC: Somehow it arouses me even more to watch people entangling that doing it myself!!!
++   [Painful.]
+    NPC: What? That is so weird!!!
++   [Arousing.]
+    MC: I think I... well... maybe...
+    I don't think the feelings it raises in me are worth listening to.
+    NPC: What? That is so weird!!!
++   [Disgusting.]
+    NPC: But in a good way???
+    MC: I don't think so...?
+- -> npcEnd ->
+-> END
+
+=== alienSexTalk5 ===
+# color: d6eaf6
+-> npcStart ->
+NPC: My favorite part about the entanglement is that I can feel close to anyone, even oafish idiotic and pathetic people who I normally hate singing to!!!
+- -> npcEnd ->
+-> END
+
+=== alienSexTalk6 ===
+# color: d6eaf6
+-> npcStart ->
+NPC: I can't wait for the entanglement to replace all forms of socialization!
+MC: Is that really going to happen..?
+NPC: I hope so! It's so much better than singing and telepathy! 
+NPC: Misunderstanding each other is so easy with other means of communications, but the entanglement is so straightforward that there are no chances of ever hurting each other!!!
+- -> npcEnd ->
+-> END
+
+=== alienSexTalk7 ===
+# color: d6eaf6
+-> npcStart ->
+NPC: You!
+NPC: Do you want to do it with me now?!
+MC: Sorry, I...
++   [Don't do it.]
+    MC: I don't really do it anymore.
+    NPC: Why???
+    MC: I just... I don't think it's for me.
+    NPC: Okay!!! Thank you for clarifying!!
++   [Don't like you.]
+    MC: I don't think you're my type. Sorry.
+    NPC: That hurts a little bit but I'm sure I can find somebody else to lessen the pain!!
++   [Am not in the mood.]
+    MC: I'm uh... not in the mood currently.
+    NPC: Do you think you will be soon?!
+    MC: Uuuh... I don't know.
+    NPC: I suspect you're only saying this to hide your general feelings about me or the entanglement!!
+    MC: Ah.
+- -> npcEnd ->
+-> END
+
+=== alienTalk8 ===
+# color: d6eaf6
+-> npcStart ->
+NPC: Isn't it awesome and so exciting that we keep finding new ways of entangling every day?!
+NPC: Unfortunately I've always struggled to live in the moment and I am overcome with fear of the day we've ran out of interesting new ways and grow bored of this as of everything else!!!
+- -> npcEnd ->
+-> END
+
+=== alienSexTalk9 ===
+# color: d6eaf6
+-> npcStart ->
+NPC: I actually don't enjoy the entanglement physically all that much, but I love learning about all the new things our bodies can do!!!
+I'm so excited to see what else may grow when we're on the surface! I hope I get "ears"!!!
+- -> npcEnd ->
+-> END
+
+VAR npcRubbed=false
+
+=== alienSexTalk10 ===
+# color: d6eaf6
+-> npcStart ->
+{ npcRubbed:
+    NPC: I've recently discovered that I feel ecstatic when someone rubs the tip of my dorsal fin!
+    Will you do it for me?
+    +   [Rub it.]
+        Ahhhh! Thank you! I'm done now! Please leave!!
+        ~npcRubbed=true
+        -> npcEnd ->
+        -> END
+    +   [Don't.]
+        NPC: Aww okay! It's too bad I think it would be weird if I did it myself!!
+        -> npcEnd ->
+        -> END
+- else:
+    NPC: Please leave me alone now!
+    -> npcEnd ->
+    -> END
+}
+
+=== alienSexTalk11 ===
+# color: d6eaf6
+-> npcStart ->
+NPC: I actually have really conflicting feelings about the entanglement that I find difficult to resolve!
+MC: Really? Me too! Can you say more?
+NPC: Oh, sorry! I was just imitating people on the surface! Apparently they always come up with reasons to feel weird about it!! It's so charming!!!
+MC: Oh.
+NPC: But let me be clear I LOVE ENTANGLING!!!
+- -> npcEnd ->
+-> END
+
+=== alienSexTalk12 ===
+# color: d6eaf6
+-> npcStart ->
+NPC: WHEN YOU ENTANGLE DO YOU HAVE VISIONS OF THE END OF THE WORLD???
+MC: I don't really --
+NPC: SPIKY HOST-LESS SHELLS WILL RAIN FROM THE SKY AND PARENTS WILL TURN ON CHILDREN AND IT IS FORTHCOMING!
+- -> npcEnd ->
+-> END
+
+=== alienSexTalk13 ===
+# color: d6eaf6
+-> npcStart ->
+NPC: My favorite thing about the entanglement is that I can just do it with anyone at any time and there is no room for jealousy, bitterness, or any other negative feelings!
+And everyone here feels the same way!!!
+- -> npcEnd ->
+-> END
+
+=== alienSexTalk14 ===
+# color: d6eaf6
+-> npcStart ->
+NPC: IT'S A LITTLE UNUSUAL THAT WE JUST STARTED DOING THIS WITH NO SEEMING REASON EVEN THOUGH NONE OF OUR ANCESTORS DID IT
+MC: Yes! And what's more --
+NPC: UNUSUAL IN A FUN AND EXCITING WAY! IT'S SO SPECIAL!!!
+- -> npcEnd ->
+-> END
+
+=== alienTip1 ===
+# color: d6eaf6
+-> npcStart ->
+NPC: My favorite thing about singing is that I can tone-shift using the FACE BUTTONS!!!
+What I mean by that is the NORTH, EAST, SOUTH and WEST BUTTONS!!!
+- -> npcEnd ->
+-> END
+
+
+=== alienEnkidu1 ===
+# color: d6eaf6
+-> npcStart ->
+NPC: Have you met Enkidu yet??
++   [Yes.]
+    {metEnkidu==false:
+        NPC: Are you sure you're telling the truth??
+        MC: Sorry.. I'm not sure why I said that.
+    - else:
+        NPC: They're so hot it makes me want to rip out my skin!!!
+    }
++   [No.]
+    NPC: You should talk to them!! They may seem very intimidating and charismatic but they're actually super approachable!!!
++   [What?]
+    MC: What is Enkidu?
+    NPC: Oh! It's a person!
+    It's that super hot one with the beautiful headpiece over there!
+    They have a "name", a made-up term used to refer to them!!!
+    And they are used to speak something true about your person!
+    I'm currently workshopping mine! Do you want to know it?!
+    ++   [Yes.]
+        NPC: ONE-WHO-ENJOYS-EATING-A-LOT-AS-WELL-AS-ENTANGLING!!
+        MC: That's nice.
+    ++   [No.]
+        NPC: You're right I should work on it more before sharing it with just anybody!!!
+- -> npcEnd ->
+-> END
+
+=== alienEnkidu2 ===
+
+-> END
+
+
+
+=== shrimptux1 ===
+# color: 1F7A6E
+-> npcStart ->
+NPC: This may prove controversial but I am personally not too warm on this "Enkidu" personnage.
+They have this tendency of entangling with someone then out-of-the-blue deciding to withhold further entwining because they were not "fun" or "interesting" enough.
+(this of course according to their own arbitrary definitions of "fun" and "interesting"-ness...)
+To the point where they would not even give me the dignity of harmonizing back when I try to sing with them!!
+Ahem.. I misspoke. What I meant when I said "me" was "a friend of mine". You understand.
+-> npcEnd ->
+-> END 
+
+
 
 
