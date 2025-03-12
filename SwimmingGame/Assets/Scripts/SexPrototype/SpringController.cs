@@ -171,9 +171,11 @@ public class SpringController : SexSpring
         switch (cameraDistance)
         {
             case 0:
-                targetCameraDistance = ZoomInCameraDistance; break;
+                targetCameraDistance = ZoomInCameraDistance; 
+                break;
             case 1:
                 targetCameraDistance = defaultCameraDistance; break;
+                
             case 2:
                 targetCameraDistance = ZoomOutCameraDistance; break;
         }

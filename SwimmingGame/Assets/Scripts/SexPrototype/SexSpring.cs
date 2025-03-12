@@ -2,7 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SexSpring : MonoBehaviour{
+public class SexSpring : MonoBehaviour
+{
     public GameObject character;
 
     [Header("Movement Parameters")]
@@ -13,12 +14,14 @@ public class SexSpring : MonoBehaviour{
     public float drag = 0.7f;
     public float turnSpeed = 0.7f; // speed at which the character turns
     public float tiltAngle = 45f;
-    public float movementVelocityThreshold=0f;
+    public float movementVelocityThreshold = 0f;
     public float movementMultiplier = 5f;  // speed for movement
     public float movementLerpSpeed = 5f;
     public bool isExhaling = false;
     public bool isInhaling = false;
     public Vector3 inhaleScale;
+    public float minimumExhaleForce = 0.5f;
+    public float minimumMovementForce = 10f; // Minimum force for movement
 
     [System.NonSerialized]
     public Rigidbody characterRb;
@@ -29,13 +32,13 @@ public class SexSpring : MonoBehaviour{
     [System.NonSerialized]
     public Quaternion targetRotation;
 
-
-    public void SpringStart() {
+    public void SpringStart()
+    {
         inhaleStartTime = 0f;
         inhaleDuration = 0f;
         exhaleForce = 0f;
         exhaleTimeLeft = 0f;
-        timeSinceExhale=0f;
+        timeSinceExhale = 0f;
 
         originalScale = character.transform.localScale;
         characterRb = character.GetComponent<Rigidbody>();
@@ -43,15 +46,17 @@ public class SexSpring : MonoBehaviour{
         characterRb.useGravity = false;
     }
 
-    public void SpringUpdate(){
+    public void SpringUpdate()
+    {
         if (isInhaling)
         {
             Inhale();
         }
     }
 
-    public void SpringFixedUpdate(){
-        timeSinceExhale+=Time.deltaTime;
+    public void SpringFixedUpdate()
+    {
+        timeSinceExhale += Time.deltaTime;
         // handle exhaling process
         if (exhaleTimeLeft > 0f)
         {
@@ -74,14 +79,17 @@ public class SexSpring : MonoBehaviour{
     // starts the exhaling process and calculates the force
     public void StartExhaling()
     {
-        timeSinceExhale=0f;
+        timeSinceExhale = 0f;
 
         isInhaling = false;
 
         float heldInhaleTime = Time.time - inhaleStartTime;
         exhaleTimeLeft = Mathf.Clamp(heldInhaleTime / maxInhaleTime, minExhaleTime, maxExhaleTime);
 
-        exhaleForce = Mathf.Clamp(heldInhaleTime / maxInhaleTime, 0, 1) * acceleration; // calculate the exhale force based on inhale time
+        exhaleForce = Mathf.Clamp(heldInhaleTime / maxInhaleTime, 0, 1) * acceleration;
+
+        // Ensure a minimum movement force
+        exhaleForce = Mathf.Max(exhaleForce, minimumExhaleForce);
     }
 
     // inhale lerping scale
@@ -100,7 +108,8 @@ public class SexSpring : MonoBehaviour{
         bool isMoving = false;
 
         // Backward tilt (up direction)
-        if (!lockCamera){
+        if (!lockCamera)
+        {
             if (input.y < 0f)
             {
                 Quaternion targetTilt = Quaternion.Euler(-90, characterRb.rotation.eulerAngles.y, 0);
@@ -121,7 +130,7 @@ public class SexSpring : MonoBehaviour{
             {
                 Quaternion targetTilt = Quaternion.Euler(characterRb.rotation.eulerAngles.x, characterRb.rotation.eulerAngles.y - 90, 0);
                 characterRb.MoveRotation(Quaternion.Slerp(characterRb.rotation, targetTilt, turnSpeed * Time.fixedDeltaTime));
-                moveDirection -= character.transform.right;  
+                moveDirection -= character.transform.right;
                 isMoving = true;
             }
             // Right tilt (around y-axis)
@@ -129,10 +138,10 @@ public class SexSpring : MonoBehaviour{
             {
                 Quaternion targetTilt = Quaternion.Euler(characterRb.rotation.eulerAngles.x, characterRb.rotation.eulerAngles.y + 90, 0);
                 characterRb.MoveRotation(Quaternion.Slerp(characterRb.rotation, targetTilt, turnSpeed * Time.fixedDeltaTime));
-                moveDirection += character.transform.right;  
+                moveDirection += character.transform.right;
                 isMoving = true;
             }
-                    // Handle movement
+            // Handle movement
             if (isMoving && characterRb.velocity.magnitude > movementVelocityThreshold)
             {
                 Vector3 targetVelocity = moveDirection.normalized * movementMultiplier;
@@ -140,21 +149,20 @@ public class SexSpring : MonoBehaviour{
                 //characterRb.AddForce(currentVelocity, ForceMode.Acceleration);
             }
         }
-
-
-
     }
 
-    public void TurnTowards(Vector3 position,float rotationSpeed){
-        targetRotation=Quaternion.LookRotation(position-characterRb.transform.position,Vector3.up);
-        Quaternion newRotationQ=Quaternion.Lerp(characterRb.transform.rotation,targetRotation,rotationSpeed*Time.fixedDeltaTime);
+    public void TurnTowards(Vector3 position, float rotationSpeed)
+    {
+        targetRotation = Quaternion.LookRotation(position - characterRb.transform.position, Vector3.up);
+        Quaternion newRotationQ = Quaternion.Lerp(characterRb.transform.rotation, targetRotation, rotationSpeed * Time.fixedDeltaTime);
         //Rotating self
         characterRb.MoveRotation(newRotationQ);
     }
 
-    public void TurnTowards(Quaternion rotation,float rotationSpeed){
-        targetRotation=rotation;
-        Quaternion newRotationQ=Quaternion.Lerp(characterRb.transform.rotation,targetRotation,rotationSpeed*Time.fixedDeltaTime);
+    public void TurnTowards(Quaternion rotation, float rotationSpeed)
+    {
+        targetRotation = rotation;
+        Quaternion newRotationQ = Quaternion.Lerp(characterRb.transform.rotation, targetRotation, rotationSpeed * Time.fixedDeltaTime);
         //Rotating self
         characterRb.MoveRotation(newRotationQ);
     }
