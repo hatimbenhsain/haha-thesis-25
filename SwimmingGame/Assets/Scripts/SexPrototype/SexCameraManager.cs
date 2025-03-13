@@ -9,6 +9,7 @@ public class SexCameraManager : MonoBehaviour
     public int currentGroupIndex = 0; // index to control which group is active
     public GameObject targetObject; // The game object to monitor (e.g., Player)
     public ThirdPersonCamera thirdPersonCamera;
+    public GameObject bodyCollider;
 
     private int spacePressCount = 0; // count of space presses
     private bool isObjectInsideTrigger = true; // assume the object starts inside the trigger
@@ -16,6 +17,7 @@ public class SexCameraManager : MonoBehaviour
 
     void Start()
     {
+        bodyCollider.SetActive(false);
         // initialize cameras for the current group
         InitializeCameras();
     }
@@ -86,6 +88,7 @@ public class SexCameraManager : MonoBehaviour
             currentSet.fixedPOV.gameObject.SetActive(false);
             thirdPersonCamera.cameraLocked = false;
             springController.lockCamera = false;
+            bodyCollider.SetActive(true);
         }
     }
 }
