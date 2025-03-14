@@ -23,6 +23,7 @@ public class NPCSinging : Singing
     [Tooltip("Is this synched to the current music playing (values are in beats) or not (in seconds).")]
     public bool synchedToMusic=false;
     private MusicBeat musicBeat;
+    private float tempTime; //For storing the total time of singing
     private float totalSequenceTime;
     private float startTime; //Time at which we started counting the current beats
 
@@ -79,6 +80,8 @@ public class NPCSinging : Singing
 
     private string prevNote;
     private bool prevHarmonizing;
+
+    
 
 
     void Start()
@@ -139,10 +142,13 @@ public class NPCSinging : Singing
                         for(var i=0;i<sequence.Count;i++){
                             totalSequenceTime+=sequence[i].length*period;
                         }
-                        float tempTime=0f;
+                        tempTime=0f;
                         for(var i=0;i<sequence.Count;i++){
                             if(i==sequenceIndex){
-                                timer=((musicBeat.timelineInfo.currentTime*0.001f)-startTime)-tempTime;
+                                if(musicBeat.timelineInfo.currentTime*0.001f<startTime){
+                                    startTime=musicBeat.timelineInfo.currentTime*0.001f-Time.deltaTime-timer-tempTime;
+                                }
+                                timer=musicBeat.timelineInfo.currentTime*0.001f-startTime-tempTime;
                                 break;
                             }
                             tempTime+=sequence[i].length*period;
@@ -155,13 +161,13 @@ public class NPCSinging : Singing
                         sequenceIndex=sequenceIndex%sequence.Count;
                         currentEventLength=sequence[sequenceIndex].length+Random.Range(-timerMaxVariationLength,timerMaxVariationLength);
                         if(synchedToMusic){
-                            float period=60f/(musicBeat.timelineInfo.currentTempo);
+                            float period=60f/musicBeat.timelineInfo.currentTempo;
                             currentEventLength=currentEventLength*period;
                             if(sequenceIndex==0f){
                                 if(musicBeat.timelineInfo.currentTime<startTime){
                                     startTime=0f;
                                 }
-                                startTime=Mathf.Floor((musicBeat.timelineInfo.currentTime*0.001f)/totalSequenceTime)*totalSequenceTime+
+                                startTime=Mathf.Floor(musicBeat.timelineInfo.currentTime*0.001f/totalSequenceTime)*totalSequenceTime+
                                     (musicBeat.timelineInfo.currentTime*0.001f)%totalSequenceTime;
                             }
                         }
