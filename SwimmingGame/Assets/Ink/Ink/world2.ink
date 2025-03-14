@@ -622,6 +622,7 @@ NPC4: Now! Now!
 NPC1: There's only now.
 NPC5: Let's go now!
 NPC2: Now! Now! Now!
+~ loadLevel("Chapter 2 - 2")
 // maybe mention the tunnel here? 
 ->END
 

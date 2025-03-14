@@ -73,7 +73,7 @@ public class Foreplay2 : MonoBehaviour
         Color currentFogTargetColor=Color.Lerp(fogInitalColor,fogTargetColor,Mathf.Pow(progress,.25f));
         RenderSettings.fogColor=Color.Lerp(RenderSettings.fogColor,currentFogTargetColor,lerpSpeed*Time.deltaTime);
 
-        float currentLDTargetScale=Mathf.Lerp(lensDistortionInitialScale,lensDistortionTargetScale,Mathf.Pow(progress,4f));
+        float currentLDTargetScale=Mathf.Lerp(lensDistortionInitialScale,lensDistortionTargetScale,Mathf.Pow(progress,2f));
         float currentLDTargetIntensity=Mathf.Lerp(lensDistortionInitialIntensity,lensDistortionTargetIntensity,Mathf.Pow(progress,4f));
         lensDistortion.scale.value=Mathf.Lerp(lensDistortion.scale.value,currentLDTargetScale,lerpSpeed*Time.deltaTime);
         lensDistortion.intensity.value=Mathf.Lerp(lensDistortion.intensity.value,currentLDTargetIntensity,lerpSpeed*Time.deltaTime);
