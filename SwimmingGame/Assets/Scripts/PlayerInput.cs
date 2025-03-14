@@ -84,9 +84,9 @@ public class PlayerInput : MonoBehaviour
             InvertYAxis();
         }
 
-        if(Input.GetKeyDown(KeyCode.Return)){
-            SwitchActions();
-        }
+        // if(Input.GetKeyDown(KeyCode.Return)){
+        //     SwitchActions();
+        // }
     }
 
     //Change the action map (what buttons do what)

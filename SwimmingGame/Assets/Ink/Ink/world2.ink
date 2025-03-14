@@ -421,16 +421,14 @@ Hmm... Would I?
     MC: Yes, I think I'd like to try it.
     // Naming section (the player can name the main character)
     //At this point, transition to overworld?
-    Enkidu: {mcName}. Very... evocative.
-    MC: Do you like it?
-    Enkidu: What matters is whether YOU like it, little minnow. {mcName}.
-    MC: Yeah.
+    ~loadLevel("Naming")
     ~chosenName=true
 +   [No.]
     MC: No, I think I'm okay with not having one.
     //At this point, transition to overworld?
     Enkidu: That's perfectly fine. You should have it your way. And no one else's.
     MC: Yeah. I agree.
+    ~loadLevel("Foreplay 2")
     ~pause(2)
 - -> END
 
@@ -440,6 +438,11 @@ Hmm... Would I?
 -> npcStart ->
 ~stopSinging()
 ~pause(3)
+~ loadString("mcName")
+Enkidu: {mcName}. Very... evocative.
+MC: Do you like it?
+Enkidu: What matters is whether YOU like it, little minnow. {mcName}.
+MC: Yeah.
 MC: Well...
 MC: What now?
 Enkidu: Now...
