@@ -258,7 +258,7 @@ Enkidu: You'll find me!
 
 
 VAR talkedToEnkiduBeforeMainAct1=false
-VAR mcName="Haten"
+VAR mcName=""
 VAR chosenName=false
 
 === EnkiduBeforeMainAct1 ===
@@ -428,6 +428,7 @@ Hmm... Would I?
     //At this point, transition to overworld?
     Enkidu: That's perfectly fine. You should have it your way. And no one else's.
     MC: Yeah. I agree.
+    ~saveValue("mcName","")
     ~loadLevel("Foreplay 2")
     ~pause(2)
 - -> END
@@ -437,12 +438,14 @@ Hmm... Would I?
 # outline: FFF383
 -> npcStart ->
 ~stopSinging()
-~pause(3)
-~ loadString("mcName")
-Enkidu: {mcName}. Very... evocative.
-MC: Do you like it?
-Enkidu: What matters is whether YOU like it, little minnow. {mcName}.
-MC: Yeah.
+~pause(2)
+~loadString("mcName")
+{ mcName!="":
+    Enkidu: {mcName}. Very... evocative.
+    MC: Do you like it?
+    Enkidu: What matters is whether YOU like it, little minnow. {mcName}.
+    MC: Yeah.
+}
 MC: Well...
 MC: What now?
 Enkidu: Now...
