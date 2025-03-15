@@ -1,6 +1,5 @@
 using System.Collections;
 using System.Collections.Generic;
-using UnityEditor.Callbacks;
 using UnityEngine;
 
 public class RubbingTips : MonoBehaviour
@@ -9,6 +8,7 @@ public class RubbingTips : MonoBehaviour
     public GameObject[] object2;  
     public float moveForce = 10f;  // Force applied for movement
     public float dragFactor = 0.95f;  // Drag factor to slow down objects
+    public bool dontUseIndividualDirection;
 
     private PlayerInput playerInput;
     private Vector2 movementVector;
@@ -84,12 +84,23 @@ public class RubbingTips : MonoBehaviour
     void ApplyMovement(GameObject gameObject, Vector3 direction, float inputX, float inputY)
     {
         Rigidbody rb = gameObject.GetComponent<Rigidbody>();
+        if (dontUseIndividualDirection)
+        {
+            // Calculate the movement direction in XZ plane
+            Vector3 movementDirection = new Vector3(inputX, 0, inputY).normalized;
+            // Apply force to the rigidbody based on input
+            rb.AddForce(movementDirection * moveForce);
+        }
+        else
+        {
+            // Calculate the movement direction in XZ plane
+            Vector3 movementDirection = new Vector3(inputX * direction.x, 0, inputY * direction.z).normalized;
+            // Apply force to the rigidbody based on input
+            rb.AddForce(movementDirection * moveForce);
+        }
 
-        // Calculate the movement direction in XZ plane
-        Vector3 movementDirection = new Vector3(inputX * direction.x, 0, inputY*direction.z).normalized;
 
-        // Apply force to the rigidbody based on input
-        rb.AddForce(movementDirection * moveForce);
+
 
         // Apply drag to gradually slow down the object
         rb.velocity *= dragFactor;
