@@ -15,8 +15,14 @@ public class StartMenu : MonoBehaviour
 
     void Update()
     {
-        if(playerInput.entering && !playerInput.prevEntering && !levelLoader.fadingOut){
-            FindObjectOfType<LevelLoader>().LoadLevel();
+        if(!levelLoader.fadingOut){
+            if(playerInput.entering && !playerInput.prevEntering){
+                FindObjectOfType<LevelLoader>().LoadLevel();
+            }else if(Input.GetKeyDown(KeyCode.Alpha1) || Input.GetKeyDown(KeyCode.Keypad1)){
+                FindObjectOfType<LevelLoader>().LoadLevel("Chapter1");
+            }else if(Input.GetKeyDown(KeyCode.Alpha2) || Input.GetKeyDown(KeyCode.Keypad2)){
+                FindObjectOfType<LevelLoader>().LoadLevel("Chapter2");
+            }
         }
     }
 }
