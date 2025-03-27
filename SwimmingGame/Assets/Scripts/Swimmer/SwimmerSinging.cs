@@ -172,7 +172,6 @@ public class SwimmerSinging : Singing
                     StopNote(singingNote);
                 }
                 if(note!=""){
-                    Debug.Log(note);
                     PlayNote(note);
                 }
                 singingNote=note;

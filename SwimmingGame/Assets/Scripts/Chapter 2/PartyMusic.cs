@@ -18,10 +18,8 @@ public class PartyMusic : MonoBehaviour
     {
         if(dialogue.inDialogue){
             instance.setParameterByName("Music Intensity",1f);
-            Debug.Log("intensity 2");
         }else{
             instance.setParameterByName("Music Intensity",0f);
-            Debug.Log("intensity 1");
         }
     } 
 }

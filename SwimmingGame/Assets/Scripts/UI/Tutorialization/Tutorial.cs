@@ -78,7 +78,6 @@ public class Tutorial : MonoBehaviour
                 }
                 enteredTrigger=null;
                 if(timer>=currentTutorialPart.delay){
-                    Debug.Log("activate");
                     hasEnteredTrigger=false;
                     timer=0f;
                     currentTutorialPart.canvasParent.SetActive(true);

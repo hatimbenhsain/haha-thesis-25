@@ -233,8 +233,6 @@ public class NPCOverworld : MonoBehaviour
     }
 
     void StopSinging(){
-        Debug.Log("stop singing");
-        Debug.Log(gameObject);
         singer.canSing=false;
     }
 
@@ -612,7 +610,6 @@ public class NPCOverworld : MonoBehaviour
     }
 
     public void FinishedDialogue(bool isAmbient=false){
-        Debug.Log("Finished dialogue");
         if(!isAmbient){ //If this dialogue isn't ambient NPC returns to their previous state
             ChangeState(pastState);
             singer.harmonyValue=0f;
