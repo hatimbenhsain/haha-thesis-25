@@ -465,25 +465,25 @@ NPC3: Euphoric!
 NPC4: Transcendental!!!
 MC: Yes...
 And also...
-+   [Snug.]
++   [Snug. #place: 1]
     NPC2: Snug?
-+   [Warm.]
++   [Warm. #place: 3]
     NPC2: Warm?
-+   [Electrifying.]
++   [Electrifying. #place: 6]
     NPC2: Electrifying?
-+   [Serene.]
++   [Serene. #place: 7]
     NPC2: Serene?
-+   [Thrilling.]
++   [Thrilling. #place: 5]
     NPC2: Thrilling?
 - MC: Yeah! Exactly...
 NPC5: I've never felt this connected before...
 NPC3: There's nothing like it.
 MC: Before this, when I was alone...
 It was..
-+   [Cold.]
-+   [Suffocating.]
-+   [Burning.]
-+   [Throbbing.]
++   [Cold. #place: 0]
++   [Suffocating. #place: 2]
++   [Burning. #place: 4]
++   [Throbbing. #place: 5]
 - NPC4: It was as if there was no one else in the world.
 MC: It seemed that no matter how hard I tried...
 NPC5: To reach out to others.
@@ -491,20 +491,20 @@ NPC2: To occupy myself.
 NPC3: To stop thinking about it.
 NPC1: It felt like it would always be that way.
 MC: It felt like no one was ever going to..
-+   [Understand me.]
++   [Understand me. #place: 3]
     MC:...understand me again.
-+   [Hold me.]
++   [Hold me. #place: 7]
     MC:...hold me again.
-+   [Love me.]
++   [Love me. #place: 9]
     MC:...love me again.
 NPC5: But now, everyone's thoughts...
 NPC1:...feelings...
 Enkidu: Desires.
 MC:...are like my own.
 NPC4: There's no need to be..
-+   [Afraid.]
-+   [Bitter.]
-+   [Hopeless.]
++   [Afraid. #place: 4]
++   [Bitter. #place: 5]
++   [Hopeless. #place: 6]
 MC: ..again.
 ~pause(4)
 NPC4: I want to be closer.
@@ -512,15 +512,15 @@ NPC5: Me too.
 NPC1: Me too.
 NPC2: Me too.
 //These would appear everywhere and be hard to avoid
-+   [Me too.]
-+   [Me too.]
-+   [Me too.]
-+   [Me too.]
-+   [Me too.]
-+   [Me too.]
-+   [Me too.]
-+   [Me too.]
-+   [Me too.]
++   [Me too. #place: 0]
++   [Me too. #place: 1]
++   [Me too. #place: 2]
++   [Me too. #place: 3]
++   [Me too. #place: 4]
++   [Me too. #place: 5]
++   [Me too. #place: 6]
++   [Me too. #place: 7]
++   [Me too. #place: 8]
 - //Transition to Orgy Main Act
 -> END
 
@@ -538,7 +538,6 @@ I want to...
     NPC3: Move.
 +   [Grow. #place: 7] 
     NPC4: Grow.
-    // typo here?
 - MC: Yes...
 Maybe sometime soon...
 NPC6: I can't wait. # speed:fast # stayonscreen # ambient # time:0.2
@@ -567,16 +566,17 @@ MCSmall: I-- # notambient
 ~clearScreen()
 ~pause(2)
 MC: Is this what life is like? On the surface?
-NPC4: I hear they do this everyday.
+NPC4: I hear they do this everyday. 
 NPC1: Or maybe every other day.
 NPC2: I hear gravity makes it even better!
 Enkidu: What is everyone the most excited to do on the surface?
-NPC1: I want to count stars!
-NPC2: I want to cross a street!
-NPC4: I want to eat a tree!
-NPC5: I want to crochet!
-NPC3: I want to walk on clouds!
-NPC4: I want to lick a fire!
+NPC1: I want to count stars! # ambient # speed:20 # stayonscreen # time:1.2
+NPC2: I want to cross a street! # speed:20 # stayonscreen # time:1.3
+NPC4: I want to eat a tree! # speed:20 # stayonscreen # time:1.2
+NPC5: I want to crochet! # speed:20 # stayonscreen # time:1.2
+NPC3: I want to walk on clouds! # speed:20 # stayonscreen # time:1.3
+NPC11: I want to lick a fire! #notambient # speed:20 # stayonscreen # time:1.2
+~clearScreen()
 Enkidu: And what about you?
 MCSmall: I...
 I want to...
@@ -585,31 +585,64 @@ I want to...
 NPC2: It's okay.
 NPC1: It's okay to not be whole.
 NPC5: But we have each other.
-NPCs: We're together now.
+NPC7: We're together now. # speed:fast # stayonscreen # ambient # time:0.3
+NPC8: We're together now. # speed:fast # stayonscreen # time:0.3
+NPC9: We're together now. # notambient # speed:normal # stayonscreen # time:0.3
+~clearScreen()
 Enkidu: Yes. You don't have to worry about what comes next.
-NPCs: Focus on the now.
-+   [Now...]
-+   [Now.]
-+   [Now!]
-- MC: Maybe...
+NPC6: Focus on the now. # speed:fast # stayonscreen # ambient # time:0.3
+NPC9: Focus on the now. # speed:fast # stayonscreen # time:0.3
+NPC10: Focus on the now. # notambient # speed:normal # stayonscreen # time:0.3
++   [Now... #place: 4]
++   [Now. #place: 5]
++   [Now! #place: 7]
+- ~clearScreen()
+MCSmall: Maybe...
 Maybe it will be okay...
 Up there...
 I want to...
-+   [Go.]
-    NPCs: Go.
-+   [Change.]
-    NPCs: Change.
-+   [Move.]
-    NPCs: Move.
-+   [Grow.]
-    NPCs: Grow.
++   [Go. #place: 1]
+    NPC6: Go. # speed:fast # stayonscreen # ambient # time:0.1
+    NPC7: Go. # speed:fast # stayonscreen # time:0.1
+    NPC8: Go. # speed:fast # stayonscreen # time:0.1
+    NPC9: Go. # speed:fast # stayonscreen # time:0.1
+    NPC10: Go. # speed:slow # stayonscreen # time:0.1 # notambient
++   [Change. #place: 3]
+    NPC6: Change. # speed:fast # stayonscreen # ambient # time:0.1
+    NPC7: Change. # speed:fast # stayonscreen # time:0.1
+    NPC8: Change. # speed:fast # stayonscreen # time:0.1
+    NPC9: Change. # speed:fast # stayonscreen # time:0.1
+    NPC10: Change. # speed:slow # stayonscreen # time:0.1 # notambient
++   [Move. #place: 6]
+    NPC6: Move. # speed:fast # stayonscreen # ambient # time:0.1
+    NPC7: Move. # speed:fast # stayonscreen # time:0.1
+    NPC8: Move. # speed:fast # stayonscreen # time:0.1
+    NPC9: Move. # speed:fast # stayonscreen # time:0.1
+    NPC10: Move. # speed:slow # stayonscreen # time:0.1 # notambient
++   [Grow. #place: 8]
+    NPC6: Grow. # speed:fast # stayonscreen # ambient # time:0.1
+    NPC7: Grow. # speed:fast # stayonscreen # time:0.1
+    NPC8: Grow. # speed:fast # stayonscreen # time:0.1
+    NPC9: Grow. # speed:fast # stayonscreen # time:0.1
+    NPC10: Grow. # speed:slow # stayonscreen # time:0.1 # notambient
     // typo here?
-+   [Transform.]
-    NPCs: Transform.
-- MC: Yes...
++   [Transform. #place: 9]
+    NPC6: Transform. # speed:fast # stayonscreen # ambient # time:0.1
+    NPC7: Transform. # speed:fast # stayonscreen # time:0.1
+    NPC8: Transform. # speed:fast # stayonscreen # time:0.1
+    NPC9: Transform. # speed:fast # stayonscreen # time:0.1
+    NPC10: Transform. # speed:slow stayonscreen # time:0.1 # notambient
+- ~clearScreen()
+MCSmall: Yes...
 // At this point begin to fade to black
 Maybe sometime soon...
-NPCs: We'll all be together.
+NPC6: We'll. # speed:20 # stayonscreen # ambient # time:0.4
+NPC7: All. # speed:20 # stayonscreen # time:0.4
+NPC8: Be. # speed:20 # stayonscreen # time:0.4
+NPC9: Together. # speed:20 # stayonscreen # time:0.6
+NPC10: We'll all be together. # speed:30 # stayonscreen # time:0.4 # notambient
+~clearScreen()
+~pause(2)
 //MC's hand can become slack or withdraw slowly/they're falling asleep
 // it continues fading to black, and overshadows the dialogue too/u can't see it to completion
 NPC1: I really can't wait.
@@ -618,11 +651,11 @@ NPC2: Through the cone! To the surface!
 NPC5: I want someone to hold my hand when we go.
 NPC2: I want to be in front!
 NPC3: We should go now.
+~ loadLevel("")
 NPC4: Now! Now!
 NPC1: There's only now.
 NPC5: Let's go now!
 NPC2: Now! Now! Now!
-~ loadLevel("Chapter 2 - 2")
 // maybe mention the tunnel here? 
 ->END
 
