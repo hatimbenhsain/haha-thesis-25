@@ -1,7 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
-using UnityEditor.ShaderGraph.Internal;
 using UnityEngine;
 
 public class Naming : MonoBehaviour
@@ -65,6 +64,9 @@ public class Naming : MonoBehaviour
     }
 
     void NavigateButtons(){
+        if(playerInput.entering){
+            buttonIndex=buttons.Length-1;
+        }
         if((playerInput.navigateLeft && !playerInput.prevNavigateLeft)){
             buttonIndex-=1;
         }
@@ -153,6 +155,7 @@ public class Naming : MonoBehaviour
                 }
                 name=name.Substring(0,name.Length-1);
             }else if(buttonName.ToLower()=="done" && name.Length>0){
+                DialogueValues.Instance.SaveVariable("mcName",name);
                 FindObjectOfType<LevelLoader>().LoadLevel();
             }
         }

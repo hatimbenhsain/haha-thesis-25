@@ -12,7 +12,9 @@ public class RubbingGameManager : MonoBehaviour
     public LevelLoader levelLoader;
     public ObiRope ropeA;
     public ObiRope ropeB;
-    public GameObject climaxBase;
+    public ObiRope ropeC;
+    public ObiRope ropeD;
+    public ObiRope ropeE;
     public GameObject MCClimaxhead;
     public ClimaxCameraManager climaxCameraManager;
 
@@ -39,18 +41,27 @@ public class RubbingGameManager : MonoBehaviour
     public Rigidbody playerBody;
 
     public bool moveOnAfterThresholdReached = false;
+    public bool orgy;
     public float ropeMoveOnThreshold;
+    private bool levelLoaded;
 
     private ObiParticleAttachment[] obiParticleAttachmentA;
     private ObiParticleAttachment[] obiParticleAttachmentB;
-    private Rigidbody rb;
+    private ObiParticleAttachment[] obiParticleAttachmentC;
+    private ObiParticleAttachment[] obiParticleAttachmentD;
+    private ObiParticleAttachment[] obiParticleAttachmentE;
 
     private void Start()
     {
         startCounting = false;
         obiParticleAttachmentA = ropeA.GetComponents<ObiParticleAttachment>();
         obiParticleAttachmentB = ropeB.GetComponents<ObiParticleAttachment>();
-        rb = climaxBase.GetComponent<Rigidbody>();
+        if(orgy){
+            obiParticleAttachmentC = ropeC.GetComponents<ObiParticleAttachment>();
+            obiParticleAttachmentD = ropeD.GetComponents<ObiParticleAttachment>();
+            obiParticleAttachmentE = ropeE.GetComponents<ObiParticleAttachment>();
+        }
+
     }
 
     void Update()
@@ -86,12 +97,16 @@ public class RubbingGameManager : MonoBehaviour
         if (meterValue == 100f && moveOnAfterThresholdReached)
         {
             Detach();
+            if (!levelLoaded)
+            {
+                levelLoaded = true;
+                levelLoader.LoadLevel();
+            }
             climaxCameraManager.isClimaxCompleted = true;
-            levelLoader.LoadLevel();
         }
 
         // Update the meter text
-        meterText.text = $"Meter: {meterValue:F2}";
+        //meterText.text = $"Meter: {meterValue:F2}";
 
         if (MCClimaxhead.transform.position.y < ropeMoveOnThreshold)
         {
@@ -111,13 +126,17 @@ public class RubbingGameManager : MonoBehaviour
         {
             obiParticleAttachmentA[i].enabled = false;
             obiParticleAttachmentB[i].enabled = false;
+            if(orgy){
+                obiParticleAttachmentC[i].enabled = false;
+                obiParticleAttachmentD[i].enabled = false;
+                obiParticleAttachmentE[i].enabled = false;
+            }
         }
 
     }
 
     public void MoveOn()
     {
-        rb.isKinematic = false;
 
     }
 }

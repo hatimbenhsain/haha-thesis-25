@@ -4,18 +4,27 @@ using UnityEngine;
 
 public class RubbingTips : MonoBehaviour
 {
-    public Rigidbody[] object1;  
-    public Rigidbody[] object2;  
+    public GameObject[] object1;  
+    public GameObject[] object2;  
     public float moveForce = 10f;  // Force applied for movement
     public float dragFactor = 0.95f;  // Drag factor to slow down objects
+    public bool dontUseIndividualDirection;
 
     private PlayerInput playerInput;
     private Vector2 movementVector;
     private bool isUsingGamepad;
+    private Vector3[] object1InitialVector;
+    private Vector3[] object2InitialVector;
 
     private void Start()
     {
+        object1InitialVector = new Vector3[object1.Length];
+        object2InitialVector = new Vector3[object2.Length];
         playerInput = FindObjectOfType<PlayerInput>();
+        for (int i = 0; i < object1.Length; i++)
+            {object1InitialVector[i] = object1[i].transform.forward;}
+        for (int i = 0; i < object2.Length; i++)
+            {object2InitialVector[i] = object2[i].transform.forward;}
     }
 
     void FixedUpdate()
@@ -26,11 +35,11 @@ public class RubbingTips : MonoBehaviour
             isUsingGamepad = true;
             for (int i = 0; i < object1.Length; i++)
             {
-                ApplyMovement(object1[i], playerInput.look.x, playerInput.look.y);
+                ApplyMovement(object1[i], object1InitialVector[i], playerInput.look.x, playerInput.look.y);
             }
             for (int i = 0; i < object2.Length; i++)
             {
-                ApplyMovement(object2[i], playerInput.rotation.x, -playerInput.rotation.y);
+                ApplyMovement(object2[i], object2InitialVector[i], playerInput.rotation.x, -playerInput.rotation.y);
             }
 
         }
@@ -41,11 +50,11 @@ public class RubbingTips : MonoBehaviour
             ConvertMovementInput(playerInput.movingForward, playerInput.movingBackward, playerInput.movingLeft, playerInput.movingRight);
             for (int i = 0; i < object1.Length; i++)
             {
-                ApplyMovement(object1[i], playerInput.look.x, playerInput.look.y);
+                ApplyMovement(object1[i], object1InitialVector[i], playerInput.look.x, playerInput.look.y);
             }
             for (int i = 0; i < object2.Length; i++)
             {
-                ApplyMovement(object2[i], -movementVector.y, movementVector.x);
+                ApplyMovement(object2[i], object2InitialVector[i], -movementVector.y, movementVector.x);
             }
         }
 
@@ -72,13 +81,26 @@ public class RubbingTips : MonoBehaviour
         //Debug.Log(movementVector);
     }
     // Apply force-based movement based on input
-    void ApplyMovement(Rigidbody rb, float inputX, float inputY)
+    void ApplyMovement(GameObject gameObject, Vector3 direction, float inputX, float inputY)
     {
-        // Calculate the movement direction in XZ plane
-        Vector3 movementDirection = new Vector3(inputX, 0, inputY).normalized;
+        Rigidbody rb = gameObject.GetComponent<Rigidbody>();
+        if (dontUseIndividualDirection)
+        {
+            // Calculate the movement direction in XZ plane
+            Vector3 movementDirection = new Vector3(inputX, 0, inputY).normalized;
+            // Apply force to the rigidbody based on input
+            rb.AddForce(movementDirection * moveForce);
+        }
+        else
+        {
+            // Calculate the movement direction in XZ plane
+            Vector3 movementDirection = new Vector3(inputX * direction.x, 0, inputY * direction.z).normalized;
+            // Apply force to the rigidbody based on input
+            rb.AddForce(movementDirection * moveForce);
+        }
 
-        // Apply force to the rigidbody based on input
-        rb.AddForce(movementDirection * moveForce);
+
+
 
         // Apply drag to gradually slow down the object
         rb.velocity *= dragFactor;
