@@ -483,7 +483,7 @@ It was..
 +   [Cold. #place: 0]
 +   [Suffocating. #place: 2]
 +   [Burning. #place: 4]
-+   [Throbbing. #place: 5]
++   [Throbbing. #place: 6]
 - NPC4: It was as if there was no one else in the world.
 MC: It seemed that no matter how hard I tried...
 NPC5: To reach out to others.
@@ -497,7 +497,7 @@ MC: It felt like no one was ever going to..
     MC:...hold me again.
 +   [Love me. #place: 9]
     MC:...love me again.
-NPC5: But now, everyone's thoughts...
+- NPC5: But now, everyone's thoughts...
 NPC1:...feelings...
 Enkidu: Desires.
 MC:...are like my own.
@@ -505,12 +505,16 @@ NPC4: There's no need to be..
 +   [Afraid. #place: 4]
 +   [Bitter. #place: 5]
 +   [Hopeless. #place: 6]
-MC: ..again.
+- MC: ..again.
 ~pause(4)
 NPC4: I want to be closer.
-NPC5: Me too.
-NPC1: Me too.
-NPC2: Me too.
+NPC5: Me too. # stayonscreen # speed:20 # ambient # time:1
+NPC1: Me too.  # speed:fast # stayonscreen # time:0.2
+NPC2: Me too.  # speed:fast # stayonscreen # time:0.2
+NPC3: Me too.  # speed:fast # stayonscreen # time:0.2
+NPC4: Me too.  # speed:fast # stayonscreen # time:0.2
+~loadLevel("")
+NPC11: Me too.  # speed:fast # stayonscreen # time:0.2 # notambient
 //These would appear everywhere and be hard to avoid
 +   [Me too. #place: 0]
 +   [Me too. #place: 1]
@@ -521,7 +525,7 @@ NPC2: Me too.
 +   [Me too. #place: 6]
 +   [Me too. #place: 7]
 +   [Me too. #place: 8]
-- //Transition to Orgy Main Act
+- MCSmall: Me too.
 -> END
 
 //Orgy main act + climax happens
