@@ -17,7 +17,7 @@ RenderSettings:
   m_Fog: 1
   m_FogColor: {r: 0.4433962, g: 0.40365788, b: 0.40365788, a: 1}
   m_FogMode: 3
-  m_FogDensity: 0.17
+  m_FogDensity: 0.02
   m_LinearFogStart: 0
   m_LinearFogEnd: 300
   m_AmbientSkyColor: {r: 0.3679245, g: 0, b: 0.22332452, a: 1}
@@ -162,6 +162,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 375215768}
+  - {fileID: 2078902890}
   m_Father: {fileID: 2243577043343592305}
   m_LocalEulerAnglesHint: {x: 0, y: 156.049, z: 0}
 --- !u!114 &100745074
@@ -220,7 +221,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Actor: {fileID: 100745082}
   m_Target: {fileID: 375215768}
-  m_ParticleGroup: {fileID: -5116019951422552902, guid: 4c1f47a74dac1574fab017a2ae5b6e11,
+  m_ParticleGroup: {fileID: -8200290226602859977, guid: 22ab9a8990c6bd54cb529fc710411135,
     type: 2}
   m_AttachmentType: 0
   m_ConstrainOrientation: 0
@@ -263,7 +264,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Actor: {fileID: 100745082}
-  m_Target: {fileID: 3030193590865920590}
+  m_Target: {fileID: 2066653396}
   m_ParticleGroup: {fileID: 1069849301094920423, guid: 22ab9a8990c6bd54cb529fc710411135,
     type: 2}
   m_AttachmentType: 1
@@ -315,7 +316,7 @@ MonoBehaviour:
   uvScale: {x: 3.14, y: 21.5}
   normalizeV: 1
   section: {fileID: 11400000, guid: a0bc36a59515f413e90e10895929c938, type: 2}
-  thicknessScale: 2
+  thicknessScale: 1.3
 --- !u!114 &100745081
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -345,418 +346,173 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   solverIndices:
-    serializedContents: 000000000100000002000000030000000400000005000000060000000700000008000000090000000a0000000b0000000c0000000d0000000e0000000f000000100000001100000012000000130000001400000015000000160000001700000018000000190000001a0000001b0000001c0000001d0000001e0000001f000000200000002100000022000000230000002400000025000000260000002700000028000000290000002a0000002b0000002c0000002d0000002e0000002f000000300000003100000032000000330000003400000035000000360000003700000038000000390000003a0000003b0000003c0000003d0000003e0000003f000000400000004100000042000000430000004400000045000000460000004700000048000000490000004a0000004b0000004c0000004d0000004e0000004f000000500000005100000052000000530000005400000055000000560000005700000058000000590000005a0000005b0000005c0000005d0000005e0000005f000000600000006100000062000000630000006400000065000000660000006700000068000000690000006a0000006b0000006c0000006d0000006e0000006f000000700000007100000072000000730000007400000075000000760000007700000078000000790000007a0000007b0000007c0000007d0000007e0000007f000000800000008100000082000000830000008400000085000000860000008700000088000000890000008a0000008b0000008c0000008d0000008e0000008f000000900000009100000092000000930000009400000095000000960000009700000098000000990000009a0000009b0000009c0000009d0000009e0000009f000000a0000000a1000000a2000000a3000000a4000000a5000000a6000000a7000000a8000000a9000000aa000000ab000000ac000000ad000000ae000000af000000b0000000b1000000b2000000b3000000b4000000b5000000b6000000b7000000b8000000b9000000ba000000bb000000bc000000bd000000be000000bf000000c0000000c1000000c2000000c3000000c4000000c5000000c6000000c7000000c8000000c9000000ca000000cb000000cc000000cd000000ce000000cf000000d0000000d1000000d2000000d3000000d4000000d5000000d6000000d7000000d8000000d9000000da000000db000000dc000000dd000000de000000df000000e0000000e1000000e2000000e3000000e4000000e5000000e6000000e7000000e8000000e9000000ea000000eb000000ec000000ed000000ee000000ef000000f0000000f1000000f2000000f3000000f4000000f5000000f6000000f7000000f8000000f9000000fa000000fb000000fc000000fd000000fe000000ff000000000100000101000002010000030100000401000005010000060100000701000008010000090100000a0100000b0100000c0100000d0100000e0100000f01000010010000110100001201000013010000140100001501000016010000170100001801000019010000
+    serializedContents: 000000000100000002000000030000000400000005000000060000000700000008000000090000000a0000000b0000000c0000000d0000000e0000000f000000100000001100000012000000130000001400000015000000160000001700000018000000190000001a0000001b0000001c0000001d0000001e0000001f000000200000002100000022000000230000002400000025000000260000002700000028000000290000002a0000002b0000002c0000002d0000002e0000002f000000300000003100000032000000330000003400000035000000360000003700000038000000390000003a0000003b0000003c0000003d0000003e0000003f000000400000004100000042000000430000004400000045000000460000004700000048000000490000004a0000004b0000004c0000004d0000004e0000004f000000500000005100000052000000530000005400000055000000560000005700000058000000590000005a0000005b0000005c0000005d0000005e0000005f000000600000006100000062000000630000006400000065000000660000006700000068000000690000006a0000006b0000006c0000006d0000006e0000006f000000700000007100000072000000730000007400000075000000760000007700000078000000790000007a0000007b0000007c0000007d0000007e0000007f000000800000008100000082000000830000008400000085000000860000008700000088000000890000008a0000008b0000008c0000008d0000008e0000008f000000900000009100000092000000930000009400000095000000960000009700000098000000990000009a0000009b0000009c0000009d0000009e0000009f000000a0000000a1000000a2000000a3000000a4000000a5000000a6000000a7000000a8000000a9000000aa000000ab000000ac000000ad000000ae000000af000000b0000000b1000000b2000000b3000000b4000000b5000000b6000000b7000000b8000000b9000000ba000000bb000000bc000000bd000000be000000bf000000c0000000c1000000c2000000c3000000c4000000c5000000c6000000c7000000c8000000c9000000ca000000cb000000cc000000cd000000ce000000cf000000d0000000d1000000d2000000d3000000d4000000d5000000d6000000d7000000d8000000d9000000da000000db000000dc000000dd000000de000000df000000e0000000e1000000e2000000e3000000e4000000e5000000e6000000e7000000e8000000
     m_AlignBytes: 16
   groupID: 1
   m_CollisionMaterial: {fileID: 11400000, guid: 7e318fd02475245f48f8f968e5ef09d5,
     type: 2}
   m_SurfaceCollisions: 1
-  m_SelfCollisions: 1
-  restLength_: 24.415594
+  m_SelfCollisions: 0
+  restLength_: 22.45007
   elements:
   - particle1: 0
     particle2: 1
-    restLength: 0.27378547
+    restLength: 0.5946037
     constraintForce: 0
     tearResistance: 1
   - particle1: 1
     particle2: 2
-    restLength: 0.27383187
+    restLength: 0.66001725
     constraintForce: 0
     tearResistance: 1
   - particle1: 2
     particle2: 3
-    restLength: 0.27333826
+    restLength: 0.6797081
     constraintForce: 0
     tearResistance: 1
   - particle1: 3
     particle2: 4
-    restLength: 0.27394816
+    restLength: 0.60921746
     constraintForce: 0
     tearResistance: 1
   - particle1: 4
     particle2: 5
-    restLength: 0.2733977
+    restLength: 0.7198288
     constraintForce: 0
     tearResistance: 1
   - particle1: 5
     particle2: 6
-    restLength: 0.28212565
+    restLength: 0.67011905
     constraintForce: 0
     tearResistance: 1
   - particle1: 6
     particle2: 7
-    restLength: 0.2914861
+    restLength: 0.5823802
     constraintForce: 0
     tearResistance: 1
   - particle1: 7
     particle2: 8
-    restLength: 0.2924235
+    restLength: 0.5571823
     constraintForce: 0
     tearResistance: 1
   - particle1: 8
     particle2: 9
-    restLength: 0.29202497
+    restLength: 0.56310886
     constraintForce: 0
     tearResistance: 1
   - particle1: 9
     particle2: 10
-    restLength: 0.292756
+    restLength: 0.6096027
     constraintForce: 0
     tearResistance: 1
   - particle1: 10
     particle2: 11
-    restLength: 0.2916715
+    restLength: 0.62875223
     constraintForce: 0
     tearResistance: 1
   - particle1: 11
     particle2: 12
-    restLength: 0.2574924
+    restLength: 0.6249146
     constraintForce: 0
     tearResistance: 1
   - particle1: 12
     particle2: 13
-    restLength: 0.28983918
+    restLength: 0.58982474
     constraintForce: 0
     tearResistance: 1
   - particle1: 13
     particle2: 14
-    restLength: 0.2879183
+    restLength: 0.6386886
     constraintForce: 0
     tearResistance: 1
   - particle1: 14
     particle2: 15
-    restLength: 0.28779072
+    restLength: 0.6559052
     constraintForce: 0
     tearResistance: 1
   - particle1: 15
     particle2: 16
-    restLength: 0.28126436
+    restLength: 0.591529
     constraintForce: 0
     tearResistance: 1
   - particle1: 16
     particle2: 17
-    restLength: 0.28896388
+    restLength: 0.7762471
     constraintForce: 0
     tearResistance: 1
   - particle1: 17
     particle2: 18
-    restLength: 0.30781963
+    restLength: 0.7730697
     constraintForce: 0
     tearResistance: 1
   - particle1: 18
     particle2: 19
-    restLength: 0.30815226
+    restLength: 0.7826965
     constraintForce: 0
     tearResistance: 1
   - particle1: 19
     particle2: 20
-    restLength: 0.3085501
+    restLength: 0.7822246
     constraintForce: 0
     tearResistance: 1
   - particle1: 20
     particle2: 21
-    restLength: 0.30801368
+    restLength: 0.78097904
     constraintForce: 0
     tearResistance: 1
   - particle1: 21
     particle2: 22
-    restLength: 0.30644032
+    restLength: 0.78050727
     constraintForce: 0
     tearResistance: 1
   - particle1: 22
     particle2: 23
-    restLength: 0.29345027
+    restLength: 0.78062403
     constraintForce: 0
     tearResistance: 1
   - particle1: 23
     particle2: 24
-    restLength: 0.30492756
+    restLength: 0.780969
     constraintForce: 0
     tearResistance: 1
   - particle1: 24
     particle2: 25
-    restLength: 0.3018078
+    restLength: 0.781223
     constraintForce: 0
     tearResistance: 1
   - particle1: 25
     particle2: 26
-    restLength: 0.30720636
+    restLength: 0.7813374
     constraintForce: 0
     tearResistance: 1
   - particle1: 26
     particle2: 27
-    restLength: 0.30687642
+    restLength: 0.7813184
     constraintForce: 0
     tearResistance: 1
   - particle1: 27
     particle2: 28
-    restLength: 0.30676645
+    restLength: 0.7812054
     constraintForce: 0
     tearResistance: 1
   - particle1: 28
     particle2: 29
-    restLength: 0.3073698
+    restLength: 0.7802154
     constraintForce: 0
     tearResistance: 1
   - particle1: 29
     particle2: 30
-    restLength: 0.30718604
+    restLength: 0.77454895
     constraintForce: 0
     tearResistance: 1
   - particle1: 30
     particle2: 31
-    restLength: 0.3067042
+    restLength: 0.79090667
     constraintForce: 0
     tearResistance: 1
   - particle1: 31
     particle2: 32
-    restLength: 0.30651698
-    constraintForce: 0
-    tearResistance: 1
-  - particle1: 32
-    particle2: 33
-    restLength: 0.3036164
-    constraintForce: 0
-    tearResistance: 1
-  - particle1: 33
-    particle2: 34
-    restLength: 0.30276808
-    constraintForce: 0
-    tearResistance: 1
-  - particle1: 34
-    particle2: 35
-    restLength: 0.27428627
-    constraintForce: 0
-    tearResistance: 1
-  - particle1: 35
-    particle2: 36
-    restLength: 0.28063908
-    constraintForce: 0
-    tearResistance: 1
-  - particle1: 36
-    particle2: 37
-    restLength: 0.28160986
-    constraintForce: 0
-    tearResistance: 1
-  - particle1: 37
-    particle2: 38
-    restLength: 0.28135103
-    constraintForce: 0
-    tearResistance: 1
-  - particle1: 38
-    particle2: 39
-    restLength: 0.28080645
-    constraintForce: 0
-    tearResistance: 1
-  - particle1: 39
-    particle2: 40
-    restLength: 0.27946842
-    constraintForce: 0
-    tearResistance: 1
-  - particle1: 40
-    particle2: 41
-    restLength: 0.2640031
-    constraintForce: 0
-    tearResistance: 1
-  - particle1: 41
-    particle2: 42
-    restLength: 0.31065288
-    constraintForce: 0
-    tearResistance: 1
-  - particle1: 42
-    particle2: 43
-    restLength: 0.30288327
-    constraintForce: 0
-    tearResistance: 1
-  - particle1: 43
-    particle2: 44
-    restLength: 0.31160727
-    constraintForce: 0
-    tearResistance: 1
-  - particle1: 44
-    particle2: 45
-    restLength: 0.32099867
-    constraintForce: 0
-    tearResistance: 1
-  - particle1: 45
-    particle2: 46
-    restLength: 0.30364773
-    constraintForce: 0
-    tearResistance: 1
-  - particle1: 46
-    particle2: 47
-    restLength: 0.3211942
-    constraintForce: 0
-    tearResistance: 1
-  - particle1: 47
-    particle2: 48
-    restLength: 0.30417302
-    constraintForce: 0
-    tearResistance: 1
-  - particle1: 48
-    particle2: 49
-    restLength: 0.31797025
-    constraintForce: 0
-    tearResistance: 1
-  - particle1: 49
-    particle2: 50
-    restLength: 0.30777162
-    constraintForce: 0
-    tearResistance: 1
-  - particle1: 50
-    particle2: 51
-    restLength: 0.31382474
-    constraintForce: 0
-    tearResistance: 1
-  - particle1: 51
-    particle2: 52
-    restLength: 0.3126991
-    constraintForce: 0
-    tearResistance: 1
-  - particle1: 52
-    particle2: 53
-    restLength: 0.3106509
-    constraintForce: 0
-    tearResistance: 1
-  - particle1: 53
-    particle2: 54
-    restLength: 0.31625506
-    constraintForce: 0
-    tearResistance: 1
-  - particle1: 54
-    particle2: 55
-    restLength: 0.308916
-    constraintForce: 0
-    tearResistance: 1
-  - particle1: 55
-    particle2: 56
-    restLength: 0.3129682
-    constraintForce: 0
-    tearResistance: 1
-  - particle1: 56
-    particle2: 57
-    restLength: 0.3129525
-    constraintForce: 0
-    tearResistance: 1
-  - particle1: 57
-    particle2: 58
-    restLength: 0.31131342
-    constraintForce: 0
-    tearResistance: 1
-  - particle1: 58
-    particle2: 59
-    restLength: 0.31307697
-    constraintForce: 0
-    tearResistance: 1
-  - particle1: 59
-    particle2: 60
-    restLength: 0.3121789
-    constraintForce: 0
-    tearResistance: 1
-  - particle1: 60
-    particle2: 61
-    restLength: 0.31207243
-    constraintForce: 0
-    tearResistance: 1
-  - particle1: 61
-    particle2: 62
-    restLength: 0.31207365
-    constraintForce: 0
-    tearResistance: 1
-  - particle1: 62
-    particle2: 63
-    restLength: 0.31313828
-    constraintForce: 0
-    tearResistance: 1
-  - particle1: 63
-    particle2: 64
-    restLength: 0.31152385
-    constraintForce: 0
-    tearResistance: 1
-  - particle1: 64
-    particle2: 65
-    restLength: 0.31255484
-    constraintForce: 0
-    tearResistance: 1
-  - particle1: 65
-    particle2: 66
-    restLength: 0.31327042
-    constraintForce: 0
-    tearResistance: 1
-  - particle1: 66
-    particle2: 67
-    restLength: 0.3093859
-    constraintForce: 0
-    tearResistance: 1
-  - particle1: 67
-    particle2: 68
-    restLength: 0.3155165
-    constraintForce: 0
-    tearResistance: 1
-  - particle1: 68
-    particle2: 69
-    restLength: 0.31127927
-    constraintForce: 0
-    tearResistance: 1
-  - particle1: 69
-    particle2: 70
-    restLength: 0.3116199
-    constraintForce: 0
-    tearResistance: 1
-  - particle1: 70
-    particle2: 71
-    restLength: 0.31472272
-    constraintForce: 0
-    tearResistance: 1
-  - particle1: 71
-    particle2: 72
-    restLength: 0.30617088
-    constraintForce: 0
-    tearResistance: 1
-  - particle1: 72
-    particle2: 73
-    restLength: 0.319341
-    constraintForce: 0
-    tearResistance: 1
-  - particle1: 73
-    particle2: 74
-    restLength: 0.30588084
-    constraintForce: 0
-    tearResistance: 1
-  - particle1: 74
-    particle2: 75
-    restLength: 0.3193881
-    constraintForce: 0
-    tearResistance: 1
-  - particle1: 75
-    particle2: 76
-    restLength: 0.3039894
-    constraintForce: 0
-    tearResistance: 1
-  - particle1: 76
-    particle2: 77
-    restLength: 0.32144913
-    constraintForce: 0
-    tearResistance: 1
-  - particle1: 77
-    particle2: 78
-    restLength: 0.30823505
-    constraintForce: 0
-    tearResistance: 1
-  - particle1: 78
-    particle2: 79
-    restLength: 0.30885127
-    constraintForce: 0
-    tearResistance: 1
-  - particle1: 79
-    particle2: 80
-    restLength: 0.31488377
-    constraintForce: 0
-    tearResistance: 1
-  - particle1: 80
-    particle2: 81
-    restLength: 0.3041169
+    restLength: 0.7666106
     constraintForce: 0
     tearResistance: 1
   _aerodynamicsEnabled: 1
@@ -775,6 +531,177 @@ MonoBehaviour:
   _maxBending: 0.014
   _plasticYield: 0
   _plasticCreep: 0
+--- !u!1 &136229585
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 136229587}
+  - component: {fileID: 136229586}
+  m_Layer: 0
+  m_Name: BurstCollisionWorld
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &136229586
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 136229585}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f1a161c4294214a4fbcb7e9e94800494, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cellSpans:
+    m_AlignBytes: 16
+--- !u!4 &136229587
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 136229585}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1001 &172896635
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: -8679921383154817045, guid: 3d8add90689064c47b638c6d2ef4d466,
+        type: 3}
+      propertyPath: m_LocalScale.x
+      value: 216.50388
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 3d8add90689064c47b638c6d2ef4d466,
+        type: 3}
+      propertyPath: m_LocalScale.y
+      value: 216.50388
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 3d8add90689064c47b638c6d2ef4d466,
+        type: 3}
+      propertyPath: m_LocalScale.z
+      value: 216.50388
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 3d8add90689064c47b638c6d2ef4d466,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 73.74
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 3d8add90689064c47b638c6d2ef4d466,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 3.13
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 3d8add90689064c47b638c6d2ef4d466,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 27.17
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 3d8add90689064c47b638c6d2ef4d466,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.1580074
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 3d8add90689064c47b638c6d2ef4d466,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0.007832163
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 3d8add90689064c47b638c6d2ef4d466,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0.9867837
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 3d8add90689064c47b638c6d2ef4d466,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0.035075165
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 3d8add90689064c47b638c6d2ef4d466,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 3.827
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 3d8add90689064c47b638c6d2ef4d466,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 198.245
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 3d8add90689064c47b638c6d2ef4d466,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 1.524
+      objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: 3d8add90689064c47b638c6d2ef4d466,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 3d8add90689064c47b638c6d2ef4d466,
+        type: 3}
+      propertyPath: m_Name
+      value: IntroBox
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 3d8add90689064c47b638c6d2ef4d466,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 3d8add90689064c47b638c6d2ef4d466,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 172896637}
+  m_SourcePrefab: {fileID: 100100000, guid: 3d8add90689064c47b638c6d2ef4d466, type: 3}
+--- !u!1 &172896636 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 3d8add90689064c47b638c6d2ef4d466,
+    type: 3}
+  m_PrefabInstance: {fileID: 172896635}
+  m_PrefabAsset: {fileID: 0}
+--- !u!64 &172896637
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 172896636}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 5
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: 2534964839176971238, guid: 3d8add90689064c47b638c6d2ef4d466, type: 3}
 --- !u!1 &302080782
 GameObject:
   m_ObjectHideFlags: 1
@@ -961,6 +888,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 375215768}
+  - component: {fileID: 375215769}
   m_Layer: 0
   m_Name: FixPoint
   m_TagString: Untagged
@@ -977,12 +905,25 @@ Transform:
   m_GameObject: {fileID: 375215767}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -12.834, y: -6.4, z: 0}
+  m_LocalPosition: {x: -12.456, y: -6.07, z: -0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 100745073}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &375215769
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 375215767}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 963d7779d390a9544906d42342e538fc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  target: {fileID: 2078902890}
 --- !u!43 &387601065
 Mesh:
   m_ObjectHideFlags: 0
@@ -1178,15 +1119,16 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 471820739}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: 0.81747764, z: -0, w: 0.57596046}
-  m_LocalPosition: {x: 64.22, y: 0.11, z: -124.93}
+  m_LocalRotation: {x: -0.009889767, y: 0.70933807, z: 0.020706328, w: 0.70449495}
+  m_LocalPosition: {x: 59.36, y: 0.06, z: -123.94}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 2022361112}
   - {fileID: 1892439196}
+  - {fileID: 1743477538}
   m_Father: {fileID: 1776084236051825560}
-  m_LocalEulerAnglesHint: {x: 0, y: 109.666, z: 0}
+  m_LocalEulerAnglesHint: {x: -2.482, y: 90.374, z: 0.869}
 --- !u!114 &471820741
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1266,7 +1208,7 @@ Rigidbody:
   m_UseGravity: 0
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 0
+  m_Constraints: 112
   m_CollisionDetection: 0
 --- !u!114 &471820745
 MonoBehaviour:
@@ -1317,8 +1259,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c4fe8f795c32399488bf3660d90d39e5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 5
---- !u!1 &631061177
+  moveSpeed: 4
+  thrustInterval: 0.05
+  thrustForce: 1
+  moveBackDistance: 0.5
+  thrusted: 0
+--- !u!1 &609968199
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1326,43 +1272,28 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 631061179}
-  - component: {fileID: 631061178}
+  - component: {fileID: 609968200}
   m_Layer: 0
-  m_Name: BurstCollisionWorld
+  m_Name: FixPoint (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &631061178
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 631061177}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f1a161c4294214a4fbcb7e9e94800494, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  cellSpans:
-    m_AlignBytes: 16
---- !u!4 &631061179
+--- !u!4 &609968200
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 631061177}
+  m_GameObject: {fileID: 609968199}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalRotation: {x: -0, y: -0.94241124, z: -0, w: -0.33445626}
+  m_LocalPosition: {x: -15.94, y: -7.73, z: -1.25}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 0}
+  m_Father: {fileID: 1924622733}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &893550505
 PrefabInstance:
@@ -1605,32 +1536,32 @@ PrefabInstance:
     - target: {fileID: -8679921383154817045, guid: 3dc81b892bcbc7341900ed50a428c6cb,
         type: 3}
       propertyPath: m_LocalScale.x
-      value: 361.06125
+      value: 507.86874
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 3dc81b892bcbc7341900ed50a428c6cb,
         type: 3}
       propertyPath: m_LocalScale.y
-      value: 767.689
+      value: 1079.8314
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 3dc81b892bcbc7341900ed50a428c6cb,
         type: 3}
       propertyPath: m_LocalScale.z
-      value: 374.2653
+      value: 526.4415
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 3dc81b892bcbc7341900ed50a428c6cb,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: -0.046858
+      value: -0.098749
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 3dc81b892bcbc7341900ed50a428c6cb,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.074255
+      value: 0.037205
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 3dc81b892bcbc7341900ed50a428c6cb,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: -2.1154
+      value: -3.121
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 3dc81b892bcbc7341900ed50a428c6cb,
         type: 3}
@@ -1665,6 +1596,11 @@ PrefabInstance:
     - target: {fileID: -8679921383154817045, guid: 3dc81b892bcbc7341900ed50a428c6cb,
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: 3dc81b892bcbc7341900ed50a428c6cb,
+        type: 3}
+      propertyPath: m_Enabled
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -7511558181221131132, guid: 3dc81b892bcbc7341900ed50a428c6cb,
@@ -1724,7 +1660,7 @@ CapsuleCollider:
   m_Enabled: 1
   serializedVersion: 2
   m_Radius: 0.002605901
-  m_Height: 0.0028906509
+  m_Height: 0.005
   m_Direction: 1
   m_Center: {x: -2.4317276e-10, y: 0.0026775314, z: -2.345939e-10}
 --- !u!1 &1107376155
@@ -1758,12 +1694,13 @@ Transform:
   m_GameObject: {fileID: 1107376155}
   serializedVersion: 2
   m_LocalRotation: {x: 0.040910367, y: 0.8049562, z: 0.0558837, w: -0.5892783}
-  m_LocalPosition: {x: 35.35, y: 0.36, z: -142.63}
-  m_LocalScale: {x: 1.3, y: 1.3, z: 1.3}
+  m_LocalPosition: {x: 38.31, y: 0.38, z: -140.29}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 2066653396}
   - {fileID: 1049157396}
+  - {fileID: 1706443211}
   m_Father: {fileID: 1776084236051825560}
   m_LocalEulerAnglesHint: {x: -7.943, y: 252.413, z: 0}
 --- !u!114 &1107376157
@@ -1779,6 +1716,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   moveSpeed: 5
+  thrustInterval: 0.3
+  thrustForce: 1.5
+  moveBackDistance: 1
+  thrusted: 0
 --- !u!114 &1107376158
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1858,7 +1799,7 @@ Rigidbody:
   m_UseGravity: 0
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 0
+  m_Constraints: 112
   m_CollisionDetection: 0
 --- !u!114 &1107376162
 MonoBehaviour:
@@ -1897,6 +1838,392 @@ MonoBehaviour:
   ZoomInCameraDistance: 5
   shakeAmplitude: 0.5
   lockCamera: 1
+--- !u!1001 &1537130359
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: -8679921383154817045, guid: 3d8add90689064c47b638c6d2ef4d466,
+        type: 3}
+      propertyPath: m_LocalScale.x
+      value: 200.34204
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 3d8add90689064c47b638c6d2ef4d466,
+        type: 3}
+      propertyPath: m_LocalScale.y
+      value: 200.34204
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 3d8add90689064c47b638c6d2ef4d466,
+        type: 3}
+      propertyPath: m_LocalScale.z
+      value: 200.34204
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 3d8add90689064c47b638c6d2ef4d466,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 80.91
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 3d8add90689064c47b638c6d2ef4d466,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 4.15
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 3d8add90689064c47b638c6d2ef4d466,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 17.07
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 3d8add90689064c47b638c6d2ef4d466,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: -0.97534734
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 3d8add90689064c47b638c6d2ef4d466,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0.20747146
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 3d8add90689064c47b638c6d2ef4d466,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0.028652681
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 3d8add90689064c47b638c6d2ef4d466,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0.06951426
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 3d8add90689064c47b638c6d2ef4d466,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 24.123
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 3d8add90689064c47b638c6d2ef4d466,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 358.302
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 3d8add90689064c47b638c6d2ef4d466,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 7.79
+      objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: 3d8add90689064c47b638c6d2ef4d466,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 3d8add90689064c47b638c6d2ef4d466,
+        type: 3}
+      propertyPath: m_Name
+      value: IntroBox (1)
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 3d8add90689064c47b638c6d2ef4d466,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1537130361}
+  m_SourcePrefab: {fileID: 100100000, guid: 3d8add90689064c47b638c6d2ef4d466, type: 3}
+--- !u!1 &1537130360 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 3d8add90689064c47b638c6d2ef4d466,
+    type: 3}
+  m_PrefabInstance: {fileID: 1537130359}
+  m_PrefabAsset: {fileID: 0}
+--- !u!64 &1537130361
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1537130360}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 5
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: 2534964839176971238, guid: 3d8add90689064c47b638c6d2ef4d466, type: 3}
+--- !u!1001 &1706443210
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 1107376156}
+    m_Modifications:
+    - target: {fileID: -8679921383154817045, guid: 3dc81b892bcbc7341900ed50a428c6cb,
+        type: 3}
+      propertyPath: m_LocalScale.x
+      value: 804.2109
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 3dc81b892bcbc7341900ed50a428c6cb,
+        type: 3}
+      propertyPath: m_LocalScale.y
+      value: 1709.9147
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 3dc81b892bcbc7341900ed50a428c6cb,
+        type: 3}
+      propertyPath: m_LocalScale.z
+      value: 833.6209
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 3dc81b892bcbc7341900ed50a428c6cb,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 3dc81b892bcbc7341900ed50a428c6cb,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.12
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 3dc81b892bcbc7341900ed50a428c6cb,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -4.46
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 3dc81b892bcbc7341900ed50a428c6cb,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.7071068
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 3dc81b892bcbc7341900ed50a428c6cb,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0.7071068
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 3dc81b892bcbc7341900ed50a428c6cb,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 3dc81b892bcbc7341900ed50a428c6cb,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 3dc81b892bcbc7341900ed50a428c6cb,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 90
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 3dc81b892bcbc7341900ed50a428c6cb,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 3dc81b892bcbc7341900ed50a428c6cb,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: 3dc81b892bcbc7341900ed50a428c6cb,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 4964142907257721879, guid: 7531d7c1e831f0f4793ab5c7e3bd2dd1,
+        type: 3}
+    - target: {fileID: -7511558181221131132, guid: 3dc81b892bcbc7341900ed50a428c6cb,
+        type: 3}
+      propertyPath: m_Materials.Array.data[1]
+      value: 
+      objectReference: {fileID: 2100000, guid: 4135f6bc470828c4d84cae89f3b34738, type: 2}
+    - target: {fileID: 919132149155446097, guid: 3dc81b892bcbc7341900ed50a428c6cb,
+        type: 3}
+      propertyPath: m_Name
+      value: SexObjectHeadFlower (1)
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 3dc81b892bcbc7341900ed50a428c6cb,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1706443213}
+  m_SourcePrefab: {fileID: 100100000, guid: 3dc81b892bcbc7341900ed50a428c6cb, type: 3}
+--- !u!4 &1706443211 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 3dc81b892bcbc7341900ed50a428c6cb,
+    type: 3}
+  m_PrefabInstance: {fileID: 1706443210}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &1706443212 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 3dc81b892bcbc7341900ed50a428c6cb,
+    type: 3}
+  m_PrefabInstance: {fileID: 1706443210}
+  m_PrefabAsset: {fileID: 0}
+--- !u!136 &1706443213
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1706443212}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 0
+  serializedVersion: 2
+  m_Radius: 0.002605901
+  m_Height: 0.005
+  m_Direction: 1
+  m_Center: {x: -2.4317276e-10, y: 0.0026775314, z: -2.345939e-10}
+--- !u!1001 &1743477537
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 471820740}
+    m_Modifications:
+    - target: {fileID: -8679921383154817045, guid: 3dc81b892bcbc7341900ed50a428c6cb,
+        type: 3}
+      propertyPath: m_LocalScale.x
+      value: 786.5977
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 3dc81b892bcbc7341900ed50a428c6cb,
+        type: 3}
+      propertyPath: m_LocalScale.y
+      value: 1672.4653
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 3dc81b892bcbc7341900ed50a428c6cb,
+        type: 3}
+      propertyPath: m_LocalScale.z
+      value: 815.36365
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 3dc81b892bcbc7341900ed50a428c6cb,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -0.55
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 3dc81b892bcbc7341900ed50a428c6cb,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -0.09
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 3dc81b892bcbc7341900ed50a428c6cb,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -4.62
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 3dc81b892bcbc7341900ed50a428c6cb,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.7038535
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 3dc81b892bcbc7341900ed50a428c6cb,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0.7038533
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 3dc81b892bcbc7341900ed50a428c6cb,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0.067752846
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 3dc81b892bcbc7341900ed50a428c6cb,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0.06775281
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 3dc81b892bcbc7341900ed50a428c6cb,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 90
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 3dc81b892bcbc7341900ed50a428c6cb,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 3dc81b892bcbc7341900ed50a428c6cb,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: -10.997
+      objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: 3dc81b892bcbc7341900ed50a428c6cb,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 4964142907257721879, guid: 7531d7c1e831f0f4793ab5c7e3bd2dd1,
+        type: 3}
+    - target: {fileID: -7511558181221131132, guid: 3dc81b892bcbc7341900ed50a428c6cb,
+        type: 3}
+      propertyPath: m_Materials.Array.data[1]
+      value: 
+      objectReference: {fileID: 2100000, guid: 4135f6bc470828c4d84cae89f3b34738, type: 2}
+    - target: {fileID: 919132149155446097, guid: 3dc81b892bcbc7341900ed50a428c6cb,
+        type: 3}
+      propertyPath: m_Name
+      value: SexObjectHeadFlower (1)
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 3dc81b892bcbc7341900ed50a428c6cb,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1743477540}
+  m_SourcePrefab: {fileID: 100100000, guid: 3dc81b892bcbc7341900ed50a428c6cb, type: 3}
+--- !u!4 &1743477538 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 3dc81b892bcbc7341900ed50a428c6cb,
+    type: 3}
+  m_PrefabInstance: {fileID: 1743477537}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &1743477539 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 3dc81b892bcbc7341900ed50a428c6cb,
+    type: 3}
+  m_PrefabInstance: {fileID: 1743477537}
+  m_PrefabAsset: {fileID: 0}
+--- !u!136 &1743477540
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1743477539}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 0
+  serializedVersion: 2
+  m_Radius: 0.002605901
+  m_Height: 0.005
+  m_Direction: 1
+  m_Center: {x: -2.4317276e-10, y: 0.0026775314, z: -2.345939e-10}
 --- !u!1001 &1892439195
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1972,6 +2299,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -7511558181221131132, guid: 3dc81b892bcbc7341900ed50a428c6cb,
         type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: 3dc81b892bcbc7341900ed50a428c6cb,
+        type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 4964142907257721879, guid: 7531d7c1e831f0f4793ab5c7e3bd2dd1,
@@ -2027,7 +2359,7 @@ CapsuleCollider:
   m_Enabled: 1
   serializedVersion: 2
   m_Radius: 0.002605901
-  m_Height: 0.0028906509
+  m_Height: 0.005
   m_Direction: 1
   m_Center: {x: -2.4317276e-10, y: 0.0026775314, z: -2.345939e-10}
 --- !u!1 &1924622732
@@ -2069,6 +2401,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 2032033836}
+  - {fileID: 609968200}
   m_Father: {fileID: 2243577043343592305}
   m_LocalEulerAnglesHint: {x: 0, y: 375.128, z: 0}
 --- !u!114 &1924622734
@@ -2127,7 +2460,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Actor: {fileID: 1924622742}
   m_Target: {fileID: 2032033836}
-  m_ParticleGroup: {fileID: -5116019951422552902, guid: 4c1f47a74dac1574fab017a2ae5b6e11,
+  m_ParticleGroup: {fileID: -8200290226602859977, guid: 22ab9a8990c6bd54cb529fc710411135,
     type: 2}
   m_AttachmentType: 0
   m_ConstrainOrientation: 0
@@ -2170,7 +2503,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Actor: {fileID: 1924622742}
-  m_Target: {fileID: 3030193590865920590}
+  m_Target: {fileID: 2022361112}
   m_ParticleGroup: {fileID: 1069849301094920423, guid: 22ab9a8990c6bd54cb529fc710411135,
     type: 2}
   m_AttachmentType: 1
@@ -2222,7 +2555,7 @@ MonoBehaviour:
   uvScale: {x: 3.14, y: 21.5}
   normalizeV: 1
   section: {fileID: 11400000, guid: a0bc36a59515f413e90e10895929c938, type: 2}
-  thicknessScale: 2
+  thicknessScale: 1.3
 --- !u!114 &1924622741
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2252,418 +2585,173 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   solverIndices:
-    serializedContents: 1a0100001b0100001c0100001d0100001e0100001f010000200100002101000022010000230100002401000025010000260100002701000028010000290100002a0100002b0100002c0100002d0100002e0100002f010000300100003101000032010000330100003401000035010000360100003701000038010000390100003a0100003b0100003c0100003d0100003e0100003f010000400100004101000042010000430100004401000045010000460100004701000048010000490100004a0100004b0100004c0100004d0100004e0100004f010000500100005101000052010000530100005401000055010000560100005701000058010000590100005a0100005b0100005c0100005d0100005e0100005f010000600100006101000062010000630100006401000065010000660100006701000068010000690100006a0100006b0100006c0100006d0100006e0100006f010000700100007101000072010000730100007401000075010000760100007701000078010000790100007a0100007b0100007c0100007d0100007e0100007f010000800100008101000082010000830100008401000085010000860100008701000088010000890100008a0100008b0100008c0100008d0100008e0100008f010000900100009101000092010000930100009401000095010000960100009701000098010000990100009a0100009b0100009c0100009d0100009e0100009f010000a0010000a1010000a2010000a3010000a4010000a5010000a6010000a7010000a8010000a9010000aa010000ab010000ac010000ad010000ae010000af010000b0010000b1010000b2010000b3010000b4010000b5010000b6010000b7010000b8010000b9010000ba010000bb010000bc010000bd010000be010000bf010000c0010000c1010000c2010000c3010000c4010000c5010000c6010000c7010000c8010000c9010000ca010000cb010000cc010000cd010000ce010000cf010000d0010000d1010000d2010000d3010000d4010000d5010000d6010000d7010000d8010000d9010000da010000db010000dc010000dd010000de010000df010000e0010000e1010000e2010000e3010000e4010000e5010000e6010000e7010000e8010000e9010000ea010000eb010000ec010000ed010000ee010000ef010000f0010000f1010000f2010000f3010000f4010000f5010000f6010000f7010000f8010000f9010000fa010000fb010000fc010000fd010000fe010000ff010000000200000102000002020000030200000402000005020000060200000702000008020000090200000a0200000b0200000c0200000d0200000e0200000f020000100200001102000012020000130200001402000015020000160200001702000018020000190200001a0200001b0200001c0200001d0200001e0200001f020000200200002102000022020000230200002402000025020000260200002702000028020000290200002a0200002b0200002c0200002d0200002e0200002f02000030020000310200003202000033020000
+    serializedContents: e9000000ea000000eb000000ec000000ed000000ee000000ef000000f0000000f1000000f2000000f3000000f4000000f5000000f6000000f7000000f8000000f9000000fa000000fb000000fc000000fd000000fe000000ff000000000100000101000002010000030100000401000005010000060100000701000008010000090100000a0100000b0100000c0100000d0100000e0100000f010000100100001101000012010000130100001401000015010000160100001701000018010000190100001a0100001b0100001c0100001d0100001e0100001f010000200100002101000022010000230100002401000025010000260100002701000028010000290100002a0100002b0100002c0100002d0100002e0100002f010000300100003101000032010000330100003401000035010000360100003701000038010000390100003a0100003b0100003c0100003d0100003e0100003f010000400100004101000042010000430100004401000045010000460100004701000048010000490100004a0100004b0100004c0100004d0100004e0100004f010000500100005101000052010000530100005401000055010000560100005701000058010000590100005a0100005b0100005c0100005d0100005e0100005f010000600100006101000062010000630100006401000065010000660100006701000068010000690100006a0100006b0100006c0100006d0100006e0100006f010000700100007101000072010000730100007401000075010000760100007701000078010000790100007a0100007b0100007c0100007d0100007e0100007f010000800100008101000082010000830100008401000085010000860100008701000088010000890100008a0100008b0100008c0100008d0100008e0100008f010000900100009101000092010000930100009401000095010000960100009701000098010000990100009a0100009b0100009c0100009d0100009e0100009f010000a0010000a1010000a2010000a3010000a4010000a5010000a6010000a7010000a8010000a9010000aa010000ab010000ac010000ad010000ae010000af010000b0010000b1010000b2010000b3010000b4010000b5010000b6010000b7010000b8010000b9010000ba010000bb010000bc010000bd010000be010000bf010000c0010000c1010000c2010000c3010000c4010000c5010000c6010000c7010000c8010000c9010000ca010000cb010000cc010000cd010000ce010000cf010000d0010000d1010000
     m_AlignBytes: 16
   groupID: 2
   m_CollisionMaterial: {fileID: 11400000, guid: 7e318fd02475245f48f8f968e5ef09d5,
     type: 2}
   m_SurfaceCollisions: 1
-  m_SelfCollisions: 1
-  restLength_: 24.415594
+  m_SelfCollisions: 0
+  restLength_: 22.45007
   elements:
-  - particle1: 282
-    particle2: 283
-    restLength: 0.27378547
+  - particle1: 233
+    particle2: 234
+    restLength: 0.5946037
     constraintForce: 0
     tearResistance: 1
-  - particle1: 283
-    particle2: 284
-    restLength: 0.27383187
+  - particle1: 234
+    particle2: 235
+    restLength: 0.66001725
     constraintForce: 0
     tearResistance: 1
-  - particle1: 284
-    particle2: 285
-    restLength: 0.27333826
+  - particle1: 235
+    particle2: 236
+    restLength: 0.6797081
     constraintForce: 0
     tearResistance: 1
-  - particle1: 285
-    particle2: 286
-    restLength: 0.27394816
+  - particle1: 236
+    particle2: 237
+    restLength: 0.60921746
     constraintForce: 0
     tearResistance: 1
-  - particle1: 286
-    particle2: 287
-    restLength: 0.2733977
+  - particle1: 237
+    particle2: 238
+    restLength: 0.7198288
     constraintForce: 0
     tearResistance: 1
-  - particle1: 287
-    particle2: 288
-    restLength: 0.28212565
+  - particle1: 238
+    particle2: 239
+    restLength: 0.67011905
     constraintForce: 0
     tearResistance: 1
-  - particle1: 288
-    particle2: 289
-    restLength: 0.2914861
+  - particle1: 239
+    particle2: 240
+    restLength: 0.5823802
     constraintForce: 0
     tearResistance: 1
-  - particle1: 289
-    particle2: 290
-    restLength: 0.2924235
+  - particle1: 240
+    particle2: 241
+    restLength: 0.5571823
     constraintForce: 0
     tearResistance: 1
-  - particle1: 290
-    particle2: 291
-    restLength: 0.29202497
+  - particle1: 241
+    particle2: 242
+    restLength: 0.56310886
     constraintForce: 0
     tearResistance: 1
-  - particle1: 291
-    particle2: 292
-    restLength: 0.292756
+  - particle1: 242
+    particle2: 243
+    restLength: 0.6096027
     constraintForce: 0
     tearResistance: 1
-  - particle1: 292
-    particle2: 293
-    restLength: 0.2916715
+  - particle1: 243
+    particle2: 244
+    restLength: 0.62875223
     constraintForce: 0
     tearResistance: 1
-  - particle1: 293
-    particle2: 294
-    restLength: 0.2574924
+  - particle1: 244
+    particle2: 245
+    restLength: 0.6249146
     constraintForce: 0
     tearResistance: 1
-  - particle1: 294
-    particle2: 295
-    restLength: 0.28983918
+  - particle1: 245
+    particle2: 246
+    restLength: 0.58982474
     constraintForce: 0
     tearResistance: 1
-  - particle1: 295
-    particle2: 296
-    restLength: 0.2879183
+  - particle1: 246
+    particle2: 247
+    restLength: 0.6386886
     constraintForce: 0
     tearResistance: 1
-  - particle1: 296
-    particle2: 297
-    restLength: 0.28779072
+  - particle1: 247
+    particle2: 248
+    restLength: 0.6559052
     constraintForce: 0
     tearResistance: 1
-  - particle1: 297
-    particle2: 298
-    restLength: 0.28126436
+  - particle1: 248
+    particle2: 249
+    restLength: 0.591529
     constraintForce: 0
     tearResistance: 1
-  - particle1: 298
-    particle2: 299
-    restLength: 0.28896388
+  - particle1: 249
+    particle2: 250
+    restLength: 0.7762471
     constraintForce: 0
     tearResistance: 1
-  - particle1: 299
-    particle2: 300
-    restLength: 0.30781963
+  - particle1: 250
+    particle2: 251
+    restLength: 0.7730697
     constraintForce: 0
     tearResistance: 1
-  - particle1: 300
-    particle2: 301
-    restLength: 0.30815226
+  - particle1: 251
+    particle2: 252
+    restLength: 0.7826965
     constraintForce: 0
     tearResistance: 1
-  - particle1: 301
-    particle2: 302
-    restLength: 0.3085501
+  - particle1: 252
+    particle2: 253
+    restLength: 0.7822246
     constraintForce: 0
     tearResistance: 1
-  - particle1: 302
-    particle2: 303
-    restLength: 0.30801368
+  - particle1: 253
+    particle2: 254
+    restLength: 0.78097904
     constraintForce: 0
     tearResistance: 1
-  - particle1: 303
-    particle2: 304
-    restLength: 0.30644032
+  - particle1: 254
+    particle2: 255
+    restLength: 0.78050727
     constraintForce: 0
     tearResistance: 1
-  - particle1: 304
-    particle2: 305
-    restLength: 0.29345027
+  - particle1: 255
+    particle2: 256
+    restLength: 0.78062403
     constraintForce: 0
     tearResistance: 1
-  - particle1: 305
-    particle2: 306
-    restLength: 0.30492756
+  - particle1: 256
+    particle2: 257
+    restLength: 0.780969
     constraintForce: 0
     tearResistance: 1
-  - particle1: 306
-    particle2: 307
-    restLength: 0.3018078
+  - particle1: 257
+    particle2: 258
+    restLength: 0.781223
     constraintForce: 0
     tearResistance: 1
-  - particle1: 307
-    particle2: 308
-    restLength: 0.30720636
+  - particle1: 258
+    particle2: 259
+    restLength: 0.7813374
     constraintForce: 0
     tearResistance: 1
-  - particle1: 308
-    particle2: 309
-    restLength: 0.30687642
+  - particle1: 259
+    particle2: 260
+    restLength: 0.7813184
     constraintForce: 0
     tearResistance: 1
-  - particle1: 309
-    particle2: 310
-    restLength: 0.30676645
+  - particle1: 260
+    particle2: 261
+    restLength: 0.7812054
     constraintForce: 0
     tearResistance: 1
-  - particle1: 310
-    particle2: 311
-    restLength: 0.3073698
+  - particle1: 261
+    particle2: 262
+    restLength: 0.7802154
     constraintForce: 0
     tearResistance: 1
-  - particle1: 311
-    particle2: 312
-    restLength: 0.30718604
+  - particle1: 262
+    particle2: 263
+    restLength: 0.77454895
     constraintForce: 0
     tearResistance: 1
-  - particle1: 312
-    particle2: 313
-    restLength: 0.3067042
+  - particle1: 263
+    particle2: 264
+    restLength: 0.79090667
     constraintForce: 0
     tearResistance: 1
-  - particle1: 313
-    particle2: 314
-    restLength: 0.30651698
-    constraintForce: 0
-    tearResistance: 1
-  - particle1: 314
-    particle2: 315
-    restLength: 0.3036164
-    constraintForce: 0
-    tearResistance: 1
-  - particle1: 315
-    particle2: 316
-    restLength: 0.30276808
-    constraintForce: 0
-    tearResistance: 1
-  - particle1: 316
-    particle2: 317
-    restLength: 0.27428627
-    constraintForce: 0
-    tearResistance: 1
-  - particle1: 317
-    particle2: 318
-    restLength: 0.28063908
-    constraintForce: 0
-    tearResistance: 1
-  - particle1: 318
-    particle2: 319
-    restLength: 0.28160986
-    constraintForce: 0
-    tearResistance: 1
-  - particle1: 319
-    particle2: 320
-    restLength: 0.28135103
-    constraintForce: 0
-    tearResistance: 1
-  - particle1: 320
-    particle2: 321
-    restLength: 0.28080645
-    constraintForce: 0
-    tearResistance: 1
-  - particle1: 321
-    particle2: 322
-    restLength: 0.27946842
-    constraintForce: 0
-    tearResistance: 1
-  - particle1: 322
-    particle2: 323
-    restLength: 0.2640031
-    constraintForce: 0
-    tearResistance: 1
-  - particle1: 323
-    particle2: 324
-    restLength: 0.31065288
-    constraintForce: 0
-    tearResistance: 1
-  - particle1: 324
-    particle2: 325
-    restLength: 0.30288327
-    constraintForce: 0
-    tearResistance: 1
-  - particle1: 325
-    particle2: 326
-    restLength: 0.31160727
-    constraintForce: 0
-    tearResistance: 1
-  - particle1: 326
-    particle2: 327
-    restLength: 0.32099867
-    constraintForce: 0
-    tearResistance: 1
-  - particle1: 327
-    particle2: 328
-    restLength: 0.30364773
-    constraintForce: 0
-    tearResistance: 1
-  - particle1: 328
-    particle2: 329
-    restLength: 0.3211942
-    constraintForce: 0
-    tearResistance: 1
-  - particle1: 329
-    particle2: 330
-    restLength: 0.30417302
-    constraintForce: 0
-    tearResistance: 1
-  - particle1: 330
-    particle2: 331
-    restLength: 0.31797025
-    constraintForce: 0
-    tearResistance: 1
-  - particle1: 331
-    particle2: 332
-    restLength: 0.30777162
-    constraintForce: 0
-    tearResistance: 1
-  - particle1: 332
-    particle2: 333
-    restLength: 0.31382474
-    constraintForce: 0
-    tearResistance: 1
-  - particle1: 333
-    particle2: 334
-    restLength: 0.3126991
-    constraintForce: 0
-    tearResistance: 1
-  - particle1: 334
-    particle2: 335
-    restLength: 0.3106509
-    constraintForce: 0
-    tearResistance: 1
-  - particle1: 335
-    particle2: 336
-    restLength: 0.31625506
-    constraintForce: 0
-    tearResistance: 1
-  - particle1: 336
-    particle2: 337
-    restLength: 0.308916
-    constraintForce: 0
-    tearResistance: 1
-  - particle1: 337
-    particle2: 338
-    restLength: 0.3129682
-    constraintForce: 0
-    tearResistance: 1
-  - particle1: 338
-    particle2: 339
-    restLength: 0.3129525
-    constraintForce: 0
-    tearResistance: 1
-  - particle1: 339
-    particle2: 340
-    restLength: 0.31131342
-    constraintForce: 0
-    tearResistance: 1
-  - particle1: 340
-    particle2: 341
-    restLength: 0.31307697
-    constraintForce: 0
-    tearResistance: 1
-  - particle1: 341
-    particle2: 342
-    restLength: 0.3121789
-    constraintForce: 0
-    tearResistance: 1
-  - particle1: 342
-    particle2: 343
-    restLength: 0.31207243
-    constraintForce: 0
-    tearResistance: 1
-  - particle1: 343
-    particle2: 344
-    restLength: 0.31207365
-    constraintForce: 0
-    tearResistance: 1
-  - particle1: 344
-    particle2: 345
-    restLength: 0.31313828
-    constraintForce: 0
-    tearResistance: 1
-  - particle1: 345
-    particle2: 346
-    restLength: 0.31152385
-    constraintForce: 0
-    tearResistance: 1
-  - particle1: 346
-    particle2: 347
-    restLength: 0.31255484
-    constraintForce: 0
-    tearResistance: 1
-  - particle1: 347
-    particle2: 348
-    restLength: 0.31327042
-    constraintForce: 0
-    tearResistance: 1
-  - particle1: 348
-    particle2: 349
-    restLength: 0.3093859
-    constraintForce: 0
-    tearResistance: 1
-  - particle1: 349
-    particle2: 350
-    restLength: 0.3155165
-    constraintForce: 0
-    tearResistance: 1
-  - particle1: 350
-    particle2: 351
-    restLength: 0.31127927
-    constraintForce: 0
-    tearResistance: 1
-  - particle1: 351
-    particle2: 352
-    restLength: 0.3116199
-    constraintForce: 0
-    tearResistance: 1
-  - particle1: 352
-    particle2: 353
-    restLength: 0.31472272
-    constraintForce: 0
-    tearResistance: 1
-  - particle1: 353
-    particle2: 354
-    restLength: 0.30617088
-    constraintForce: 0
-    tearResistance: 1
-  - particle1: 354
-    particle2: 355
-    restLength: 0.319341
-    constraintForce: 0
-    tearResistance: 1
-  - particle1: 355
-    particle2: 356
-    restLength: 0.30588084
-    constraintForce: 0
-    tearResistance: 1
-  - particle1: 356
-    particle2: 357
-    restLength: 0.3193881
-    constraintForce: 0
-    tearResistance: 1
-  - particle1: 357
-    particle2: 358
-    restLength: 0.3039894
-    constraintForce: 0
-    tearResistance: 1
-  - particle1: 358
-    particle2: 359
-    restLength: 0.32144913
-    constraintForce: 0
-    tearResistance: 1
-  - particle1: 359
-    particle2: 360
-    restLength: 0.30823505
-    constraintForce: 0
-    tearResistance: 1
-  - particle1: 360
-    particle2: 361
-    restLength: 0.30885127
-    constraintForce: 0
-    tearResistance: 1
-  - particle1: 361
-    particle2: 362
-    restLength: 0.31488377
-    constraintForce: 0
-    tearResistance: 1
-  - particle1: 362
-    particle2: 363
-    restLength: 0.3041169
+  - particle1: 264
+    particle2: 265
+    restLength: 0.7666106
     constraintForce: 0
     tearResistance: 1
   _aerodynamicsEnabled: 1
@@ -2709,7 +2797,7 @@ Transform:
   m_GameObject: {fileID: 2022361111}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.04, y: 0.015, z: -2.359}
+  m_LocalPosition: {x: -0.04, y: 0.02, z: -2.72}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -2765,6 +2853,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2032033836}
+  - component: {fileID: 2032033837}
   m_Layer: 0
   m_Name: FixPoint
   m_TagString: Untagged
@@ -2787,6 +2876,19 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1924622733}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2032033837
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2032033835}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 963d7779d390a9544906d42342e538fc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  target: {fileID: 609968200}
 --- !u!1 &2066653395
 GameObject:
   m_ObjectHideFlags: 0
@@ -2814,7 +2916,7 @@ Transform:
   m_GameObject: {fileID: 2066653395}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.04, y: 0.015, z: -2.359}
+  m_LocalPosition: {x: -0.04, y: 0.01, z: -4.01}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -2861,6 +2963,37 @@ CapsuleCollider:
   m_Height: 1
   m_Direction: 1
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!1 &2078902889
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2078902890}
+  m_Layer: 0
+  m_Name: FixPoint (1)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2078902890
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2078902889}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -16.68, y: -8.71, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 100745073}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &42056287855952700
 GameObject:
   m_ObjectHideFlags: 0
@@ -11485,7 +11618,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   solverIndices:
-    serializedContents: 3402000035020000360200003702000038020000390200003a0200003b0200003c0200003d0200003e0200003f020000400200004102000042020000430200004402000045020000460200004702000048020000490200004a0200004b0200004c0200004d0200004e0200004f020000500200005102000052020000530200005402000055020000560200005702000058020000590200005a0200005b0200005c0200005d0200005e0200005f020000600200006102000062020000630200006402000065020000660200006702000068020000690200006a0200006b0200006c0200006d0200006e0200006f020000700200007102000072020000730200007402000075020000760200007702000078020000790200007a0200007b0200007c0200007d0200007e0200007f020000800200008102000082020000830200008402000085020000860200008702000088020000890200008a0200008b0200008c0200008d0200008e0200008f020000900200009102000092020000930200009402000095020000960200009702000098020000990200009a0200009b0200009c0200009d0200009e0200009f020000a0020000a1020000a2020000a3020000a4020000a5020000a6020000a7020000a8020000a9020000aa020000ab020000ac020000ad020000ae020000af020000b0020000b1020000b2020000b3020000b4020000b5020000b6020000b7020000b8020000b9020000ba020000bb020000bc020000bd020000be020000bf020000c0020000c1020000c2020000c3020000c4020000c5020000c6020000c7020000c8020000c9020000ca020000cb020000cc020000cd020000ce020000cf020000d0020000d1020000d2020000d3020000d4020000d5020000d6020000d7020000d8020000d9020000da020000db020000dc020000dd020000de020000df020000e0020000e1020000e2020000e3020000e4020000e5020000e6020000e7020000e8020000e9020000ea020000eb020000ec020000ed020000ee020000ef020000f0020000f1020000f2020000f3020000f4020000f5020000f6020000f7020000f8020000f9020000fa020000fb020000fc020000fd020000fe020000ff020000000300000103000002030000030300000403000005030000060300000703000008030000090300000a0300000b0300000c0300000d0300000e0300000f030000100300001103000012030000130300001403000015030000160300001703000018030000
+    serializedContents: d2010000d3010000d4010000d5010000d6010000d7010000d8010000d9010000da010000db010000dc010000dd010000de010000df010000e0010000e1010000e2010000e3010000e4010000e5010000e6010000e7010000e8010000e9010000ea010000eb010000ec010000ed010000ee010000ef010000f0010000f1010000f2010000f3010000f4010000f5010000f6010000f7010000f8010000f9010000fa010000fb010000fc010000fd010000fe010000ff010000000200000102000002020000030200000402000005020000060200000702000008020000090200000a0200000b0200000c0200000d0200000e0200000f020000100200001102000012020000130200001402000015020000160200001702000018020000190200001a0200001b0200001c0200001d0200001e0200001f020000200200002102000022020000230200002402000025020000260200002702000028020000290200002a0200002b0200002c0200002d0200002e0200002f020000300200003102000032020000330200003402000035020000360200003702000038020000390200003a0200003b0200003c0200003d0200003e0200003f020000400200004102000042020000430200004402000045020000460200004702000048020000490200004a0200004b0200004c0200004d0200004e0200004f020000500200005102000052020000530200005402000055020000560200005702000058020000590200005a0200005b0200005c0200005d0200005e0200005f020000600200006102000062020000630200006402000065020000660200006702000068020000690200006a0200006b0200006c0200006d0200006e0200006f020000700200007102000072020000730200007402000075020000760200007702000078020000790200007a0200007b0200007c0200007d0200007e0200007f020000800200008102000082020000830200008402000085020000860200008702000088020000890200008a0200008b0200008c0200008d0200008e0200008f020000900200009102000092020000930200009402000095020000960200009702000098020000990200009a0200009b0200009c0200009d0200009e0200009f020000a0020000a1020000a2020000a3020000a4020000a5020000a6020000a7020000a8020000a9020000aa020000ab020000ac020000ad020000ae020000af020000b0020000b1020000b2020000b3020000b4020000b5020000b6020000
     m_AlignBytes: 16
   groupID: 3
   m_CollisionMaterial: {fileID: 11400000, guid: 7e318fd02475245f48f8f968e5ef09d5,
@@ -11494,143 +11627,143 @@ MonoBehaviour:
   m_SelfCollisions: 0
   restLength_: 8.249433
   elements:
-  - particle1: 564
-    particle2: 565
+  - particle1: 466
+    particle2: 467
     restLength: 0
     constraintForce: 0
     tearResistance: 1
-  - particle1: 565
-    particle2: 566
+  - particle1: 467
+    particle2: 468
     restLength: 0.30083084
     constraintForce: 0
     tearResistance: 1
-  - particle1: 566
-    particle2: 567
+  - particle1: 468
+    particle2: 469
     restLength: 0.31272125
     constraintForce: 0
     tearResistance: 1
-  - particle1: 567
-    particle2: 568
+  - particle1: 469
+    particle2: 470
     restLength: 0.31161308
     constraintForce: 0
     tearResistance: 1
-  - particle1: 568
-    particle2: 569
+  - particle1: 470
+    particle2: 471
     restLength: 0.31300402
     constraintForce: 0
     tearResistance: 1
-  - particle1: 569
-    particle2: 570
+  - particle1: 471
+    particle2: 472
     restLength: 0.3157344
     constraintForce: 0
     tearResistance: 1
-  - particle1: 570
-    particle2: 571
+  - particle1: 472
+    particle2: 473
     restLength: 0.307209
     constraintForce: 0
     tearResistance: 1
-  - particle1: 571
-    particle2: 572
+  - particle1: 473
+    particle2: 474
     restLength: 0.31184292
     constraintForce: 0
     tearResistance: 1
-  - particle1: 572
-    particle2: 573
+  - particle1: 474
+    particle2: 475
     restLength: 0.31326628
     constraintForce: 0
     tearResistance: 1
-  - particle1: 573
-    particle2: 574
+  - particle1: 475
+    particle2: 476
     restLength: 0.30935812
     constraintForce: 0
     tearResistance: 1
-  - particle1: 574
-    particle2: 575
+  - particle1: 476
+    particle2: 477
     restLength: 0.31293416
     constraintForce: 0
     tearResistance: 1
-  - particle1: 575
-    particle2: 576
+  - particle1: 477
+    particle2: 478
     restLength: 0.3102982
     constraintForce: 0
     tearResistance: 1
-  - particle1: 576
-    particle2: 577
+  - particle1: 478
+    particle2: 479
     restLength: 0.31189442
     constraintForce: 0
     tearResistance: 1
-  - particle1: 577
-    particle2: 578
+  - particle1: 479
+    particle2: 480
     restLength: 0.3110602
     constraintForce: 0
     tearResistance: 1
-  - particle1: 578
-    particle2: 579
+  - particle1: 480
+    particle2: 481
     restLength: 0.31189728
     constraintForce: 0
     tearResistance: 1
-  - particle1: 579
-    particle2: 580
+  - particle1: 481
+    particle2: 482
     restLength: 0.3102901
     constraintForce: 0
     tearResistance: 1
-  - particle1: 580
-    particle2: 581
+  - particle1: 482
+    particle2: 483
     restLength: 0.31294072
     constraintForce: 0
     tearResistance: 1
-  - particle1: 581
-    particle2: 582
+  - particle1: 483
+    particle2: 484
     restLength: 0.3093779
     constraintForce: 0
     tearResistance: 1
-  - particle1: 582
-    particle2: 583
+  - particle1: 484
+    particle2: 485
     restLength: 0.3132379
     constraintForce: 0
     tearResistance: 1
-  - particle1: 583
-    particle2: 584
+  - particle1: 485
+    particle2: 486
     restLength: 0.3118614
     constraintForce: 0
     tearResistance: 1
-  - particle1: 584
-    particle2: 585
+  - particle1: 486
+    particle2: 487
     restLength: 0.30717075
     constraintForce: 0
     tearResistance: 1
-  - particle1: 585
-    particle2: 586
+  - particle1: 487
+    particle2: 488
     restLength: 0.31574675
     constraintForce: 0
     tearResistance: 1
-  - particle1: 586
-    particle2: 587
+  - particle1: 488
+    particle2: 489
     restLength: 0.31302068
     constraintForce: 0
     tearResistance: 1
-  - particle1: 587
-    particle2: 588
+  - particle1: 489
+    particle2: 490
     restLength: 0.31162393
     constraintForce: 0
     tearResistance: 1
-  - particle1: 588
-    particle2: 589
+  - particle1: 490
+    particle2: 491
     restLength: 0.31270516
     constraintForce: 0
     tearResistance: 1
-  - particle1: 589
-    particle2: 590
+  - particle1: 491
+    particle2: 492
     restLength: 0.30083466
     constraintForce: 0
     tearResistance: 1
-  - particle1: 590
-    particle2: 591
+  - particle1: 492
+    particle2: 493
     restLength: 0.23832226
     constraintForce: 0
     tearResistance: 1
-  - particle1: 591
-    particle2: 592
+  - particle1: 493
+    particle2: 494
     restLength: 0.23863547
     constraintForce: 0
     tearResistance: 1
@@ -12105,7 +12238,7 @@ Transform:
   m_GameObject: {fileID: 42056287855952700}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 1, z: 0, w: 0}
-  m_LocalPosition: {x: 49.43, y: -2.032, z: -3.67}
+  m_LocalPosition: {x: 50, y: -22.28, z: -3.67}
   m_LocalScale: {x: 1.3, y: 1.3, z: 1.3}
   m_ConstrainProportionsScale: 1
   m_Children:
@@ -12765,7 +12898,7 @@ Transform:
   m_GameObject: {fileID: 1684581372452828358}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0.7071068, z: -0, w: -0.7071068}
-  m_LocalPosition: {x: -11.556, y: -1.004, z: 19.038}
+  m_LocalPosition: {x: -11.65, y: -4.37, z: 19.038}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -12885,4 +13018,6 @@ SceneRoots:
   - {fileID: 893550505}
   - {fileID: 302080784}
   - {fileID: 990352166}
-  - {fileID: 631061179}
+  - {fileID: 172896635}
+  - {fileID: 1537130359}
+  - {fileID: 136229587}
