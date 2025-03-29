@@ -17,7 +17,9 @@ public class SexCameraManager : MonoBehaviour
 
     void Start()
     {
-        bodyCollider.SetActive(false);
+        if (bodyCollider != null){
+            bodyCollider.SetActive(false);
+        }
         // initialize cameras for the current group
         InitializeCameras();
     }
@@ -88,7 +90,11 @@ public class SexCameraManager : MonoBehaviour
             currentSet.fixedPOV.gameObject.SetActive(false);
             thirdPersonCamera.cameraLocked = false;
             springController.lockCamera = false;
-            bodyCollider.SetActive(true);
+            if (bodyCollider != null)
+            {
+                bodyCollider.SetActive(true);
+            }
+
         }
     }
 }
