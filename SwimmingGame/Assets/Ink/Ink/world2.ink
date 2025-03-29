@@ -1083,7 +1083,7 @@ NPC: Have you met Enkidu yet??
         NPC: Are you sure you're telling the truth??
         MC: Sorry.. I'm not sure why I said that.
     - else:
-        NPC: They're so hot it makes me want to rip out my skin!!!
+        NPC: They're so hot it makes me want to rip off my skin!!!
     }
 +   [No.]
     NPC: You should talk to them!! They may seem very intimidating and charismatic but they're actually super approachable!!!
@@ -1118,6 +1118,70 @@ To the point where they would not even give me the dignity of harmonizing back w
 Ahem.. I misspoke. What I meant when I said "me" was "a friend of mine". You understand.
 -> npcEnd ->
 -> END 
+
+=== shrimptux2 ===
+# color: 1F7A6E
+-> npcStart ->
+NPC: Frankly, there is something "trite" about these parties that was not there before.
+I remember, before we began to entangle, we would find much more interesting and novel ways to entertain ourselves..
+Now it's all about the entanglement! So cheap and overdone. Bah!
+-> npcEnd ->
+-> END 
+
+=== shrimptux3 ===
+# color: 1F7A6E
+-> npcStart ->
+NPC: What is so disappointing about this cycle's party is that everyone is so busy dancing and entwining, no one has taken the time to make the buffet!
+What am I supposed to feast on in-between intense linking sessions? Mere unseasoned live fish? Bah!
+It makes me so disgusted, I haven't even been in the mood to entangle with anyone here! Despite the abundance of elfin, magnetic, & willing creatures wherever meets the eye!
+-> npcEnd ->
+-> END 
+
+=== horma1 ===
+# color: 7E0D13
+-> npcStart ->
+NPC: EVERYONE HERE IS SO GORGEOUS, IT'S TOO BAD I'M CURRENTLY ON A "KNOT-LESS" DIET.
++   [What's that?]
+    IT'S THIS NEW THING WHERE YOU QUIT ENTANGLING FOR A CERTAIN LENGTHY DURATION.
+    APPARENTLY THE LONGER YOU'RE ON IT THE MORE RHAPSODIC THE NEXT ONE WILL BE, SO I'M REALLY EXCITED BUT ALSO I MUST RESTRAIN MYSELF.
+    MC: So how long has it been for you?
+    NPC: APPROXIMATELY FIVE INSTANTS BUT I'M HOLDING OUT FOR AT LEAST A COUPLE MORE.
++   [Ok.]
+    YOU SHOULD TRY IT.
+- -> npcEnd ->
+-> END 
+
+=== horma2 ===
+# color: 7E0D13
+-> npcStart ->
+NPC: DANCING FEELS SO GOOD I WONDER WHAT IT FEELS LIKE ON THE SURFACE.
+PROBABLY ABOUT THE SAME BUT WITH MORE TONGUE ACTION?
+- -> npcEnd ->
+-> END 
+
+=== popero1 ===
+# color: 966382
+-> npcStart ->
+NPC: I could never get into music and dancing. It feels too aspirational.
+- -> npcEnd ->
+-> END 
+
+=== eelor1 ===
+# color: 6D6787
+-> npcStart ->
+NPC: I've enjoyed myself at this party, but something odd happens where if I spend a lot of time in there I need to spend some time revitalizing away from the crowd.
+Is this what the change is like? Am I about to start being pulled to the surface?? I'm not ready!
+- -> npcEnd ->
+-> END 
+
+=== xrys1 ===
+# color: 2b6136
+-> npcStart ->
+NPC: To be honest, I don't really connect with the music here so I'm just gonna wait here until it's time to move on to the next world.
+It's too "badoom-tshh POONG POONG" and I'm more into "zaa... PARATATTA shoooo ERN??". You get it?
+- -> npcEnd ->
+-> END 
+
 
 
 
