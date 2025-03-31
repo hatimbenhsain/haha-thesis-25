@@ -42,7 +42,7 @@ MC: Wait!! #speed: fast
 ~ changeDialogueView(2)
 MC: Are you still there?  # time:3
 Ex: What is it? # time:3
-MC: What does this mean for us..? # time: 3 # speed: slow
+MC: What does this mean for us..? # time: 5 # speed: slow
 Ex: Evidently this has to be our end. # time: 3
 MC: And are you sure I can't -- # time: 1.5 # speed: fast
 Ex: I don't think you would survive it. # time: 3
@@ -52,16 +52,16 @@ Ex: Of course I did. \\pauseThis has nothing to do with you. # time: 4
 ~pause(2)
 MC: Will you miss me at all? # time: 3
 Ex: I will likely think about you, \\pauseif I see a rock or a plant or such that has a similar shape to you. \\pauseSometimes, it will ache a little bit. # time: 8
-Ex: But mostly, I will be too occupied with all the discoveries I am making to really feel "sorrow". # time: 7
-MC: What's it like up there? # time: 3
+Ex: But mostly, I will be too occupied with all the discoveries I am making to really feel "sorrow". # time: 8
+MC: What's it like on the surface? #speed: slow # time: 4
 Ex: It's-- # time: 3
 ~pause(2)
 Ex: Do you really want to hear about that? # time: 3
 ~pause(2)
 MC: I guess not. Not really. # time: 3 # speed: slow
 ~pause(2)
-MC: What is that, up there? \\pauseIt looks frightening. # time: 4
-Ex: It's part of all the changes that are happening. Everyone is doing it now. # time: 5
+MC: What is that, up ahead? \\pauseIt looks frightening. # time: 4
+Ex: It's part of all the changes that are happening. Everyone is doing it now. # time: 6
 MC: But that... that didn't really happen, did it? Between us? # time:5
 Ex: No. # time: 3
 MC: And neither did this conversation. # time: 3
