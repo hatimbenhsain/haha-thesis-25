@@ -11,7 +11,12 @@ public class SpriteFloat : MonoBehaviour
     private Transform spriteTransform;
 
     void Start(){
-        spriteTransform=GetComponentInChildren<SpriteRenderer>().transform;
+        SpriteRenderer spriteRenderer=GetComponentInChildren<SpriteRenderer>();
+        if(spriteRenderer!=null){
+            spriteTransform=spriteRenderer.transform;
+        }else{
+            spriteTransform=transform;
+        }
         spriteOriginalPosition=spriteTransform.localPosition;
         floatTimer=Random.Range(0f,floatPeriod);
     }

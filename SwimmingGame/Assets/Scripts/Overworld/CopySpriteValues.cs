@@ -21,9 +21,20 @@ public class CopySpriteValues : MonoBehaviour
 
     public bool copyColor=false;
 
+    [Tooltip("Match copied sprite's opacity while maintaining original color.")]
+    public bool matchOpacity=false;
+    private Color originalColor;
+
     private bool copied=false;
     [Tooltip("If permanent copy throughout runtime, not just at the start of scene.")]
     public bool permanent=false;
+
+    void Start()
+    {
+        if(matchOpacity){
+            originalColor=GetComponentInChildren<SpriteRenderer>().color;
+        }   
+    }
 
     void LateUpdate()
     {
@@ -53,6 +64,12 @@ public class CopySpriteValues : MonoBehaviour
 
             if(copyColor){
                 spriteRenderer.color=spriteToCopy.color;
+            }
+
+            if(matchOpacity){
+                Color c=originalColor;
+                c.a=spriteToCopy.color.a*c.a;
+                spriteRenderer.color=c;
             }
 
             copied=true;

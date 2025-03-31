@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -17,7 +18,9 @@ public class AnimatedImage : MonoBehaviour
     public float pulsePeriod=0f;
     private float pulseTimer=0f;
     public float pulseRotationIntensity=0f;
+    public float pulseOpacityIntensity=0f;
     private Vector3 initialRotation;
+    private float initialOpacity;
     
 
     void Start()
@@ -27,6 +30,7 @@ public class AnimatedImage : MonoBehaviour
         if(pulseRotationIntensity!=0f){
             initialRotation=rect.localRotation.eulerAngles;
         }
+        initialOpacity=image.color.a;
         pulseTimer=Random.Range(0f,pulsePeriod);
     }
 
@@ -47,6 +51,11 @@ public class AnimatedImage : MonoBehaviour
             Vector3 rot=initialRotation;
             rot.z=rot.z+Mathf.Sin(pulseTimer*Mathf.PI*2f/pulsePeriod)*pulseRotationIntensity;
             rect.localRotation=Quaternion.Euler(rot);
+        }
+        if(pulseOpacityIntensity!=0f){
+            Color c=image.color;
+            c.a=initialOpacity-Mathf.Sin(pulseTimer*Mathf.PI*2f/pulsePeriod)*pulseOpacityIntensity;
+            image.color=c;
         }
     }
 }
