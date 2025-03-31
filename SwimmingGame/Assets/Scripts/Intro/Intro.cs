@@ -19,9 +19,25 @@ public class Intro : MonoBehaviour
 
     public NPCSequencer exSequencer;
 
+    public RectTransform exRect;
+    public float exMoveAcceleration=1f;
+    private float exMoveSpeed=0f;
+
+    private Dialogue dialogue;
+
+    public bool swimmerCamOn=false;
+    public RawImage swimmerCamImage;
+    public float swimmerCamLerpSpeed=1f;
+
+    private bool prevSwimmerCamOn;
+    private bool startedIntro2;
+
+    public RectTransform singingWheel;
+
     void Start()
     {
         tutorial=FindObjectOfType<Tutorial>();
+        dialogue=FindObjectOfType<Dialogue>();
         Color c=darkScreen.color;
         c.a=1f;
         darkScreen.color=c;
@@ -40,6 +56,40 @@ public class Intro : MonoBehaviour
                 exSequencer.nextBrainTrigger=true;
             }
         }
+        if(exSequencer.brainIndex>=4){
+            exMoveSpeed+=exMoveAcceleration*Time.deltaTime;
+            Vector2 pos=exRect.anchoredPosition;
+            pos+=exMoveSpeed*new Vector2(.5f,1f)*Time.deltaTime;
+            exRect.anchoredPosition=pos;
+        }
+
+        if(exSequencer.brainIndex>=4 && (bool)dialogue.story.variablesState["swimmerCamOn"]==true){
+            swimmerCamOn=true;
+        }
+
+        
+
+        if(swimmerCamOn){
+            Color c=swimmerCamImage.color;
+            c.a=Mathf.Lerp(c.a,1f,swimmerCamLerpSpeed*Time.deltaTime);
+            swimmerCamImage.color=c;
+            swimmerCamImage.GetComponent<RectTransform>().localScale=Vector3.Lerp(swimmerCamImage.GetComponent<RectTransform>().localScale,Vector3.one,swimmerCamLerpSpeed*Time.deltaTime);
+        
+            if(!prevSwimmerCamOn){
+                FindObjectOfType<Swimmer>().canMove=true;
+                tutorial.GoToTutorialPart(3);
+                Vector2 pos=singingWheel.anchoredPosition;
+                pos.x=0;
+                singingWheel.anchoredPosition=pos;
+            }
+        }
+
+        if(!startedIntro2 && tutorial.tutorialParts[3].done){
+            dialogue.StartDialogue(null,"intro2");
+            startedIntro2=true;
+        }
+
         prevTutorialIndex=tutorial.index;
+        prevSwimmerCamOn=swimmerCamOn;
     }
 }

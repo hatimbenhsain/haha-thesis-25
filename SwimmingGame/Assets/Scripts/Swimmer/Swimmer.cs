@@ -209,10 +209,12 @@ public class Swimmer : MonoBehaviour
     }
 
     void DashInput(Directions d){
-        dashDirection=d;
-        dashTimer=Mathf.Clamp(dashTimer,dashCooldownTime,dashCooldownTime*maxDashes);
-        dashTimer-=dashCooldownTime;
-        savedDashDirection=Directions.NULL;
+        if(dashSpeed>0f){
+            dashDirection=d;
+            dashTimer=Mathf.Clamp(dashTimer,dashCooldownTime,dashCooldownTime*maxDashes);
+            dashTimer-=dashCooldownTime;
+            savedDashDirection=Directions.NULL;
+        }
     }
 
     void FixedUpdate()
