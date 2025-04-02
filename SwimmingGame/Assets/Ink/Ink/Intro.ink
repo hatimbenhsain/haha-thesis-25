@@ -1,6 +1,7 @@
 INCLUDE Functions.ink
 
 VAR swimmerCamOn=false
+VAR loadCutscene=false
 
 //Include: thoughts about evolution, heartbreak, establish evolution
 // maybe something like... i've noticed this thing inside of me 
@@ -46,10 +47,16 @@ MC: What does this mean for us..? # time: 5 # speed: slow
 Ex: Evidently this has to be our end. # time: 3
 MC: And are you sure I can't -- # time: 1.5 # speed: fast
 Ex: I don't think you would survive it. # time: 3
-~pause(2)
+-> END
+
+=== intro3 ===
+# ambient
 MC: Did you even like me at all? Or was this just... some sort of a.. a distraction? Just to pass the time?! # time: 5
 Ex: Of course I did. \\pauseThis has nothing to do with you. # time: 4
-~pause(2)
+-> END
+
+=== intro4 ===
+# ambient
 MC: Will you miss me at all? # time: 3
 Ex: I will likely think about you, \\pauseif I see a rock or a plant or such that has a similar shape to you. \\pauseSometimes, it will ache a little bit. # time: 8
 Ex: But mostly, I will be too occupied with all the discoveries I am making to really feel "sorrow". # time: 8
@@ -59,7 +66,10 @@ Ex: It's-- # time: 3
 Ex: Do you really want to hear about that? # time: 3
 ~pause(2)
 MC: I guess not. Not really. # time: 3 # speed: slow
-~pause(2)
+-> END
+
+=== intro5 ===
+# ambient
 MC: What is that, up ahead? \\pauseIt looks frightening. # time: 4
 Ex: It's part of all the changes that are happening. Everyone is doing it now. # time: 6
 MC: But that... that didn't really happen, did it? Between us? # time:5
@@ -68,6 +78,7 @@ MC: And neither did this conversation. # time: 3
 Ex: But I left you a song. On the coralnet. # time: 3
 MC: It was short. # time: 3
 ~ pause(2)
+~ loadCutscene=true 
 MC: Wait. \\pauseDoes it have -- # time: 2
 -> END
 
