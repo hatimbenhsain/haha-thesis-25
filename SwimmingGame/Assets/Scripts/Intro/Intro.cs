@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting.Dependencies.NCalc;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -32,6 +33,8 @@ public class Intro : MonoBehaviour
     private bool prevSwimmerCamOn;
 
     public RectTransform singingWheel;
+
+    private bool loadedCutscene=false;
 
     void Start()
     {
@@ -83,8 +86,20 @@ public class Intro : MonoBehaviour
             }
         }
 
+        if(!loadedCutscene && (bool)dialogue.story.variablesState["loadCutscene"]==true){
+            loadedCutscene=true;
+            StartCoroutine(StartCutscene());
+        }
+
 
         prevTutorialIndex=tutorial.index;
         prevSwimmerCamOn=swimmerCamOn;
     }
+
+    IEnumerator StartCutscene(){
+        yield return new WaitForSeconds(2f);    // U CAN ADJUST THIS TIME
+        dialogue.EndDialogue();
+        // START CUTSCENE
+    }
+    
 }

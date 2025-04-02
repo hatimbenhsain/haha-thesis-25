@@ -1,6 +1,7 @@
 INCLUDE Functions.ink
 
 VAR swimmerCamOn=false
+VAR loadCutscene=false
 
 //Include: thoughts about evolution, heartbreak, establish evolution
 // maybe something like... i've noticed this thing inside of me 
@@ -77,6 +78,7 @@ MC: And neither did this conversation. # time: 3
 Ex: But I left you a song. On the coralnet. # time: 3
 MC: It was short. # time: 3
 ~ pause(2)
+~ loadCutscene=true 
 MC: Wait. \\pauseDoes it have -- # time: 2
 -> END
 
