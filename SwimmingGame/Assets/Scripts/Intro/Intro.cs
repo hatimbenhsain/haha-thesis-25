@@ -30,7 +30,6 @@ public class Intro : MonoBehaviour
     public float swimmerCamLerpSpeed=1f;
 
     private bool prevSwimmerCamOn;
-    private bool startedIntro2;
 
     public RectTransform singingWheel;
 
@@ -84,10 +83,6 @@ public class Intro : MonoBehaviour
             }
         }
 
-        if(!startedIntro2 && tutorial.tutorialParts[3].done){
-            dialogue.StartDialogue(null,"intro2");
-            startedIntro2=true;
-        }
 
         prevTutorialIndex=tutorial.index;
         prevSwimmerCamOn=swimmerCamOn;
