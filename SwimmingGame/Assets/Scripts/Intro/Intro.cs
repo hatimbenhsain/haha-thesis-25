@@ -76,7 +76,7 @@ public class Intro : MonoBehaviour
 
         if(swimmerCamOn){
             
-
+            FindObjectOfType<Swimmer>().canRotate=false;
             Color c=swimmerCamImage.color;
             c.a=Mathf.Lerp(c.a,1f,swimmerCamLerpSpeed*Time.deltaTime);
             swimmerCamImage.color=c;
@@ -84,6 +84,7 @@ public class Intro : MonoBehaviour
         
             if(!prevSwimmerCamOn){
                 FindObjectOfType<Swimmer>().canMove=true;
+                
                 tutorial.GoToTutorialPart(3);
                 Vector2 pos=singingWheel.anchoredPosition;
                 pos.x=0;
