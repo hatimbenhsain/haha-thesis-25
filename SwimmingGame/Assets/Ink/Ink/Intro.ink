@@ -55,6 +55,7 @@ Ex: I don't think you would survive it. # time: 3
 === intro3 ===
 # ambient
 ~ intensity=3
+~ changeDialogueView(2)
 MC: Did you even like me at all? Or was this just... some sort of a.. a distraction? Just to pass the time?! # time: 5
 Ex: Of course I did. \\pauseThis has nothing to do with you. # time: 4
 -> END
@@ -62,6 +63,7 @@ Ex: Of course I did. \\pauseThis has nothing to do with you. # time: 4
 === intro4 ===
 # ambient
 ~ intensity=4
+~ changeDialogueView(2)
 MC: Will you miss me at all? # time: 3
 Ex: I will likely think about you, \\pauseif I see a rock or a plant or such that has a similar shape to you. \\pauseSometimes, it will ache a little bit. # time: 8
 Ex: But mostly, I will be too occupied with all the discoveries I am making to really feel "sorrow". # time: 8
@@ -76,6 +78,7 @@ MC: I guess not. Not really. # time: 3 # speed: slow
 === intro5 ===
 # ambient
 ~ intensity=5
+~ changeDialogueView(2)
 MC: What is that, up ahead? \\pauseIt looks frightening. # time: 4
 Ex: It's part of all the changes that are happening. Everyone is doing it now. # time: 6
 MC: But that... that didn't really happen, did it? Between us? # time:5
