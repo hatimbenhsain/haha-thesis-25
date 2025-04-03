@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using FMODUnity;
 using Unity.VisualScripting.Dependencies.NCalc;
 using UnityEngine;
 using UnityEngine.UI;
@@ -36,6 +37,8 @@ public class Intro : MonoBehaviour
 
     private bool loadedCutscene=false;
 
+    public StudioEventEmitter ambiance;
+
     void Start()
     {
         tutorial=FindObjectOfType<Tutorial>();
@@ -69,9 +72,11 @@ public class Intro : MonoBehaviour
             swimmerCamOn=true;
         }
 
-        
+        if(dialogue.inDialogue) ambiance.EventInstance.setParameterByName("intensity",(int)dialogue.story.variablesState["intensity"]);
 
         if(swimmerCamOn){
+            
+
             Color c=swimmerCamImage.color;
             c.a=Mathf.Lerp(c.a,1f,swimmerCamLerpSpeed*Time.deltaTime);
             swimmerCamImage.color=c;
@@ -97,7 +102,7 @@ public class Intro : MonoBehaviour
     }
 
     IEnumerator StartCutscene(){
-        yield return new WaitForSeconds(2f);    // U CAN ADJUST THIS TIME
+        yield return new WaitForSeconds(4f);    // U CAN ADJUST THIS TIME
         dialogue.EndDialogue();
         // START CUTSCENE
     }
