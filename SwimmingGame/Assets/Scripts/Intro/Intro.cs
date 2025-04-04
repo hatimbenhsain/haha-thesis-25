@@ -1,9 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
+using FMODUnity;
 using Unity.VisualScripting.Dependencies.NCalc;
 using UnityEngine;
-using UnityEngine.Playables;
-using UnityEngine.Timeline;
 using UnityEngine.UI;
 
 public class Intro : MonoBehaviour
@@ -36,9 +35,9 @@ public class Intro : MonoBehaviour
 
     public RectTransform singingWheel;
 
-    public PlayableDirector cutsceneDirector;
-
     private bool loadedCutscene=false;
+
+    public StudioEventEmitter ambiance;
 
     void Start()
     {
@@ -73,9 +72,11 @@ public class Intro : MonoBehaviour
             swimmerCamOn=true;
         }
 
-        
+        if(dialogue.inDialogue) ambiance.EventInstance.setParameterByName("intensity",(int)dialogue.story.variablesState["intensity"]);
 
         if(swimmerCamOn){
+            
+            FindObjectOfType<Swimmer>().canRotate=false;
             Color c=swimmerCamImage.color;
             c.a=Mathf.Lerp(c.a,1f,swimmerCamLerpSpeed*Time.deltaTime);
             swimmerCamImage.color=c;
@@ -83,6 +84,7 @@ public class Intro : MonoBehaviour
         
             if(!prevSwimmerCamOn){
                 FindObjectOfType<Swimmer>().canMove=true;
+                
                 tutorial.GoToTutorialPart(3);
                 Vector2 pos=singingWheel.anchoredPosition;
                 pos.x=0;
@@ -101,10 +103,9 @@ public class Intro : MonoBehaviour
     }
 
     IEnumerator StartCutscene(){
-        yield return new WaitForSeconds(2f);    // U CAN ADJUST THIS TIME
+        yield return new WaitForSeconds(4f);    // U CAN ADJUST THIS TIME
         dialogue.EndDialogue();
         // START CUTSCENE
-        cutsceneDirector.Play();
     }
     
 }
