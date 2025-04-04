@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using FMODUnity;
 using Unity.VisualScripting.Dependencies.NCalc;
 using UnityEngine;
+using UnityEngine.Playables;
+using UnityEngine.Timeline;
 using UnityEngine.UI;
 
 public class Intro : MonoBehaviour
@@ -34,6 +36,8 @@ public class Intro : MonoBehaviour
     private bool prevSwimmerCamOn;
 
     public RectTransform singingWheel;
+
+    public PlayableDirector cutsceneDirector;
 
     private bool loadedCutscene=false;
 
@@ -105,6 +109,7 @@ public class Intro : MonoBehaviour
         yield return new WaitForSeconds(4f);    // U CAN ADJUST THIS TIME
         dialogue.EndDialogue();
         // START CUTSCENE
+        cutsceneDirector.Play();
     }
     
 }
