@@ -26,6 +26,8 @@ public class MusicBeat : MonoBehaviour
 
     public static bool newBeat;
 
+    private static MusicBeat musicBeatInstance;
+
     void Start()
     {
         musicInstance=GetComponent<StudioEventEmitter>().EventInstance;
@@ -37,6 +39,8 @@ public class MusicBeat : MonoBehaviour
         musicInstance.setUserData(GCHandle.ToIntPtr(timelineHandle));
 
         musicInstance.setCallback(beatCallback, FMOD.Studio.EVENT_CALLBACK_TYPE.TIMELINE_BEAT | FMOD.Studio.EVENT_CALLBACK_TYPE.TIMELINE_MARKER);
+    
+        musicBeatInstance=this;
     }
 
     void Update()
@@ -95,5 +99,9 @@ public class MusicBeat : MonoBehaviour
             }        
         }
         return FMOD.RESULT.OK;
+    }
+
+    public static float GetBPM(){
+        return musicBeatInstance.timelineInfo.currentTempo;
     }
 }

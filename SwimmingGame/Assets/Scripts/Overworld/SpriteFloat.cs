@@ -10,6 +10,8 @@ public class SpriteFloat : MonoBehaviour
     private Vector3 spriteOriginalPosition;
     private Transform spriteTransform;
 
+    public bool matchMusic=false;
+
     void Start(){
         SpriteRenderer spriteRenderer=GetComponentInChildren<SpriteRenderer>();
         if(spriteRenderer!=null){
@@ -22,9 +24,13 @@ public class SpriteFloat : MonoBehaviour
     }
 
     void Update(){
+        float period=floatPeriod;
+        if(matchMusic){
+            period=60f*period/MusicBeat.GetBPM();
+        }
         floatTimer+=Time.deltaTime;
         Vector3 spritePos=spriteOriginalPosition;
-        spritePos.y=spriteOriginalPosition.y+Mathf.Sin(floatTimer*Mathf.PI*2f/floatPeriod)*floatIntensity;
+        spritePos.y=spriteOriginalPosition.y+Mathf.Sin(floatTimer*Mathf.PI*2f/period)*floatIntensity;
         spriteTransform.localPosition=spritePos;
     }
 }
