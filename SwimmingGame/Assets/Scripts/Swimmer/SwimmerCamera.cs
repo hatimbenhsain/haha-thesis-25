@@ -61,6 +61,13 @@ public class SwimmerCamera : MonoBehaviour
 
     private Animator animator;
 
+    public bool danceToMusic=false;
+    public float beatFovChange=5f;
+    [Tooltip("Do FOV change every (this number) beats.")]
+    public float beatFrequency=1f;
+    private MusicBeat musicBeat;
+    private PartyMusic partyMusic;
+
 
 
     // FAILED ATTEMPT to be able to change what parts of the volume get changed via inspector
@@ -129,6 +136,11 @@ public class SwimmerCamera : MonoBehaviour
         //         Debug.Log("not found "+ppv.componentName);
         //     }
         // }
+
+        if(danceToMusic){
+            musicBeat=FindObjectOfType<MusicBeat>();
+            partyMusic=FindObjectOfType<PartyMusic>();
+        } 
     }
 
     public static Type GetTypeByName(string name)
@@ -147,6 +159,17 @@ public class SwimmerCamera : MonoBehaviour
 
     void Update()
     {
+        if(danceToMusic){
+            if(MusicBeat.newBeat && musicBeat.timelineInfo.currentBeat%beatFrequency==0f){
+                if(partyMusic.IsMuffled()){
+                    targetFov+=beatFovChange*.25f;
+                }
+                else{
+                    targetFov+=beatFovChange;
+                }
+            }
+        }
+
         if(cameraControl){
             pauseTimer+=Time.deltaTime;
 

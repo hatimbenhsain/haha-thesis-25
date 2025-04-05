@@ -22,4 +22,14 @@ public class PartyMusic : MonoBehaviour
             instance.setParameterByName("Music Intensity",0f);
         }
     } 
+
+    public bool IsMuffled(){
+        float m;
+        instance.getParameterByName("Muffled",out m);
+        if(m==0f){
+            return false;
+        }else{
+            return true;
+        }
+    }
 }

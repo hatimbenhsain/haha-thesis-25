@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using FMODUnity;
+using Obi;
 using UnityEngine;
 
 public class MusicBeat : MonoBehaviour
@@ -23,6 +24,8 @@ public class MusicBeat : MonoBehaviour
     private FMOD.Studio.EventInstance musicInstance;
     FMOD.Studio.EVENT_CALLBACK beatCallback;
 
+    public static bool newBeat;
+
     void Start()
     {
         musicInstance=GetComponent<StudioEventEmitter>().EventInstance;
@@ -38,7 +41,13 @@ public class MusicBeat : MonoBehaviour
 
     void Update()
     {
+        newBeat=false;
         musicInstance.getTimelinePosition(out timelineInfo.currentTime);
+    }
+
+    void LateUpdate()
+    {
+        
     }
 
     void OnGUI()
@@ -68,6 +77,7 @@ public class MusicBeat : MonoBehaviour
                     timelineInfo.currentBeat = parameter.beat;
                     timelineInfo.beatPosition = parameter.position;
                     timelineInfo.currentTempo = parameter.tempo;
+                    MusicBeat.newBeat=true;
                     break;
                 }
                 case FMOD.Studio.EVENT_CALLBACK_TYPE.TIMELINE_MARKER:
