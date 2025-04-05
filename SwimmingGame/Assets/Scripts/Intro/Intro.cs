@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using FMODUnity;
 using Unity.VisualScripting.Dependencies.NCalc;
 using UnityEngine;
+using UnityEngine.Playables;
 using UnityEngine.UI;
 
 public class Intro : MonoBehaviour
@@ -38,6 +39,7 @@ public class Intro : MonoBehaviour
     private bool loadedCutscene=false;
 
     public StudioEventEmitter ambiance;
+     public PlayableDirector cutsceneDirector;
 
     void Start()
     {
@@ -105,7 +107,7 @@ public class Intro : MonoBehaviour
     IEnumerator StartCutscene(){
         yield return new WaitForSeconds(4f);    // U CAN ADJUST THIS TIME
         dialogue.EndDialogue();
-        // START CUTSCENE
+        cutsceneDirector.Play();         // START CUTSCENE
     }
     
 }
