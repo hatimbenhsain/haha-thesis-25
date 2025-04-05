@@ -7687,6 +7687,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4326511248800762357, guid: dbbdbc344ccd4154db6a381a2b189533,
         type: 3}
+      propertyPath: canSelectDialogue
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4326511248800762357, guid: dbbdbc344ccd4154db6a381a2b189533,
+        type: 3}
       propertyPath: choiceTextBoxes.Array.size
       value: 5
       objectReference: {fileID: 0}
@@ -9236,8 +9241,20 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6872567699498174334, guid: a4287e0663e2eb24db3b00780d2958f3,
         type: 3}
+      propertyPath: m_Name
+      value: 'Part 3: Stroke to Answer'
+      objectReference: {fileID: 0}
+    - target: {fileID: 6872567699498174334, guid: a4287e0663e2eb24db3b00780d2958f3,
+        type: 3}
       propertyPath: m_IsActive
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7459805589119085628, guid: a4287e0663e2eb24db3b00780d2958f3,
+        type: 3}
+      propertyPath: m_text
+      value: 'To give a reply, find one and
+
+        stroke the relevant body part.'
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -11201,9 +11218,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   moveSpeed: 20
-  lerpSpeed: 7
-  radius: 0.7
-  parentMoveSpeed: 0.7
+  lerpSpeed: 10
+  maxXDistance: 0.7
+  maxZDistance: 0.7
+  parentMoveSpeed: 1.25
   handController: {fileID: 5919335683807792952}
   isMoving: 1
   decelerationSpeed: 1.5

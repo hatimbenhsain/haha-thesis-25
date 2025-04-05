@@ -6,7 +6,10 @@ public class MoveHandAround : MonoBehaviour
 {
     public float moveSpeed;
     public float lerpSpeed;
-    public float radius = 5f;  // Radius for the circular movement
+    [Tooltip("Max distance x-wise before moving the whole arm")]
+    public float maxXDistance=0.7f;
+    [Tooltip("Max distance z-wise before moving the whole arm")]
+    public float maxZDistance=0.7f;
     public float parentMoveSpeed;  // Speed at which the parent object moves when out of bounds
     public Transform handController;  // Reference to the handController
     private PlayerInput playerInput;
@@ -64,12 +67,12 @@ public class MoveHandAround : MonoBehaviour
         Vector3 move = new Vector3(moveX, 0, moveZ) * moveSpeed * Time.deltaTime;
         targetPosition = handController.position + move;
 
-        // Check if the handController is within the radius
-        if (Vector3.Distance(transform.position, targetPosition) > radius)
+        // Check if the handController is within the max distance
+        if (Mathf.Abs((transform.position-targetPosition).x)>maxXDistance ||  Mathf.Abs((transform.position-targetPosition).z)>maxZDistance)
         {
             // Move the parent object if the handController is out of bounds
-            Vector3 direction = (targetPosition - transform.position).normalized;
-            parentVelocity = direction * parentMoveSpeed * Time.deltaTime;
+            //Vector3 direction = (targetPosition - transform.position).normalized;
+            parentVelocity = parentMoveSpeed * new Vector3(moveX, 0, moveZ) * Time.deltaTime;
             transform.position += parentVelocity;
         }
         else

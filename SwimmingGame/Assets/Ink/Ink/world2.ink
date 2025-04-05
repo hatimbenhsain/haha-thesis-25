@@ -336,6 +336,7 @@ I see.
 MC: To be honest...
 Enkidu: Yes?
 MC: I didn't think I was going to entangle ever again.
+~ finishTutorialPart(0)
 Enkidu: And why is that?
 ->part1
 
@@ -394,6 +395,7 @@ Enkidu: And why is that?
         -> part1
     - else:
         Enkidu: The way I see it -- if something feels this good, why resist it?
+        ~ finishTutorialPart(1)
         -> part3
 }
 
@@ -464,6 +466,7 @@ NPC2: Ecstatic?
 NPC3: Euphoric!
 NPC4: Transcendental!!!
 MC: Yes...
+~ finishTutorialPart(1)
 And also...
 +   [Snug. #place: 1]
     NPC2: Snug?
@@ -476,6 +479,7 @@ And also...
 +   [Thrilling. #place: 5]
     NPC2: Thrilling?
 - MC: Yeah! Exactly...
+~ finishTutorialPart(2)
 NPC5: I've never felt this connected before...
 NPC3: There's nothing like it.
 MC: Before this, when I was alone...
