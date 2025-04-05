@@ -60,6 +60,7 @@ public class CuddleDialogue : Dialogue
         {
             caressTimer += Time.deltaTime*selectingIntensity;
             Rumble.AddRumble("Picking Dialogue",caressTimer/caressRequiredLength);
+            Rumble.AddRumble("Singing",caressTimer/caressRequiredLength);
         }
 
         if (caressTimer >= caressRequiredLength && story.currentChoices.Count > 0 &&
