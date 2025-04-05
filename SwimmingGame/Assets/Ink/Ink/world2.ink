@@ -466,6 +466,7 @@ NPC2: Ecstatic?
 NPC3: Euphoric!
 NPC4: Transcendental!!!
 MC: Yes...
+~ finishTutorialPart(0)
 ~ finishTutorialPart(1)
 And also...
 +   [Snug. #place: 1]

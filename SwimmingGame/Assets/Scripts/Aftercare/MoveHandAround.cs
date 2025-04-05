@@ -64,7 +64,7 @@ public class MoveHandAround : MonoBehaviour
         }
 
         // calculate the target position based on input
-        Vector3 move = new Vector3(moveX, 0, moveZ) * moveSpeed * Time.deltaTime;
+        Vector3 move = Vector3.ClampMagnitude(new Vector3(moveX, 0, moveZ),1f) * moveSpeed * Time.deltaTime;
         targetPosition = handController.position + move;
 
         // Check if the handController is within the max distance
@@ -72,7 +72,7 @@ public class MoveHandAround : MonoBehaviour
         {
             // Move the parent object if the handController is out of bounds
             //Vector3 direction = (targetPosition - transform.position).normalized;
-            parentVelocity = parentMoveSpeed * new Vector3(moveX, 0, moveZ) * Time.deltaTime;
+            parentVelocity = parentMoveSpeed * Vector3.ClampMagnitude(new Vector3(moveX, 0, moveZ),1f) * Time.deltaTime;
             transform.position += parentVelocity;
         }
         else
