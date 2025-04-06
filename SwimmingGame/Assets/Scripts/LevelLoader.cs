@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -25,9 +26,16 @@ public class LevelLoader : MonoBehaviour
     private float transitionTimer=0f;
     public bool fadingOut=false;
     public bool useUnscaledTime = false; 
+    public Image loadingImage;
 
     void Start()
     {
+        if (loadingImage != null)
+        {
+            Color c = loadingImage.color;
+            c.a = 0f;
+            loadingImage.color = c;
+        }
         timer = countdownTime;  // Initialize the timer with the countdown time
 
         if(fadeIn){
@@ -89,8 +97,49 @@ public class LevelLoader : MonoBehaviour
         {
             LoadLevel();
         }
+        // Load scene transition after pressing O
+        if (Input.GetKeyDown(KeyCode.O) && (Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift)) && pressP)
+        {
+            SceneLoader.instance.LoadScene(SceneManager.GetActiveScene().name, destinationScene, 2f);
+        }
 
 
+    }
+
+    IEnumerator ScreenFlash(float duration){
+        Color originalColor = image.color;
+
+        // Lerp to fully opaque and white
+        float timer = 0f;
+        while (timer < duration / 2f)
+        {
+            timer += Time.deltaTime;
+            float t = timer / (duration / 2f);
+
+            // Lerp RGB to white and alpha to 1
+            image.color = Color.Lerp(originalColor, Color.white, t);
+            image.color = new Color(image.color.r, image.color.g, image.color.b, Mathf.Lerp(0f, 1f, t)); // Lerp alpha
+            yield return null;
+        }
+
+        // Ensure the image is fully white and opaque
+        image.color = new Color(1f, 1f, 1f, 1f);
+
+        // Lerp back to the original color and transparency
+        timer = 0f;
+        while (timer < duration / 2f)
+        {
+            timer += Time.deltaTime;
+            float t = timer / (duration / 2f);
+
+            // Lerp RGB back to the original color and alpha to 0
+            image.color = Color.Lerp(Color.white, originalColor, t);
+            image.color = new Color(image.color.r, image.color.g, image.color.b, Mathf.Lerp(1f, 0f, t)); // Lerp alpha
+            yield return null;
+        }
+
+        // Ensure the image is fully transparent and back to the original color
+        image.color = new Color(originalColor.r, originalColor.g, originalColor.b, 0f);
     }
 
     public void FadeIn(){
@@ -128,13 +177,36 @@ public class LevelLoader : MonoBehaviour
 
     IEnumerator LoadLevelCoroutine(string levelIndex)
     {
-        //transition.SetTrigger("Start");
-        fadingOut=true;
-        transitionTimer=0f;
+        fadingOut = true;
+        transitionTimer = 0f;
+
+        yield return new WaitForSeconds(transitionTime);
+
+        AsyncOperation operation = SceneManager.LoadSceneAsync(levelIndex);
+        operation.allowSceneActivation = false; // Prevent the scene from activating immediately
+        // set loading image to not transparent while loading
+        while (operation.progress<0.9f)
+        {
+            float progress = Mathf.Clamp01(operation.progress / 0.9f);
+            Debug.Log("Progress: " + progress);
+
+            if (loadingImage != null)
+            {
+                Color c = loadingImage.color;
+                c.a = 1f;
+                loadingImage.color = c;
+            }
+            yield return null; // Wait for the next frame
+        }
+        operation.allowSceneActivation = true; // Activate the scene
+    }
+
+    IEnumerator CrossFadeLoadLevelCoroutine(string levelIndex)
+    {
+        AsyncOperation operation = SceneManager.LoadSceneAsync(levelIndex);
 
         yield return new WaitForSeconds(transitionTime);
 
         SceneManager.LoadScene(levelIndex);
-
     }
 }
