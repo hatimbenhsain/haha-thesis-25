@@ -18,7 +18,7 @@ public class DifferentLightingArea : MonoBehaviour
 
     public float bloomTresholdInside=-1f;
 
-    private bool inside=false;
+    public bool inside=false;
 
     public bool active=false;
 
@@ -70,12 +70,15 @@ public class DifferentLightingArea : MonoBehaviour
     void OnTriggerExit(Collider other){
         if(other.gameObject.tag=="Player"){
             inside=false;
-            DeactivateOtherAreas();
+            DeactivateOtherAreas(true);
         }
     }
 
-    void DeactivateOtherAreas(){
+    void DeactivateOtherAreas(bool exiting=false){
         foreach(DifferentLightingArea differentLightingArea in FindObjectsOfType<DifferentLightingArea>()){
+            if(exiting && differentLightingArea!=this && differentLightingArea.inside && differentLightingArea.active){
+                return;
+            }
             differentLightingArea.active=false;
         }
         active=true;
@@ -83,7 +86,7 @@ public class DifferentLightingArea : MonoBehaviour
 
     void OnDestroy(){
         if(bloom!=null){
-            bloom.threshold.value=bloomTresholdInside;
+            bloom.threshold.value=initialBloomTreshold;
         }
     }
 }
