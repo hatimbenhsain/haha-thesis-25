@@ -942,6 +942,7 @@ Can you imagine how many more uses for mouths they have on the surface? Probably
 # color: d6eaf6
 -> npcStart ->
 NPC: Somehow it arouses me even more to watch people entangling that doing it myself!!!
+How does it feel for you?
 +   [Painful.]
     NPC: What? That is so weird!!!
 +   [Arousing.]
