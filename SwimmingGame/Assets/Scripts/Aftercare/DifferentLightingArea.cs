@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEditor.ShaderGraph.Internal;
 using UnityEngine;
+using UnityEngine.Rendering;
+using UnityEngine.Rendering.Universal;
 
 public class DifferentLightingArea : MonoBehaviour
 {
@@ -14,14 +16,25 @@ public class DifferentLightingArea : MonoBehaviour
     private float environmentalLightBaseIntensity;
     public float environmentalLightInsideIntensity=-1f;
 
+    public float bloomTresholdInside=-1f;
+
     private bool inside=false;
 
     public bool active=false;
+
+    private VolumeProfile profile;
+    private Bloom  bloom;
+    private float initialBloomTreshold;
 
     void Start()
     {
         directionalLightBaseIntensity=directionalLight.intensity;
         environmentalLightBaseIntensity=RenderSettings.ambientIntensity;
+        profile=FindObjectOfType<Volume>().sharedProfile;
+        profile.TryGet<Bloom>(out bloom);
+        if(bloomTresholdInside!=-1){
+            initialBloomTreshold=bloom.threshold.value;
+        }
     }
 
     void Update()
@@ -29,14 +42,20 @@ public class DifferentLightingArea : MonoBehaviour
         if(active){
             float directionalLightTargetIntensity=directionalLightBaseIntensity;
             float environmentalLightTargetIntensity=environmentalLightBaseIntensity;
+            float bloomTargetTreshold=bloomTresholdInside;
             if(inside){
                 if(directionalLightInsideIntensity!=-1f) directionalLightTargetIntensity=directionalLightInsideIntensity;
                 if(environmentalLightInsideIntensity!=-1f) environmentalLightTargetIntensity=environmentalLightInsideIntensity;
+                if(bloomTresholdInside!=-1) bloomTargetTreshold=bloomTresholdInside; 
             }
             directionalLight.intensity=Mathf.Lerp(directionalLight.intensity,directionalLightTargetIntensity,
                 lerpSpeed*Time.deltaTime);
             RenderSettings.ambientIntensity=Mathf.Lerp(RenderSettings.ambientIntensity,environmentalLightTargetIntensity,
                 lerpSpeed*Time.deltaTime);
+            if(bloom!=null){
+                bloom.threshold.value=Mathf.Lerp(bloom.threshold.value,bloomTargetTreshold,
+                lerpSpeed*Time.deltaTime);
+            }
         }
     }
 
@@ -60,5 +79,11 @@ public class DifferentLightingArea : MonoBehaviour
             differentLightingArea.active=false;
         }
         active=true;
+    }
+
+    void OnDestroy(){
+        if(bloom!=null){
+            bloom.threshold.value=bloomTresholdInside;
+        }
     }
 }
