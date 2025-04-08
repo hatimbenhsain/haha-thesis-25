@@ -777,7 +777,7 @@ NPC: This is what they do on the surface!!!
 -> npcEnd ->
 -> END
 
-=== alienSuit1 ===
+=== alienSuit1 === //ingame
 # color: d6eaf6
 -> npcStart ->
 NPC: Do you like my suit??
@@ -786,7 +786,7 @@ NPC: If you're wondering whether it's edible, it's not!!!
 -> npcEnd ->
 -> END
 
-=== alienSuit2 ===
+=== alienSuit2 === //ingame
 # color: d6eaf6
 -> npcStart ->
 NPC: Ever since Enkidu started wearing clothing, we knew we had to do the same!
@@ -794,21 +794,21 @@ And now look at us! So beautiful!
 -> npcEnd ->
 -> END
 
-=== alienSuit3 ===
+=== alienSuit3 === //ingame
 # color: d6eaf6
 -> npcStart ->
 NPC: I wear this to show my belonging to my in-group!!!
 -> npcEnd ->
 -> END
 
-=== alienSuit4 ===
+=== alienSuit4 === //ingame
 # color: d6eaf6
 -> npcStart ->
 NPC: On the surface, they have created a highly arbitrary moral system that govern all aspects of their society, so they wear these to hide their true selves!!!
 -> npcEnd ->
 -> END
 
-=== alienChair1 ===
+=== alienChair1 === //ingame
 # color: d6eaf6
 -> npcStart ->
 NPC: People on the surface have butts that are so bony they need to cushion these! For comfort!!!
@@ -822,7 +822,7 @@ I've been starving myself so that you could feel my bones too! Do you want to fe
 - -> npcEnd ->
 -> END
 
-=== alienChair2 ===
+=== alienChair2 === //ingame
 # color: d6eaf6
 -> npcStart ->
 NPC: On the surface, the pull of the Earth is so attractive that they need to be on these to keep from being swallowed into its inside!!! 
@@ -837,7 +837,7 @@ Verticality has very strong connotations on the surface!!!
 -> npcEnd ->
 -> END
 
-=== alienWalking1 ===
+=== alienWalking1 === //ingame
 # color: d6eaf6
 -> npcStart ->
 NPC: This may be how they physically move their bodies on the surface, but their actual usual means of locomotion are way more complex!!!
@@ -845,7 +845,7 @@ NPC: Like, so complex that it tears up every material thing around them! It's sp
 -> npcEnd ->
 -> END
 
-=== alienWalking2 ===
+=== alienWalking2 === // ingame
 # color: d6eaf6
 -> npcStart ->
 NPC: In the surface, they move around like this because they're born with feet stuck to the ground!
@@ -860,7 +860,7 @@ NPC: On the surface there is this heavy and oppressive substance everywhere that
 -> npcEnd ->
 -> END
 
-=== alienJournal1 ===
+=== alienJournal1 === //ingame
 # color: d6eaf6
 -> npcStart ->
 NPC: Surfaceans love their own thoughts so much that they've invented this method to materialize it!
@@ -868,14 +868,14 @@ The method is so fast that in the blink of an eye they can make copies for every
 -> npcEnd ->
 -> END
 
-=== alienJournal2 ===
+=== alienJournal2 === //ingame
 # color: d6eaf6
 -> npcStart ->
 NPC: Surface people wipe their asses with this!!!
 -> npcEnd ->
 -> END
 
-=== alienJournal3 ===
+=== alienJournal3 === //ingame
 # color: d6eaf6
 -> npcStart ->
 NPC: Have you read the noose? Have you read the noose?
@@ -883,7 +883,7 @@ This is how they talk on the surface! I don't know what it means but I love noos
 -> npcEnd ->
 -> END
 
-=== alienJournal4 ===
+=== alienJournal4 === //ingame
 # color: d6eaf6
 -> npcStart ->
 NPC: I have marked on this shaped rock standardized symbols of my inner being!!! 
@@ -908,6 +908,14 @@ NPC: On the surface they have way more complex means to deal with disagreements,
 # color: d6eaf6
 -> npcStart ->
 NPC: The most important part of stabbing is to make sure your partner is comfortable and having fun!!!
+-> npcEnd ->
+-> END
+
+=== alienStab4 ===
+# color: d6eaf6
+-> npcStart ->
+NPC: In the surface they have weird big and sad feelings about death, so this would actually be considered really bad.
+It's so sophisticated!!!
 -> npcEnd ->
 -> END
 
