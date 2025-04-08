@@ -199,6 +199,8 @@ Enkidu: I'm using psychic power to recenter the party vibes!
 # color: 2A3B5A
 # outline: FFF383
 -> npcStart ->
+~continueSinging()
+~ setFMODGlobalParameter("npcSingingVolume",0.8)
 Enkidu: You are still not dancing!
 MC: I'm aware.
 Enkidu: Make that be different!!
@@ -212,6 +214,8 @@ Enkidu: Make that be different!!
 # color: 2A3B5A
 # outline: FFF383
 -> npcStart ->
+~continueSinging()
+~ setFMODGlobalParameter("npcSingingVolume",0.8)
 MC: So... About your whole "name" thing --
 Enkidu: Are you seriously trying to have a conversation with me right now??
 MC: Yes?
@@ -224,11 +228,13 @@ Enkidu: Dance! Now!
 # color: 2A3B5A
 # outline: FFF383
 -> npcStart ->
+~continueSinging()
+~ setFMODGlobalParameter("npcSingingVolume",0.8)
 Enkidu: Little minnow!
 MC: What?
 Enkidu: That's you! That's what you look like!
 MC: ...
-~changeStartKnot("EnkiduAtParty4")
+~changeStartKnot("EnkiduAtParty6")
 -> npcEnd ->
 -> END
 
@@ -236,6 +242,8 @@ MC: ...
 # color: 2A3B5A
 # outline: FFF383
 -> npcStart ->
+~continueSinging()
+~ setFMODGlobalParameter("npcSingingVolume",0.8)
 Enkidu: I like your style!
 MC: I think I'm acting really awkwardly...
 Enkidu: You are! There's a quiet melancholy about you! It's so different! I love it!
@@ -249,6 +257,8 @@ Enkidu: You are! There's a quiet melancholy about you! It's so different! I love
 # color: 2A3B5A
 # outline: FFF383
 -> npcStart ->
+~continueSinging()
+~ setFMODGlobalParameter("npcSingingVolume",0.8)
 Enkidu: Meet me later!
 MC: Why? I mean, um. Where? #speed: fast
 Enkidu: You'll find me!
