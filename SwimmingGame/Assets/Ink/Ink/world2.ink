@@ -911,6 +911,30 @@ NPC: The most important part of stabbing is to make sure your partner is comfort
 -> npcEnd ->
 -> END
 
+=== alienAd1 ===
+# color: d6eaf6
+-> npcStart ->
+NPC: I made this ad to let people know that they can entangle with me!!! Are you interested? I'm pretty proud of it.
+-> npcEnd ->
+-> END
+
+=== alienAd2 ===
+# color: d6eaf6
+-> npcStart ->
+NPC: On the surface, they use signifiers such as this one to let people know about things that they exchange for "currency".
+The nice thing here is that you can entangle with me without a need for goods or services. 
+Isn't that enticing?!
+-> npcEnd ->
+-> END
+
+=== alienAd3 ===
+# color: d6eaf6
+-> npcStart ->
+NPC: If you want, you can entangle with me and then give me an object that signifies a form of standardized value!
+Isn't that enticing?!
+-> npcEnd ->
+-> END
+
 === alienSexTalk1 ===
 # color: d6eaf6
 -> npcStart ->
@@ -930,10 +954,10 @@ NPC: I hope so!! I can't take being apart anymore!!!!!
 -> npcEnd ->
 -> END
 
-=== alienSexTalk3 ===
+=== alienSexTalk3 === //ingame
 # color: d6eaf6
 -> npcStart ->
-NPC: They are sucking on each others' organs but with out the intention of consuming! I didn't even know you could use mouths for things other than eating!
+NPC: They are sucking on each others' organs but without the intention of consuming! I didn't even know you could use mouths for things other than eating!
 Can you imagine how many more uses for mouths they have on the surface? Probably more than a million!!!
 -> npcEnd ->
 -> END
@@ -955,14 +979,14 @@ How does it feel for you?
 - -> npcEnd ->
 -> END
 
-=== alienSexTalk5 ===
+=== alienSexTalk5 === //ingame
 # color: d6eaf6
 -> npcStart ->
 NPC: My favorite part about the entanglement is that I can feel close to anyone, even oafish idiotic and pathetic people who I normally hate singing to!!!
 - -> npcEnd ->
 -> END
 
-=== alienSexTalk6 ===
+=== alienSexTalk6 === //ingame
 # color: d6eaf6
 -> npcStart ->
 NPC: I can't wait for the entanglement to replace all forms of socialization!
@@ -1003,7 +1027,7 @@ NPC: Unfortunately I've always struggled to live in the moment and I am overcome
 - -> npcEnd ->
 -> END
 
-=== alienSexTalk9 ===
+=== alienSexTalk9 === //ingame
 # color: d6eaf6
 -> npcStart ->
 NPC: I actually don't enjoy the entanglement physically all that much, but I love learning about all the new things our bodies can do!!!
@@ -1013,10 +1037,10 @@ I'm so excited to see what else may grow when we're on the surface! I hope I get
 
 VAR npcRubbed=false
 
-=== alienSexTalk10 ===
+=== alienSexTalk10 === //ingame
 # color: d6eaf6
 -> npcStart ->
-{ npcRubbed:
+{ npcRubbed==false:
     NPC: I've recently discovered that I feel ecstatic when someone rubs the tip of my dorsal fin!
     Will you do it for me?
     +   [Rub it.]
@@ -1045,7 +1069,7 @@ NPC: But let me be clear I LOVE ENTANGLING!!!
 - -> npcEnd ->
 -> END
 
-=== alienSexTalk12 ===
+=== alienSexTalk12 === //ingame
 # color: d6eaf6
 -> npcStart ->
 NPC: WHEN YOU ENTANGLE DO YOU HAVE VISIONS OF THE END OF THE WORLD???
@@ -1070,7 +1094,7 @@ NPC: UNUSUAL IN A FUN AND EXCITING WAY! IT'S SO SPECIAL!!!
 - -> npcEnd ->
 -> END
 
-=== alienTip1 ===
+=== alienTip1 === //ingame
 # color: d6eaf6
 -> npcStart ->
 NPC: My favorite thing about singing is that I can tone-shift using the FACE BUTTONS!!!
@@ -1107,8 +1131,19 @@ NPC: Have you met Enkidu yet??
 - -> npcEnd ->
 -> END
 
-=== alienEnkidu2 ===
+=== alienEnkidu2 === //ingame
+# color: d6eaf6
+-> npcStart ->
+NPC: ENKIDU IS SO GORGEOUS AND KIND AND BEAUTIFUL AND PERFECT
+-> npcEnd ->
+-> END
 
+=== alienEnkidu3 === //ingame
+# color: d6eaf6
+-> npcStart ->
+NPC: ENKIDU REALLY KNOWS HOW TO THROW A PARTY UNLIKE MOST PEOPLE FOR EXAMPLE YOU AND ME
+WE WOULD NEVER KNOW HOW
+-> npcEnd ->
 -> END
 
 

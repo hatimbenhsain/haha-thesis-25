@@ -15,7 +15,7 @@ public class FloatingThing : MonoBehaviour
     void Start(){
         SpriteRenderer spriteRenderer=GetComponentInChildren<SpriteRenderer>();
         originalPosition=transform.localPosition;
-        floatTimer=Random.Range(0f,floatPeriod);
+        if(!matchMusic) floatTimer=Random.Range(0f,floatPeriod);
         floatTimer+=offset;
     }
 
