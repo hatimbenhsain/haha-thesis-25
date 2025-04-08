@@ -1156,7 +1156,7 @@ WE WOULD NEVER KNOW HOW
 
 
 
-=== shrimptux1 ===
+=== shrimptux1 === //ingame
 # color: 1F7A6E
 -> npcStart ->
 NPC: This may prove controversial but I am personally not too warm on this "Enkidu" personnage.
@@ -1167,7 +1167,7 @@ Ahem.. I misspoke. What I meant when I said "me" was "a friend of mine". You und
 -> npcEnd ->
 -> END 
 
-=== shrimptux2 ===
+=== shrimptux2 === //ingame
 # color: 1F7A6E
 -> npcStart ->
 NPC: Frankly, there is something "trite" about these parties that was not there before.
@@ -1176,7 +1176,7 @@ Now it's all about the entanglement! So cheap and overdone. Bah!
 -> npcEnd ->
 -> END 
 
-=== shrimptux3 ===
+=== shrimptux3 === //ingame
 # color: 1F7A6E
 -> npcStart ->
 NPC: What is so disappointing about this cycle's party is that everyone is so busy dancing and entwining, no one has taken the time to make the buffet!
@@ -1185,7 +1185,7 @@ It makes me so disgusted, I haven't even been in the mood to entangle with anyon
 -> npcEnd ->
 -> END 
 
-=== horma1 ===
+=== horma1 === //ingame
 # color: 7E0D13
 -> npcStart ->
 NPC: EVERYONE HERE IS SO GORGEOUS, IT'S TOO BAD I'M CURRENTLY ON A "KNOT-LESS" DIET.
@@ -1199,7 +1199,7 @@ NPC: EVERYONE HERE IS SO GORGEOUS, IT'S TOO BAD I'M CURRENTLY ON A "KNOT-LESS" D
 - -> npcEnd ->
 -> END 
 
-=== horma2 ===
+=== horma2 === //ingame
 # color: 7E0D13
 -> npcStart ->
 NPC: DANCING FEELS SO GOOD I WONDER WHAT IT FEELS LIKE ON THE SURFACE.
@@ -1207,14 +1207,14 @@ PROBABLY ABOUT THE SAME BUT WITH MORE TONGUE ACTION?
 - -> npcEnd ->
 -> END 
 
-=== popero1 ===
+=== popero1 === //inside
 # color: 966382
 -> npcStart ->
 NPC: I could never get into music and dancing. It feels too aspirational.
 - -> npcEnd ->
 -> END 
 
-=== eelor1 ===
+=== eelor1 === //ingame
 # color: 6D6787
 -> npcStart ->
 NPC: I've enjoyed myself at this party, but something odd happens where if I spend a lot of time in there I need to spend some time revitalizing away from the crowd.
@@ -1222,7 +1222,7 @@ Is this what the change is like? Am I about to start being pulled to the surface
 - -> npcEnd ->
 -> END 
 
-=== xrys1 ===
+=== xrys1 === //ingame
 # color: 2b6136
 -> npcStart ->
 NPC: To be honest, I don't really connect with the music here so I'm just gonna wait here until it's time to move on to the next world.
