@@ -12,10 +12,13 @@ public class FloatingThing : MonoBehaviour
 
     public bool matchMusic=false;
 
+    public bool randomOffset=false;
+
     void Start(){
         SpriteRenderer spriteRenderer=GetComponentInChildren<SpriteRenderer>();
         originalPosition=transform.localPosition;
         if(!matchMusic) floatTimer=Random.Range(0f,floatPeriod);
+        if(randomOffset) offset=Random.Range(0f,floatPeriod);
         floatTimer+=offset;
     }
 
