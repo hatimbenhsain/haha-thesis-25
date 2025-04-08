@@ -995,7 +995,7 @@ MC: Sorry, I...
 - -> npcEnd ->
 -> END
 
-=== alienTalk8 ===
+=== alienTalk8 === //ingame
 # color: d6eaf6
 -> npcStart ->
 NPC: Isn't it awesome and so exciting that we keep finding new ways of entangling every day?!
@@ -1054,15 +1054,14 @@ NPC: SPIKY HOST-LESS SHELLS WILL RAIN FROM THE SKY AND PARENTS WILL TURN ON CHIL
 - -> npcEnd ->
 -> END
 
-=== alienSexTalk13 ===
-# color: d6eaf6
+=== alienSexTalk13 === //ingame
+# color: 1F7A6E
 -> npcStart ->
 NPC: My favorite thing about the entanglement is that I can just do it with anyone at any time and there is no room for jealousy, bitterness, or any other negative feelings!
-And everyone here feels the same way!!!
 - -> npcEnd ->
 -> END
 
-=== alienSexTalk14 ===
+=== alienSexTalk14 === //in game
 # color: d6eaf6
 -> npcStart ->
 NPC: IT'S A LITTLE UNUSUAL THAT WE JUST STARTED DOING THIS WITH NO SEEMING REASON EVEN THOUGH NONE OF OUR ANCESTORS DID IT
@@ -1080,7 +1079,7 @@ What I mean by that is the NORTH, EAST, SOUTH and WEST BUTTONS!!!
 -> END
 
 
-=== alienEnkidu1 ===
+=== alienEnkidu1 === //ingame
 # color: d6eaf6
 -> npcStart ->
 NPC: Have you met Enkidu yet??
