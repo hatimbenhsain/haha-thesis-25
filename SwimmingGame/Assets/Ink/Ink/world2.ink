@@ -780,7 +780,7 @@ NPC: Let's dance! Dance! Dance!!!
 -> END
 
 
-=== alienThisIsWhatTheyDo ===
+=== alienThisIsWhatTheyDo === 
 # color: d6eaf6
 -> npcStart ->
 NPC: This is what they do on the surface!!!
@@ -839,7 +839,7 @@ NPC: On the surface, the pull of the Earth is so attractive that they need to be
 -> npcEnd ->
 -> END
 
-=== alienChair3 ===
+=== alienChair3 === //INGAME
 # color: d6eaf6
 -> npcStart ->
 NPC: Even though my head is physically beneath yours, me "sitting" is a signifier of my potentially justified feelings of superiority over you!
@@ -863,7 +863,7 @@ I wonder if it hurts all the time!! Can you imagine the sexual implications?!?!
 -> npcEnd ->
 -> END
 
-=== alienWalking3 ===
+=== alienWalking3 === //ingame
 # color: d6eaf6
 -> npcStart ->
 NPC: On the surface there is this heavy and oppressive substance everywhere that forces them to move like this!!!
@@ -900,7 +900,7 @@ NPC: I have marked on this shaped rock standardized symbols of my inner being!!!
 -> npcEnd ->
 -> END
 
-=== alienStab1 ===
+=== alienStab1 === //ingame
 # color: d6eaf6
 -> npcStart ->
 NPC: This person has wronged me so I take it out on them, but without using my teeth or claws!
@@ -908,7 +908,7 @@ It's so sophisticated!!
 -> npcEnd ->
 -> END
 
-=== alienStab2 ===
+=== alienStab2 === //ingame
 # color: d6eaf6
 -> npcStart ->
 NPC: On the surface they have way more complex means to deal with disagreements, but none of them actually address the problem! 
@@ -916,14 +916,14 @@ It's so sophisticated!!!
 -> npcEnd ->
 -> END
 
-=== alienStab3 ===
+=== alienStab3 === //ingame
 # color: d6eaf6
 -> npcStart ->
 NPC: The most important part of stabbing is to make sure your partner is comfortable and having fun!!!
 -> npcEnd ->
 -> END
 
-=== alienStab4 ===
+=== alienStab4 === //ingame
 # color: d6eaf6
 -> npcStart ->
 NPC: In the surface, they actually take death very seriously.
@@ -955,32 +955,7 @@ Isn't that enticing?!
 -> npcEnd ->
 -> END
 
-=== alienArt1 === 
-# color: d6eaf6
--> npcStart ->
-NPC: On the surface, they make and present art that they actually have no confidence in in terms of technical ability.. on purpose!
-It's so sophisticated!!!
--> npcEnd ->
--> END
-
-=== alienArt2 === 
-# color: d6eaf6
--> npcStart ->
-NPC: Surfacers sometimes find something that a lot of people are mad about, and they make art that vaguely refers to it!
-It does nothing to improve the issue, but it grants them "social capital"!
-It's so sophisticated!!
--> npcEnd ->
--> END
-
-=== alienArt3 === 
-# color: d6eaf6
--> npcStart ->
-NPC: On the surface, they have cultural and hierarchical differences between those who make art and those who don't!
-It's so civilized!!!
--> npcEnd ->
--> END
-
-=== alienSexTalk1 ===
+=== alienSexTalk1 === //ingame
 # color: d6eaf6
 -> npcStart ->
 NPC: My favorite part about the entanglement? Figuring out what to do with the residue at the end!!!
@@ -989,7 +964,7 @@ NPC: This is just how they start conversations on the surface!!!
 -> npcEnd ->
 -> END
 
-=== alienSexTalk2 ===
+=== alienSexTalk2 === //ingame
 # color: d6eaf6
 -> npcStart ->
 NPC: The entanglement isn't enough for me anymore! I want something deeper!! Something closer!!!
@@ -1007,7 +982,7 @@ Can you imagine how many more uses for mouths they have on the surface? Probably
 -> npcEnd ->
 -> END
 
-=== alienSexTalk4 ===
+=== alienSexTalk4 === //ingame
 # color: d6eaf6
 -> npcStart ->
 NPC: Somehow it arouses me even more to watch people entangling that doing it myself!!!
@@ -1041,7 +1016,7 @@ NPC: Misunderstanding each other is so easy with other means of communications, 
 - -> npcEnd ->
 -> END
 
-=== alienSexTalk7 ===
+=== alienSexTalk7 === //ingame
 # color: d6eaf6
 -> npcStart ->
 NPC: You!
@@ -1103,7 +1078,7 @@ VAR npcRubbed=false
     -> END
 }
 
-=== alienSexTalk11 ===
+=== alienSexTalk11 === //ingame
 # color: d6eaf6
 -> npcStart ->
 NPC: I actually have really conflicting feelings about the entanglement that I find difficult to resolve!
