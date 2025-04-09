@@ -893,14 +893,16 @@ NPC: I have marked on this shaped rock standardized symbols of my inner being!!!
 === alienStab1 ===
 # color: d6eaf6
 -> npcStart ->
-NPC: This person has wronged me so I take it out on them but without using my teeth or claws!!!
+NPC: This person has wronged me so I take it out on them, but without using my teeth or claws!
+It's so sophisticated!!
 -> npcEnd ->
 -> END
 
 === alienStab2 ===
 # color: d6eaf6
 -> npcStart ->
-NPC: On the surface they have way more complex means to deal with disagreements, but none of them actually address the problem!! It's so sophisticated!!!
+NPC: On the surface they have way more complex means to deal with disagreements, but none of them actually address the problem! 
+It's so sophisticated!!!
 -> npcEnd ->
 -> END
 
@@ -910,6 +912,15 @@ NPC: On the surface they have way more complex means to deal with disagreements,
 NPC: The most important part of stabbing is to make sure your partner is comfortable and having fun!!!
 -> npcEnd ->
 -> END
+
+=== alienStab4 ===
+# color: d6eaf6
+-> npcStart ->
+NPC: In the surface, they actually take death very seriously.
+So something like this would be considered really bad!!!
+-> npcEnd ->
+-> END
+
 
 === alienAd1 ===
 # color: d6eaf6
@@ -932,6 +943,31 @@ Isn't that enticing?!
 -> npcStart ->
 NPC: If you want, you can entangle with me and then give me an object that signifies a form of standardized value!
 Isn't that enticing?!
+-> npcEnd ->
+-> END
+
+=== alienArt1 === 
+# color: d6eaf6
+-> npcStart ->
+NPC: On the surface, they make and present art that they actually have no confidence in in terms of technical ability.. on purpose!
+It's so sophisticated!!!
+-> npcEnd ->
+-> END
+
+=== alienArt2 === 
+# color: d6eaf6
+-> npcStart ->
+NPC: Surfacers sometimes find something that a lot of people are mad about, and they make art that vaguely refers to it!
+It does nothing to improve the issue, but it grants them "social capital"!
+It's so sophisticated!!
+-> npcEnd ->
+-> END
+
+=== alienArt3 === 
+# color: d6eaf6
+-> npcStart ->
+NPC: On the surface, they have cultural and hierarchical differences between those who make art and those who don't!
+It's so civilized!!!
 -> npcEnd ->
 -> END
 
