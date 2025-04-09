@@ -903,14 +903,16 @@ NPC: I have marked on this shaped rock standardized symbols of my inner being!!!
 === alienStab1 === //ingame
 # color: d6eaf6
 -> npcStart ->
-NPC: This person has wronged me so I take it out on them but without using my teeth or claws!!!
+NPC: This person has wronged me so I take it out on them, but without using my teeth or claws!
+It's so sophisticated!!
 -> npcEnd ->
 -> END
 
 === alienStab2 === //ingame
 # color: d6eaf6
 -> npcStart ->
-NPC: On the surface they have way more complex means to deal with disagreements, but none of them actually address the problem!! It's so sophisticated!!!
+NPC: On the surface they have way more complex means to deal with disagreements, but none of them actually address the problem! 
+It's so sophisticated!!!
 -> npcEnd ->
 -> END
 
@@ -924,8 +926,8 @@ NPC: The most important part of stabbing is to make sure your partner is comfort
 === alienStab4 === //ingame
 # color: d6eaf6
 -> npcStart ->
-NPC: In the surface they have weird big and sad feelings about death, so this would actually be considered really bad.
-It's so sophisticated!!!
+NPC: In the surface, they actually take death very seriously.
+So something like this would be considered really bad!!!
 -> npcEnd ->
 -> END
 
