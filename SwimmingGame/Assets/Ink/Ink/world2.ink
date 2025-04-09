@@ -199,6 +199,8 @@ Enkidu: I'm using psychic power to recenter the party vibes!
 # color: 2A3B5A
 # outline: FFF383
 -> npcStart ->
+~continueSinging()
+~ setFMODGlobalParameter("npcSingingVolume",0.8)
 Enkidu: You are still not dancing!
 MC: I'm aware.
 Enkidu: Make that be different!!
@@ -212,6 +214,8 @@ Enkidu: Make that be different!!
 # color: 2A3B5A
 # outline: FFF383
 -> npcStart ->
+~continueSinging()
+~ setFMODGlobalParameter("npcSingingVolume",0.8)
 MC: So... About your whole "name" thing --
 Enkidu: Are you seriously trying to have a conversation with me right now??
 MC: Yes?
@@ -224,11 +228,13 @@ Enkidu: Dance! Now!
 # color: 2A3B5A
 # outline: FFF383
 -> npcStart ->
+~continueSinging()
+~ setFMODGlobalParameter("npcSingingVolume",0.8)
 Enkidu: Little minnow!
 MC: What?
 Enkidu: That's you! That's what you look like!
 MC: ...
-~changeStartKnot("EnkiduAtParty4")
+~changeStartKnot("EnkiduAtParty6")
 -> npcEnd ->
 -> END
 
@@ -236,6 +242,8 @@ MC: ...
 # color: 2A3B5A
 # outline: FFF383
 -> npcStart ->
+~continueSinging()
+~ setFMODGlobalParameter("npcSingingVolume",0.8)
 Enkidu: I like your style!
 MC: I think I'm acting really awkwardly...
 Enkidu: You are! There's a quiet melancholy about you! It's so different! I love it!
@@ -249,6 +257,8 @@ Enkidu: You are! There's a quiet melancholy about you! It's so different! I love
 # color: 2A3B5A
 # outline: FFF383
 -> npcStart ->
+~continueSinging()
+~ setFMODGlobalParameter("npcSingingVolume",0.8)
 Enkidu: Meet me later!
 MC: Why? I mean, um. Where? #speed: fast
 Enkidu: You'll find me!
@@ -777,7 +787,7 @@ NPC: This is what they do on the surface!!!
 -> npcEnd ->
 -> END
 
-=== alienSuit1 ===
+=== alienSuit1 === //ingame
 # color: d6eaf6
 -> npcStart ->
 NPC: Do you like my suit??
@@ -786,7 +796,7 @@ NPC: If you're wondering whether it's edible, it's not!!!
 -> npcEnd ->
 -> END
 
-=== alienSuit2 ===
+=== alienSuit2 === //ingame
 # color: d6eaf6
 -> npcStart ->
 NPC: Ever since Enkidu started wearing clothing, we knew we had to do the same!
@@ -794,21 +804,21 @@ And now look at us! So beautiful!
 -> npcEnd ->
 -> END
 
-=== alienSuit3 ===
+=== alienSuit3 === //ingame
 # color: d6eaf6
 -> npcStart ->
 NPC: I wear this to show my belonging to my in-group!!!
 -> npcEnd ->
 -> END
 
-=== alienSuit4 ===
+=== alienSuit4 === //ingame
 # color: d6eaf6
 -> npcStart ->
 NPC: On the surface, they have created a highly arbitrary moral system that govern all aspects of their society, so they wear these to hide their true selves!!!
 -> npcEnd ->
 -> END
 
-=== alienChair1 ===
+=== alienChair1 === //ingame
 # color: d6eaf6
 -> npcStart ->
 NPC: People on the surface have butts that are so bony they need to cushion these! For comfort!!!
@@ -822,7 +832,7 @@ I've been starving myself so that you could feel my bones too! Do you want to fe
 - -> npcEnd ->
 -> END
 
-=== alienChair2 ===
+=== alienChair2 === //ingame
 # color: d6eaf6
 -> npcStart ->
 NPC: On the surface, the pull of the Earth is so attractive that they need to be on these to keep from being swallowed into its inside!!! 
@@ -837,7 +847,7 @@ Verticality has very strong connotations on the surface!!!
 -> npcEnd ->
 -> END
 
-=== alienWalking1 ===
+=== alienWalking1 === //ingame
 # color: d6eaf6
 -> npcStart ->
 NPC: This may be how they physically move their bodies on the surface, but their actual usual means of locomotion are way more complex!!!
@@ -845,7 +855,7 @@ NPC: Like, so complex that it tears up every material thing around them! It's sp
 -> npcEnd ->
 -> END
 
-=== alienWalking2 ===
+=== alienWalking2 === // ingame
 # color: d6eaf6
 -> npcStart ->
 NPC: In the surface, they move around like this because they're born with feet stuck to the ground!
@@ -860,7 +870,7 @@ NPC: On the surface there is this heavy and oppressive substance everywhere that
 -> npcEnd ->
 -> END
 
-=== alienJournal1 ===
+=== alienJournal1 === //ingame
 # color: d6eaf6
 -> npcStart ->
 NPC: Surfaceans love their own thoughts so much that they've invented this method to materialize it!
@@ -868,14 +878,14 @@ The method is so fast that in the blink of an eye they can make copies for every
 -> npcEnd ->
 -> END
 
-=== alienJournal2 ===
+=== alienJournal2 === //ingame
 # color: d6eaf6
 -> npcStart ->
 NPC: Surface people wipe their asses with this!!!
 -> npcEnd ->
 -> END
 
-=== alienJournal3 ===
+=== alienJournal3 === //ingame
 # color: d6eaf6
 -> npcStart ->
 NPC: Have you read the noose? Have you read the noose?
@@ -883,7 +893,7 @@ This is how they talk on the surface! I don't know what it means but I love noos
 -> npcEnd ->
 -> END
 
-=== alienJournal4 ===
+=== alienJournal4 === //ingame
 # color: d6eaf6
 -> npcStart ->
 NPC: I have marked on this shaped rock standardized symbols of my inner being!!! 
@@ -920,7 +930,6 @@ NPC: In the surface, they actually take death very seriously.
 So something like this would be considered really bad!!!
 -> npcEnd ->
 -> END
-
 
 === alienAd1 ===
 # color: d6eaf6
@@ -1184,7 +1193,7 @@ WE WOULD NEVER KNOW HOW
 
 
 
-=== shrimptux1 ===
+=== shrimptux1 === //ingame
 # color: 1F7A6E
 -> npcStart ->
 NPC: This may prove controversial but I am personally not too warm on this "Enkidu" personnage.
@@ -1195,7 +1204,7 @@ Ahem.. I misspoke. What I meant when I said "me" was "a friend of mine". You und
 -> npcEnd ->
 -> END 
 
-=== shrimptux2 ===
+=== shrimptux2 === //ingame
 # color: 1F7A6E
 -> npcStart ->
 NPC: Frankly, there is something "trite" about these parties that was not there before.
@@ -1204,7 +1213,7 @@ Now it's all about the entanglement! So cheap and overdone. Bah!
 -> npcEnd ->
 -> END 
 
-=== shrimptux3 ===
+=== shrimptux3 === //ingame
 # color: 1F7A6E
 -> npcStart ->
 NPC: What is so disappointing about this cycle's party is that everyone is so busy dancing and entwining, no one has taken the time to make the buffet!
@@ -1213,7 +1222,7 @@ It makes me so disgusted, I haven't even been in the mood to entangle with anyon
 -> npcEnd ->
 -> END 
 
-=== horma1 ===
+=== horma1 === //ingame
 # color: 7E0D13
 -> npcStart ->
 NPC: EVERYONE HERE IS SO GORGEOUS, IT'S TOO BAD I'M CURRENTLY ON A "KNOT-LESS" DIET.
@@ -1227,7 +1236,7 @@ NPC: EVERYONE HERE IS SO GORGEOUS, IT'S TOO BAD I'M CURRENTLY ON A "KNOT-LESS" D
 - -> npcEnd ->
 -> END 
 
-=== horma2 ===
+=== horma2 === //ingame
 # color: 7E0D13
 -> npcStart ->
 NPC: DANCING FEELS SO GOOD I WONDER WHAT IT FEELS LIKE ON THE SURFACE.
@@ -1235,14 +1244,14 @@ PROBABLY ABOUT THE SAME BUT WITH MORE TONGUE ACTION?
 - -> npcEnd ->
 -> END 
 
-=== popero1 ===
+=== popero1 === //inside
 # color: 966382
 -> npcStart ->
 NPC: I could never get into music and dancing. It feels too aspirational.
 - -> npcEnd ->
 -> END 
 
-=== eelor1 ===
+=== eelor1 === //ingame
 # color: 6D6787
 -> npcStart ->
 NPC: I've enjoyed myself at this party, but something odd happens where if I spend a lot of time in there I need to spend some time revitalizing away from the crowd.
@@ -1250,7 +1259,7 @@ Is this what the change is like? Am I about to start being pulled to the surface
 - -> npcEnd ->
 -> END 
 
-=== xrys1 ===
+=== xrys1 === //ingame
 # color: 2b6136
 -> npcStart ->
 NPC: To be honest, I don't really connect with the music here so I'm just gonna wait here until it's time to move on to the next world.
