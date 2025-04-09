@@ -199,6 +199,8 @@ Enkidu: I'm using psychic power to recenter the party vibes!
 # color: 2A3B5A
 # outline: FFF383
 -> npcStart ->
+~continueSinging()
+~ setFMODGlobalParameter("npcSingingVolume",0.8)
 Enkidu: You are still not dancing!
 MC: I'm aware.
 Enkidu: Make that be different!!
@@ -212,6 +214,8 @@ Enkidu: Make that be different!!
 # color: 2A3B5A
 # outline: FFF383
 -> npcStart ->
+~continueSinging()
+~ setFMODGlobalParameter("npcSingingVolume",0.8)
 MC: So... About your whole "name" thing --
 Enkidu: Are you seriously trying to have a conversation with me right now??
 MC: Yes?
@@ -224,11 +228,13 @@ Enkidu: Dance! Now!
 # color: 2A3B5A
 # outline: FFF383
 -> npcStart ->
+~continueSinging()
+~ setFMODGlobalParameter("npcSingingVolume",0.8)
 Enkidu: Little minnow!
 MC: What?
 Enkidu: That's you! That's what you look like!
 MC: ...
-~changeStartKnot("EnkiduAtParty4")
+~changeStartKnot("EnkiduAtParty6")
 -> npcEnd ->
 -> END
 
@@ -236,6 +242,8 @@ MC: ...
 # color: 2A3B5A
 # outline: FFF383
 -> npcStart ->
+~continueSinging()
+~ setFMODGlobalParameter("npcSingingVolume",0.8)
 Enkidu: I like your style!
 MC: I think I'm acting really awkwardly...
 Enkidu: You are! There's a quiet melancholy about you! It's so different! I love it!
@@ -249,6 +257,8 @@ Enkidu: You are! There's a quiet melancholy about you! It's so different! I love
 # color: 2A3B5A
 # outline: FFF383
 -> npcStart ->
+~continueSinging()
+~ setFMODGlobalParameter("npcSingingVolume",0.8)
 Enkidu: Meet me later!
 MC: Why? I mean, um. Where? #speed: fast
 Enkidu: You'll find me!
@@ -893,14 +903,16 @@ NPC: I have marked on this shaped rock standardized symbols of my inner being!!!
 === alienStab1 ===
 # color: d6eaf6
 -> npcStart ->
-NPC: This person has wronged me so I take it out on them but without using my teeth or claws!!!
+NPC: This person has wronged me so I take it out on them, but without using my teeth or claws!
+It's so sophisticated!!
 -> npcEnd ->
 -> END
 
 === alienStab2 ===
 # color: d6eaf6
 -> npcStart ->
-NPC: On the surface they have way more complex means to deal with disagreements, but none of them actually address the problem!! It's so sophisticated!!!
+NPC: On the surface they have way more complex means to deal with disagreements, but none of them actually address the problem! 
+It's so sophisticated!!!
 -> npcEnd ->
 -> END
 
@@ -914,8 +926,8 @@ NPC: The most important part of stabbing is to make sure your partner is comfort
 === alienStab4 ===
 # color: d6eaf6
 -> npcStart ->
-NPC: In the surface they have weird big and sad feelings about death, so this would actually be considered really bad.
-It's so sophisticated!!!
+NPC: In the surface, they actually take death very seriously.
+So something like this would be considered really bad!!!
 -> npcEnd ->
 -> END
 
@@ -940,6 +952,31 @@ Isn't that enticing?!
 -> npcStart ->
 NPC: If you want, you can entangle with me and then give me an object that signifies a form of standardized value!
 Isn't that enticing?!
+-> npcEnd ->
+-> END
+
+=== alienArt1 === 
+# color: d6eaf6
+-> npcStart ->
+NPC: On the surface, they make and present art that they actually have no confidence in in terms of technical ability.. on purpose!
+It's so sophisticated!!!
+-> npcEnd ->
+-> END
+
+=== alienArt2 === 
+# color: d6eaf6
+-> npcStart ->
+NPC: Surfacers sometimes find something that a lot of people are mad about, and they make art that vaguely refers to it!
+It does nothing to improve the issue, but it grants them "social capital"!
+It's so sophisticated!!
+-> npcEnd ->
+-> END
+
+=== alienArt3 === 
+# color: d6eaf6
+-> npcStart ->
+NPC: On the surface, they have cultural and hierarchical differences between those who make art and those who don't!
+It's so civilized!!!
 -> npcEnd ->
 -> END
 
@@ -1156,7 +1193,7 @@ WE WOULD NEVER KNOW HOW
 
 
 
-=== shrimptux1 ===
+=== shrimptux1 === //ingame
 # color: 1F7A6E
 -> npcStart ->
 NPC: This may prove controversial but I am personally not too warm on this "Enkidu" personnage.
@@ -1167,7 +1204,7 @@ Ahem.. I misspoke. What I meant when I said "me" was "a friend of mine". You und
 -> npcEnd ->
 -> END 
 
-=== shrimptux2 ===
+=== shrimptux2 === //ingame
 # color: 1F7A6E
 -> npcStart ->
 NPC: Frankly, there is something "trite" about these parties that was not there before.
@@ -1176,7 +1213,7 @@ Now it's all about the entanglement! So cheap and overdone. Bah!
 -> npcEnd ->
 -> END 
 
-=== shrimptux3 ===
+=== shrimptux3 === //ingame
 # color: 1F7A6E
 -> npcStart ->
 NPC: What is so disappointing about this cycle's party is that everyone is so busy dancing and entwining, no one has taken the time to make the buffet!
@@ -1185,7 +1222,7 @@ It makes me so disgusted, I haven't even been in the mood to entangle with anyon
 -> npcEnd ->
 -> END 
 
-=== horma1 ===
+=== horma1 === //ingame
 # color: 7E0D13
 -> npcStart ->
 NPC: EVERYONE HERE IS SO GORGEOUS, IT'S TOO BAD I'M CURRENTLY ON A "KNOT-LESS" DIET.
@@ -1199,7 +1236,7 @@ NPC: EVERYONE HERE IS SO GORGEOUS, IT'S TOO BAD I'M CURRENTLY ON A "KNOT-LESS" D
 - -> npcEnd ->
 -> END 
 
-=== horma2 ===
+=== horma2 === //ingame
 # color: 7E0D13
 -> npcStart ->
 NPC: DANCING FEELS SO GOOD I WONDER WHAT IT FEELS LIKE ON THE SURFACE.
@@ -1207,14 +1244,14 @@ PROBABLY ABOUT THE SAME BUT WITH MORE TONGUE ACTION?
 - -> npcEnd ->
 -> END 
 
-=== popero1 ===
+=== popero1 === //inside
 # color: 966382
 -> npcStart ->
 NPC: I could never get into music and dancing. It feels too aspirational.
 - -> npcEnd ->
 -> END 
 
-=== eelor1 ===
+=== eelor1 === //ingame
 # color: 6D6787
 -> npcStart ->
 NPC: I've enjoyed myself at this party, but something odd happens where if I spend a lot of time in there I need to spend some time revitalizing away from the crowd.
@@ -1222,7 +1259,7 @@ Is this what the change is like? Am I about to start being pulled to the surface
 - -> npcEnd ->
 -> END 
 
-=== xrys1 ===
+=== xrys1 === //ingame
 # color: 2b6136
 -> npcStart ->
 NPC: To be honest, I don't really connect with the music here so I'm just gonna wait here until it's time to move on to the next world.
