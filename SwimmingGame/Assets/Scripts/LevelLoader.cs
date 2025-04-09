@@ -19,6 +19,8 @@ public class LevelLoader : MonoBehaviour
     public bool trigger;
     [Header("Load level after pressing P")]
     public bool pressP;
+    [Header("Crossfade level after pressing O")]
+    public bool pressO;
     [Header("Transition animation")]
     public float transitionTime;
     public Image image;
@@ -27,6 +29,9 @@ public class LevelLoader : MonoBehaviour
     public bool fadingOut=false;
     public bool useUnscaledTime = false; 
     public Image loadingImage;
+    [Header("Use crossfade scene loader after loading the level")]
+    public bool useCrossFade=false;
+    public float crossFadeTime = 2f;
 
     void Start()
     {
@@ -98,49 +103,24 @@ public class LevelLoader : MonoBehaviour
             LoadLevel();
         }
         // Load scene transition after pressing O
-        if (Input.GetKeyDown(KeyCode.O) && (Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift)) && pressP)
+        if (Input.GetKeyDown(KeyCode.O) && (Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift)) && pressO)
         {
-            SceneLoader.instance.LoadScene(SceneManager.GetActiveScene().name, destinationScene, 2f);
+            // check if sceneloader is instantiated
+            if (SceneLoader.instance == null)
+            {
+                Debug.LogError("SceneLoader instance is null. Make sure SceneLoader is initialized before using it.");
+                return;
+            }
+            else{
+                SceneLoader.instance.LoadScene(SceneManager.GetActiveScene().name, destinationScene, crossFadeTime);
+            }
+
         }
 
 
     }
 
-    IEnumerator ScreenFlash(float duration){
-        Color originalColor = image.color;
 
-        // Lerp to fully opaque and white
-        float timer = 0f;
-        while (timer < duration / 2f)
-        {
-            timer += Time.deltaTime;
-            float t = timer / (duration / 2f);
-
-            // Lerp RGB to white and alpha to 1
-            image.color = Color.Lerp(originalColor, Color.white, t);
-            image.color = new Color(image.color.r, image.color.g, image.color.b, Mathf.Lerp(0f, 1f, t)); // Lerp alpha
-            yield return null;
-        }
-
-        // Ensure the image is fully white and opaque
-        image.color = new Color(1f, 1f, 1f, 1f);
-
-        // Lerp back to the original color and transparency
-        timer = 0f;
-        while (timer < duration / 2f)
-        {
-            timer += Time.deltaTime;
-            float t = timer / (duration / 2f);
-
-            // Lerp RGB back to the original color and alpha to 0
-            image.color = Color.Lerp(Color.white, originalColor, t);
-            image.color = new Color(image.color.r, image.color.g, image.color.b, Mathf.Lerp(1f, 0f, t)); // Lerp alpha
-            yield return null;
-        }
-
-        // Ensure the image is fully transparent and back to the original color
-        image.color = new Color(originalColor.r, originalColor.g, originalColor.b, 0f);
-    }
 
     public void FadeIn(){
         fadeIn=true;
@@ -162,7 +142,22 @@ public class LevelLoader : MonoBehaviour
         {
             destination = destinationScene;
         }
-        StartCoroutine(LoadLevelCoroutine(destination));
+        if (useCrossFade){
+            // check if sceneloader is instantiated
+            if (SceneLoader.instance == null)
+            {
+                // If SceneLoader is not instantiated, use the default loading method
+                Debug.LogError("SceneLoader instance is null. Make sure SceneLoader is initialized before using it.");
+                StartCoroutine(LoadLevelCoroutine(destination));
+                return;
+            }
+            else{
+                SceneLoader.instance.LoadScene(SceneManager.GetActiveScene().name, destination, crossFadeTime);
+            }
+        }
+        else{
+            StartCoroutine(LoadLevelCoroutine(destination));
+        }
     }
 
 
