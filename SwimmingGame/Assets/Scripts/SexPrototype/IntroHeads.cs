@@ -21,6 +21,7 @@ public class IntroHeads : MonoBehaviour
 
     private Rigidbody rb;
     public bool thrusted = false; // Flag to check if thrust has occurred
+    public bool lockRigidBodyRotation = true;
 
     private float thrustTimer = 0f; // Timer to track thrust intervals
     private Vector3 moveBackStep; // Step to move back per frame
