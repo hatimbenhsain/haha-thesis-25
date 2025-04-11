@@ -38,6 +38,16 @@ public class IntroHeads : MonoBehaviour
     {
         thrustTimer += Time.deltaTime;
 
+        // Lock or unlock Rigidbody rotation based on lockRigidBodyRotation
+        if (lockRigidBodyRotation)
+        {
+            rb.constraints = RigidbodyConstraints.FreezeRotation;
+        }
+        else
+        {
+            rb.constraints = RigidbodyConstraints.None;
+        }
+
         // While the thrust timer is less than the thrust interval, move backward
         if (thrustTimer < thrustInterval)
         {
