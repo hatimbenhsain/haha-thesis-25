@@ -101,6 +101,7 @@ MonoBehaviour:
   - {fileID: -1480482234, guid: 0ef56c6493f5c6640abe92beccca9906, type: 3}
   pulsePeriod: 0
   pulseRotationIntensity: 0
+  pulseOpacityIntensity: 0
 --- !u!1 &217487523840787610
 GameObject:
   m_ObjectHideFlags: 0
@@ -20388,6 +20389,9 @@ MonoBehaviour:
   respawnTransform: {fileID: 0}
   colorLerpSpeed: 5
   dashCooldownColorValue: 0.6666667
+  sleeping: 0
+  organOut: 0
+  timeBeforeWakingUp: 8
 --- !u!95 &5373492974550926125
 Animator:
   serializedVersion: 5
@@ -20464,6 +20468,9 @@ MonoBehaviour:
   maxVelocityToAttenuateEffects: 10
   chromaticAberrationIntensityChange: 0.2
   paniniIntensityChange: -0.1
+  danceToMusic: 0
+  beatFovChange: 5
+  beatFrequency: 1
 --- !u!114 &8825160329319286562
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -30488,6 +30495,7 @@ MonoBehaviour:
   - {fileID: -1454162673, guid: 9d6404d8d13ca2e468ea49474726118d, type: 3}
   - {fileID: 422309238, guid: 9d6404d8d13ca2e468ea49474726118d, type: 3}
   - {fileID: -2067827742, guid: 9d6404d8d13ca2e468ea49474726118d, type: 3}
+  matchMusic: 0
 --- !u!114 &7254893660414944014
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -35433,6 +35441,7 @@ MonoBehaviour:
   - {fileID: -1480482234, guid: 0ef56c6493f5c6640abe92beccca9906, type: 3}
   pulsePeriod: 0
   pulseRotationIntensity: 0
+  pulseOpacityIntensity: 0
 --- !u!1 &6048913218055443632
 GameObject:
   m_ObjectHideFlags: 0
@@ -35630,6 +35639,8 @@ MonoBehaviour:
   singing: 0
   singingLight: {fileID: 6417933098474598149}
   singingTargetIntensity: 2
+  spotlight: {fileID: 0}
+  spotlightTargetIntensity: 0.4
   auraSprite: {fileID: 3879397632789257845}
   auraTargetOpacity: 0.015
   singingDots:
@@ -35856,6 +35867,7 @@ MonoBehaviour:
   - {fileID: 1622317354, guid: edd6ecd12c215a343baea181f3e03d74, type: 3}
   pulsePeriod: 5
   pulseRotationIntensity: 1
+  pulseOpacityIntensity: 0
 --- !u!1 &8508218057597013985
 GameObject:
   m_ObjectHideFlags: 0
