@@ -10,6 +10,8 @@ public class SpriteAnimator : MonoBehaviour
     public Sprite[] sprites;
     private SpriteRenderer spriteRenderer;
 
+    public bool matchMusic=false;
+
     void Start()
     {
         spriteRenderer=GetComponent<SpriteRenderer>();
@@ -17,7 +19,11 @@ public class SpriteAnimator : MonoBehaviour
 
     void Update()
     {
-        imageIndex+=imageSpeed*Time.unscaledDeltaTime;
+        float period=1f;
+        if(matchMusic){
+            period=60f/(MusicBeat.GetBPM()*imageSpeed);
+        }
+        imageIndex+=imageSpeed*Time.unscaledDeltaTime/period;
         imageIndex=imageIndex%sprites.Length;
 
         spriteRenderer.sprite=sprites[Mathf.FloorToInt(imageIndex)];

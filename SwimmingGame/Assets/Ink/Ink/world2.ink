@@ -932,14 +932,14 @@ So something like this would be considered really bad!!!
 -> END
 
 === alienAd1 ===
-# color: d6eaf6
+# color: f6e2d6
 -> npcStart ->
 NPC: I made this ad to let people know that they can entangle with me!!! Are you interested? I'm pretty proud of it.
 -> npcEnd ->
 -> END
 
 === alienAd2 ===
-# color: d6eaf6
+# color: f6e2d6
 -> npcStart ->
 NPC: On the surface, they use signifiers such as this one to let people know about things that they exchange for "currency".
 The nice thing here is that you can entangle with me without a need for goods or services. 
@@ -948,7 +948,7 @@ Isn't that enticing?!
 -> END
 
 === alienAd3 ===
-# color: d6eaf6
+# color: f6e2d6
 -> npcStart ->
 NPC: If you want, you can entangle with me and then give me an object that signifies a form of standardized value!
 Isn't that enticing?!
@@ -979,6 +979,38 @@ NPC: I hope so!! I can't take being apart anymore!!!!!
 -> npcStart ->
 NPC: They are sucking on each others' organs but without the intention of consuming! I didn't even know you could use mouths for things other than eating!
 Can you imagine how many more uses for mouths they have on the surface? Probably more than a million!!!
+-> npcEnd ->
+-> END
+
+=== alienTomb1 === 
+# color: d6eaf6
+-> npcStart ->
+NPC: On the surface, they put the bodies of dead people inside the ground!
+I wonder what it feels like.. I can't wait to have it happen to me!
+-> npcEnd ->
+-> END
+
+=== alienAir1 === 
+# color: d6eaf6
+-> npcStart ->
+NPC: Have you tried inhaling "air" yet?
+It gives me a rush every puff I take! In the surface they must be euphoric all the time!
+-> npcEnd ->
+-> END
+
+=== alienAir2 === 
+# color: d6eaf6
+-> npcStart ->
+NPC: I keep taking air in until it doesn't hurt all of my insides anymore!
+Then I'll know I'm ready to move to the surface!!
+-> npcEnd ->
+-> END
+
+=== alienArtist1 === 
+# color: d6eaf6
+-> npcStart ->
+NPC: On the surface, they have distinctions between those who make art and those who do not, which has a lot of societal and hierarchical implications!
+It's so sophisticated! I love it!!
 -> npcEnd ->
 -> END
 

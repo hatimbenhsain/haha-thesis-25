@@ -133,6 +133,10 @@ public class Swimmer : MonoBehaviour
     [Range(0f,1f)]
     public float dashCooldownColorValue=2/3f;
 
+    public bool sleeping=false;
+    public bool organOut=false;
+    public float timeBeforeWakingUp=10f;
+
     void Start()
     {
         controller=GetComponent<CharacterController>();
@@ -147,6 +151,15 @@ public class Swimmer : MonoBehaviour
 
         Cursor.lockState = CursorLockMode.Locked;  // Locks the cursor to the center of the screen
 
+        animator.SetBool("sleeping",sleeping);
+        animator.SetBool("organOut",organOut);
+
+        if(sleeping){
+            canMove=false;
+            canRotate=false;
+            GetComponentInChildren<SwimmerSinging>().canSing=false;
+            StartCoroutine(WakeUp());
+        }
 
     }
 
@@ -171,25 +184,27 @@ public class Swimmer : MonoBehaviour
         
         // Dash input
         // We take the input if past the timer OR going in opposite direction, to allow cancel
-        if(((playerInput.movingUp && !playerInput.prevMovingUp) || (savedDashDirection==Directions.UP)) && (dashTimer>dashCooldownTime || prevDashDirection==Directions.DOWN)){
-            DashInput(Directions.UP);
-        }else if(playerInput.movingUp && !playerInput.prevMovingUp && dashTimer-dashCooldownTime>=dashCooldownWindow){
-            savedDashDirection=Directions.UP;
-        }
-        if(((playerInput.movingDown && !playerInput.prevMovingDown) || (savedDashDirection==Directions.DOWN)) && (dashTimer>dashCooldownTime || prevDashDirection==Directions.UP)){
-            DashInput(Directions.DOWN);
-        }else if(playerInput.movingDown && !playerInput.prevMovingDown && dashTimer-dashCooldownTime>=dashCooldownWindow){
-            savedDashDirection=Directions.DOWN;
-        }
-        if(((playerInput.movingLeft && !playerInput.prevMovingLeft) || (savedDashDirection==Directions.LEFT)) && (dashTimer>dashCooldownTime || prevDashDirection==Directions.RIGHT)){
-            DashInput(Directions.LEFT);
-        }else if(playerInput.movingLeft && !playerInput.prevMovingLeft && dashTimer-dashCooldownTime>=dashCooldownWindow){
-            savedDashDirection=Directions.LEFT;
-        }
-        if(((playerInput.movingRight && !playerInput.prevMovingRight) || (savedDashDirection==Directions.RIGHT)) && (dashTimer>dashCooldownTime || prevDashDirection==Directions.LEFT)){
-            DashInput(Directions.RIGHT);
-        }else if(playerInput.movingRight && !playerInput.prevMovingRight && dashTimer-dashCooldownTime>=dashCooldownWindow){
-            savedDashDirection=Directions.RIGHT;
+        if(canMove){
+            if(((playerInput.movingUp && !playerInput.prevMovingUp) || (savedDashDirection==Directions.UP)) && (dashTimer>dashCooldownTime || prevDashDirection==Directions.DOWN)){
+                DashInput(Directions.UP);
+            }else if(playerInput.movingUp && !playerInput.prevMovingUp && dashTimer-dashCooldownTime>=dashCooldownWindow){
+                savedDashDirection=Directions.UP;
+            }
+            if(((playerInput.movingDown && !playerInput.prevMovingDown) || (savedDashDirection==Directions.DOWN)) && (dashTimer>dashCooldownTime || prevDashDirection==Directions.UP)){
+                DashInput(Directions.DOWN);
+            }else if(playerInput.movingDown && !playerInput.prevMovingDown && dashTimer-dashCooldownTime>=dashCooldownWindow){
+                savedDashDirection=Directions.DOWN;
+            }
+            if(((playerInput.movingLeft && !playerInput.prevMovingLeft) || (savedDashDirection==Directions.LEFT)) && (dashTimer>dashCooldownTime || prevDashDirection==Directions.RIGHT)){
+                DashInput(Directions.LEFT);
+            }else if(playerInput.movingLeft && !playerInput.prevMovingLeft && dashTimer-dashCooldownTime>=dashCooldownWindow){
+                savedDashDirection=Directions.LEFT;
+            }
+            if(((playerInput.movingRight && !playerInput.prevMovingRight) || (savedDashDirection==Directions.RIGHT)) && (dashTimer>dashCooldownTime || prevDashDirection==Directions.LEFT)){
+                DashInput(Directions.RIGHT);
+            }else if(playerInput.movingRight && !playerInput.prevMovingRight && dashTimer-dashCooldownTime>=dashCooldownWindow){
+                savedDashDirection=Directions.RIGHT;
+            }
         }
         dashTimer+=Time.deltaTime;
 
@@ -784,6 +799,16 @@ public class Swimmer : MonoBehaviour
         Physics.SyncTransforms();
         swimmerCamera.ResetCamera();
         FindObjectOfType<LevelLoader>().FadeIn();
+    }
+
+    IEnumerator WakeUp(){
+        yield return new WaitForSeconds(timeBeforeWakingUp);
+        animator.SetBool("sleeping",false);
+        sleeping=false;
+        yield return new WaitForSeconds(3f);
+        canMove=true;
+        canRotate=true;
+        GetComponentInChildren<SwimmerSinging>().canSing=true;
     }
 }
 
