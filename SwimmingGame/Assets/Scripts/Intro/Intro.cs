@@ -103,6 +103,15 @@ public class Intro : MonoBehaviour
         prevTutorialIndex=tutorial.index;
         prevSwimmerCamOn=swimmerCamOn;
     }
+    public int GetIntensity()
+{
+    if (dialogue != null && dialogue.story != null)
+    {
+        return (int)dialogue.story.variablesState["intensity"];
+    }
+    Debug.LogWarning("Dialogue or story is null. Returning default intensity value.");
+    return 0; 
+}
 
     IEnumerator StartCutscene(){
         yield return new WaitForSeconds(4f);    // U CAN ADJUST THIS TIME
