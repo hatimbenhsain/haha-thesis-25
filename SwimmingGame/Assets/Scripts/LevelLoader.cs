@@ -105,22 +105,11 @@ public class LevelLoader : MonoBehaviour
         // Load scene transition after pressing O
         if (Input.GetKeyDown(KeyCode.O) && (Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift)) && pressO)
         {
-            // check if sceneloader is instantiated
-            if (SceneLoader.instance == null)
-            {
-                Debug.LogError("SceneLoader instance is null. Make sure SceneLoader is initialized before using it.");
-                return;
-            }
-            else{
-                SceneLoader.instance.LoadScene(SceneManager.GetActiveScene().name, destinationScene, crossFadeTime);
-            }
-
+            EnsureSceneLoaderAndLoad(SceneManager.GetActiveScene().name, destinationScene, crossFadeTime);
         }
 
 
     }
-
-
 
     public void FadeIn(){
         fadeIn=true;
@@ -142,24 +131,45 @@ public class LevelLoader : MonoBehaviour
         {
             destination = destinationScene;
         }
-        if (useCrossFade){
-            // check if sceneloader is instantiated
-            if (SceneLoader.instance == null)
-            {
-                // If SceneLoader is not instantiated, use the default loading method
-                Debug.LogError("SceneLoader instance is null. Make sure SceneLoader is initialized before using it.");
-                StartCoroutine(LoadLevelCoroutine(destination));
-                return;
-            }
-            else{
-                SceneLoader.instance.LoadScene(SceneManager.GetActiveScene().name, destination, crossFadeTime);
-            }
+
+        if (useCrossFade)
+        {
+            EnsureSceneLoaderAndLoad(SceneManager.GetActiveScene().name, destination, crossFadeTime);
         }
-        else{
+        else
+        {
             StartCoroutine(LoadLevelCoroutine(destination));
         }
     }
 
+    void EnsureSceneLoaderAndLoad(string currentScene, string destination, float crossFadeTime)
+    {
+        StartCoroutine(EnsureSceneLoaderCoroutine(currentScene, destination, crossFadeTime));
+    }
+
+    IEnumerator EnsureSceneLoaderCoroutine(string currentScene, string destination, float crossFadeTime)
+    {
+        if (SceneLoader.instance == null)
+        {
+            Debug.LogWarning("SceneLoader instance is null. Loading SceneLoader scene...");
+
+            // Load the SceneLoader scene additively
+            AsyncOperation loadOperation = SceneManager.LoadSceneAsync("LoadScene", LoadSceneMode.Additive);
+
+            // Wait until the SceneLoader scene is fully loaded
+            while (!loadOperation.isDone)
+            {
+                yield return null;
+            }
+        }
+
+        // Wait for SceneLoader.instance to be initialized
+        while (SceneLoader.instance == null)
+        {
+            yield return null;
+        }
+        SceneLoader.instance.LoadScene(currentScene, destination, crossFadeTime);
+    }
 
     // Load level when enter trigger box
     private void OnTriggerEnter(Collider other)
