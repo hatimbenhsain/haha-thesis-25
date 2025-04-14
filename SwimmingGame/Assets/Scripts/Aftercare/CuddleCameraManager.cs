@@ -56,7 +56,7 @@ public class CuddleCameraManager : MonoBehaviour
             blink.SetBool("Blink", true); // Trigger blink animation
             blinkDuration += Time.deltaTime;
             Debug.Log("Blink Duration: " + blinkDuration);
-            if (blinkDuration >= 0.2f) 
+            if (blinkDuration >= 0.1f) 
             {
                                 handController.lockRotation = true;
                 SetActiveElements(shotIndex);
