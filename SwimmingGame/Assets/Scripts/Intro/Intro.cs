@@ -114,7 +114,14 @@ public class Intro : MonoBehaviour
 }
 
     IEnumerator StartCutscene(){
-        yield return new WaitForSeconds(4f);    // U CAN ADJUST THIS TIME
+        Swimmer swimmer=FindObjectOfType<Swimmer>();
+        // lock player movement
+        if (swimmer != null){
+            swimmer.ToggleMovement();
+        }
+        yield return new WaitForSeconds(8f);    // U CAN ADJUST THIS 
+
+
         dialogue.EndDialogue();
         cutsceneDirector.Play();         // START CUTSCENE
     }

@@ -85,9 +85,9 @@ MC: But that... that didn't really happen, did it? Between us? # time:5
 Ex: No. # time: 3
 MC: And neither did this conversation. # time: 3
 Ex: But I left you a song. On the coralnet. # time: 3
+~ loadCutscene=true 
 MC: It was short. # time: 3
 ~ pause(2)
-~ loadCutscene=true 
 MC: Wait. \\pauseDoes it have -- # time: 2
 -> END
 
