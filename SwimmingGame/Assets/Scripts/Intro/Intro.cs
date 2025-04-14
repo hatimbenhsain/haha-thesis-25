@@ -96,6 +96,11 @@ public class Intro : MonoBehaviour
 
         if(!loadedCutscene && (bool)dialogue.story.variablesState["loadCutscene"]==true){
             loadedCutscene=true;
+            Swimmer swimmer=FindObjectOfType<Swimmer>();
+            // lock player movement
+            if (swimmer != null){
+                swimmer.ToggleMovement();
+            }
             StartCoroutine(StartCutscene());
         }
 
@@ -114,11 +119,7 @@ public class Intro : MonoBehaviour
 }
 
     IEnumerator StartCutscene(){
-        Swimmer swimmer=FindObjectOfType<Swimmer>();
-        // lock player movement
-        if (swimmer != null){
-            swimmer.ToggleMovement();
-        }
+
         yield return new WaitForSeconds(8f);    // U CAN ADJUST THIS 
 
 
