@@ -161,7 +161,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: fcd4afee0b84a534dbfe584e67984952, type: 2}
+  - {fileID: 2100000, guid: 6ad50276f96ea0441a9f5d92ff2434b3, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -590,7 +590,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: fcd4afee0b84a534dbfe584e67984952, type: 2}
+  - {fileID: 2100000, guid: 6ad50276f96ea0441a9f5d92ff2434b3, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -2077,6 +2077,7 @@ GameObject:
   m_Component:
   - component: {fileID: 341337115}
   - component: {fileID: 341337116}
+  - component: {fileID: 341337117}
   m_Layer: 0
   m_Name: IntroTimeline
   m_TagString: Untagged
@@ -2127,6 +2128,51 @@ PlayableDirector:
     value: {fileID: 722833982}
   m_ExposedReferences:
     m_References: []
+--- !u!114 &341337117
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 341337114}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e52de21a22b6dd44c9cc19f810c65059, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Events:
+    m_Signals:
+    - {fileID: 11400000, guid: 644975aa06c54a441ba43cbae4df99b6, type: 2}
+    - {fileID: 11400000, guid: 01bb9de11f1711f4ba2ff2db9bb6860e, type: 2}
+    m_Events:
+    - m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 8469152460353785860}
+          m_TargetAssemblyTypeName: KnotGoCrazyEffect, Assembly-CSharp
+          m_MethodName: GoCrazy
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+    - m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 667490307}
+          m_TargetAssemblyTypeName: Swimmer, Assembly-CSharp
+          m_MethodName: ToggleMovement
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
 --- !u!1 &382931308
 GameObject:
   m_ObjectHideFlags: 0
@@ -3691,7 +3737,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 6ad50276f96ea0441a9f5d92ff2434b3, type: 2}
+  - {fileID: 2100000, guid: 2759227267e1e504f96acc919774b547, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -3730,7 +3776,7 @@ Transform:
   m_GameObject: {fileID: 606687552}
   serializedVersion: 2
   m_LocalRotation: {x: 0.8260813, y: 0.1981367, z: -0.3621657, w: 0.3836244}
-  m_LocalPosition: {x: 130.4, y: 246.8, z: -9}
+  m_LocalPosition: {x: 130.4, y: 279, z: -9}
   m_LocalScale: {x: 1246.0293, y: 1246.0289, z: 2211.3416}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -4456,7 +4502,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 2100000, guid: 8b7bfa86338dd4d40bc011c130cb4840, type: 2}
+      objectReference: {fileID: 2100000, guid: bc087cb548bcf0a41af62ba02fe84e24, type: 2}
     - target: {fileID: 919132149155446097, guid: 5b0dc73b813fcc24491e7af64e898e97,
         type: 3}
       propertyPath: m_Name
@@ -4610,7 +4656,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: caa4b28bc7b897948a0295244be6d2c9, type: 2}
+  - {fileID: 2100000, guid: c81f4e52d484b4c498a4e611f21b2f38, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -4847,6 +4893,7 @@ MonoBehaviour:
     m_Signals:
     - {fileID: 0}
     - {fileID: 11400000, guid: 01bb9de11f1711f4ba2ff2db9bb6860e, type: 2}
+    - {fileID: 11400000, guid: 644975aa06c54a441ba43cbae4df99b6, type: 2}
     m_Events:
     - m_PersistentCalls:
         m_Calls:
@@ -4867,6 +4914,20 @@ MonoBehaviour:
         - m_Target: {fileID: 667490307}
           m_TargetAssemblyTypeName: Swimmer, Assembly-CSharp
           m_MethodName: ToggleMovement
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+    - m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 8469152460353785860}
+          m_TargetAssemblyTypeName: KnotGoCrazyEffect, Assembly-CSharp
+          m_MethodName: GoCrazy
           m_Mode: 1
           m_Arguments:
             m_ObjectArgument: {fileID: 0}
@@ -5292,52 +5353,6 @@ MonoBehaviour:
   canSing: 1
   timerMaxVariationLength: 0.2
   harmonyType: 0
---- !u!1 &838050794
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 838050796}
-  - component: {fileID: 838050795}
-  m_Layer: 0
-  m_Name: BurstCollisionWorld
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &838050795
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 838050794}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f1a161c4294214a4fbcb7e9e94800494, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  cellSpans:
-    m_AlignBytes: 16
---- !u!4 &838050796
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 838050794}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &838203210
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -5957,6 +5972,52 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1624633380}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1030803604
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1030803606}
+  - component: {fileID: 1030803605}
+  m_Layer: 0
+  m_Name: BurstCollisionWorld
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1030803605
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1030803604}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f1a161c4294214a4fbcb7e9e94800494, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cellSpans:
+    m_AlignBytes: 16
+--- !u!4 &1030803606
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1030803604}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1059575047
 GameObject:
@@ -9798,6 +9859,7 @@ MonoBehaviour:
   - {fileID: -319255330, guid: edd6ecd12c215a343baea181f3e03d74, type: 3}
   - {fileID: 614718212, guid: edd6ecd12c215a343baea181f3e03d74, type: 3}
   - {fileID: 1622317354, guid: edd6ecd12c215a343baea181f3e03d74, type: 3}
+  matchMusic: 0
 --- !u!1 &1922001685
 GameObject:
   m_ObjectHideFlags: 0
@@ -17308,7 +17370,6 @@ GameObject:
   m_Component:
   - component: {fileID: 6262890207144498556}
   - component: {fileID: 6115474296418168059}
-  - component: {fileID: 6262890207144498557}
   m_Layer: 0
   m_Name: Global Volume
   m_TagString: Untagged
@@ -17776,27 +17837,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 2765673888983635678}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!95 &6262890207144498557
-Animator:
-  serializedVersion: 5
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5867468164662384073}
-  m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 0}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_StabilizeFeet: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorStateOnDisable: 0
-  m_WriteDefaultValuesOnDisable: 0
 --- !u!114 &6270616642654342779
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -19584,6 +19624,16 @@ MonoBehaviour:
   introHeads1: {fileID: 5335566898556869420}
   introHeads2: {fileID: 9150529529563286242}
   testGoCrazy: 0
+  newProfile: {fileID: 11400000, guid: 7e9ce6f8bb6b36543b9e8c021bc5cbd5, type: 2}
+  postExposureStart: 8
+  postExposureEnd: 4.5
+  postExposureLerpDuration: 0.5
+  noiseVertexShader1: {fileID: 2100000, guid: bc087cb548bcf0a41af62ba02fe84e24, type: 2}
+  noiseVertexShader2: {fileID: 2100000, guid: 6ad50276f96ea0441a9f5d92ff2434b3, type: 2}
+  initialAngleOffsetSpeed1: 1
+  initialAmplitude1: 0.3
+  initialAngleOffsetSpeed2: 2
+  initialAmplitude2: 0.04
 --- !u!222 &8494671264435438508
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -20521,4 +20571,4 @@ SceneRoots:
   - {fileID: 669429287}
   - {fileID: 341337115}
   - {fileID: 339422384}
-  - {fileID: 838050796}
+  - {fileID: 1030803606}
