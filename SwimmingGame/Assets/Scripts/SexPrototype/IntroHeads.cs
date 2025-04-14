@@ -45,7 +45,7 @@ public class IntroHeads : MonoBehaviour
         }
 
         int intensity = intro.GetIntensity();
-        if (intensity >= 4)
+        if (intensity >= 5)
         {
             lockRigidBodyRotation = false;
         }
