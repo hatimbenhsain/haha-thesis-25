@@ -25,6 +25,8 @@ public class IntroHeads : MonoBehaviour
 
     private float thrustTimer = 0f; // Timer to track thrust intervals
     private Vector3 moveBackStep; // Step to move back per frame
+    public Intro intro;
+    public bool goCrazy = false;
 
     // Start is called before the first frame update
     void Start()
@@ -36,6 +38,18 @@ public class IntroHeads : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (goCrazy)
+        {
+            CrazyMovement();
+            return; 
+        }
+
+        int intensity = intro.GetIntensity();
+        if (intensity >= 4)
+        {
+            lockRigidBodyRotation = false;
+        }
+
         thrustTimer += Time.deltaTime;
 
         // Lock or unlock Rigidbody rotation based on lockRigidBodyRotation
@@ -80,5 +94,26 @@ public class IntroHeads : MonoBehaviour
 
         // Recalculate moveBackStep based on the new values
         moveBackStep = transform.forward * (moveBackDistance / thrustInterval);
+    }
+
+    private void CrazyMovement()
+    {
+        // Increase shake intensity
+        float shakeAmount = 0.5f; 
+        Vector3 randomShake = new Vector3(
+            Random.Range(-shakeAmount, shakeAmount),
+            Random.Range(-shakeAmount, shakeAmount),
+            Random.Range(-shakeAmount, shakeAmount)
+        );
+        transform.position += randomShake;
+
+        // Increase rotation speed for spinning effect
+        float rotationSpeed = 500f; 
+        Vector3 randomRotation = new Vector3(
+            Random.Range(-rotationSpeed, rotationSpeed),
+            Random.Range(-rotationSpeed, rotationSpeed),
+            Random.Range(-rotationSpeed, rotationSpeed)
+        );
+        transform.Rotate(randomRotation * Time.deltaTime);
     }
 }
