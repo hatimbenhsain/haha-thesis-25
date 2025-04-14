@@ -2,8 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using FMODUnity;
 using Unity.VisualScripting.Dependencies.NCalc;
+using UnityEditor.EditorTools;
 using UnityEngine;
 using UnityEngine.Playables;
+using UnityEngine.Rendering;
+using UnityEngine.Rendering.Universal;
 using UnityEngine.UI;
 
 public class Intro : MonoBehaviour
@@ -41,6 +44,26 @@ public class Intro : MonoBehaviour
     public StudioEventEmitter ambiance;
      public PlayableDirector cutsceneDirector;
 
+    [Header("Throbbing Effect")]
+    public float throbbingPeriod=5f;
+    public float throbbingPeriod2=20f;
+    [Tooltip("For every intensity increment subtract this from throbbing periods")]
+    public float throbbingPeriodChangePerIntensity=.5f;
+    private VolumeProfile profile;
+
+    private Vignette vignette;
+    public float vignetteTargetIntensity;
+    private float vignetteBaseIntensity;
+    private LensDistortion lensDistortion;
+    public float lensDistortionTargetIntensity;
+    private float lensDistortionBaseIntensity;
+    private DepthOfField depthOfField;
+    public float depthOfFieldTargetFocalLength;
+    private float depthOfFieldBaseFocalLength;
+    public Image swimmingNoise;
+    public float swimmingNoiseTargetOpacity=.1f;
+    
+
     void Start()
     {
         tutorial=FindObjectOfType<Tutorial>();
@@ -48,6 +71,17 @@ public class Intro : MonoBehaviour
         Color c=darkScreen.color;
         c.a=1f;
         darkScreen.color=c;
+
+        profile=FindObjectOfType<Volume>().profile;
+        if(profile.TryGet<Vignette>(out vignette)){
+            vignetteBaseIntensity=vignette.intensity.value;
+        }
+        if(profile.TryGet<LensDistortion>(out lensDistortion)){
+            lensDistortionBaseIntensity=lensDistortion.intensity.value;
+        }
+        if(profile.TryGet<DepthOfField>(out depthOfField)){
+            depthOfFieldBaseFocalLength=depthOfField.focalLength.value;
+        }
     }
 
     void Update()
@@ -107,6 +141,8 @@ public class Intro : MonoBehaviour
 
         prevTutorialIndex=tutorial.index;
         prevSwimmerCamOn=swimmerCamOn;
+
+        if(swimmerCamOn) Throb();
     }
     public int GetIntensity()
 {
@@ -126,5 +162,24 @@ public class Intro : MonoBehaviour
         dialogue.EndDialogue();
         cutsceneDirector.Play();         // START CUTSCENE
     }
-    
+
+    private void Throb(){
+        float intensity=(int)dialogue.story.variablesState["intensity"];
+        float v=(Mathf.Sin(timer*Mathf.PI*2f/(throbbingPeriod-intensity*throbbingPeriodChangePerIntensity))+1)/2f;
+        float v2=(Mathf.Sin(timer*Mathf.PI*2f/(throbbingPeriod2-intensity*throbbingPeriodChangePerIntensity))+1)/2f;
+        vignette.intensity.value=v*(vignetteTargetIntensity-vignetteBaseIntensity)*v2+vignetteBaseIntensity;
+        lensDistortion.intensity.value=v*(lensDistortionTargetIntensity-lensDistortionBaseIntensity)*v2+lensDistortionBaseIntensity;
+        depthOfField.focalLength.value=v*(depthOfFieldTargetFocalLength-depthOfFieldBaseFocalLength)*v2+depthOfFieldBaseFocalLength;
+        Color c=swimmingNoise.color;
+        c.a=v*swimmingNoiseTargetOpacity;
+        swimmingNoise.color=c;
+    }
+
+    void OnDestroy()
+    {
+        vignette.intensity.value=vignetteBaseIntensity;
+        lensDistortion.intensity.value=lensDistortionBaseIntensity;
+        depthOfField.focalLength.value=depthOfFieldBaseFocalLength;
+    }
+
 }
