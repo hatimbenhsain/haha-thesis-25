@@ -713,6 +713,10 @@ public class Swimmer : MonoBehaviour
         totalForce=Vector3.ClampMagnitude(totalForce,wallBoost);
         return totalForce;
     }
+    public void ToggleMovement(){
+        canMove=!canMove;
+        canRotate=!canRotate;
+    }
 
     // Function borrowed from https://discussions.unity.com/t/how-do-i-obtain-the-surface-normal-for-a-point-on-a-collider-cant-use-raycasthit-normal/16223/4
     public static RaycastHit CreateRaycastHitFromCollider(Vector3 _rayOrigin, Collider _collider)
@@ -811,6 +815,8 @@ public class Swimmer : MonoBehaviour
         GetComponentInChildren<SwimmerSinging>().canSing=true;
     }
 }
+
+
 
 public enum Directions{
     NULL,
