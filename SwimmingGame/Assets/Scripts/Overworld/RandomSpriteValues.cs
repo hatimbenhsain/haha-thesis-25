@@ -55,7 +55,8 @@ public class RandomSpriteValues : MonoBehaviour
         }
 
         if(randomizeHue){
-            spriteRenderer.material.color=Color.HSVToRGB(Random.Range(0f,1f),randomizeHueIntensity,1f);
+            if(spriteRenderer.material.HasFloat("_Hue_Offset")) spriteRenderer.material.SetFloat("_Hue_Offset",Random.Range(0f,1f));
+            else spriteRenderer.material.color=Color.HSVToRGB(Random.Range(0f,1f),randomizeHueIntensity,1f);
         }
     }
 
