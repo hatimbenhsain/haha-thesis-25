@@ -31,7 +31,8 @@ public class CuddleCameraManager : MonoBehaviour
 
     public int shotIndex;
     private int prevShotIndex;
-
+    private Animator blink;
+    private float blinkDuration;
     void Start()
     {
         SetActiveElements(shotIndex);
@@ -41,35 +42,48 @@ public class CuddleCameraManager : MonoBehaviour
         UpdatePosition(handControlPoint, handControlPos);
         handController.boundingBox = boundingBoxes[shotIndex];
         handController.rotationOffset = handRotationOffset[shotIndex];
-
+        blink = GetComponentInChildren<Animator>();
+        blinkDuration = 0f;
 
     }
 
     void FixedUpdate()
     {
+        // when change shots
         if (shotIndex != prevShotIndex)
         {
-            handController.lockRotation = true;
-            SetActiveElements(shotIndex);
-            defaultCameraY = cameras[shotIndex].transform.localPosition.y; // Reset Y position for new active camera
-            UpdatePosition(sexPartnerBody, bodyPos);
-            UpdatePosition(hand, handPos);
-            UpdatePosition(handControlPoint, handControlPos);
-            handController.boundingBox = boundingBoxes[shotIndex];
-            handController.rotationOffset = handRotationOffset[shotIndex];
-            if (sexPartnerAnimator != null){
-                sexPartnerAnimator.SetBool("SwitchPose", sexPartnerAnimationSwitchPose[shotIndex]);
-        }
-            foreach (GameObject cv in colliderViews){
-                cv.SetActive(false);
+            
+            blink.SetBool("Blink", true); // Trigger blink animation
+            blinkDuration += Time.deltaTime;
+            Debug.Log("Blink Duration: " + blinkDuration);
+            if (blinkDuration >= 0.1f) 
+            {
+                                handController.lockRotation = true;
+                SetActiveElements(shotIndex);
+                defaultCameraY = cameras[shotIndex].transform.localPosition.y; // Reset Y position for new active camera
+                UpdatePosition(sexPartnerBody, bodyPos);
+                UpdatePosition(hand, handPos);
+                UpdatePosition(handControlPoint, handControlPos);
+                handController.boundingBox = boundingBoxes[shotIndex];
+                handController.rotationOffset = handRotationOffset[shotIndex];
+                if (sexPartnerAnimator != null){
+                    sexPartnerAnimator.SetBool("SwitchPose", sexPartnerAnimationSwitchPose[shotIndex]);
+                }
+                foreach (GameObject cv in colliderViews){
+                    cv.SetActive(false);
+                }
+                colliderViews[shotIndex].SetActive(true);
+                handController.lockRotation = false;
+                blinkDuration = 0f;
+                blink.SetBool("Blink", false);
+                prevShotIndex = shotIndex;
             }
-            colliderViews[shotIndex].SetActive(true);
-            handController.lockRotation = false;
+
         }
         if (isApplyingHeadBob){
             ApplyHeadBob();
         }
-        prevShotIndex = shotIndex;
+
     }
 
     public void SetActiveElements(int index)
@@ -79,9 +93,7 @@ public class CuddleCameraManager : MonoBehaviour
             cameras[i].gameObject.SetActive(i == index); // Enable the active camera, disable others
             planes[i].gameObject.SetActive(i == index); // Enable the active plane, disable others
             boundingBoxes[i].gameObject.SetActive(i == index); // Enable the active bounding box, disable others
-            if (sexPartnerColliders[i] != null){
-                sexPartnerColliders[i].gameObject.SetActive(i == index); // Enable
-            }
+            sexPartnerColliders[i].gameObject.SetActive(i == index); // Enable
             backPlane[i].gameObject.SetActive(i == index); // Enable the active background plane, disable others
         }
         // Reset bob timer when switching cameras
