@@ -21,7 +21,7 @@ public class MigrationNPC : MonoBehaviour
     void Start()
     {
         SpriteRenderer spriteRenderer=GetComponentInChildren<SpriteRenderer>();
-        spriteRenderer.material.color=Color.HSVToRGB(Random.Range(0f,1f),33f/255f,1f);
+        //spriteRenderer.material.color=Color.HSVToRGB(Random.Range(0f,1f),33f/255f,1f);
         NPCOverworld npcOverworld=GetComponentInChildren<NPCOverworld>();
         npcOverworld.strokeFrequency=npcOverworld.strokeFrequency+Random.Range(-strokeFrequencyVariance,strokeFrequencyVariance);
         //GetComponent<Animator>().runtimeAnimatorController=animators[Random.Range(0,animators.Length)];
