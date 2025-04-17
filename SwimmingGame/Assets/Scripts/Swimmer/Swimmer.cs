@@ -180,6 +180,8 @@ public class Swimmer : MonoBehaviour
                 justKickedBack=true;
             }
             pressedBackTimer=0f;
+        }else if(playerInput.movedForwardTrigger && !canMove){
+            playerInput.movedForwardTrigger=false;
         }
         
         // Dash input
@@ -248,6 +250,7 @@ public class Swimmer : MonoBehaviour
                 if(prevPressedBackTimer<=maxKickbackPressingTime){
                     OverrideRotation(Quaternion.LookRotation(-transform.forward,transform.up));
                     prevPressedBackTimer=maxKickbackPressingTime;
+                    swimmerSound.KickBack();
                 }else{
                     prevPressedBackTimer=0f;
                     pressedBackTimer=maxKickbackPressingTime;

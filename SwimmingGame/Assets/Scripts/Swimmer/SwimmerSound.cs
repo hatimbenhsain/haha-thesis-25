@@ -11,6 +11,11 @@ public class SwimmerSound : Sound
 
     private EventInstance ambientSwimmingInstance;
 
+    public float strideVolume=1f;
+    public float kickVolume=1f;
+    public float dashVolume=1f;
+    public float kickbackVolume=1f;
+
     void Start()
     {
         ambientSwimmingInstance=FMODUnity.RuntimeManager.CreateInstance("event:/Swimming/AmbientSwimming");
@@ -22,15 +27,19 @@ public class SwimmerSound : Sound
     }
 
     public void Stride(){
-        PlayOneShotVolume("event:/Swimming/Stride",masterVolume);
+        PlayOneShotVolume("event:/Swimming/Stride",masterVolume*strideVolume);
     }
 
     public void Kick(){
-        PlayOneShotVolume("event:/Swimming/Kick",masterVolume);
+        PlayOneShotVolume("event:/Swimming/Kick",masterVolume*kickVolume);
     }
 
     public void Dash(){
-        PlayOneShotVolume("event:/Swimming/Dash",masterVolume);
+        PlayOneShotVolume("event:/Swimming/Dash",masterVolume*dashVolume);
+    }
+    
+    public void KickBack(){
+        PlayOneShotVolume("event:/Swimming/Kick",masterVolume*kickbackVolume);
     }
 
 
