@@ -30,8 +30,10 @@ public class FingerTipsController : MonoBehaviour
     private float prevInputAngle;
     public float maxNoChangeTime=0.5f;
 
-    private bool caressing = false;
-
+    [SerializeField] private bool caressing = false;
+    public bool useThisFingerTipToDetectDialogue = true; 
+    public LightBeamFollow[] lightBeamFollow;
+    public GameObject[] choiceBox;
 
     private void Start()
     {
@@ -39,11 +41,15 @@ public class FingerTipsController : MonoBehaviour
         startLocalPosition = transform.localPosition; // Set the starting position in local space
         gameManager = FindObjectOfType<CuddleGameManager>();
         cuddleDialogue=FindObjectOfType<CuddleDialogue>();
+
     }
 
     private void Update()
     {
-        DetectDialogueOption(caressing);
+        if (useThisFingerTipToDetectDialogue){
+            DetectDialogueOption(caressing);
+        }
+
 
         if (changeTimer >= maxNoChangeTime)
         {
@@ -154,12 +160,33 @@ public class FingerTipsController : MonoBehaviour
             int i=hitCollider.gameObject.transform.GetSiblingIndex();
             
             cuddleDialogue.HoveringChoice(i);
+            Debug.Log("Hovering choice: " + i);
+            for (int j = 0; j < lightBeamFollow.Length; j++)
+            {
+                if (choiceBox[j].activeSelf)
+                {
+                    lightBeamFollow[j].hovering = true;
+                    lightBeamFollow[j].ActivateLightBeam(i);
+                }
+            }
+
+
             
             if(c){
                 cuddleDialogue.SelectingChoice(i);
             }
 
         }
+        if (hitColliders.Length == 0){
+            for (int j = 0; j < lightBeamFollow.Length; j++)
+            {
+                if (choiceBox[j].activeSelf)
+                {
+                    lightBeamFollow[j].hovering = false;
+                }
+            }
+        }
+
     }
 
     // Adjust Y position based on the highest object below

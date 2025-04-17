@@ -36,6 +36,7 @@ public class CuddleDialogue : Dialogue
     private bool differentChoiceBoxOrder; //If true, the choice boxes are assigned to specific ones in the world instead of in hierarchical order.
     public Transform[] choiceCollisionBoxes;
 
+
     public override void DialogueAwake()
     {
         base.DialogueAwake();
@@ -96,6 +97,7 @@ public class CuddleDialogue : Dialogue
             justCaressed = false;
         }
         else caressing = false;
+        //Debug.Log("current choice index = "+currentChoiceIndex);
     }
 
     public void HoveringChoice(int choiceIndex){
