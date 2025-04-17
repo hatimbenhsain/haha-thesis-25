@@ -33,6 +33,7 @@ public class CuddleCameraManager : MonoBehaviour
     private int prevShotIndex;
     private Animator blink;
     private float blinkDuration;
+    public LightBeamFollow lightBeamFollow;
     void Start()
     {
         SetActiveElements(shotIndex);
@@ -99,6 +100,7 @@ public class CuddleCameraManager : MonoBehaviour
         // Reset bob timer when switching cameras
         bobTimer = 0f;
         defaultCameraY = cameras[index].transform.position.y; // Reset Y position for new active camera
+        //lightBeamFollow.ResetLightBeam(); // Reset light beam effect
     }
 
 
