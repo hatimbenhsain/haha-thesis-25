@@ -38,6 +38,9 @@ public class MigrationGenerator : MonoBehaviour
     [Tooltip("If superior to 0 and distance from player is inferior to this value stop generating.")]
     public float minPlayerDistance=-1f;
 
+    [Tooltip("When npc num to max npc number is past this ratio, stop generating npcs forward in the path.")]
+    public float maxNPCNumToMaxRatio=.5f;
+
     void Start()
     {
         scale=transform.lossyScale;
@@ -66,7 +69,7 @@ public class MigrationGenerator : MonoBehaviour
                 }
                 timer=timer%period;
 
-                if(npcNum<maxNPCnum/2 && origin2!=null){
+                if(npcNum<maxNPCnum*maxNPCNumToMaxRatio && origin2!=null){
                     Generate(origin2);
                 }
             }
