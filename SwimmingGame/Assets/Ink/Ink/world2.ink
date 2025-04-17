@@ -25,6 +25,7 @@ NPC: Friend.
 }
 - -> npcEnd ->
 ~ switchObject("Roadblock 5",false)
+~changeDesire("Find Enkidu.")
 -> END
 =chat 
 Care for a chat?
@@ -69,7 +70,6 @@ I'm sure you've... seen a lot in there.
 MC: Yeah. There's a lot going on.
 NPC: I used to enjoy these parties. Really. But they've... perverted it. It's against current.
 MC: ...It's not that bad.
-~pause(2)
 NPC: So,\\pause how have you been feeling? I know that last one you had relations with also went away...
 +   [Fine.]
     MC: I'm fine. Really.
@@ -172,6 +172,7 @@ VAR metEnkidu=false
 # color: 2A3B5A
 # outline: FFF383
 -> npcStart ->
+~changeDesire("Find a way out of the party.")
 Enkidu: Hello there!
 MC: ...Hello?
 Enkidu: That's how they start conversations on the surface!
