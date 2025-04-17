@@ -62,6 +62,7 @@ public class TeacherSexAI : NPCSexAI
                 break;
         }
 
+
         // WHEN TO MOVE ON:
         if(npcSpring.currentIntensity>=intensityToReach || stateCounter>=statesToCycleThrough){
             sexGameManager.MoveOn();

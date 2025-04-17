@@ -72,6 +72,10 @@ public class SpringController : SexSpring
         
         SpringUpdate();
 
+        if(isInhaling){
+            Rumble.AddRumble("Inhaling",Mathf.Clamp((Time.time - inhaleStartTime) / maxInhaleTime,0f,1f));
+        }
+
     }
     void FixedUpdate()
     {

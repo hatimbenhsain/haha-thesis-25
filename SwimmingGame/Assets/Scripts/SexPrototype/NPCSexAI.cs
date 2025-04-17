@@ -69,6 +69,8 @@ public class NPCSexAI : MonoBehaviour
         AIBehavior();
 
         //AI PART END
+
+        //Rumble.AddRumble("Sex Intensity",npcSpring.currentIntensity/intensityToReach);
         
     }
 
