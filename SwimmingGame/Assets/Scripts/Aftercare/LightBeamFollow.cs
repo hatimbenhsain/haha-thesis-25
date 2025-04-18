@@ -27,8 +27,11 @@ public class LightBeamFollow : MonoBehaviour
     private float initialIntensity;
     private float initialParticleSize;
     // Start is called before the first frame update
+    public Transform[] transforms;
+    private CuddleCameraManager cuddleCameraManager;
     void Awake()
     {
+        cuddleCameraManager = FindObjectOfType<CuddleCameraManager>();
         spotLight = GetComponent<Light>();
         volumetricLightBeamHD = GetComponent<VolumetricLightBeamHD>();
         volumetricDustParticles = GetComponent<VolumetricDustParticles>();
@@ -61,6 +64,13 @@ public class LightBeamFollow : MonoBehaviour
                 volumetricDustParticles.size = Mathf.Lerp(volumetricDustParticles.size, initialParticleSize, lightLerpSpeed * Time.deltaTime);
                     }
         }
+        if (cuddleCameraManager.shotIndex != prevShotIndex)
+        {
+            prevShotIndex = cuddleCameraManager.shotIndex;
+            StartCoroutine(ResetLightBeam());
+        }
+        prevShotIndex = cuddleCameraManager.shotIndex;
+
     }
     
     public void ActivateLightBeam(int colorIndex){
@@ -90,7 +100,7 @@ public class LightBeamFollow : MonoBehaviour
       }
 
     public IEnumerator ResetLightBeam(){
-        yield return new WaitForSeconds(0.3f);
-        lightBeamTransform.position = new Vector3 (handTransform.position.x, handTransform.position.y + deltaY, handTransform.position.z);
+        yield return new WaitForSeconds(0.2f);
+        transform.position = transforms[cuddleCameraManager.shotIndex].position;
     }
 }
