@@ -283,7 +283,9 @@ MC: I like to read.
 Teacher: Yes, me too...
 Teacher: Say, it looks like the current is letting up. I could use a bite. Maybe we can continue this conversation at the diner?
 +   [No.]
-    MC: No. Sorry. I really need to get going.
+    MC: No. Sorry. 
+    
+    I really need to get going.
 +   [I don't know.]
     MC: I don't know. I really should get going.
 +   [I have other things to do.]
@@ -502,6 +504,8 @@ MC: Ok.
 -> END
 
 
+VAR blink=false
+
 //We could definitely cut parts of this if it's too long/too much to program, I tried to give as much choice opportunities as possible
 // I feel like we can definitely see after playtest. But I think we can keep it now its all good stuff to me
 === teacherCuddling ===
@@ -594,8 +598,9 @@ Teacher: Would you have liked to... with them?
 - Teacher: But, you know... \\pause\\pause\\pause things could be different once we're up there.
 ~ retractHandTrigger=true
 MC: What?
-~ fadeOut()
 MC: What do you mean?
+~ blink=true
+~ fadeOut()
 Teacher: Well you know... 
 Teacher: They're saying that we're all starting to change to be able to live in the outside.
 Teacher: And since we've entangled... We must be changing too.
