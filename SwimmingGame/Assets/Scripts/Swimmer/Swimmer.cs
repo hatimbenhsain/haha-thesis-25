@@ -11,6 +11,7 @@ public class Swimmer : MonoBehaviour
 {
     [Header("Movement")]
     public bool canMove=true;
+    public bool canKickBack=true;
     public float acceleration=1f;
     public float backwardAcceleration=1f;
     [Tooltip("If at top speed, multiply backward acceleration by this factor")]
@@ -246,7 +247,7 @@ public class Swimmer : MonoBehaviour
         //Overriding rotation if a kickback just happened
         if((pressedBackTimer<=maxKickbackPressingTime) && playerInput.look.magnitude<0.2f && !playerInput.movingBackward && !overridingRotation){
             if(justKickedBack && playerVelocity.magnitude!=0f) OverrideRotation(Quaternion.LookRotation(playerVelocity,Vector3.up));
-            else{
+            else if(canKickBack){
                 if(prevPressedBackTimer<=maxKickbackPressingTime){
                     OverrideRotation(Quaternion.LookRotation(-transform.forward,transform.up));
                     prevPressedBackTimer=maxKickbackPressingTime;
