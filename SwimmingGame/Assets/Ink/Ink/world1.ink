@@ -641,7 +641,8 @@ Let me know if you need any help.
     Feel free to read or speak into any of them.
 +   [Who are you?]
     My name is Elevide! Nice to meet you.
-    It's nice that you came to talk to me today.
+    MC: Name..?
+    NPC: It's nice that you came to talk to me today.
     ++  [Do you work here?]
         NPC: Oh, no. 
         I don't think anyone "works" here?
