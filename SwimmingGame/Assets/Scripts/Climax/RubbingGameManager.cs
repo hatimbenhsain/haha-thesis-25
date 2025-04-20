@@ -108,7 +108,7 @@ public class RubbingGameManager : MonoBehaviour
         float rumbleModifier=1f;
 
         if(levelLoaded){
-            rumbleModifier=(levelLoader.transitionTime-levelLoader.transitionTimer)/levelLoader.transitionTime;
+            rumbleModifier=Mathf.Pow((levelLoader.transitionTime-levelLoader.transitionTimer)/levelLoader.transitionTime,.25f);
         }
 
         Rumble.AddRumble("Base Climax",rumbleModifier);
