@@ -752,11 +752,11 @@ public class Dialogue : MonoBehaviour
         story.BindExternalFunction("saveValue",(string name,object value)=>{
             SaveValue(name,value);
         });
-        story.BindExternalFunction("fadeIn",()=>{
-            FadeIn();
+        story.BindExternalFunction("fadeIn",(float time)=>{
+            FadeIn(time);
         });
-        story.BindExternalFunction("fadeOut",()=>{
-            FadeOut();
+        story.BindExternalFunction("fadeOut",(float time)=>{
+            FadeOut(time);
         });
         story.BindExternalFunction("setFMODGlobalParameter",(string name, float value)=>{
             SetFMODGlobalParameter(name, value);
@@ -927,12 +927,12 @@ public class Dialogue : MonoBehaviour
         DialogueValues.Instance.SaveVariable(name,value);
     }
 
-    void FadeIn(){
-        FindObjectOfType<LevelLoader>().FadeIn();
+    void FadeIn(float time=-1f){
+        FindObjectOfType<LevelLoader>().FadeIn(time);
     }
 
-    void FadeOut(){
-        FindObjectOfType<LevelLoader>().FadeOut();
+    void FadeOut(float time=-1f){
+        FindObjectOfType<LevelLoader>().FadeOut(time);
     }
 
     void SetFMODGlobalParameter(string name, float value){

@@ -224,7 +224,7 @@ Coralnet: motif: keeping the secret
 === coralnetProgress === //the coralnet to read to progress story
 -> coralnetStart ->
 Coralnet: motif: my entanglement
-~ fadeOut()
+~ fadeOut(-1)
 > i experienced it today. i'm happy to share my experience.
 > oh? how was it? tell us about it.
 > it was in the back of our music hall. 
@@ -265,7 +265,7 @@ Teacher: Sounds amazing, doesn't it?
 ~ switchObject("Roadblock - Library",false)
 ~ switchObject("Coral - Library",true)
 ~ libraryOpen=true
-~ fadeIn()
+~ fadeIn(-1)
 MC: What?
 Teacher: The entanglement. \\pauseYou were reading about it just now, right? Have you done it yet?
 MC: ...
@@ -366,17 +366,38 @@ Teacher: Go somewhere with fewer other people?
 - ->->
 
 = going
-Teacher: Okay. Follow me. I'll show you one of my favorite places.
-MC: What about your food...?
+Teacher: Okay. I'll show you one of my favorite places.
+~ fadeOut(1) //maybe at this point show a camera view of the tunnel?
+You know the tunnel entrance, when you exit the diner and head straight to the bottom?
+Meet me there.
+MC: Wait, what about your food...?
 Teacher: Oh, someone else will eat it.
-~ followingTeacher=true
-~ switchObject("Roadblock - Edge",false)
+~ changeDesire("Meet the library stranger at the bottom.")
+~ restoreNPCsVolume()
+~ pauseTutorial(false)
+~ switchObject("Teacher",false)
+~ switchObject("Teacher - Center",true)
+~ fadeIn(1)
+-> END
+
+=== teacherAtCenter ===
+-> npcStart ->
+Teacher: I know a trick for getting rid of these.
+~fadeOut(1)
+Let's see...
+~ pause(2)
 ~ switchObject("Coral - Edge Tunnel",true)
-~ switchObject("Diner Light",false)
+~ switchObject("Roadblock - Edge",false)
+~ followingTeacher=true
+There we go.
+~ fadeIn(1)
+Come on.
+~changeDesire("Follow the library stranger.")
 ~ nextBrain()
 ~ restoreNPCsVolume()
 ~ pauseTutorial(false)
 -> END
+
 
 // MC follows teacher in gameplay portion to edge 2
 
@@ -600,7 +621,7 @@ Teacher: Would you have liked to... with them?
 MC: What?
 MC: What do you mean?
 ~ blink=true
-~ fadeOut()
+~ fadeOut(-1)
 Teacher: Well you know... 
 Teacher: They're saying that we're all starting to change to be able to live in the outside.
 Teacher: And since we've entangled... We must be changing too.

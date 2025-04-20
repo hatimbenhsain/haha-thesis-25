@@ -33,6 +33,7 @@ public class LevelLoader : MonoBehaviour
     [Header("Use crossfade scene loader after loading the level")]
     public bool useCrossFade=false;
     public float crossFadeTime = 2f;
+    public float overrideTime=-1f;
 
     void Start()
     {
@@ -68,27 +69,33 @@ public class LevelLoader : MonoBehaviour
             {
                 c=fadeInColor;
             }
-            c.a=(fadeInTime-transitionTimer)/fadeInTime;
+            float time=fadeInTime;
+            if(overrideTime!=-1f) time=overrideTime;
+            c.a=(time-transitionTimer)/time;
             image.color=c;
             if(c.a<=0f){
                 fadeIn=false;
+                overrideTime=-1f;
             }
         }
 
         if (fadingOut)
         {
             Color c = image.color;
+            float time=transitionTime;
+            if(overrideTime!=-1f) time=overrideTime;
             if (fadeOutColor.a > 0f)
             {
-                image.color = new Color(fadeOutColor.r, fadeOutColor.g, fadeOutColor.b, transitionTimer / transitionTime);
+                image.color = new Color(fadeOutColor.r, fadeOutColor.g, fadeOutColor.b, transitionTimer / time);
             }
             else
             {
-                image.color = new Color(c.r, c.g, c.b, transitionTimer / transitionTime);
+                image.color = new Color(c.r, c.g, c.b, transitionTimer / time);
             }
-            if (c.a <= 0f)
+            if (c.a >= 1f)
             {
-                fadeIn = false;
+                fadingOut = false;
+                overrideTime=-1f;
             }
         }
 
@@ -112,18 +119,20 @@ public class LevelLoader : MonoBehaviour
 
     }
 
-    public void FadeIn(){
+    public void FadeIn(float time=-1f){
         fadeIn=true;
         transitionTimer=0f;
         Color c=image.color;
         image.color=new Color(c.r,c.g,c.b,1f);
         fadingOut=false;
+        overrideTime=time;
     }
 
-    public void FadeOut(){
+    public void FadeOut(float time=-1f){
         fadingOut=true;
         transitionTimer=0f;
         fadeIn=false;
+        overrideTime=time;
     }
 
     public void LoadLevel(string destination = "")
