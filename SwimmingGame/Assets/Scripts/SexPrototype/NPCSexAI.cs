@@ -119,6 +119,8 @@ public class NPCSexAI : MonoBehaviour
                 break;
         }
 
+        Rumble.AddRumble("Sex Intensity",Mathf.Clamp(((float)npcSpring.currentIntensity)/((float)intensityToReach),0f,1f));
+
         // WHEN TO MOVE ON:
         if(npcSpring.currentIntensity>=intensityToReach || stateCounter>=statesToCycleThrough){
             sexGameManager.MoveOn();
