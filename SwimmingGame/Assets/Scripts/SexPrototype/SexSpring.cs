@@ -11,6 +11,8 @@ public class SexSpring : MonoBehaviour
     public float maxExhaleTime = 0.3f;
     public float minExhaleTime = 0f;
     public float acceleration = 80f;
+    [HideInInspector]
+    public float inhaleTimeModifier=1f; //This value determines how fast we are inhaling
     public float drag = 0.7f;
     public float turnSpeed = 0.7f; // speed at which the character turns
     public float tiltAngle = 45f;
@@ -26,7 +28,7 @@ public class SexSpring : MonoBehaviour
     [System.NonSerialized]
     public Rigidbody characterRb;
     [System.NonSerialized]
-    public float inhaleStartTime, inhaleDuration, exhaleForce, exhaleTimeLeft, timeSinceExhale;
+    public float inhaleStartTime, inhaleDuration, exhaleForce, exhaleTimeLeft, timeSinceExhale, inhaleTime;
     [System.NonSerialized]
     public Vector3 originalScale, currentVelocity;
     [System.NonSerialized]
@@ -74,6 +76,7 @@ public class SexSpring : MonoBehaviour
     {
         isInhaling = true;
         inhaleStartTime = Time.time;
+        inhaleTime=0f;
     }
 
     // starts the exhaling process and calculates the force
@@ -83,10 +86,9 @@ public class SexSpring : MonoBehaviour
 
         isInhaling = false;
 
-        float heldInhaleTime = Time.time - inhaleStartTime;
-        exhaleTimeLeft = Mathf.Clamp(heldInhaleTime / maxInhaleTime, minExhaleTime, maxExhaleTime);
+        exhaleTimeLeft = Mathf.Clamp(inhaleTime / maxInhaleTime, minExhaleTime, maxExhaleTime);
 
-        exhaleForce = Mathf.Clamp(heldInhaleTime / maxInhaleTime, 0, 1) * acceleration;
+        exhaleForce = Mathf.Clamp(inhaleTime / maxInhaleTime, 0, 1) * acceleration;
 
         // Ensure a minimum movement force
         exhaleForce = Mathf.Max(exhaleForce, minimumExhaleForce);
@@ -95,7 +97,7 @@ public class SexSpring : MonoBehaviour
     // inhale lerping scale
     public void Inhale()
     {
-        float inhaleTime = Time.time - inhaleStartTime;
+        inhaleTime +=Time.deltaTime*inhaleTimeModifier;
         inhaleDuration = Mathf.Clamp(inhaleTime, 0, maxInhaleTime);
 
         float t = inhaleDuration / maxInhaleTime;

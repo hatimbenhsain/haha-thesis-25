@@ -69,11 +69,13 @@ public class SpringController : SexSpring
             chargingInstance.stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
             Sound.PlayOneShotVolume("event:/Sex/Thrust",1f,"force",1f);
         }
+
+        inhaleTimeModifier=playerInput.movingForwardValue;
         
         SpringUpdate();
 
         if(isInhaling){
-            Rumble.AddRumble("Inhaling",Mathf.Clamp((Time.time - inhaleStartTime) / maxInhaleTime,0f,1f));
+            Rumble.AddRumble("Inhaling",Mathf.Clamp(inhaleTime / maxInhaleTime,0f,1f));
         }
 
     }
