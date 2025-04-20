@@ -28,6 +28,8 @@ public class MusicBeat : MonoBehaviour
 
     private static MusicBeat musicBeatInstance;
 
+    private bool prevNewBeat=false;
+
     void Start()
     {
         musicInstance=GetComponent<StudioEventEmitter>().EventInstance;
@@ -45,13 +47,16 @@ public class MusicBeat : MonoBehaviour
 
     void Update()
     {
-        newBeat=false;
         musicInstance.getTimelinePosition(out timelineInfo.currentTime);
+
+        prevNewBeat=newBeat;
     }
 
     void LateUpdate()
     {
-        
+        if(prevNewBeat){
+            newBeat=false;
+        }
     }
 
     // void OnGUI()

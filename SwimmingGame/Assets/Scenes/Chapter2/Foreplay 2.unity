@@ -134,8 +134,9 @@ GameObject:
   - component: {fileID: 1361069}
   - component: {fileID: 1361071}
   - component: {fileID: 1361070}
+  - component: {fileID: 1361072}
   m_Layer: 0
-  m_Name: Underwater Ambiance (1)
+  m_Name: Music
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -199,6 +200,18 @@ MonoBehaviour:
   OverrideAttenuation: 0
   OverrideMinDistance: 1
   OverrideMaxDistance: 20
+--- !u!114 &1361072
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1361068}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: eb8a19d606bea4f4f94aa28989eefbd6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &26808013 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 1425932281175441680, guid: f3243293640d4b04f83f564187edf6be,
@@ -7509,6 +7522,7 @@ MonoBehaviour:
   maxDistance: 0
   moveOrigin: 0
   minPlayerDistance: -1
+  maxNPCNumToMaxRatio: 0.5
 --- !u!4 &912503325
 Transform:
   m_ObjectHideFlags: 0
@@ -22071,6 +22085,11 @@ PrefabInstance:
         type: 3}
       propertyPath: importantObjects.Array.data[5]
       value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 7898035528031244862, guid: 55034a02fa8da6f4292a9ee5691475f1,
+        type: 3}
+      propertyPath: danceToMusic
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7936166506842676255, guid: 55034a02fa8da6f4292a9ee5691475f1,
         type: 3}
