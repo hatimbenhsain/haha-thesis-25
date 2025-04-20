@@ -100,8 +100,54 @@ PrefabInstance:
       propertyPath: m_Center.z
       value: 0.000015258864
       objectReference: {fileID: 0}
+    - target: {fileID: 9135094842728659870, guid: 32ae7099d5cf20f41bdafeec18fb618e,
+        type: 3}
+      propertyPath: m_Controller
+      value: 
+      objectReference: {fileID: 9100000, guid: fef05b0653a64b44ebbb28430f0e67ec, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 74172541127084986, guid: 32ae7099d5cf20f41bdafeec18fb618e,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 4097419419685758488}
   m_SourcePrefab: {fileID: 100100000, guid: 32ae7099d5cf20f41bdafeec18fb618e, type: 3}
+--- !u!1 &5913149126127590344 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 74172541127084986, guid: 32ae7099d5cf20f41bdafeec18fb618e,
+    type: 3}
+  m_PrefabInstance: {fileID: 5983096174923010162}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &4097419419685758488
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5913149126127590344}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9a6610d2e704f1648819acc8d7460285, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  CollisionTag: 
+  EventReference:
+    Guid:
+      Data1: -1563402277
+      Data2: 1162923120
+      Data3: -2005903201
+      Data4: 224448000
+    Path: event:/Overworld/Things/bassLoop 1
+  Event: 
+  PlayEvent: 1
+  StopEvent: 2
+  AllowFadeout: 1
+  TriggerOnce: 0
+  Preload: 0
+  AllowNonRigidbodyDoppler: 0
+  Params: []
+  OverrideAttenuation: 0
+  OverrideMinDistance: 1
+  OverrideMaxDistance: 20
