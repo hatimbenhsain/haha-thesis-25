@@ -25,7 +25,8 @@ public class LevelLoader : MonoBehaviour
     public float transitionTime;
     public Image image;
     private float timer;
-    private float transitionTimer=0f;
+    [HideInInspector]
+    public float transitionTimer=0f;
     public bool fadingOut=false;
     public bool useUnscaledTime = false; 
     public Image loadingImage;

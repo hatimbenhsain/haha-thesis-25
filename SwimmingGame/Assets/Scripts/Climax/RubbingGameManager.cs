@@ -105,6 +105,15 @@ public class RubbingGameManager : MonoBehaviour
             climaxCameraManager.isClimaxCompleted = true;
         }
 
+        float rumbleModifier=1f;
+
+        if(levelLoaded){
+            rumbleModifier=(levelLoader.transitionTime-levelLoader.transitionTimer)/levelLoader.transitionTime;
+        }
+
+        Rumble.AddRumble("Base Climax",rumbleModifier);
+        Rumble.AddRumble("Climax Intensity",rumbleModifier*Mathf.Clamp(meterValue/100f,0f,1f));
+
         // Update the meter text
         //meterText.text = $"Meter: {meterValue:F2}";
 
