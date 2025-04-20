@@ -356,7 +356,8 @@ public class Dialogue : MonoBehaviour
         //lineTMP.text=GetWordByWordLine(displayText,Mathf.FloorToInt(currentCharacterIndex));
         string text=displayText.Substring(0,Mathf.FloorToInt(currentCharacterIndex));
         if(currentCharacterIndex<displayText.Length && currentCharacterIndex>1){
-            text=displayText.Substring(0,Mathf.Max(text.Length-1,0))+"<color="+nextCharColor+"><size="+nextCharSize.ToString()+">"+text[Mathf.Max(text.Length-1,0)]+"</size></color>";
+            if(inlinePauseTimer<=0f) text=displayText.Substring(0,Mathf.Max(text.Length-1,0))+"<color="+nextCharColor+"><size="+nextCharSize.ToString()+">"+text[Mathf.Max(text.Length-1,0)]+"</size></color>";
+            text+="<color=#00000000>"+displayText.Substring(Mathf.FloorToInt(currentCharacterIndex))+"</color>";
         }
         lineTMP.text=text;
         canvasParent.SetActive(true);

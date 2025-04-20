@@ -538,12 +538,12 @@ Teacher: So... #speed: slow
 Teacher: How was that?
 +   [Good.]
     ~ finishTutorialPart(2)
-    MC: Good.\\pause It felt really good.\\pause All over my body.
+    MC: Good. \\pauseIt felt really good. \\pauseAll over my body.
     Teacher: Really?
     MC: Yeah.
 +   [Weird.]
     ~ finishTutorialPart(2)
-    MC: Kind of weird.\\pause I'm not sure yet how I feel about it.
+    MC: Kind of weird. \\pauseI'm not sure yet how I feel about it.
     Teacher: But you don't... Do you regret it?
     MC: No, no.
     MC: I'm glad we did it. 
@@ -552,7 +552,7 @@ Teacher: How was that?
 +   [I'm not sure.]
     ~ finishTutorialPart(2)
     MC: I'm not sure.
-    MC: I mean, the physical sensations were amazing.\\pause Maybe the best I've ever felt.
+    MC: I mean, the physical sensations were amazing. \\pauseMaybe the best I've ever felt.
     MC: But also... I don't know.
 - MC: What about you?
 {
@@ -578,10 +578,12 @@ Teacher: So...
 Teacher: You said you've never done this before, right?
 +   [I haven't.]
     MC: No, I haven't.
-    Teacher: Just curious.
+    Teacher: Not even...
 +   [Why do you ask?]
-    MC: No, I haven't.
-- Teacher: Not even with your... lover? Before they left?
+    MC: Why are you asking that?
+    Teacher: Just curious.
+    Teacher: What about...
+- With your lover? Before they left?
 MC: How do you know bout that?
 Teacher: Oh! I mean...
 Teacher: Like I said, I've seen you around. And people talk.
@@ -616,7 +618,7 @@ Teacher: Would you have liked to... with them?
     MC: I don't know. Maybe. Probably. Maybe not. It's hard to visualize.
     MC: I'd really rather not think about it.
     Teacher: Right... Sorry for bringing that up.
-- Teacher: But, you know... \\pause\\pause\\pause things could be different once we're up there.
+- Teacher: But, you know... \\pause\\pause\\pausethings could be different once we're up there.
 ~ retractHandTrigger=true
 MC: What?
 MC: What do you mean?
@@ -1024,7 +1026,7 @@ NPC: What do you think that says about them?
 NPC: The food here was much better in the last cycle. Do you recall?
 In truth, the further I go in cycles, the better my memory of the food is. Isn't that peculiar?
 If I were employed in the kitchen, I would make sure the quality was always maintained to the most delectable standards of yester-cycle, for I have a perfect palate.
-Alas, my constitution is too delicate to gaze at fish guts. A shame!\\pause For everyone.
+Alas, my constitution is too delicate to gaze at fish guts. A shame! \\pauseFor everyone.
 - -> npcEnd ->
 -> END
 
