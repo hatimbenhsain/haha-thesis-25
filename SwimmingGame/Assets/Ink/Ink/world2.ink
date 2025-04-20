@@ -378,7 +378,7 @@ Enkidu: And why is that?
     //Enkidu: Yet it feels marvellous, doesn't it?
     Enkidu: What if you love them?
     MC: ...
-    I supposed I hadn't considered that.
+    I suppose I hadn't considered that.
     // Enkidu: Why be scared of what feels good?
     // MC: ...
     // I don't know.

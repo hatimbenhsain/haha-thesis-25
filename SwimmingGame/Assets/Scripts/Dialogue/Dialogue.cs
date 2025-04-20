@@ -90,6 +90,15 @@ public class Dialogue : MonoBehaviour
     //Inline pause: pausing in the middle of a line when writing \pause
     public float inlinePauseLength=1f; //in seconds
     private float inlinePauseTimer=0f;
+    [Tooltip("Font size for next character being written")]
+    public int nextCharSize=38; 
+    [Tooltip("Color for next character being written")]
+    public string nextCharColor="grey";
+    [Tooltip("Modify speed of typewriting if last char is a period")]
+    public float periodSpeedModifier=.1f;
+    
+    [Tooltip("Modify speed of typewriting if last char is another kind of punctuation")]
+    public float otherPunctuationSpeedModifier=.2f;
 
     [Header("Additional Text Boxes")]
     public GameObject standardTextBox;
@@ -344,13 +353,26 @@ public class Dialogue : MonoBehaviour
     //Show spoken text (not choices) on UI
     void ShowText(){
         textBox.SetActive(true);
-        lineTMP.text=displayText.Substring(0,Mathf.FloorToInt(currentCharacterIndex));
+        //lineTMP.text=GetWordByWordLine(displayText,Mathf.FloorToInt(currentCharacterIndex));
+        string text=displayText.Substring(0,Mathf.FloorToInt(currentCharacterIndex));
+        if(currentCharacterIndex<displayText.Length && currentCharacterIndex>1){
+            text=displayText.Substring(0,Mathf.Max(text.Length-1,0))+"<color="+nextCharColor+"><size="+nextCharSize.ToString()+">"+text[Mathf.Max(text.Length-1,0)]+"</size></color>";
+        }
+        lineTMP.text=text;
         canvasParent.SetActive(true);
         if(currentCharacterIndex<displayText.Length && inlinePauseTimer<=0f){
             textBox.GetComponentInChildren<Animator>().speed=currentTextSpeed/dialogueSpeedNormal;
         }else{
             textBox.GetComponentInChildren<Animator>().speed=0.5f;
         }
+    }
+
+    string GetWordByWordLine(string text, int index){
+        while(index<currentCharacterIndex && System.Char.IsLetter(text[index-1])){
+            index-=1;
+        }
+        text=text.Substring(0,Mathf.FloorToInt(index));
+        return text;
     }
 
     //Show choices on UI
@@ -446,7 +468,17 @@ public class Dialogue : MonoBehaviour
     //Progress text writing and watch for pauses
     void TypeWriter(){
         if(inlinePauseTimer<=0f){
-            currentCharacterIndex+=currentTextSpeed*Time.deltaTime;
+            float speedModifier=1f;
+            //Slow down if encountering punctuation
+            if(currentCharacterIndex<displayText.Length-1 && currentCharacterIndex>2){
+                char c=displayText[Mathf.FloorToInt(currentCharacterIndex)-2];
+                if(c=='.'){
+                    speedModifier=periodSpeedModifier;
+                }else if(c==',' || c=='?' || c=='!' || c==':'){
+                    speedModifier=otherPunctuationSpeedModifier;
+                }
+            }
+            currentCharacterIndex+=currentTextSpeed*Time.deltaTime*speedModifier;
             currentCharacterIndex=Mathf.Clamp(currentCharacterIndex,0f,displayText.Length);
         }else{
             inlinePauseTimer-=Time.deltaTime;
