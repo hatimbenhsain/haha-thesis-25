@@ -202,7 +202,7 @@ public class Dialogue : MonoBehaviour
                     if(currentCharacterIndex<displayText.Length){
                         currentCharacterIndex=displayText.Length;
                     }else{
-                        if(story.canContinue){
+                        if(story.canContinue && story.currentChoices.Count==0){
                             Continue();
                             if(story.currentChoices.Count==0){
                                 HideChoices();

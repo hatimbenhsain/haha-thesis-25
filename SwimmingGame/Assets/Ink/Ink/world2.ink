@@ -401,7 +401,7 @@ Enkidu: And why is that?
 
 =part2
 {
-    - feelingsCounter<2:
+    - feelingsCounter<=2:
         Enkidu: But there's more to it, isn't there?
         -> part1
     - else:

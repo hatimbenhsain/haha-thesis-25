@@ -24,6 +24,7 @@ public class CuddleDialogue : Dialogue
     public float offscreenBoxScale=.75f;
 
     private RectTransform[] choiceRects;
+    private Vector3[] choiceRectScales;
 
     private int prevChoiceIndex=-1;
 
@@ -44,8 +45,10 @@ public class CuddleDialogue : Dialogue
         if(!traveling) ChangeView(currentViewIndex);
         else{
             choiceRects=new RectTransform[choiceTextBoxes.Length];
+            choiceRectScales=new Vector3[choiceTextBoxes.Length];
             for(var k=0;k<choiceTextBoxes.Length;k++){
                 choiceRects[k]=choiceTextBoxes[k].GetComponent<RectTransform>();
+                choiceRectScales[k]=choiceRects[k].localScale;
             }
         }
     }
@@ -186,7 +189,7 @@ public class CuddleDialogue : Dialogue
             }
 
             Vector3 localScale=choiceRects[i].localScale;
-            float s=Mathf.Lerp(localScale.x,targetS,scaleSpeed*Time.deltaTime);
+            float s=Mathf.Lerp(localScale.x,targetS*choiceRectScales[i].x,scaleSpeed*Time.deltaTime);
             localScale=new Vector3(s,s,s);
             choiceRects[i].localScale=localScale;
 
@@ -208,17 +211,28 @@ public class CuddleDialogue : Dialogue
                 c.a=notSelectedOpacity*defaultChoiceBoxOpacites[k];
                 images[k].color=c;
             }
+            if(choiceRectScales!=null){
+                choiceRects[i].localScale=choiceRectScales[i];
+            }
         }
     }
 
     public override void ChangeView(int i){
+        if(choiceRectScales!=null && choiceRectScales.Length>0){
+            for(var k=0;k<choiceTextBoxes.Length;k++){
+                choiceRects[k].localScale=choiceRectScales[k];
+            }
+        }
+
         base.ChangeView(i);
 
         Debug.Log("Change view cuddle");
 
         choiceRects=new RectTransform[choiceTextBoxes.Length];
+        choiceRectScales=new Vector3[choiceTextBoxes.Length];
         for(var k=0;k<choiceTextBoxes.Length;k++){
             choiceRects[k]=choiceTextBoxes[k].GetComponent<RectTransform>();
+            choiceRectScales[k]=choiceRects[k].localScale;
         }
 
         FindObjectOfType<CuddleCameraManager>().shotIndex=currentViewIndex;
