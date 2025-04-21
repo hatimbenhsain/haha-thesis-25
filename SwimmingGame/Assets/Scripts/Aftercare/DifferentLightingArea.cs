@@ -20,6 +20,7 @@ public class DifferentLightingArea : MonoBehaviour
     public float bloomTresholdInside=-1f;
 
     public Color cameraBGTargetColor;
+    public float cameraTargetClippingPlane=-1f;
     public Color fogTargetColor;
     public float fogTargetDensity=-1f;
 
@@ -33,7 +34,7 @@ public class DifferentLightingArea : MonoBehaviour
 
     void Start()
     {
-        directionalLightBaseIntensity=directionalLight.intensity;
+        if(directionalLight!=null) directionalLightBaseIntensity=directionalLight.intensity;
         environmentalLightBaseIntensity=RenderSettings.ambientIntensity;
         profile=FindObjectOfType<Volume>().sharedProfile;
         profile.TryGet<Bloom>(out bloom);
@@ -53,7 +54,7 @@ public class DifferentLightingArea : MonoBehaviour
                 if(environmentalLightInsideIntensity!=-1f) environmentalLightTargetIntensity=environmentalLightInsideIntensity;
                 if(bloomTresholdInside!=-1) bloomTargetTreshold=bloomTresholdInside; 
             }
-            directionalLight.intensity=Mathf.Lerp(directionalLight.intensity,directionalLightTargetIntensity,
+            if(directionalLight!=null) directionalLight.intensity=Mathf.Lerp(directionalLight.intensity,directionalLightTargetIntensity,
                 lerpSpeed*Time.deltaTime);
             RenderSettings.ambientIntensity=Mathf.Lerp(RenderSettings.ambientIntensity,environmentalLightTargetIntensity,
                 lerpSpeed*Time.deltaTime);
@@ -69,6 +70,9 @@ public class DifferentLightingArea : MonoBehaviour
             }
             if(fogTargetDensity!=-1f){
                 RenderSettings.fogDensity=Mathf.Lerp(RenderSettings.fogDensity,fogTargetDensity,lerpSpeed*Time.deltaTime);
+            }
+            if(cameraTargetClippingPlane!=-1f){
+                Camera.main.farClipPlane=Mathf.Lerp(Camera.main.farClipPlane,cameraTargetClippingPlane,lerpSpeed*Time.deltaTime);
             }
         }
     }
