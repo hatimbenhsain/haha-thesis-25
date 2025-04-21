@@ -9,16 +9,17 @@ public class MainAct11CinematicsManager : MonoBehaviour
     public MeshRenderer MCMeshRenderer;
     public Transform lidOrigin;
     public Rigidbody lidRigidbody; 
+    public bool hideOrgansAtStart;
 
     // Start is called before the first frame update
     void Start()
     {
-        if (MCRope != null)
+        if (MCRope != null && hideOrgansAtStart)
         {
             MCRope.enabled = false;
         }
 
-        if (MCMeshRenderer != null)
+        if (MCMeshRenderer != null && hideOrgansAtStart)
         {
             MCMeshRenderer.enabled = false;
         }
