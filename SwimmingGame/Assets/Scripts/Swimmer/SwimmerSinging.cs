@@ -242,4 +242,8 @@ public class SwimmerSinging : Singing
         isHarmonizing=true;
     }
 
+    public void Harmonized(){
+        if(harmonyCompleteAnimator!=null) harmonyCompleteAnimator.SetTrigger("complete");
+    }
+
 }

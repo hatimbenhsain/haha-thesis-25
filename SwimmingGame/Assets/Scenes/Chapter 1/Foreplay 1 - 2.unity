@@ -179,6 +179,7 @@ MonoBehaviour:
   forceDialogue: 0
   sitting: 1
   stopToTalk: 1
+  animateSwimming: 1
   acceleration: 4
   maxVelocity: 3
   deceleration: 1.5
@@ -221,6 +222,7 @@ MonoBehaviour:
   singingNote: B4
   singingVolume: 0
   maxSingingVolume: 1
+  harmonyCompleteAnimator: {fileID: 0}
   singingMode: 0
   singingTraceSpriteRenderer: {fileID: 6866363926158116533}
   singingTraceSprites:
@@ -241,6 +243,7 @@ MonoBehaviour:
   - musicNote: 
     length: 1
   sequenceIndex: 0
+  synchedToMusic: 0
   timeBeforePickingUpHarmony: 1
   timeBeforeDroppingHarmony: 1
   gettingTiredTime: 4
@@ -640,6 +643,7 @@ MonoBehaviour:
   forceDialogue: 0
   sitting: 1
   stopToTalk: 1
+  animateSwimming: 1
   acceleration: 4
   maxVelocity: 3
   deceleration: 1.5
@@ -682,6 +686,7 @@ MonoBehaviour:
   singingNote: B4
   singingVolume: 0
   maxSingingVolume: 1
+  harmonyCompleteAnimator: {fileID: 0}
   singingMode: 1
   singingTraceSpriteRenderer: {fileID: 6866363926158116533}
   singingTraceSprites:
@@ -692,6 +697,7 @@ MonoBehaviour:
   - {fileID: 607537459, guid: 9eaabeef8a2711f46980fb51160fd866, type: 3}
   sequence: []
   sequenceIndex: 0
+  synchedToMusic: 0
   timeBeforePickingUpHarmony: 0.5
   timeBeforeDroppingHarmony: 0.5
   gettingTiredTime: 8
@@ -1268,6 +1274,7 @@ MonoBehaviour:
   forceDialogue: 0
   sitting: 1
   stopToTalk: 1
+  animateSwimming: 1
   acceleration: 4
   maxVelocity: 3
   deceleration: 1.5
@@ -1310,6 +1317,7 @@ MonoBehaviour:
   singingNote: B4
   singingVolume: 0
   maxSingingVolume: 1
+  harmonyCompleteAnimator: {fileID: 0}
   singingMode: 1
   singingTraceSpriteRenderer: {fileID: 6866363926158116533}
   singingTraceSprites:
@@ -1320,6 +1328,7 @@ MonoBehaviour:
   - {fileID: 607537459, guid: 9eaabeef8a2711f46980fb51160fd866, type: 3}
   sequence: []
   sequenceIndex: 0
+  synchedToMusic: 0
   timeBeforePickingUpHarmony: 0.5
   timeBeforeDroppingHarmony: 0.5
   gettingTiredTime: 8
@@ -1431,6 +1440,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_AnchoredPosition.y
       value: -122.08
+      objectReference: {fileID: 0}
+    - target: {fileID: 2355734445261793698, guid: 1c8ad2b2d7ff68c45b5eee5039926f9d,
+        type: 3}
+      propertyPath: harmonyCompleteAnimator
+      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 2631372478074727883, guid: 1c8ad2b2d7ff68c45b5eee5039926f9d,
         type: 3}
@@ -2503,7 +2517,7 @@ MonoBehaviour:
   brainIndex: 0
   nextBrainTrigger: 0
   looping: 0
-  progressWhenHarmonized: 1
+  loopOffset: 0
 --- !u!212 &9122782148487855023
 SpriteRenderer:
   m_ObjectHideFlags: 0

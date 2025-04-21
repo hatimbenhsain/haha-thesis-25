@@ -212,6 +212,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eb8a19d606bea4f4f94aa28989eefbd6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  maxProximity: 5
+  minProximity: 1
 --- !u!1 &26808013 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 1425932281175441680, guid: f3243293640d4b04f83f564187edf6be,
@@ -249,6 +251,12 @@ Transform:
   m_Children: []
   m_Father: {fileID: 2047466377}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!95 &38180237 stripped
+Animator:
+  m_CorrespondingSourceObject: {fileID: 692580368923001470, guid: 18883a2698f861d48af8542813b5dfdf,
+    type: 3}
+  m_PrefabInstance: {fileID: 864101749}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &184604711
 GameObject:
   m_ObjectHideFlags: 1
@@ -540,6 +548,7 @@ MonoBehaviour:
   singingNote: B4
   singingVolume: 0
   maxSingingVolume: 1
+  harmonyCompleteAnimator: {fileID: 0}
   singingMode: 0
   singingTraceSpriteRenderer: {fileID: 1758248632}
   singingTraceSprites:
@@ -5764,6 +5773,11 @@ PrefabInstance:
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: 035a48a539312914f8762cf7100ec0cb, type: 2}
+    - target: {fileID: -4421951127733785618, guid: be2b7df759f35d748bd342c0e2d73098,
+        type: 3}
+      propertyPath: m_Layer
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: -2571118854743697038, guid: be2b7df759f35d748bd342c0e2d73098,
         type: 3}
       propertyPath: m_Materials.Array.data[0]
@@ -5819,6 +5833,11 @@ PrefabInstance:
       propertyPath: m_Materials.Array.data[3]
       value: 
       objectReference: {fileID: 2100000, guid: c412420769b7bbd449f1a0f9fba39b19, type: 2}
+    - target: {fileID: 3825476767833321780, guid: be2b7df759f35d748bd342c0e2d73098,
+        type: 3}
+      propertyPath: m_Layer
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 4052797199018717817, guid: be2b7df759f35d748bd342c0e2d73098,
         type: 3}
       propertyPath: m_CastShadows
@@ -5869,6 +5888,10 @@ PrefabInstance:
       insertIndex: -1
       addedObject: {fileID: 253081586}
     m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 3825476767833321780, guid: be2b7df759f35d748bd342c0e2d73098,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 668313571}
     - targetCorrespondingSourceObject: {fileID: -7866540584189092298, guid: be2b7df759f35d748bd342c0e2d73098,
         type: 3}
       insertIndex: -1
@@ -6470,6 +6493,34 @@ Light:
   m_UseViewFrustumForShadowCasterCull: 1
   m_ShadowRadius: 0
   m_ShadowAngle: 0
+--- !u!1 &668313567 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3825476767833321780, guid: be2b7df759f35d748bd342c0e2d73098,
+    type: 3}
+  m_PrefabInstance: {fileID: 296236793}
+  m_PrefabAsset: {fileID: 0}
+--- !u!64 &668313571
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 668313567}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 5
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: 7061899767535425809, guid: be2b7df759f35d748bd342c0e2d73098, type: 3}
 --- !u!1001 &702685015
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -7311,6 +7362,7 @@ MonoBehaviour:
   singingNote: B4
   singingVolume: 0
   maxSingingVolume: 1
+  harmonyCompleteAnimator: {fileID: 1760262555}
   singingMode: 0
   singingTraceSpriteRenderer: {fileID: 1274682367}
   singingTraceSprites:
@@ -7867,6 +7919,7 @@ MonoBehaviour:
   singingNote: B4
   singingVolume: 0
   maxSingingVolume: 1
+  harmonyCompleteAnimator: {fileID: 1760262555}
   singingMode: 0
   singingTraceSpriteRenderer: {fileID: 1274682367}
   singingTraceSprites:
@@ -8217,6 +8270,7 @@ MonoBehaviour:
   singingNote: B4
   singingVolume: 0
   maxSingingVolume: 1
+  harmonyCompleteAnimator: {fileID: 38180237}
   singingMode: 0
   singingTraceSpriteRenderer: {fileID: 1758248632}
   singingTraceSprites:
@@ -18238,6 +18292,7 @@ MonoBehaviour:
   singingNote: B4
   singingVolume: 0
   maxSingingVolume: 1
+  harmonyCompleteAnimator: {fileID: 1760262555}
   singingMode: 0
   singingTraceSpriteRenderer: {fileID: 1274682367}
   singingTraceSprites:
@@ -18929,6 +18984,7 @@ MonoBehaviour:
   singingNote: B4
   singingVolume: 0
   maxSingingVolume: 1
+  harmonyCompleteAnimator: {fileID: 38180237}
   singingMode: 0
   singingTraceSpriteRenderer: {fileID: 1758248632}
   singingTraceSprites:
@@ -19848,6 +19904,7 @@ MonoBehaviour:
   singingNote: B4
   singingVolume: 0
   maxSingingVolume: 1
+  harmonyCompleteAnimator: {fileID: 38180237}
   singingMode: 0
   singingTraceSpriteRenderer: {fileID: 1758248632}
   singingTraceSprites:
@@ -20244,6 +20301,7 @@ MonoBehaviour:
   singingNote: B4
   singingVolume: 0
   maxSingingVolume: 1
+  harmonyCompleteAnimator: {fileID: 0}
   singingMode: 0
   singingTraceSpriteRenderer: {fileID: 1274682367}
   singingTraceSprites:
@@ -20555,6 +20613,12 @@ SpriteRenderer:
     type: 3}
   m_PrefabInstance: {fileID: 864101749}
   m_PrefabAsset: {fileID: 0}
+--- !u!95 &1760262555 stripped
+Animator:
+  m_CorrespondingSourceObject: {fileID: 8960795888828752653, guid: 8035d05e340c35f41a1886581fbb1af3,
+    type: 3}
+  m_PrefabInstance: {fileID: 2139978454}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1786809360
 GameObject:
   m_ObjectHideFlags: 0
@@ -20618,7 +20682,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   target: {fileID: 438770298}
   minDistance: 3
-  maxDistance: 17
+  maxDistance: 12
 --- !u!1 &1834660013
 GameObject:
   m_ObjectHideFlags: 0
@@ -20733,6 +20797,7 @@ MonoBehaviour:
   singingNote: B4
   singingVolume: 0
   maxSingingVolume: 1
+  harmonyCompleteAnimator: {fileID: 38180237}
   singingMode: 1
   singingTraceSpriteRenderer: {fileID: 1758248632}
   singingTraceSprites:
@@ -20961,6 +21026,7 @@ MonoBehaviour:
   singingNote: B4
   singingVolume: 0
   maxSingingVolume: 1
+  harmonyCompleteAnimator: {fileID: 1760262555}
   singingMode: 1
   singingTraceSpriteRenderer: {fileID: 1274682367}
   singingTraceSprites:
