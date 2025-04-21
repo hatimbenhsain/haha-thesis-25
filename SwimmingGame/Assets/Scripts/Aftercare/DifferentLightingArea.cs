@@ -20,9 +20,13 @@ public class DifferentLightingArea : MonoBehaviour
     public float bloomTresholdInside=-1f;
 
     public Color cameraBGTargetColor;
+    private Color cameraBGBaseColor;
     public float cameraTargetClippingPlane=-1f;
+    private float cameraBaseClippingPlane;
     public Color fogTargetColor;
+    private Color fogBaseColor;
     public float fogTargetDensity=-1f;
+    private float fogBaseDensity;
 
     public bool inside=false;
 
@@ -41,6 +45,10 @@ public class DifferentLightingArea : MonoBehaviour
         if(bloomTresholdInside!=-1){
             initialBloomTreshold=bloom.threshold.value;
         }
+        fogBaseColor=RenderSettings.fogColor;
+        cameraBGBaseColor=Camera.main.backgroundColor;
+        cameraBaseClippingPlane=Camera.main.farClipPlane;
+        fogBaseDensity=RenderSettings.fogDensity;
     }
 
     void Update()
@@ -49,10 +57,26 @@ public class DifferentLightingArea : MonoBehaviour
             float directionalLightTargetIntensity=directionalLightBaseIntensity;
             float environmentalLightTargetIntensity=environmentalLightBaseIntensity;
             float bloomTargetTreshold=bloomTresholdInside;
-            if(inside){
+            Color cbgTargetColor=cameraBGBaseColor;
+            Color fgTargetColor=fogBaseColor;
+            float fgTargetDensity=fogBaseDensity;
+            float cTargetClippingPlane=cameraBaseClippingPlane;
+            if(inside || permanent){
                 if(directionalLightInsideIntensity!=-1f) directionalLightTargetIntensity=directionalLightInsideIntensity;
                 if(environmentalLightInsideIntensity!=-1f) environmentalLightTargetIntensity=environmentalLightInsideIntensity;
                 if(bloomTresholdInside!=-1) bloomTargetTreshold=bloomTresholdInside; 
+                if(cameraBGTargetColor.a>0f){
+                    cbgTargetColor=cameraBGTargetColor;
+                }
+                if(fogTargetColor.a>0f){
+                    fgTargetColor=fogTargetColor;
+                }
+                if(fogTargetDensity!=-1f){
+                    fgTargetDensity=fogTargetDensity;
+                }
+                if(cameraTargetClippingPlane!=-1f){
+                    cTargetClippingPlane=cameraTargetClippingPlane;
+                }
             }
             if(directionalLight!=null) directionalLight.intensity=Mathf.Lerp(directionalLight.intensity,directionalLightTargetIntensity,
                 lerpSpeed*Time.deltaTime);
@@ -62,18 +86,11 @@ public class DifferentLightingArea : MonoBehaviour
                 bloom.threshold.value=Mathf.Lerp(bloom.threshold.value,bloomTargetTreshold,
                 lerpSpeed*Time.deltaTime);
             }
-            if(cameraBGTargetColor.a>0f){
-                Camera.main.backgroundColor=Color.Lerp(Camera.main.backgroundColor,cameraBGTargetColor,lerpSpeed*Time.deltaTime);
-            }
-            if(fogTargetColor.a>0f){
-                RenderSettings.fogColor=Color.Lerp(RenderSettings.fogColor,fogTargetColor,lerpSpeed*Time.deltaTime);
-            }
-            if(fogTargetDensity!=-1f){
-                RenderSettings.fogDensity=Mathf.Lerp(RenderSettings.fogDensity,fogTargetDensity,lerpSpeed*Time.deltaTime);
-            }
-            if(cameraTargetClippingPlane!=-1f){
-                Camera.main.farClipPlane=Mathf.Lerp(Camera.main.farClipPlane,cameraTargetClippingPlane,lerpSpeed*Time.deltaTime);
-            }
+            Camera.main.backgroundColor=Color.Lerp(Camera.main.backgroundColor,cbgTargetColor,lerpSpeed*Time.deltaTime);
+            RenderSettings.fogColor=Color.Lerp(RenderSettings.fogColor,fgTargetColor,lerpSpeed*Time.deltaTime);
+            RenderSettings.fogDensity=Mathf.Lerp(RenderSettings.fogDensity,fgTargetDensity,lerpSpeed*Time.deltaTime);
+            Camera.main.farClipPlane=Mathf.Lerp(Camera.main.farClipPlane,cTargetClippingPlane,lerpSpeed*Time.deltaTime);
+
         }
     }
 
