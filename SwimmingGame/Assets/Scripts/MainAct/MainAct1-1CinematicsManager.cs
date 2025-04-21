@@ -69,7 +69,7 @@ public class MainAct11CinematicsManager : MonoBehaviour
 
         lidRigidbody.isKinematic = false; // Set the Rigidbody to be non-kinematic to allow physics interactions
         // Apply force in the positive X direction to the Rigidbody
-        lidRigidbody.AddForce(Vector3.right * forceAmount*3f, ForceMode.Impulse);
+        lidRigidbody.AddForce(Vector3.right * forceAmount*6f, ForceMode.Impulse);
         lidRigidbody.AddTorque(Vector3.right * forceAmount*0.3f, ForceMode.Impulse); // Add torque to the Rigidbody for rotation
         lidRigidbody.AddTorque(Vector3.back * forceAmount*0.1f, ForceMode.Impulse); // Add torque to the Rigidbody for rotation
         lidRigidbody.AddTorque(Vector3.down * forceAmount*0.1f, ForceMode.Impulse); // Add torque to the Rigidbody for rotation
