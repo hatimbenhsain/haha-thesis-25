@@ -399,6 +399,10 @@ public class NPCSinging : Singing
     }
 
     void Harmonized(){
+        if(!harmonized){
+            if(harmonyCompleteAnimator!=null) harmonyCompleteAnimator.SetTrigger("complete");
+            swimmerSinging.Harmonized();
+        }
         harmonized=true;
     }
 

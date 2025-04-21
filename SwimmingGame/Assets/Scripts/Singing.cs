@@ -22,6 +22,7 @@ public class Singing : Sound
     public string singingNote;
     public float singingVolume;
     public float maxSingingVolume=1f;
+    public Animator harmonyCompleteAnimator;
     public void SingingStart()
     {
         for(int i=0;i<possibleNotes.Count;i++){

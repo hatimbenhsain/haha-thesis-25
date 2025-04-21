@@ -218,7 +218,8 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 2714296679096533335}
   m_Father: {fileID: 7440094044631570832}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &4722272941659349721
@@ -467,6 +468,7 @@ MonoBehaviour:
   singingNote: B4
   singingVolume: 0
   maxSingingVolume: 1
+  harmonyCompleteAnimator: {fileID: 2413586548770696710}
   singingMode: 0
   singingTraceSpriteRenderer: {fileID: 6267489071244537348}
   singingTraceSprites:
@@ -989,3 +991,83 @@ MonoBehaviour:
   pauseLength: 0
   active: 0
   newStrokeFrequency: -1
+--- !u!1001 &2150719153768172822
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 8186199135295200523}
+    m_Modifications:
+    - target: {fileID: 4067874019434122305, guid: 4320fa76b4139de489cdbbc8ac6a91a6,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4067874019434122305, guid: 4320fa76b4139de489cdbbc8ac6a91a6,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.771
+      objectReference: {fileID: 0}
+    - target: {fileID: 4067874019434122305, guid: 4320fa76b4139de489cdbbc8ac6a91a6,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4067874019434122305, guid: 4320fa76b4139de489cdbbc8ac6a91a6,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4067874019434122305, guid: 4320fa76b4139de489cdbbc8ac6a91a6,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4067874019434122305, guid: 4320fa76b4139de489cdbbc8ac6a91a6,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4067874019434122305, guid: 4320fa76b4139de489cdbbc8ac6a91a6,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4067874019434122305, guid: 4320fa76b4139de489cdbbc8ac6a91a6,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4067874019434122305, guid: 4320fa76b4139de489cdbbc8ac6a91a6,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4067874019434122305, guid: 4320fa76b4139de489cdbbc8ac6a91a6,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6962400631398841552, guid: 4320fa76b4139de489cdbbc8ac6a91a6,
+        type: 3}
+      propertyPath: m_Name
+      value: Harmony Complete Animation (1)
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 4320fa76b4139de489cdbbc8ac6a91a6, type: 3}
+--- !u!95 &2413586548770696710 stripped
+Animator:
+  m_CorrespondingSourceObject: {fileID: 4370228322699338512, guid: 4320fa76b4139de489cdbbc8ac6a91a6,
+    type: 3}
+  m_PrefabInstance: {fileID: 2150719153768172822}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &2714296679096533335 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 4067874019434122305, guid: 4320fa76b4139de489cdbbc8ac6a91a6,
+    type: 3}
+  m_PrefabInstance: {fileID: 2150719153768172822}
+  m_PrefabAsset: {fileID: 0}
