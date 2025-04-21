@@ -6,7 +6,7 @@ using Obi;
 public class MainAct11CinematicsManager : MonoBehaviour
 {
     public ObiRopeExtrudedRenderer MCRope;
-    public MeshRenderer MCMeshRenderer;
+    public SkinnedMeshRenderer MCMeshRenderer;
     public Transform lidOrigin;
     public Rigidbody lidRigidbody; 
     public bool hideOrgansAtStart;
