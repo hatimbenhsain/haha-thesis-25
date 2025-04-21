@@ -70,7 +70,7 @@ I'm sure you've... seen a lot in there.
 MC: Yeah. There's a lot going on.
 NPC: I used to enjoy these parties. Really. But they've... perverted it. It's against current.
 MC: ...It's not that bad.
-NPC: So,\\pause how have you been feeling? I know that last one you had relations with also went away...
+NPC: So, \\pausehow have you been feeling? I know that last one you had relations with also went away...
 +   [Fine.]
     MC: I'm fine. Really.
     NPC: Really?

@@ -487,9 +487,12 @@ Teacher: Let's keep going.
 ~loadLevel("Main Act 1 - 1")
 -> END
 
+VAR freezeMoment=false
+
 //Right after the organs come out
 === teacherMainAct1 ===
 # ambient
+~ freezeMoment=true
 MC: WAIT, stop!!! # time: 2
 ~loadLevel("Foreplay 1 - 2")
 -> END

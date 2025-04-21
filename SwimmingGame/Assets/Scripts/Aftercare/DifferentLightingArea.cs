@@ -7,6 +7,8 @@ using UnityEngine.Rendering.Universal;
 
 public class DifferentLightingArea : MonoBehaviour
 {
+    [Tooltip("If true, these settings continue applying when leaving, until reach a different area.")]
+    public bool permanent=false;
     public Light directionalLight;
     private float directionalLightBaseIntensity;
     public float directionalLightInsideIntensity;
@@ -16,6 +18,10 @@ public class DifferentLightingArea : MonoBehaviour
     public float environmentalLightInsideIntensity=-1f;
 
     public float bloomTresholdInside=-1f;
+
+    public Color cameraBGTargetColor;
+    public Color fogTargetColor;
+    public float fogTargetDensity=-1f;
 
     public bool inside=false;
 
@@ -55,6 +61,15 @@ public class DifferentLightingArea : MonoBehaviour
                 bloom.threshold.value=Mathf.Lerp(bloom.threshold.value,bloomTargetTreshold,
                 lerpSpeed*Time.deltaTime);
             }
+            if(cameraBGTargetColor.a>0f){
+                Camera.main.backgroundColor=Color.Lerp(Camera.main.backgroundColor,cameraBGTargetColor,lerpSpeed*Time.deltaTime);
+            }
+            if(fogTargetColor.a>0f){
+                RenderSettings.fogColor=Color.Lerp(RenderSettings.fogColor,fogTargetColor,lerpSpeed*Time.deltaTime);
+            }
+            if(fogTargetDensity!=-1f){
+                RenderSettings.fogDensity=Mathf.Lerp(RenderSettings.fogDensity,fogTargetDensity,lerpSpeed*Time.deltaTime);
+            }
         }
     }
 
@@ -70,6 +85,9 @@ public class DifferentLightingArea : MonoBehaviour
         if(other.gameObject.tag=="Player"){
             inside=false;
             DeactivateOtherAreas(true);
+        }
+        if(permanent){
+            active=true;
         }
     }
 
