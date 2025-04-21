@@ -23,6 +23,7 @@ public class SpringController : SexSpring
     public float shakeAmplitude = 0.2f; 
     public bool lockCamera;
 
+    public bool canMove = true; // Flag to enable/disable movement
 
     private PlayerInput playerInput;
     private bool isAligningWithCamera = false;
@@ -37,7 +38,6 @@ public class SpringController : SexSpring
 
     private EventInstance chargingInstance;
 
-
     void Start()
     {
         SpringStart();
@@ -45,15 +45,17 @@ public class SpringController : SexSpring
         playerInput = FindObjectOfType<PlayerInput>();
         thirdPersonFollow = virtualCamera.GetCinemachineComponent<Cinemachine3rdPersonFollow>();
 
-        chargingInstance=RuntimeManager.CreateInstance("event:/Sex/Charge");
+        chargingInstance = RuntimeManager.CreateInstance("event:/Sex/Charge");
     }
 
     private void Update()
     {
+        if (!canMove) return; // Disable movement logic if canMove is false
+
         if (playerInput.movingForward && !playerInput.prevMovingForward)
         {
             StartInhaling();
-            // enable screenshake and quick camera lerp speed
+            // Enable screenshake and quick camera lerp speed
             isShaking = true;
             cameraLerpSpeed = quickCameraLerpSpeed;
             chargingInstance.start();
@@ -62,27 +64,29 @@ public class SpringController : SexSpring
         if (!playerInput.movingForward && playerInput.prevMovingForward)
         {
             StartExhaling();
-            // disable screenshake and return to default camera lerp speed
+            // Disable screenshake and return to default camera lerp speed
             isShaking = false;
             cameraLerpSpeed = defaultCameraLerpSpeed;
 
             chargingInstance.stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
-            Sound.PlayOneShotVolume("event:/Sex/Thrust",1f,"force",1f);
+            Sound.PlayOneShotVolume("event:/Sex/Thrust", 1f, "force", 1f);
         }
 
-        inhaleTimeModifier=playerInput.movingForwardValue;
-        
+        inhaleTimeModifier = playerInput.movingForwardValue;
+
         SpringUpdate();
 
-        if(isInhaling){
-            Rumble.AddRumble("Inhaling",Mathf.Clamp(inhaleTime / maxInhaleTime,0f,1f));
+        if (isInhaling)
+        {
+            Rumble.AddRumble("Inhaling", Mathf.Clamp(inhaleTime / maxInhaleTime, 0f, 1f));
         }
-
     }
+
     void FixedUpdate()
     {
+        if (!canMove) return; // Disable movement logic if canMove is false
 
-        if (!playerInput.aiming&&!lockCamera)
+        if (!playerInput.aiming && !lockCamera)
         {
             AlignWithCamera();
         }
@@ -91,7 +95,7 @@ public class SpringController : SexSpring
             isAligningWithCamera = false;
             cameraDistance = 2;
         }
-         
+
         if (playerInput.currentControlScheme == "Gamepad")
         {
             HandleTurning(new Vector2(playerInput.look.x, -playerInput.look.y), lockCamera);
@@ -101,10 +105,11 @@ public class SpringController : SexSpring
             ConvertMovementInput(playerInput.movingForward, playerInput.movingBackward, playerInput.movingLeft, playerInput.movingRight);
             HandleTurning(movementVector, lockCamera);
         }
+
         if (isShaking)
         {
             InhaleCameraFeedback(shakeAmplitude);
-            if (isAligningWithCamera) // if not zooming out
+            if (isAligningWithCamera) // If not zooming out
             {
                 cameraDistance = 0;
             }
@@ -112,7 +117,7 @@ public class SpringController : SexSpring
         else
         {
             InhaleCameraFeedback(0f);
-            if (isAligningWithCamera) // if not zooming out
+            if (isAligningWithCamera) // If not zooming out
             {
                 cameraDistance = 1;
             }
@@ -124,6 +129,8 @@ public class SpringController : SexSpring
 
     void ConvertMovementInput(bool movingForward, bool movingBackward, bool movingLeft, bool movingRight)
     {
+        if (!canMove) return; // Disable movement logic if canMove is false
+
         // Reset movementVector before accumulating input
         movementVector.x = 0f;
         movementVector.y = 0f;
@@ -141,20 +148,22 @@ public class SpringController : SexSpring
         }
     }
 
-
-
-    // align character with camera direction
+    // Align character with camera direction
     void AlignWithCamera()
     {
+        if (!canMove) return; // Disable movement logic if canMove is false
+
         Vector3 cameraForward = playerCamera.transform.forward;
-        targetRotation = Quaternion.LookRotation(cameraForward); // set target rotation based on camera direction
-        isAligningWithCamera = true; // start aligning
+        targetRotation = Quaternion.LookRotation(cameraForward); // Set target rotation based on camera direction
+        isAligningWithCamera = true; // Start aligning
         characterRb.MoveRotation(Quaternion.Lerp(characterRb.rotation, targetRotation, cameraLerpSpeed * Time.fixedDeltaTime));
-        characterRb.angularVelocity = Vector3.zero; // clear all angular acceleration
+        characterRb.angularVelocity = Vector3.zero; // Clear all angular acceleration
     }
 
     void ZoomOutCamera()
     {
+        if (!canMove) return; // Disable movement logic if canMove is false
+
         isAligningWithCamera = false;
 
         // Smoothly restore the original camera distance
@@ -169,23 +178,30 @@ public class SpringController : SexSpring
         // Shake and zoom in camera
         CinemachineBasicMultiChannelPerlin cinemachineBasicMultiChannelPerlin = virtualCamera.GetCinemachineComponent<CinemachineBasicMultiChannelPerlin>();
         cinemachineBasicMultiChannelPerlin.m_AmplitudeGain = intensity;
-
     }
 
     void LerpCameraDistance()
     {
+        if (!canMove) return; // Disable movement logic if canMove is false
+
         switch (cameraDistance)
         {
             case 0:
-                targetCameraDistance = ZoomInCameraDistance; 
+                targetCameraDistance = ZoomInCameraDistance;
                 break;
             case 1:
-                targetCameraDistance = defaultCameraDistance; break;
-                
+                targetCameraDistance = defaultCameraDistance;
+                break;
             case 2:
-                targetCameraDistance = ZoomOutCameraDistance; break;
+                targetCameraDistance = ZoomOutCameraDistance;
+                break;
         }
         thirdPersonFollow.CameraDistance = Mathf.Lerp(thirdPersonFollow.CameraDistance, targetCameraDistance, cameraLerpSpeed * Time.fixedDeltaTime);
+    }
+
+    public void SetCanMove(bool value)
+    {
+        canMove = value;
     }
 
     void OnDestroy()
