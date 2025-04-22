@@ -2202,6 +2202,8 @@ PlayableDirector:
     value: {fileID: 2063464792}
   - key: {fileID: 1363131113654686814, guid: 625519da39c0483448778cd47c247ff4, type: 2}
     value: {fileID: 0}
+  - key: {fileID: 1082595124207755327, guid: 625519da39c0483448778cd47c247ff4, type: 2}
+    value: {fileID: 1604841041}
   m_ExposedReferences:
     m_References: []
 --- !u!114 &341337117
@@ -3166,6 +3168,7 @@ MonoBehaviour:
   singingNote: 
   singingVolume: 0
   maxSingingVolume: 1
+  harmonyCompleteAnimator: {fileID: 0}
   singingMode: 0
   singingTraceSpriteRenderer: {fileID: 1871701155}
   singingTraceSprites:
@@ -3766,7 +3769,7 @@ Canvas:
   m_AdditionalShaderChannelsFlag: 0
   m_UpdateRectTransformForStandalone: 0
   m_SortingLayerID: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 1
   m_TargetDisplay: 0
 --- !u!1001 &592209802
 PrefabInstance:
@@ -5754,6 +5757,7 @@ MonoBehaviour:
   singingNote: 
   singingVolume: 0
   maxSingingVolume: 1
+  harmonyCompleteAnimator: {fileID: 0}
   singingMode: 0
   singingTraceSpriteRenderer: {fileID: 1871701155}
   singingTraceSprites:
@@ -8977,6 +8981,12 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1597357649}
   m_CullTransparentMesh: 1
+--- !u!1 &1604841041 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8654559228966680593, guid: 1c8ad2b2d7ff68c45b5eee5039926f9d,
+    type: 3}
+  m_PrefabInstance: {fileID: 151523396}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1617169934 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 2878758863367483529, guid: c5e3a2b3532bc254daefce58a4b04d3c,
@@ -9472,6 +9482,7 @@ MonoBehaviour:
   singingNote: 
   singingVolume: 0
   maxSingingVolume: 1
+  harmonyCompleteAnimator: {fileID: 0}
   singingMode: 0
   singingTraceSpriteRenderer: {fileID: 1871701155}
   singingTraceSprites:
@@ -10997,6 +11008,7 @@ MonoBehaviour:
   singingNote: 
   singingVolume: 0
   maxSingingVolume: 1
+  harmonyCompleteAnimator: {fileID: 0}
   singingMode: 0
   singingTraceSpriteRenderer: {fileID: 1871701155}
   singingTraceSprites:
@@ -15352,6 +15364,10 @@ MonoBehaviour:
   dialogueSpeedNormal: 30
   dialogueSpeedFast: 80
   inlinePauseLength: 1
+  nextCharSize: 38
+  nextCharColor: grey
+  periodSpeedModifier: 0.1
+  otherPunctuationSpeedModifier: 0.2
   standardTextBox: {fileID: 1277525342}
   floralTextBox: {fileID: 392977327}
   boneTextBox: {fileID: 1669701666}
@@ -15682,6 +15698,7 @@ MonoBehaviour:
   maxExhaleTime: 0.3
   minExhaleTime: 0
   acceleration: 60
+  inhaleTimeModifier: 1
   drag: 0.7
   turnSpeed: 0.7
   tiltAngle: 45
@@ -15702,6 +15719,7 @@ MonoBehaviour:
   ZoomInCameraDistance: 5
   shakeAmplitude: 0.5
   lockCamera: 1
+  canMove: 1
 --- !u!224 &3975562822131624116
 RectTransform:
   m_ObjectHideFlags: 0
@@ -16364,6 +16382,7 @@ MonoBehaviour:
   maxExhaleTime: 0.3
   minExhaleTime: 0
   acceleration: 60
+  inhaleTimeModifier: 1
   drag: 0.7
   turnSpeed: 0.7
   tiltAngle: 45
@@ -16384,6 +16403,7 @@ MonoBehaviour:
   ZoomInCameraDistance: 5
   shakeAmplitude: 0.5
   lockCamera: 1
+  canMove: 1
 --- !u!222 &4504999702932978133
 CanvasRenderer:
   m_ObjectHideFlags: 0
