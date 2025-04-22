@@ -40,6 +40,8 @@ public class SwimmerCamera : MonoBehaviour
     private Vector3 targetRotation;
     private Vector3 rotationVelocity;
 
+    [Header("Post-Processing")]
+
     private VolumeProfile profile;
 
     private ChromaticAberration chromaticAberration;
@@ -60,6 +62,7 @@ public class SwimmerCamera : MonoBehaviour
     private Vector3 savedDamping;
 
     private Animator animator;
+    [Header("Music")]
 
     public bool danceToMusic=false;
     public float beatFovChange=5f;
@@ -68,7 +71,12 @@ public class SwimmerCamera : MonoBehaviour
     private MusicBeat musicBeat;
     private PartyMusic partyMusic;
 
+    [Header("Shockwave")]
     public ShockwavePulseTrigger shockwavePulseTrigger;
+    [Tooltip("At this velocity start attenuating shockwave.")]
+    public float shockwaveAttenuationMinVelocity=3f;
+    [Tooltip("At this velocity stop start attenuating shockwave.")]
+    public float shockwaveAttenuationMaxVelocity=7f;
 
 
 
@@ -268,7 +276,30 @@ public class SwimmerCamera : MonoBehaviour
         // }
         //Plan to add panino effect and/or chromatic aberration
 
-        shockwavePulseTrigger.EmitPulse();
+        float strength=Mathf.Clamp((swimmer.GetVelocity().magnitude-shockwaveAttenuationMinVelocity)/(shockwaveAttenuationMinVelocity-shockwaveAttenuationMaxVelocity),0f,1f);
+        shockwavePulseTrigger.EmitPulse(strength);
+    }
+
+    
+    public void DashAnimation(){
+        //Attenuate fov effect by this much when going rly fast
+        float mod=1;
+        mod=1-(Mathf.Clamp(swimmer.GetVelocity().magnitude,minVelocityToAttenuateEffects,maxVelocityToAttenuateEffects)-minVelocityToAttenuateEffects)/
+            (maxVelocityToAttenuateEffects-minVelocityToAttenuateEffects);
+        targetFov=baseFov+(boostFov-baseFov)*mod;
+        
+        chromaticAberrationTargetIntensity=chromaticAberrationBaseIntensity+chromaticAberrationIntensityChange;
+        paniniTargetIntensity=paniniBaseIntensity+paniniIntensityChange;
+        // for(int i=0;i<postProcessingValuesToChange.Length;i++){
+        //     PostProcessingValueToChange ppv=postProcessingValuesToChange[i];
+        //     if(ppv.hasComponent){
+        //         ppv.targetValue=ppv.baseValue+ppv.valueChange;
+        //     }
+        // }
+        //Plan to add panino effect and/or chromatic aberration
+
+        float strength=0f;
+        shockwavePulseTrigger.EmitPulse(strength);
     }
 
     void OnApplicationQuit(){

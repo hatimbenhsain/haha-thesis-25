@@ -46,6 +46,8 @@ public class PlayerInput : MonoBehaviour
 
     public bool movedForwardTrigger;
 
+    public bool noInput;
+
     private UnityEngine.InputSystem.PlayerInput playerInput;
 
     public string currentControlScheme;
@@ -133,6 +135,8 @@ public class PlayerInput : MonoBehaviour
         prevShiftLeft=shiftLeft;
         prevShiftRight=shiftRight;
         prevShiftTwice=shiftTwice;
+
+        noInput=!movingForward && !movingBackward && !movingUp && !movingLeft && !movingRight && !movingDown && !boosting && !interacting && look==Vector2.zero && singingNote==Vector2.zero;
     }
 
     public void OnMoveForward(InputAction.CallbackContext value){

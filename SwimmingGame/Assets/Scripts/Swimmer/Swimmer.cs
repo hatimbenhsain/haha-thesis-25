@@ -138,6 +138,9 @@ public class Swimmer : MonoBehaviour
     public bool sleeping=false;
     public bool organOut=false;
     public float timeBeforeWakingUp=10f;
+    public float timeBeforeFallingAsleep=-1f;
+    private float noInputTimer=0f;
+    private Coroutine wakingCoroutine;
 
     void Start()
     {
@@ -153,19 +156,29 @@ public class Swimmer : MonoBehaviour
 
         Cursor.lockState = CursorLockMode.Locked;  // Locks the cursor to the center of the screen
 
-        animator.SetBool("sleeping",sleeping);
         animator.SetBool("organOut",organOut);
 
         if(sleeping){
-            canMove=false;
-            canRotate=false;
-            GetComponentInChildren<SwimmerSinging>().canSing=false;
-            StartCoroutine(WakeUp());
+            Sleep();
+            wakingCoroutine=StartCoroutine(WakeUp(timeBeforeWakingUp));
+            animator.SetTrigger("skipFallingAsleep");
         }
 
     }
 
     void Update(){
+        //Fall asleep if idle for too long
+        if(playerInput.noInput && canMove){
+            noInputTimer+=Time.deltaTime;
+        }else{
+            noInputTimer=0f;
+        }
+
+        if(timeBeforeFallingAsleep!=-1f && noInputTimer>timeBeforeFallingAsleep && !sleeping){
+            animator.SetBool("organOut",Random.Range(0f,1f)>.8f);
+            Sleep();
+        }
+
         timerSinceMoveForwardInput+=Time.deltaTime;
         
         if(playerInput.movedForwardTrigger && canMove && timerSinceMoveForwardInput>=ignoreStrideTime){
@@ -184,6 +197,9 @@ public class Swimmer : MonoBehaviour
             pressedBackTimer=0f;
         }else if(playerInput.movedForwardTrigger && !canMove){
             playerInput.movedForwardTrigger=false;
+            if(sleeping && wakingCoroutine==null){
+                StartCoroutine(WakeUp(0f));
+            }
         }
         
         // Dash input
@@ -577,7 +593,7 @@ public class Swimmer : MonoBehaviour
 
     //Things to animate right after Dash happens
     void DashAnimation(Vector3 playerVelocity){
-        BoostAnimation();
+        swimmerCamera.DashAnimation();
         Vector3 projectVector=transform.right;
         switch(dashDirection){
             case Directions.UP:
@@ -816,14 +832,23 @@ public class Swimmer : MonoBehaviour
         FindObjectOfType<LevelLoader>().FadeIn();
     }
 
-    IEnumerator WakeUp(){
-        yield return new WaitForSeconds(timeBeforeWakingUp);
+    IEnumerator WakeUp(float time){
+        yield return new WaitForSeconds(time);
         animator.SetBool("sleeping",false);
         sleeping=false;
         yield return new WaitForSeconds(3f);
         canMove=true;
         canRotate=true;
         GetComponentInChildren<SwimmerSinging>().canSing=true;
+        wakingCoroutine=null;
+    }
+
+    void Sleep(){
+        canMove=false;
+        canRotate=false;
+        GetComponentInChildren<SwimmerSinging>().canSing=false;
+        sleeping=true;
+        animator.SetBool("sleeping",sleeping);
     }
 }
 

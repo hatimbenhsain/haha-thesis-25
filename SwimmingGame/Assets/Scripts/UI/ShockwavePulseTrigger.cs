@@ -10,7 +10,9 @@ public class ShockwavePulseTrigger : MonoBehaviour
 
     private float pulseTimer = 0f;
     public float pulseSize = 0.08f;
-    public float pulseStrength = -0.03f;
+    public float bigPulseStrength = -0.03f;
+    public float smallPulseStrength = -0.01f;
+    private float pulseStrength;
     public float pulseSpeed = 1f;
     private float initialPulseSize;
     private float initialPulseStrength;
@@ -21,6 +23,10 @@ public class ShockwavePulseTrigger : MonoBehaviour
     public float minTime=0.1f;
     [Tooltip("After this time we see a full pulse")]
     public float maxTime=0.1f;
+    [Tooltip("Follow player on screen?")]
+    public bool followPlayer=false;
+    public Transform player;
+    private Vector3 focalPoint;
     private bool isPulsing = false;
     public bool triggerPulse = false;
 
@@ -51,6 +57,7 @@ public class ShockwavePulseTrigger : MonoBehaviour
 
         if (isPulsing)
         {
+
             pulseTimer += Time.deltaTime;
             shockwavMaterial.SetFloat("_PulseTime", pulseTimer / pulseDuration);
 
@@ -66,14 +73,21 @@ public class ShockwavePulseTrigger : MonoBehaviour
         }
     }
 
-    public void EmitPulse()
+    public void EmitPulse(float strength=1f)
     {
+        pulseStrength=Mathf.Lerp(smallPulseStrength,bigPulseStrength,strength);
         shockwavMaterial.SetFloat("_Size", pulseSize);
         shockwavMaterial.SetFloat("_Magnification", pulseStrength);
         shockwavMaterial.SetFloat("_Speed", pulseSpeed);
         shockwavMaterial.SetVector("_FocalPoint", pulseCenter);
         isPulsing = true;
         pulseTimer = 0f;
+        if(followPlayer){
+            focalPoint=player.position;
+            Vector2 pos=Camera.main.WorldToViewportPoint(player.position);
+            pulseCenter=pos;
+            shockwavMaterial.SetVector("_FocalPoint", pulseCenter);
+        }
     }
 
     void OnDestroy()
