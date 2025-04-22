@@ -3,6 +3,7 @@ using FMOD.Studio;
 using FMODUnity;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
@@ -13,6 +14,7 @@ public class SpringController : SexSpring
     [Header("Game Objects")]
     public Camera playerCamera;
     public CinemachineVirtualCamera virtualCamera;
+    public Animator organAnimator;
 
     [Header("Camera Parameters")]
     public float defaultCameraLerpSpeed; // speed for the character to align with the camera direction
@@ -37,6 +39,7 @@ public class SpringController : SexSpring
     private float cameraLerpSpeed;
 
     private EventInstance chargingInstance;
+    private bool justExhaled;
 
     void Start()
     {
@@ -122,9 +125,22 @@ public class SpringController : SexSpring
                 cameraDistance = 1;
             }
         }
-
+        if (organAnimator != null)
+        {
+            organAnimator.SetBool("Inhaling", isInhaling);
+            organAnimator.SetBool("Exhaling", isExhaling);
+            if (isInhaling && justExhaled)
+            {
+                organAnimator.SetFloat("Blend", Random.Range(0f, 1f));
+                justExhaled = false;
+            }
+        }
         LerpCameraDistance();
         SpringFixedUpdate();
+        if (!justExhaled){
+            justExhaled = isExhaling;
+        }
+
     }
 
     void ConvertMovementInput(bool movingForward, bool movingBackward, bool movingLeft, bool movingRight)
