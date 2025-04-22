@@ -17,8 +17,13 @@ public class ShockwavePulseTrigger : MonoBehaviour
     private float initialPulseSpeed;
     private Vector2 initialPulseCenter;
     public Vector2 pulseCenter = new Vector2(0.5f, 0.5f);
+    [Tooltip("Before this time we don't see a pulse")]
+    public float minTime=0.1f;
+    [Tooltip("After this time we see a full pulse")]
+    public float maxTime=0.1f;
     private bool isPulsing = false;
     public bool triggerPulse = false;
+
 
 
     void Start()
@@ -29,10 +34,7 @@ public class ShockwavePulseTrigger : MonoBehaviour
             initialPulseStrength = shockwavMaterial.GetFloat("_Magnification");
             initialPulseSpeed = shockwavMaterial.GetFloat("_Speed");
             initialPulseCenter = shockwavMaterial.GetVector("_FocalPoint");
-            shockwavMaterial.SetFloat("_Size", pulseSize);
-            shockwavMaterial.SetFloat("_Magnification", pulseStrength);
-            shockwavMaterial.SetFloat("_Speed", pulseSpeed);
-            shockwavMaterial.SetVector("_FocalPoint", pulseCenter);
+            shockwavMaterial.SetFloat("_Magnification", 0f);
         }
     }
 
@@ -57,12 +59,19 @@ public class ShockwavePulseTrigger : MonoBehaviour
                 isPulsing = false;
                 pulseTimer = 0f;
                 shockwavMaterial.SetFloat("_PulseTime", 0f);
+                shockwavMaterial.SetFloat("_Magnification", 0f);
+            }else{
+                shockwavMaterial.SetFloat("_Magnification",Mathf.Clamp((pulseTimer-minTime)/(maxTime-minTime),0f,1f)*pulseStrength);
             }
         }
     }
 
     public void EmitPulse()
     {
+        shockwavMaterial.SetFloat("_Size", pulseSize);
+        shockwavMaterial.SetFloat("_Magnification", pulseStrength);
+        shockwavMaterial.SetFloat("_Speed", pulseSpeed);
+        shockwavMaterial.SetVector("_FocalPoint", pulseCenter);
         isPulsing = true;
         pulseTimer = 0f;
     }
