@@ -22,7 +22,8 @@ public class Dialogue : MonoBehaviour
     [Tooltip("Name of current person talking")]
     public string talker="";
     private float pauseTimer=0f;
-    private bool isAmbient=false;
+    [HideInInspector]
+    public bool isAmbient=false;
     private float ambientTimer=0f;
 
     

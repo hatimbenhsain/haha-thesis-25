@@ -23,6 +23,8 @@ public class CopySpriteValues : MonoBehaviour
 
     [Tooltip("Match copied sprite's opacity while maintaining original color.")]
     public bool matchOpacity=false;
+
+    public bool copyImage=false;
     private Color originalColor;
 
     private bool copied=false;
@@ -70,6 +72,10 @@ public class CopySpriteValues : MonoBehaviour
                 Color c=originalColor;
                 c.a=spriteToCopy.color.a*c.a;
                 spriteRenderer.color=c;
+            }
+
+            if(copyImage){
+                spriteRenderer.sprite=spriteToCopy.sprite;
             }
 
             copied=true;
