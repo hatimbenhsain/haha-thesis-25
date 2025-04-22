@@ -284,14 +284,20 @@ Teacher: Yes, me too...
 Teacher: Say, it looks like the current is letting up. I could use a bite. Maybe we can continue this conversation at the diner?
 +   [No.]
     MC: No. Sorry. 
-    
+    ~ overrideRotationWithSpeed("Roadblock - Library",1.5)
+    ~ pause(2)
     I really need to get going.
 +   [I don't know.]
-    MC: I don't know. I really should get going.
+    MC: I don't know, I--
+    ~ overrideRotationWithSpeed("Roadblock - Library",1.5)
+    ~ pause(2)
+    I really should get going.
 +   [I have other things to do.]
-    MC: Sorry, I am doing other things. Not at the diner.
-- ~ overrideRotation("Roadblock - Library")
-~ pauseTutorial(false)
+    MC: Sorry, I am... doing other things. 
+    ~ overrideRotationWithSpeed("Roadblock - Library",1.5)
+    ~ pause(2)
+    Not at the diner.
+- ~ pauseTutorial(false)
 ~ restoreNPCsVolume()
 ~ desireStep=2
 ~ changeDesire("Exit library.")

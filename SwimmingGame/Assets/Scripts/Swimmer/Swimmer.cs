@@ -80,6 +80,7 @@ public class Swimmer : MonoBehaviour
     private bool overridingRotation=false;
     [Tooltip("Rotation speed when a rotation is forced on the player, like after a kick back")]
     public float rotationOverrideSpeed=1f;
+    private float tempRotationOverrideSpeed=-1f;
     [Tooltip("Speed at which to restore rotation back to clamped value after kicking back")]
     public float rotationOverrideRestoreSpeed=1f;
 
@@ -260,7 +261,9 @@ public class Swimmer : MonoBehaviour
             justKickedBack=false;
         }else if(overridingRotation && (playerInput.look!=Vector2.zero || Quaternion.Angle(targetRotationOverride,transform.rotation)<=1f)){
             overridingRotation=false;
-            rotationVelocity=(Quaternion.Slerp(body.rotation,targetRotationOverride,rotationOverrideSpeed*Time.fixedDeltaTime).eulerAngles-body.rotation.eulerAngles)/Time.fixedDeltaTime;
+            float spd=rotationOverrideSpeed;
+            if(tempRotationOverrideSpeed!=-1f) spd=tempRotationOverrideSpeed;
+            rotationVelocity=(Quaternion.Slerp(body.rotation,targetRotationOverride,spd*Time.fixedDeltaTime).eulerAngles-body.rotation.eulerAngles)/Time.fixedDeltaTime;
             rotationVelocity.z=0f;
         }else if(pressedBackTimer<=maxKickbackPressingTime && overridingRotation){
             pressedBackTimer=maxKickbackPressingTime;
@@ -332,7 +335,9 @@ public class Swimmer : MonoBehaviour
             }
             newRotationQ=Quaternion.Euler(newRotation);
         }else{
-            newRotationQ=Quaternion.Slerp(body.rotation,targetRotationOverride,rotationOverrideSpeed*Time.fixedDeltaTime);
+            float spd=rotationOverrideSpeed;
+            if(tempRotationOverrideSpeed!=-1f) spd=tempRotationOverrideSpeed;
+            newRotationQ=Quaternion.Slerp(body.rotation,targetRotationOverride,spd*Time.fixedDeltaTime);
         }
 
         
@@ -548,14 +553,16 @@ public class Swimmer : MonoBehaviour
 
     }
 
-    public void OverrideRotation(Quaternion rotation){
+    public void OverrideRotation(Quaternion rotation, float rotationSpeed=-1f){
         targetRotationOverride=rotation;
         overridingRotation=true;
+        tempRotationOverrideSpeed=rotationSpeed;
     }
 
-    public void OverrideRotation(Transform target){
+    public void OverrideRotation(Transform target, float rotationSpeed=-1f){
         targetRotationOverride=Quaternion.LookRotation(target.position-transform.position,Vector3.up);
         overridingRotation=true;
+        tempRotationOverrideSpeed=rotationSpeed;
     }
 
     // Boost can be from external effect for e.g. ring

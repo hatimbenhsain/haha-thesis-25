@@ -767,6 +767,9 @@ public class Dialogue : MonoBehaviour
         story.BindExternalFunction("overrideRotation",(string targetName)=>{
             OverrideRotation(targetName);
         });
+        story.BindExternalFunction("overrideRotationWithSpeed",(string targetName,float rotationSpeed)=>{
+            OverrideRotation(targetName,rotationSpeed);
+        });
         story.BindExternalFunction("changeDialogueView",(int index)=>{
             ChangeView(index);
         });
@@ -898,10 +901,10 @@ public class Dialogue : MonoBehaviour
         }
     }
 
-    void OverrideRotation(string targetName){
+    void OverrideRotation(string targetName,float rotationSpeed=-1f){
         GameObject g=gameManager.FindObject(targetName);
         if(g!=null){
-            swimmer.OverrideRotation(g.transform);
+            swimmer.OverrideRotation(g.transform,rotationSpeed);
         }else{
             Debug.Log("Tried overriding rotation & couldn't find gameobject");
         }
