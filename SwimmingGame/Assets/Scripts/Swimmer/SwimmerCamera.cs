@@ -68,6 +68,8 @@ public class SwimmerCamera : MonoBehaviour
     private MusicBeat musicBeat;
     private PartyMusic partyMusic;
 
+    public ShockwavePulseTrigger shockwavePulseTrigger;
+
 
 
     // FAILED ATTEMPT to be able to change what parts of the volume get changed via inspector
@@ -248,6 +250,7 @@ public class SwimmerCamera : MonoBehaviour
 
     }
 
+    //Called Boost but really when doing a stride
     public void BoostAnimation(){
         //Attenuate fov effect by this much when going rly fast
         float mod=1;
@@ -264,6 +267,8 @@ public class SwimmerCamera : MonoBehaviour
         //     }
         // }
         //Plan to add panino effect and/or chromatic aberration
+
+        shockwavePulseTrigger.EmitPulse();
     }
 
     void OnApplicationQuit(){
