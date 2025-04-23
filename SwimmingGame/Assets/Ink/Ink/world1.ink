@@ -653,7 +653,12 @@ Coralnet: motif: my entanglement
 > and how did it feel?
 > initiator, how did it feel?
 > initiator, tell us how it was.
--> coralnetEnd ->
+~pauseTutorial(false)   //coralnetEnd stuff
+{ npcsTalkedTo > 2:
+    ~finishTutorialPart(6)
+}
+~ continueSinging()
+~ restoreNPCsVolume()
 ~ switchObject("Teacher - Library",true)
 ~ switchInterlocutor("Teacher - Library")
 -> teacherAtLibrary
