@@ -909,7 +909,7 @@ VAR freezeMoment=false
 === teacherMainAct1 ===
 # ambient
 ~ freezeMoment=true
-MC: WAIT, stop!!! # time: 2
+MC: WAIT, stop!!! # time: 3
 ~loadLevel("Foreplay 1 - 2")
 -> END
 // Main act interrupted and go back to edge sitting
