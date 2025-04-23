@@ -564,7 +564,7 @@ Mesh:
     offset: 0
     size: 0
     path: 
---- !u!1 &455426844
+--- !u!1 &822078413
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -572,8 +572,8 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 455426846}
-  - component: {fileID: 455426845}
+  - component: {fileID: 822078415}
+  - component: {fileID: 822078414}
   m_Layer: 0
   m_Name: BurstCollisionWorld
   m_TagString: Untagged
@@ -581,13 +581,13 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &455426845
+--- !u!114 &822078414
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 455426844}
+  m_GameObject: {fileID: 822078413}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f1a161c4294214a4fbcb7e9e94800494, type: 3}
@@ -595,13 +595,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cellSpans:
     m_AlignBytes: 16
---- !u!4 &455426846
+--- !u!4 &822078415
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 455426844}
+  m_GameObject: {fileID: 822078413}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
@@ -6443,6 +6443,14 @@ PrefabInstance:
       insertIndex: 2
       addedObject: {fileID: 203478038}
     m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 3650603916472316897, guid: 69e30b0902a766747ab0ecbf30adbe70,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 2628368537959557253}
+    - targetCorrespondingSourceObject: {fileID: 1193586286928521793, guid: 69e30b0902a766747ab0ecbf30adbe70,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 2628368537959557252}
     - targetCorrespondingSourceObject: {fileID: 3805463008741026566, guid: 69e30b0902a766747ab0ecbf30adbe70,
         type: 3}
       insertIndex: -1
@@ -6487,6 +6495,60 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!1 &2628368537959557250 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1193586286928521793, guid: 69e30b0902a766747ab0ecbf30adbe70,
+    type: 3}
+  m_PrefabInstance: {fileID: 2628368537959557245}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &2628368537959557251 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3650603916472316897, guid: 69e30b0902a766747ab0ecbf30adbe70,
+    type: 3}
+  m_PrefabInstance: {fileID: 2628368537959557245}
+  m_PrefabAsset: {fileID: 0}
+--- !u!95 &2628368537959557252
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2628368537959557250}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 788d0de99dcaffd40b078a0e4f69f53f, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
+--- !u!95 &2628368537959557253
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2628368537959557251}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: f1d6f6989d9eb9040bfcf2f420bca53c, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!108 &4309909823926696403 stripped
 Light:
   m_CorrespondingSourceObject: {fileID: 3495164598874477749, guid: 69e30b0902a766747ab0ecbf30adbe70,
@@ -6504,4 +6566,4 @@ SceneRoots:
   - {fileID: 1165666528}
   - {fileID: 302080784}
   - {fileID: 1119267672}
-  - {fileID: 455426846}
+  - {fileID: 822078415}
