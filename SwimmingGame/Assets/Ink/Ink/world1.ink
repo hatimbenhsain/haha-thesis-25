@@ -42,23 +42,52 @@ VAR desireStep=0
 }
 ~ continueSinging()
 ~ restoreNPCsVolume()
-->->
+-> END
 
+VAR cnetAnswer1=0
 === coralnet1 ===
 -> coralnetStart ->
 Coralnet: motif: favorite swimming style?
 > what's everyone's favorite swimming style and why?
 > personally i like to mix hermit and shark style on the lower half and cerulean top i find it the most efficient.
 > i just kind of do what everyone else is doing
-> i reaaaally like sliding on walls does anyone else do this
+> i reaaaally like sliding on walls, does anyone else do this
 > i like going backwards because i always get surprised when i reach something
 > i like sliding on walls too
 > i alternate
--> coralnetEnd ->
-->END
+{   
+- cnetAnswer1==0:
+    Add answer?
+    -> answers ->
+- cnetAnswer1==1:
+    > i enjoy floating with the current and trying to be as still as possible.
+- cnetAnswer1==2:
+    > i enjoy being on my back and throwing my arms behind me and kicking.
+- cnetAnswer1==3:
+    > i like coasting slowly with my arms forward and only moving my legs.
+}
+-> coralnetEnd
 
-// I love the i alternate to wrap up everything
+= answers
++   [Yes.]
+    What will you say?
+    ++  [I like staying still.]
+        > i enjoy floating with the current and trying to be as still as possible.
+        ~cnetAnswer1=1
+        -> coralnetEnd
+    ++  [I like being on my back.]
+        > i enjoy being on my back and throwing my arms behind me and kicking.
+        ~cnetAnswer1=2
+        -> coralnetEnd
+    ++  [I like coasting slowly.]
+        > i like coasting slowly with my arms forward and only moving my legs.
+        ~cnetAnswer1=3
+        -> coralnetEnd
++   [No.]
+->->
 
+
+VAR cnetAnswer2=0
 === coralnet2 ===
 -> coralnetStart ->
 Coralnet: motif: has anyone actually done "it" yet?
@@ -74,12 +103,40 @@ Coralnet: motif: has anyone actually done "it" yet?
 > basically there's two types of people: one with a hole and one with a long hard object. the long object goes into the hole many times.
 > all of these sound disgusting. are people really doing this?
 > how much chewing are you supposed to do? does anyone know?
--> coralnetEnd ->
--> END
+{   
+- cnetAnswer2==0:
+    Add answer?
+    -> answers ->
+- cnetAnswer2==1:
+    > i am also curious about it and am eager to hear more.
+- cnetAnswer2==2:
+    > i did it and it was incredible and really undescribable sorry no more details.
+- cnetAnswer2==3:
+    > a lot of chewing be careful about your teeth. this is the truth because i know because i've done it.
+}
+-> coralnetEnd
+
+= answers
++   [Yes.]
+    What will you say?
+    ++  [I want to hear about it.]
+        > i am also curious about it and am eager to hear more.
+        ~cnetAnswer2=1
+        -> coralnetEnd
+    ++  [I've done it,]
+        > i did it and it was incredible and really undescribable sorry no more details.
+        ~cnetAnswer2=2
+        -> coralnetEnd
+    ++  [Lots of chewing.]
+        > a lot of chewing be careful about your teeth. this is the truth because i know because i've done it.
+        ~cnetAnswer2=3
+        -> coralnetEnd
++   [No.]
+->->
 
 // Love how they are all straight-up misinformation and
 // the reference to human sex
-
+VAR cnetAnswer3=0
 === coralnet3 ===
 -> coralnetStart ->
 Coralnet: motif: hole in my head
@@ -98,9 +155,38 @@ Coralnet: motif: hole in my head
 > no?? it's really weird i would rather not or else i wouldn't be on here.
 > initiator any update? i think i have one too.
 > yes it's still really strange but i feel i am becoming stronger and more deadly
--> coralnetEnd ->
--> END
+{   
+- cnetAnswer3==0:
+    Add answer?
+    -> answers ->
+- cnetAnswer3==1:
+    > i would continue putting things in it. it might complete you eventually.
+- cnetAnswer3==2:
+    > the hole points to your emptyheadedness. try to absorb more culture and thought.
+- cnetAnswer3==3:
+    > this makes me very apprehensive initiator. i suggest you banish yourself so as not to infect more of us.
+}
+-> coralnetEnd
 
+= answers
++   [Yes.]
+    What will you say?
+    ++  [Plug it.]
+        > i would continue putting things in it. it might complete you eventually.
+        ~cnetAnswer3=1
+        -> coralnetEnd
+    ++  [It's a sign.]
+        > the hole points to your emptyheadedness. try to absorb more culture and thought.
+        ~cnetAnswer3=2
+        -> coralnetEnd
+    ++  [It's scary.]
+        > this makes me very apprehensive initiator. i suggest you banish yourself so as not to infect more of us.
+        ~cnetAnswer3=3
+        -> coralnetEnd
++   [No.]
+->->
+
+VAR cnetAnswer4=0
 === coralnet4 ===
 -> coralnetStart ->
 Coralnet: motif: ate my lover
@@ -111,9 +197,38 @@ Coralnet: motif: ate my lover
 > felt rude
 > i think it's ok i've eaten 20 of my past lovers and each time they get tastier
 > hi i think you shouldn't date someone if they're not ready to be eaten i think it's ok initiator
--> coralnetEnd ->
--> END
+{   
+- cnetAnswer4==0:
+    Add answer?
+    -> answers ->
+- cnetAnswer4==1:
+    > i believe it is ok because you must have truly loved them and now you will be together forever which sounds nice.
+- cnetAnswer4==2:
+    > initiator i would try to refrain from doing this again unless you really want to which is hard.
+- cnetAnswer4==3:
+    > has nobody heard of ambiguity? i'm sure initiator's relationship was full of complexities and beyond any floater's understanding.
+}
+-> coralnetEnd
 
+= answers
++   [Yes.]
+    What will you say?
+    ++  [It's ok.]
+        > i believe it is ok because you must have truly loved them and now you will be together forever which sounds nice.
+        ~cnetAnswer4=1
+        -> coralnetEnd
+    ++  [It's not ok.]
+        > initiator i would try to refrain from doing this again unless you really want to which is hard.
+        ~cnetAnswer4=2
+        -> coralnetEnd
+    ++  [It's in-between.]
+        > has nobody heard of ambiguity? i'm sure initiator's relationship was full of complexities and beyond any floater's understanding.
+        ~cnetAnswer4=3
+        -> coralnetEnd
++   [No.]
+->->
+
+VAR cnetAnswer5=0
 === coralnet5 ===
 -> coralnetStart ->
 Coralnet: motif: anyone yearns?
@@ -122,11 +237,39 @@ Coralnet: motif: anyone yearns?
 > it's not the same
 > initiator that doesn't seem right maybe you hit your heard really hard? have you seen a doctor?
 > no
--> coralnetEnd ->
--> END
+{   
+- cnetAnswer5==0:
+    Add answer?
+    -> answers ->
+- cnetAnswer5==1:
+    > i understand initiator i yearn as well but for something different, i'm not sure what exactly yet.
+- cnetAnswer5==2:
+    > that's really odd why would you desire something that you cannot bring about initiator? i find this very disturbing
+- cnetAnswer5==3:
+    > i hate parties there's too many people and most of them do not really love you i could not sync with you initiator
+}
+-> coralnetEnd
 
-// HAN: The no at the end is very reddit reply vibe
+= answers
++   [Yes.]
+    What will you say?
+    ++  [I understand.]
+        > i understand initiator i yearn as well but for something different, i'm not sure what exactly yet.
+        ~cnetAnswer5=1
+        -> coralnetEnd
+    ++  [It's weird]
+        > that's really odd why would you desire something that you cannot bring about initiator? i find this very disturbing
+        ~cnetAnswer5=2
+        -> coralnetEnd
+    ++  [I hate parties]
+        > i hate parties there's too many people and most of them do not really love you i could not sync with you initiator
+        ~cnetAnswer5=3
+        -> coralnetEnd
++   [No.]
+->->
 
+
+VAR cnetAnswer6=0
 === coralnet6 ===
 -> coralnetStart ->
 Coralnet: motif: what's it like outside?
@@ -137,11 +280,39 @@ Coralnet: motif: what's it like outside?
 > has anyone who's traversed come back yet?
 > my sibling said they did and there was sharp glass everywhere and everything was blurry and they never got hungry
 > but i think they lied
--> coralnetEnd ->
--> END
+{   
+- cnetAnswer6==0:
+    Add answer?
+    -> answers ->
+- cnetAnswer6==1:
+    > probably terrible for your skin etc. i do not recommend that people go it seems unsafe.
+- cnetAnswer6==2:
+    > so amazing and nice i'm sure and no one there misses us and they're dancing and touching and holding each other close it fills me with bile
+- cnetAnswer6==3:
+    > i don't know i wish i knew but also not really does anyone understand me?
+}
+-> coralnetEnd
 
-// Like how a lot of these coralnet foreshadows future events
+= answers
++   [Yes.]
+    What will you say?
+    ++  [Probably bad.]
+        > probably terrible for your skin etc. i do not recommend that people go it seems unsafe.
+        ~cnetAnswer6=1
+        -> coralnetEnd
+    ++  [Probably great.]
+        > so amazing and nice i'm sure and no one there misses us and they're dancing and touching and holding each other close it fills me with bile
+        ~cnetAnswer6=2
+        -> coralnetEnd
+    ++  [I don't know.]
+        > i don't know i wish i knew but also not really does anyone understand me?
+        ~cnetAnswer6=3
+        -> coralnetEnd
++   [No.]
+->->
 
+
+VAR cnetAnswer7=0
 === coralnet7 ===
 -> coralnetStart ->
 Coralnet: motif: i went outside
@@ -150,34 +321,152 @@ Coralnet: motif: i went outside
 > what else did they say?
 > they said the ground burns your feet and everything that you try to eat turns into spikes so they had to come here
 > none of this is true i went outside and it's the same as here but more magenta
--> coralnetEnd ->
--> END
+{   
+- cnetAnswer7==0:
+    Add answer?
+    -> answers ->
+- cnetAnswer7==1:
+    -> answer1 ->
+- cnetAnswer7==2:
+    -> answer2 ->
+- cnetAnswer7==3:
+    -> answer3 ->
+}
+-> coralnetEnd
 
+= answers
++   [Yes.]
+    What will you say?
+    ++  [This is scary.]
+        -> answer1 ->
+        ~cnetAnswer7=1
+        -> coralnetEnd
+    ++  [Seahorseshit.]
+        -> answer2 ->
+        ~cnetAnswer7=2
+        -> coralnetEnd
+    ++  [Did you meet them?]
+        -> answer3 ->
+        ~cnetAnswer7=3
+        -> coralnetEnd
++   [No.]
+->->
+
+= answer1
+> this is scary does anyone know if a regular person could survive and maybe return?
+->->
+= answer2
+> come on there's no way it's that bad i'm sure it's just boring and stupid and empty and you die of dullness
+->->
+= answer3
+> initiator i would like to know if you met a very august yet cold-eyed person and how they are doing
+->->
+
+
+VAR cnetAnswer8=0
 === coralnet8 ===
 -> coralnetStart ->
 Coralnet: motif: i miss my lover
 > i miss my lover a lot. what do i do?
 > initiator did your lover provide you with most of your food? maybe you should find a good hunter to replace them
-> no it wasn't like that
-> i think i just really liked their company
+> no it wasn't like that.
+> i think i just really liked their company.
 > initiator did they have a particularly good voice? maybe you could start going to more concerts and operas
-> hi i tried this but i still feel the missing
+> hi i tried this but i still feel the missing.
 > what do i do?
--> coralnetEnd ->
--> END
+{   
+- cnetAnswer8==0:
+    Add answer?
+    -> answers ->
+- cnetAnswer8==1:
+    -> answer1 ->
+- cnetAnswer8==2:
+    -> answer2 ->
+- cnetAnswer8==3:
+    -> answer3 ->
+}
+-> coralnetEnd
 
+= answers
++   [Yes.]
+    What will you say?
+    ++  [Still looking.]
+        -> answer1 ->
+        ~cnetAnswer8=1
+        -> coralnetEnd
+    ++  [Also wondering.]
+        -> answer2 ->
+        ~cnetAnswer8=2
+        -> coralnetEnd
+    ++  [Pathetic.]
+        -> answer3 ->
+        ~cnetAnswer8=3
+        -> coralnetEnd
++   [No.]
+->->
+
+= answer1
+> i am still looking for answers if anybody could provide them.
+->->
+= answer2
+> i am not initiator but i am curious about this not because i feel similarly simply out of inquisitiveness.
+->->
+= answer3
+> initiator you sound so pathetic it's actually pitiful why would you care so much what a washout
+->->
+
+VAR cnetAnswer9=0
 === coralnet9 ===
 -> coralnetStart ->
 Coralnet: motif: i see them everywhere
-> ever since my lover left me i see them everywhere i always feel their presence even though they're not there
+> ever since my lover left me i see them everywhere i always feel their presence even though they're not there.
 > initiator did you also sing about missing your lover in another coral?
-> no? that wasn't me 
+> no? that wasn't me.
 > initiator that sucks you should really just try living in the moment
 > initator have you tried the entanglement yet? maybe it would fix you
-> that sounds scary
--> coralnetEnd ->
--> END
+> that sounds scary.
+{   
+- cnetAnswer9==0:
+    Add answer?
+    -> answers ->
+- cnetAnswer9==1:
+    -> answer1 ->
+- cnetAnswer9==2:
+    -> answer2 ->
+- cnetAnswer9==3:
+    -> answer3 ->
+}
+-> coralnetEnd
 
+= answers
++   [Yes.]
+    What will you say?
+    ++  [How to get better?]
+        -> answer1 ->
+        ~cnetAnswer9=1
+        -> coralnetEnd
+    ++  [I still see them.]
+        -> answer2 ->
+        ~cnetAnswer9=2
+        -> coralnetEnd
+    ++  [Pathetic.]
+        -> answer3 ->
+        ~cnetAnswer9=3
+        -> coralnetEnd
++   [No.]
+->->
+
+= answer1
+> does anyone know how one could get better just wondering for initiator if there's better suggestions that they haven't tried or are less stupid.
+->->
+= answer2
+> i still see them.
+->->
+= answer3
+> initiator you sound so pathetic it's actually pitiful why would you care so much what a washout.
+->->
+
+VAR cnetAnswer10=0
 === coralnet10 ===
 -> coralnetStart ->
 Coralnet: motif: current order
@@ -185,9 +474,49 @@ Coralnet: motif: current order
 > i think it's when people emit evil and dark vibrations it makes it cold but sometimes hot and it's perfect when there's only nice people around
 > hi i don't know
 > what the second person said sounds right
--> coralnetEnd ->
--> END 
+{   
+- cnetAnswer10==0:
+    Add answer?
+    -> answers ->
+- cnetAnswer10==1:
+    -> answer1 ->
+- cnetAnswer10==2:
+    -> answer2 ->
+- cnetAnswer10==3:
+    -> answer3 ->
+}
+-> coralnetEnd
 
+= answers
++   [Yes.]
+    What will you say?
+    ++  [Second person.]
+        -> answer1 ->
+        ~cnetAnswer10=1
+        -> coralnetEnd
+    ++  [Doesn't matter.]
+        -> answer2 ->
+        ~cnetAnswer10=2
+        -> coralnetEnd
+    ++  [Emotions.]
+        -> answer3 ->
+        ~cnetAnswer10=3
+        -> coralnetEnd
++   [No.]
+->->
+
+= answer1
+> i agree the second person was right i think.
+->->
+= answer2
+> this is such a trivial thing to worry about, i envy you initiator. you do not know true pain.
+->->
+= answer3
+> i believe it is tied to emotions for example if someone you called a friend refuses to play with you and everything feels both big and small which is like unbearable coldness.
+->->
+
+
+VAR cnetAnswer11=0
 === coralnet11 ===
 -> coralnetStart ->
 Coralnet: motif: has anyone tried this
@@ -199,11 +528,49 @@ Coralnet: motif: has anyone tried this
 > i did this too but instead of a pillar it was a wall and i spread it kind of everywhere
 > me too i think i prefer than doing it with other people
 > what are you all talking about???
--> coralnetEnd ->
--> END
+{   
+- cnetAnswer11==0:
+    Add answer?
+    -> answers ->
+- cnetAnswer11==1:
+    -> answer1 ->
+- cnetAnswer11==2:
+    -> answer2 ->
+- cnetAnswer11==3:
+    -> answer3 ->
+}
+-> coralnetEnd
 
-// love the tone of this part
+= answers
++   [Yes.]
+    What will you say?
+    ++  [What?]
+        -> answer1 ->
+        ~cnetAnswer11=1
+        -> coralnetEnd
+    ++  [Why?]
+        -> answer2 ->
+        ~cnetAnswer11=2
+        -> coralnetEnd
+    ++  [Disgusting.]
+        -> answer3 ->
+        ~cnetAnswer11=3
+        -> coralnetEnd
++   [No.]
+->->
 
+= answer1
+> what is this about?
+->->
+= answer2
+> what was the point of this action? i feel an odd emotion as i hear this which makes me quizzical.
+->->
+= answer3
+> this puts me in a state of revulsion but i am not sure why. so i would like to learn more if possible.
+->->
+
+
+VAR cnetAnswer12=0
 === coralnet12 ===
 -> coralnetStart ->
 Coralnet: motif: keeping the secret
@@ -217,9 +584,47 @@ Coralnet: motif: keeping the secret
 > i try using a lot of euphemisms... "it" is a good one. i'm also partial to "relations" and "fun"
 > has anyone come up with an actual name for it actually??
 > what are we talking about???
-> hello?
--> coralnetEnd ->
--> END
+> what?
+{   
+- cnetAnswer12==0:
+    Add answer?
+    -> answers ->
+- cnetAnswer12==1:
+    -> answer1 ->
+- cnetAnswer12==2:
+    -> answer2 ->
+- cnetAnswer12==3:
+    -> answer3 ->
+}
+-> coralnetEnd
+
+= answers
++   [Yes.]
+    What will you say?
+    ++  [What?]
+        -> answer1 ->
+        ~cnetAnswer12=1
+        -> coralnetEnd
+    ++  [Stop.]
+        -> answer2 ->
+        ~cnetAnswer12=2
+        -> coralnetEnd
+    ++  [I know too.]
+        -> answer3 ->
+        ~cnetAnswer12=3
+        -> coralnetEnd
++   [No.]
+->->
+
+= answer1
+> what is this about??? i would love to learn.
+->->
+= answer2
+> please stop using the coralnet for unfair conversations that leave a lot of us out it doesn't feel nice.
+->->
+= answer3
+> i am also aware of the subject of this conversation and i am so glad i am not part of the lesser non-knowers and such.
+->->
 
 === coralnetProgress === //the coralnet to read to progress story
 -> coralnetStart ->

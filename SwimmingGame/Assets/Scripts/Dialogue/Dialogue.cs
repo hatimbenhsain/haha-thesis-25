@@ -292,9 +292,12 @@ public class Dialogue : MonoBehaviour
                     story.ChooseChoiceIndex(currentChoiceIndex);
                     Continue();
                     choicePicked=false;
+                    HideChoices();
                     if(story.currentChoices.Count==0){
-                        HideChoices();
                         currentChoiceIndex=-1;
+                        if(!story.canContinue){
+                            EndDialogue();
+                        }
                     }
                 }
 
