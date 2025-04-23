@@ -175,7 +175,8 @@ public class Swimmer : MonoBehaviour
         }
 
         if(timeBeforeFallingAsleep!=-1f && noInputTimer>timeBeforeFallingAsleep && !sleeping){
-            animator.SetBool("organOut",Random.Range(0f,1f)>.8f);
+            organOut=Random.Range(0f,1f)>.8f;
+            animator.SetBool("organOut",organOut);
             Sleep();
         }
 
@@ -836,7 +837,8 @@ public class Swimmer : MonoBehaviour
         yield return new WaitForSeconds(time);
         animator.SetBool("sleeping",false);
         sleeping=false;
-        yield return new WaitForSeconds(3f);
+        yield return new WaitForSeconds(1.5f);
+        if(organOut) yield return new WaitForSeconds(1f);
         canMove=true;
         canRotate=true;
         GetComponentInChildren<SwimmerSinging>().canSing=true;
