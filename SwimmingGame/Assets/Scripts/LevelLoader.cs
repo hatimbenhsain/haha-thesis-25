@@ -37,6 +37,7 @@ public class LevelLoader : MonoBehaviour
     public float crossFadeTime = 2f;
     public float overrideTime=-1f;
     public float freezeDuration=0f;
+    public bool waitForFadeOut=false;
 
     void Start()
     {
@@ -162,6 +163,12 @@ public class LevelLoader : MonoBehaviour
 
     IEnumerator EnsureSceneLoaderCoroutine(string currentScene, string destination, float crossFadeTime)
     {
+        if (waitForFadeOut){
+            fadingOut = true;
+            transitionTimer = 0f;
+
+            yield return new WaitForSeconds(transitionTime);
+        }
         if (SceneLoader.instance == null)
         {
             Debug.LogWarning("SceneLoader instance is null. Loading SceneLoader scene...");
