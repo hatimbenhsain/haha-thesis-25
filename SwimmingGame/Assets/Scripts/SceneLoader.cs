@@ -110,6 +110,8 @@ public class SceneLoader : MonoBehaviour
         }
         Debug.Log("Fade in complete.");
         transitionImage.material.SetFloat("_DissolveAmount", 1f);
+        SceneManager.UnloadSceneAsync("LoadScene"); // Unload the SceneLoader scene after fading in
+
     }
 
     IEnumerator ScreenFlash(float duration){
