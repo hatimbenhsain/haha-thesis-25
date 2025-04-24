@@ -5,6 +5,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using System.IO;
 using UnityEngine.UI;
+using UnityEditor;
 
 public class SceneLoader : MonoBehaviour
 {
@@ -34,8 +35,9 @@ public class SceneLoader : MonoBehaviour
             transitionImage.material.SetInt("_ReverseColor", reverseColor ? 1 : 0); // Set the reverse color
         }
 
-        StartCoroutine(ScreenFlash(0.2f)); // Flash the screen before loading the new scene
+       
         StartCoroutine(HandleSceneTransition(from, to, fadeInDuration, freezeDuration));
+        if(reverseColor) StartCoroutine(ScreenFlash(0.2f)); // Flash the screen before loading the new scene
     }
 
     private IEnumerator HandleSceneTransition(string from, string to, float fadeInDuration, float freezeDuration)
@@ -76,10 +78,11 @@ public class SceneLoader : MonoBehaviour
 
     private IEnumerator GetCameraScreenshotCoroutine()
     {
+        //EditorApplication.isPaused = true;
         yield return new WaitForEndOfFrame();
 
         Texture2D screenshot = ScreenCapture.CaptureScreenshotAsTexture();
-        Texture2D newScreenshot = new Texture2D(screenshot.width, screenshot.height, TextureFormat.ARGB32, false);
+        Texture2D newScreenshot = new Texture2D(screenshot.width, screenshot.height, TextureFormat.RGB24, false);
         newScreenshot.SetPixels(screenshot.GetPixels());
         newScreenshot.Apply();
 
@@ -110,6 +113,7 @@ public class SceneLoader : MonoBehaviour
     }
 
     IEnumerator ScreenFlash(float duration){
+        yield return new WaitForEndOfFrame();
         Color originalColor = screenFlashImage.color;
 
         // Lerp to fully opaque and white
