@@ -70,11 +70,7 @@ public class ShockwavePulseTrigger : MonoBehaviour
             }else{
                 shockwavMaterial.SetFloat("_Magnification",Mathf.Clamp((pulseTimer-minTime)/(maxTime-minTime),0f,1f)*pulseStrength);
             }
-            Debug.Log("-");
-            Debug.Log(Mathf.Clamp((pulseTimer-minTime)/(maxTime-minTime),0f,1f));
-            Debug.Log(pulseTimer);
-            Debug.Log(minTime);
-            Debug.Log((pulseTimer-minTime)/(maxTime-minTime));            
+       
         }
     }
 
