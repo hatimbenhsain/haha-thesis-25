@@ -337,6 +337,7 @@ Enkidu: I did.
 
 // goals: MC talks about ambivalence of sex, enkidu proposes naming
 === EnkiduAftercare1 ===
+~pause(3)
 MC: You stopped us there. 
 Enkidu: I did.
 MC: Why?
@@ -472,6 +473,7 @@ I'd like to introduce you to some friends.
 //After harmonizing, we enter a cuddle/aftercare scnene with Main Character stroking a big pile of bodies
 // It would be cool if we can do a big "collective" speech bubble that is a bunch of overlapping ones at once
 === OrgyAftercare1 ===
+~pause(3)
 MC: This feels...
 NPC2: Ecstatic?
 NPC3: Euphoric!
@@ -569,6 +571,7 @@ MCSmall: I-- # notambient
 -> END
 
 === OrgyAftercare2 ===
+~pause(2)
 MCSmall: I...
 NPC1: I wish... # stayonscreen # speed:20 # ambient # time:1
 // pop these lines one after the other while leaving previous ones on screen

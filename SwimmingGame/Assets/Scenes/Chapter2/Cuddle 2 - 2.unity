@@ -190,6 +190,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eb8a19d606bea4f4f94aa28989eefbd6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  maxProximity: 5
+  minProximity: 1
 --- !u!114 &410839683
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -424,6 +426,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1919773268256577499, guid: 3975a0519d94bd64381d42c942b069c7,
         type: 3}
+      propertyPath: useCrossFade
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1919773268256577499, guid: 3975a0519d94bd64381d42c942b069c7,
+        type: 3}
       propertyPath: fadeOutColor.a
       value: 1
       objectReference: {fileID: 0}
@@ -449,8 +456,23 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1919773268256577499, guid: 3975a0519d94bd64381d42c942b069c7,
         type: 3}
+      propertyPath: waitForFadeOut
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1919773268256577499, guid: 3975a0519d94bd64381d42c942b069c7,
+        type: 3}
+      propertyPath: crossFadeTexture
+      value: 
+      objectReference: {fileID: 2800000, guid: 9e1fc857ea8adef4a9b93e2e14b71e01, type: 3}
+    - target: {fileID: 1919773268256577499, guid: 3975a0519d94bd64381d42c942b069c7,
+        type: 3}
       propertyPath: destinationScene
       value: Main Act 2 - 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1919773268256577499, guid: 3975a0519d94bd64381d42c942b069c7,
+        type: 3}
+      propertyPath: crossFadeReverseColor
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5104330096273657441, guid: 3975a0519d94bd64381d42c942b069c7,
         type: 3}
