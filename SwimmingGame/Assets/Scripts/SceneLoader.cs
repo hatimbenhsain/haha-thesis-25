@@ -37,7 +37,7 @@ public class SceneLoader : MonoBehaviour
 
        
         StartCoroutine(HandleSceneTransition(from, to, fadeInDuration, freezeDuration));
-        StartCoroutine(ScreenFlash(0.2f)); // Flash the screen before loading the new scene
+        if(reverseColor) StartCoroutine(ScreenFlash(0.2f)); // Flash the screen before loading the new scene
     }
 
     private IEnumerator HandleSceneTransition(string from, string to, float fadeInDuration, float freezeDuration)
