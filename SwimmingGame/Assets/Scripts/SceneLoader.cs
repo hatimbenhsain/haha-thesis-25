@@ -11,15 +11,23 @@ public class SceneLoader : MonoBehaviour
     public UnityEngine.UI.RawImage transitionImage;
     public static SceneLoader instance;
     public UnityEngine.UI.Image screenFlashImage;
+    private Texture2D initialCrossfadeTexture;
 
     private void Awake()
     {
         instance = this;
         transitionImage.gameObject.SetActive(false);
+        if (transitionImage.material != null){
+            initialCrossfadeTexture = transitionImage.material.GetTexture("_Noise") as Texture2D;
+        }
     }
 
-    public void LoadScene(string from, string to, float fadeInDuration)
+
+    public void LoadScene(string from, string to, float fadeInDuration, Texture2D crossfadeTexture)
     {
+        if (crossfadeTexture != null && transitionImage.material != null){
+            transitionImage.material.SetTexture("_Noise", crossfadeTexture);
+        }
         StartCoroutine(ScreenFlash(0.2f)); // Flash the screen before loading the new scene
         StartCoroutine(HandleSceneTransition(from, to, fadeInDuration));
     }
@@ -126,5 +134,12 @@ public class SceneLoader : MonoBehaviour
 
         // Ensure the image is fully transparent and back to the original color
         screenFlashImage.color = new Color(originalColor.r, originalColor.g, originalColor.b, 0f);
+    }
+
+    void OnDestroy()
+    {
+        if (transitionImage.material != null){
+            transitionImage.material.SetTexture("_Noise", initialCrossfadeTexture); // Reset the texture to the original one
+        }
     }
 }
