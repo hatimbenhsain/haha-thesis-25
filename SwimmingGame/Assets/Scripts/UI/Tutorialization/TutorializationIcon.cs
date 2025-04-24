@@ -39,6 +39,8 @@ public class TutorializationIcon : MonoBehaviour
     private Tutorial tutorial;
 
     public bool isHarmonySprite=false;
+    [Tooltip("For harmony, only show graphic when singing.")]
+    public bool onlyWhenSinging=false;
 
 
     void Start()
@@ -82,10 +84,14 @@ public class TutorializationIcon : MonoBehaviour
             sprites=idleSprites;
             Color c=image.color;
             float opacity=c.a;
+            float k=1f;
+            if(onlyWhenSinging && !FindObjectOfType<SwimmerSinging>().singing){
+                k=0f;
+            }
             if(active){
-                opacity=Mathf.Lerp(opacity,1f,imageSpeed*2f*Time.deltaTime);
+                opacity=Mathf.Lerp(opacity,1f*k,imageSpeed*2f*Time.deltaTime);
             }else{
-                opacity=Mathf.Lerp(opacity,0f,imageSpeed*2f*Time.deltaTime);
+                opacity=Mathf.Lerp(opacity,0f*k,imageSpeed*2f*Time.deltaTime);
             }
             c.a=Mathf.Clamp(opacity,0f,masterOpacity);
             image.color=c;
