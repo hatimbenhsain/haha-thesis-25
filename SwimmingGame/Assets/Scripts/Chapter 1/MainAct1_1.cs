@@ -15,7 +15,7 @@ public class MainAct1_1 : MonoBehaviour
     }
 
     IEnumerator waitAndLoadLevel(){
-        yield return new WaitForSeconds(2f);
+        yield return new WaitForSeconds(1f);
         levelLoader.LoadLevel();
     }
 }

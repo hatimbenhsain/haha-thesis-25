@@ -2038,52 +2038,6 @@ Transform:
   - {fileID: 1901415104}
   m_Father: {fileID: 2090021590}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &255052597
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 255052599}
-  - component: {fileID: 255052598}
-  m_Layer: 0
-  m_Name: BurstCollisionWorld
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &255052598
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 255052597}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f1a161c4294214a4fbcb7e9e94800494, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  cellSpans:
-    m_AlignBytes: 16
---- !u!4 &255052599
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 255052597}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &256922214
 GameObject:
   m_ObjectHideFlags: 0
@@ -10900,6 +10854,52 @@ Transform:
   m_Children: []
   m_Father: {fileID: 72317988}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1258382051
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1258382053}
+  - component: {fileID: 1258382052}
+  m_Layer: 0
+  m_Name: BurstCollisionWorld
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1258382052
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1258382051}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f1a161c4294214a4fbcb7e9e94800494, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cellSpans:
+    m_AlignBytes: 16
+--- !u!4 &1258382053
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1258382051}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1270331583
 GameObject:
   m_ObjectHideFlags: 0
@@ -19525,9 +19525,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7896139950823720704, guid: 382adfc20f56f66429a029d9e3c70add,
         type: 3}
+      propertyPath: crossFadeTime
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7896139950823720704, guid: 382adfc20f56f66429a029d9e3c70add,
+        type: 3}
+      propertyPath: freezeDuration
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7896139950823720704, guid: 382adfc20f56f66429a029d9e3c70add,
+        type: 3}
       propertyPath: crossFadeTexture
       value: 
-      objectReference: {fileID: 2800000, guid: e52407faf31fd1b40b36ab92cc8dbb38, type: 3}
+      objectReference: {fileID: 2800000, guid: 2303ba41de40aa540b06eba74b4a7cf7, type: 3}
     - target: {fileID: 7896139950823720704, guid: 382adfc20f56f66429a029d9e3c70add,
         type: 3}
       propertyPath: destinationScene
@@ -40765,4 +40775,4 @@ SceneRoots:
   - {fileID: 1542057608}
   - {fileID: 1209398223}
   - {fileID: 1631223666}
-  - {fileID: 255052599}
+  - {fileID: 1258382053}

@@ -36,6 +36,7 @@ public class LevelLoader : MonoBehaviour
     public Texture2D crossFadeTexture;
     public float crossFadeTime = 2f;
     public float overrideTime=-1f;
+    public float freezeDuration=0f;
 
     void Start()
     {
@@ -180,7 +181,7 @@ public class LevelLoader : MonoBehaviour
         {
             yield return null;
         }
-        SceneLoader.instance.LoadScene(currentScene, destination, crossFadeTime, crossFadeTexture, crossFadeReverseColor);
+        SceneLoader.instance.LoadScene(currentScene, destination, crossFadeTime, crossFadeTexture, crossFadeReverseColor, freezeDuration);
     }
 
     // Load level when enter trigger box

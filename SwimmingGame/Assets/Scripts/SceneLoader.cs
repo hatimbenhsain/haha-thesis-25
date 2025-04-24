@@ -20,26 +20,29 @@ public class SceneLoader : MonoBehaviour
         transitionImage.gameObject.SetActive(false);
         if (transitionImage.material != null){
             initialCrossfadeTexture = transitionImage.material.GetTexture("_Noise") as Texture2D;
-            initialReverseColor = transitionImage.material.GetFloat("_ReverseColor") > 0.5f; // Check if the reverse color is set
+            initialReverseColor = transitionImage.material.GetInt("_ReverseColor") > 0.5f; // Check if the reverse color is set
         }
     }
 
 
-    public void LoadScene(string from, string to, float fadeInDuration, Texture2D crossfadeTexture, bool reverseColor)
+    public void LoadScene(string from, string to, float fadeInDuration, Texture2D crossfadeTexture, bool reverseColor, float freezeDuration)
     {
-        if (crossfadeTexture != null && transitionImage.material != null){
-            transitionImage.material.SetTexture("_Noise", crossfadeTexture);
-            transitionImage.material.SetFloat("_ReverseColor", reverseColor ? 1f : 0f); // Set the reverse color
+        if (transitionImage.material != null){
+            if (crossfadeTexture != null){
+                    transitionImage.material.SetTexture("_Noise", crossfadeTexture);
+            }
+            transitionImage.material.SetInt("_ReverseColor", reverseColor ? 1 : 0); // Set the reverse color
         }
 
         StartCoroutine(ScreenFlash(0.2f)); // Flash the screen before loading the new scene
-        StartCoroutine(HandleSceneTransition(from, to, fadeInDuration));
+        StartCoroutine(HandleSceneTransition(from, to, fadeInDuration, freezeDuration));
     }
 
-    private IEnumerator HandleSceneTransition(string from, string to, float fadeInDuration)
+    private IEnumerator HandleSceneTransition(string from, string to, float fadeInDuration, float freezeDuration)
     {
         // Wait for the screenshot coroutine to finish
         yield return StartCoroutine(GetCameraScreenshotCoroutine());
+        yield return new WaitForSeconds(freezeDuration); // Wait for the freeze duration
 
         // Unload the previous scene
         Scene s = SceneManager.GetSceneByName(from);
@@ -50,9 +53,11 @@ public class SceneLoader : MonoBehaviour
 
         // Load the new scene asynchronously
         AsyncOperation operation = SceneManager.LoadSceneAsync(to, LoadSceneMode.Additive);
+
         // Wait for the scene to finish loading
         operation.completed += (_) =>
         {
+
 
             Scene newScene = SceneManager.GetSceneByName(to);
             StartCoroutine(FadeInCoroutine(fadeInDuration));
