@@ -910,7 +910,6 @@ VAR freezeMoment=false
 # ambient
 ~ freezeMoment=true
 MC: WAIT, stop!!! # time: 3
-~loadLevel("Foreplay 1 - 2")
 -> END
 // Main act interrupted and go back to edge sitting
 

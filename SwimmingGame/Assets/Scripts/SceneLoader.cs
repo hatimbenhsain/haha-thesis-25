@@ -12,6 +12,7 @@ public class SceneLoader : MonoBehaviour
     public static SceneLoader instance;
     public UnityEngine.UI.Image screenFlashImage;
     private Texture2D initialCrossfadeTexture;
+    private bool initialReverseColor = false;
 
     private void Awake()
     {
@@ -19,15 +20,18 @@ public class SceneLoader : MonoBehaviour
         transitionImage.gameObject.SetActive(false);
         if (transitionImage.material != null){
             initialCrossfadeTexture = transitionImage.material.GetTexture("_Noise") as Texture2D;
+            initialReverseColor = transitionImage.material.GetFloat("_ReverseColor") > 0.5f; // Check if the reverse color is set
         }
     }
 
 
-    public void LoadScene(string from, string to, float fadeInDuration, Texture2D crossfadeTexture)
+    public void LoadScene(string from, string to, float fadeInDuration, Texture2D crossfadeTexture, bool reverseColor)
     {
         if (crossfadeTexture != null && transitionImage.material != null){
             transitionImage.material.SetTexture("_Noise", crossfadeTexture);
+            transitionImage.material.SetFloat("_ReverseColor", reverseColor ? 1f : 0f); // Set the reverse color
         }
+
         StartCoroutine(ScreenFlash(0.2f)); // Flash the screen before loading the new scene
         StartCoroutine(HandleSceneTransition(from, to, fadeInDuration));
     }
@@ -140,6 +144,7 @@ public class SceneLoader : MonoBehaviour
     {
         if (transitionImage.material != null){
             transitionImage.material.SetTexture("_Noise", initialCrossfadeTexture); // Reset the texture to the original one
+            transitionImage.material.SetFloat("_ReverseColor", initialReverseColor ? 1f : 0f); // Reset the reverse color
         }
     }
 }
