@@ -70,6 +70,7 @@ public class ShockwavePulseTrigger : MonoBehaviour
             }else{
                 shockwavMaterial.SetFloat("_Magnification",Mathf.Clamp((pulseTimer-minTime)/(maxTime-minTime),0f,1f)*pulseStrength);
             }
+       
         }
     }
 
@@ -80,6 +81,7 @@ public class ShockwavePulseTrigger : MonoBehaviour
         shockwavMaterial.SetFloat("_Magnification", pulseStrength);
         shockwavMaterial.SetFloat("_Speed", pulseSpeed);
         shockwavMaterial.SetVector("_FocalPoint", pulseCenter);
+
         isPulsing = true;
         pulseTimer = 0f;
         if(followPlayer){
