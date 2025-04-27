@@ -106,6 +106,11 @@ public class Swimmer : MonoBehaviour
 
     [Header("Misc.")]
     public GameObject dustCloudPrefab;
+    public GameObject strideEffectPrefab;
+    private GameObject strideEffect;
+    [HideInInspector]
+    public bool strideTrigger=false; //called by animator when the stride begins to trigger stride effect
+    private float timerSinceLastStrideEffect=0f;
     public GameObject afterimageSprite;
     private Vector3 prevVelocity;
 
@@ -241,6 +246,17 @@ public class Swimmer : MonoBehaviour
         if(Input.GetKeyDown(KeyCode.R) && (Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift))){
             Respawn();
         }
+
+        //Initiate stride effect if striding
+        if(strideTrigger && timerSinceLastStrideEffect>=boostTime){
+            strideEffect=Instantiate(strideEffectPrefab,spriteRenderer.transform);
+            strideEffect.SetActive(true);
+            strideEffect.GetComponent<Animator>().Update(animator.GetCurrentAnimatorStateInfo(0).normalizedTime*animator.GetCurrentAnimatorStateInfo(0).length);   
+            timerSinceLastStrideEffect=0f;
+        }else{
+            timerSinceLastStrideEffect+=Time.deltaTime;            
+        }
+        strideTrigger=false;
 
     }
 
@@ -495,6 +511,10 @@ public class Swimmer : MonoBehaviour
             }else{
                 animator.SetBool("swimmingForward",false);
                 animator.SetBool("swimmingBackward",false);
+                if(timerSinceMoveForwardInput<ignoreStrideTime && strideEffect!=null){
+                    Destroy(strideEffect);
+                    Debug.Log("cancel stride");
+                }
                 boostTimer=boostTime+1f;
             }
 

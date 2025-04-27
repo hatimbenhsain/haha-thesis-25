@@ -2278,13 +2278,15 @@ GameObject:
   m_Component:
   - component: {fileID: 1502707778}
   - component: {fileID: 1502707779}
+  - component: {fileID: 1502707780}
+  - component: {fileID: 1502707781}
   m_Layer: 0
   m_Name: Stride Effect
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1502707778
 Transform:
   m_ObjectHideFlags: 0
@@ -2320,7 +2322,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: fd76456f0c7ae574ca7606dc62e68e11, type: 2}
+  - {fileID: 2100000, guid: e726b1aa3e796bf47923922fadadf2b7, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -2342,7 +2344,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 1
   m_Sprite: {fileID: 1239886955, guid: 96acb09d2f6ab8b4b98ce11558f0dad2, type: 3}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 0.10980392}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -2352,6 +2354,43 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!95 &1502707780
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1502707777}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 36515a53527c8414c86fe210333d78bf, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &1502707781
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1502707777}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 63355c682c3d7784f872b8782f16709e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  time: 1
+  fadeOut: 0
+  fadeIn: 0
+  fadeInTime: 0
 --- !u!4 &1528474151 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 7659171040817193679, guid: a4a22838efa595443b0743dfcb1cff96,
@@ -4663,6 +4702,16 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 8183452674653232876, guid: a4a22838efa595443b0743dfcb1cff96,
+        type: 3}
+      propertyPath: strideEffect
+      value: 
+      objectReference: {fileID: 1502707777}
+    - target: {fileID: 8183452674653232876, guid: a4a22838efa595443b0743dfcb1cff96,
+        type: 3}
+      propertyPath: strideEffectPrefab
+      value: 
+      objectReference: {fileID: 1502707777}
     - target: {fileID: 8250568588168863997, guid: a4a22838efa595443b0743dfcb1cff96,
         type: 3}
       propertyPath: m_LocalPosition.x
