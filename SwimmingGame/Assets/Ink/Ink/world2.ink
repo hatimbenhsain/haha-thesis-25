@@ -3,6 +3,11 @@ INCLUDE Functions.ink
 VAR talkedToVirgin=false
 
 
+=== npcStart2 ===
+~world=2
+-> npcStart ->
+->->
+
 // * IMPORTANT DIALOGUE *
 
 //You meet them at the smoking area.
@@ -12,7 +17,9 @@ VAR talkedToVirgin=false
 //    HMM this is probably too long, maybe could be broken up in more convos.. but fear played wont know that u can talk several times
 === virgin ===
 # color: ffae1e
--> npcStart ->
+-> npcStart2 ->
+~ activateBorder("floral",true)
+~ activateBorder("rave",false)
 NPC: Friend.
 { 
     - talkedToVirgin:
@@ -171,7 +178,7 @@ VAR metEnkidu=false
 === EnkiduAtParty1 ===  //Room 3
 # color: 2A3B5A
 # outline: FFF383
--> npcStart ->
+-> npcStart2 ->
 ~changeDesire("Find a way out of the party.")
 Enkidu: Hello there!
 MC: ...Hello?
@@ -189,7 +196,7 @@ MC: Oh...
 === EnkiduAtParty2 ===
 # color: 2A3B5A
 # outline: FFF383
--> npcStart ->
+-> npcStart2 ->
 Enkidu: You are not dancing!
 MC: Neither are you.
 Enkidu: I'm using psychic power to recenter the party vibes!
@@ -199,7 +206,7 @@ Enkidu: I'm using psychic power to recenter the party vibes!
 === EnkiduAtParty3 === //Room 5
 # color: 2A3B5A
 # outline: FFF383
--> npcStart ->
+-> npcStart2 ->
 ~continueSinging()
 ~ setFMODGlobalParameter("npcSingingVolume",0.8)
 Enkidu: You are still not dancing!
@@ -214,7 +221,7 @@ Enkidu: Make that be different!!
 === EnkiduAtParty4 ===
 # color: 2A3B5A
 # outline: FFF383
--> npcStart ->
+-> npcStart2 ->
 ~continueSinging()
 ~ setFMODGlobalParameter("npcSingingVolume",0.8)
 MC: So... About your whole "name" thing --
@@ -228,7 +235,7 @@ Enkidu: Dance! Now!
 === EnkiduAtParty5 ===
 # color: 2A3B5A
 # outline: FFF383
--> npcStart ->
+-> npcStart2 ->
 ~continueSinging()
 ~ setFMODGlobalParameter("npcSingingVolume",0.8)
 Enkidu: Little minnow!
@@ -242,7 +249,7 @@ MC: ...
 === EnkiduAtParty6 === // White Room 1
 # color: 2A3B5A
 # outline: FFF383
--> npcStart ->
+-> npcStart2 ->
 ~continueSinging()
 ~ setFMODGlobalParameter("npcSingingVolume",0.8)
 Enkidu: I like your style!
@@ -257,7 +264,7 @@ Enkidu: You are! There's a quiet melancholy about you! It's so different! I love
 === EnkiduAtParty7 === // Room 7
 # color: 2A3B5A
 # outline: FFF383
--> npcStart ->
+-> npcStart2 ->
 ~continueSinging()
 ~ setFMODGlobalParameter("npcSingingVolume",0.8)
 Enkidu: Meet me later!
@@ -275,7 +282,7 @@ VAR chosenName=false
 === EnkiduBeforeMainAct1 ===
 # color: 2A3B5A
 # outline: FFF383
--> npcStart ->
+-> npcStart2 ->
 {talkedToEnkiduBeforeMainAct1==false:
     ->chat->
 }
@@ -450,7 +457,7 @@ Hmm... Would I?
 === EnkiduForeplay1 ===
 # color: 2A3B5A
 # outline: FFF383
--> npcStart ->
+-> npcStart2 ->
 ~stopSinging()
 ~pause(2)
 ~loadString("mcName")
@@ -685,7 +692,7 @@ NPC2: Now! Now! Now!
 //MC wakes up later. everyone is gone. they go to the center near the big tunnel to the surface and they find the janitor.
 VAR talkedToJanitor=0
 === janitor ===
--> npcStart ->
+-> npcStart2 ->
 { 
 - talkedToJanitor==0:
     MC: Where is everyone?
@@ -778,7 +785,7 @@ VAR talkedToJanitor=0
 
 === alienDancer1 ===
 # color: d6eaf6
--> npcStart ->
+-> npcStart2 ->
 NPC: Let's dance! Dance! Dance!!!
 -> npcEnd ->
 -> END
@@ -786,14 +793,14 @@ NPC: Let's dance! Dance! Dance!!!
 
 === alienThisIsWhatTheyDo === 
 # color: d6eaf6
--> npcStart ->
+-> npcStart2 ->
 NPC: This is what they do on the surface!!!
 -> npcEnd ->
 -> END
 
 === alienSuit1 === //ingame
 # color: d6eaf6
--> npcStart ->
+-> npcStart2 ->
 NPC: Do you like my suit??
 MC: What's it made of?
 NPC: If you're wondering whether it's edible, it's not!!!
@@ -802,7 +809,7 @@ NPC: If you're wondering whether it's edible, it's not!!!
 
 === alienSuit2 === //ingame
 # color: d6eaf6
--> npcStart ->
+-> npcStart2 ->
 NPC: Ever since Enkidu started wearing clothing, we knew we had to do the same!
 And now look at us! So beautiful!
 -> npcEnd ->
@@ -810,21 +817,21 @@ And now look at us! So beautiful!
 
 === alienSuit3 === //ingame
 # color: d6eaf6
--> npcStart ->
+-> npcStart2 ->
 NPC: I wear this to show my belonging to my in-group!!!
 -> npcEnd ->
 -> END
 
 === alienSuit4 === //ingame
 # color: d6eaf6
--> npcStart ->
+-> npcStart2 ->
 NPC: On the surface, they have created a highly arbitrary moral system that govern all aspects of their society, so they wear these to hide their true selves!!!
 -> npcEnd ->
 -> END
 
 === alienChair1 === //ingame
 # color: d6eaf6
--> npcStart ->
+-> npcStart2 ->
 NPC: People on the surface have butts that are so bony they need to cushion these! For comfort!!!
 I've been starving myself so that you could feel my bones too! Do you want to feel it?!
 +   [Yes.]
@@ -838,14 +845,14 @@ I've been starving myself so that you could feel my bones too! Do you want to fe
 
 === alienChair2 === //ingame
 # color: d6eaf6
--> npcStart ->
+-> npcStart2 ->
 NPC: On the surface, the pull of the Earth is so attractive that they need to be on these to keep from being swallowed into its inside!!! 
 -> npcEnd ->
 -> END
 
 === alienChair3 === //INGAME
 # color: d6eaf6
--> npcStart ->
+-> npcStart2 ->
 NPC: Even though my head is physically beneath yours, me "sitting" is a signifier of my potentially justified feelings of superiority over you!
 Verticality has very strong connotations on the surface!!!
 -> npcEnd ->
@@ -853,7 +860,7 @@ Verticality has very strong connotations on the surface!!!
 
 === alienWalking1 === //ingame
 # color: d6eaf6
--> npcStart ->
+-> npcStart2 ->
 NPC: This may be how they physically move their bodies on the surface, but their actual usual means of locomotion are way more complex!!!
 NPC: Like, so complex that it tears up every material thing around them! It's spectacular!!!
 -> npcEnd ->
@@ -861,7 +868,7 @@ NPC: Like, so complex that it tears up every material thing around them! It's sp
 
 === alienWalking2 === // ingame
 # color: d6eaf6
--> npcStart ->
+-> npcStart2 ->
 NPC: In the surface, they move around like this because they're born with feet stuck to the ground!
 I wonder if it hurts all the time!! Can you imagine the sexual implications?!?!
 -> npcEnd ->
@@ -869,14 +876,14 @@ I wonder if it hurts all the time!! Can you imagine the sexual implications?!?!
 
 === alienWalking3 === //ingame
 # color: d6eaf6
--> npcStart ->
+-> npcStart2 ->
 NPC: On the surface there is this heavy and oppressive substance everywhere that forces them to move like this!!!
 -> npcEnd ->
 -> END
 
 === alienJournal1 === //ingame
 # color: d6eaf6
--> npcStart ->
+-> npcStart2 ->
 NPC: Surfaceans love their own thoughts so much that they've invented this method to materialize it!
 The method is so fast that in the blink of an eye they can make copies for everyone in the world to ingest!!!
 -> npcEnd ->
@@ -884,14 +891,14 @@ The method is so fast that in the blink of an eye they can make copies for every
 
 === alienJournal2 === //ingame
 # color: d6eaf6
--> npcStart ->
+-> npcStart2 ->
 NPC: Surface people wipe their asses with this!!!
 -> npcEnd ->
 -> END
 
 === alienJournal3 === //ingame
 # color: d6eaf6
--> npcStart ->
+-> npcStart2 ->
 NPC: Have you read the noose? Have you read the noose?
 This is how they talk on the surface! I don't know what it means but I love nooses!!!
 -> npcEnd ->
@@ -899,14 +906,14 @@ This is how they talk on the surface! I don't know what it means but I love noos
 
 === alienJournal4 === //ingame
 # color: d6eaf6
--> npcStart ->
+-> npcStart2 ->
 NPC: I have marked on this shaped rock standardized symbols of my inner being!!! 
 -> npcEnd ->
 -> END
 
 === alienStab1 === //ingame
 # color: d6eaf6
--> npcStart ->
+-> npcStart2 ->
 NPC: This person has wronged me so I take it out on them, but without using my teeth or claws!
 It's so sophisticated!!
 -> npcEnd ->
@@ -914,7 +921,7 @@ It's so sophisticated!!
 
 === alienStab2 === //ingame
 # color: d6eaf6
--> npcStart ->
+-> npcStart2 ->
 NPC: On the surface they have way more complex means to deal with disagreements, but none of them actually address the problem! 
 It's so sophisticated!!!
 -> npcEnd ->
@@ -922,14 +929,14 @@ It's so sophisticated!!!
 
 === alienStab3 === //ingame
 # color: d6eaf6
--> npcStart ->
+-> npcStart2 ->
 NPC: The most important part of stabbing is to make sure your partner is comfortable and having fun!!!
 -> npcEnd ->
 -> END
 
 === alienStab4 === //ingame
 # color: d6eaf6
--> npcStart ->
+-> npcStart2 ->
 NPC: In the surface, they actually take death very seriously.
 So something like this would be considered really bad!!!
 -> npcEnd ->
@@ -937,14 +944,14 @@ So something like this would be considered really bad!!!
 
 === alienAd1 ===
 # color: f6e2d6
--> npcStart ->
+-> npcStart2 ->
 NPC: I made this ad to let people know that they can entangle with me!!! Are you interested? I'm pretty proud of it.
 -> npcEnd ->
 -> END
 
 === alienAd2 ===
 # color: f6e2d6
--> npcStart ->
+-> npcStart2 ->
 NPC: On the surface, they use signifiers such as this one to let people know about things that they exchange for "currency".
 The nice thing here is that you can entangle with me without a need for goods or services. 
 Isn't that enticing?!
@@ -953,7 +960,7 @@ Isn't that enticing?!
 
 === alienAd3 ===
 # color: f6e2d6
--> npcStart ->
+-> npcStart2 ->
 NPC: If you want, you can entangle with me and then give me an object that signifies a form of standardized value!
 Isn't that enticing?!
 -> npcEnd ->
@@ -961,7 +968,7 @@ Isn't that enticing?!
 
 === alienSexTalk1 === //ingame
 # color: d6eaf6
--> npcStart ->
+-> npcStart2 ->
 NPC: My favorite part about the entanglement? Figuring out what to do with the residue at the end!!!
 MC: I didn't ask..?
 NPC: This is just how they start conversations on the surface!!!
@@ -970,7 +977,7 @@ NPC: This is just how they start conversations on the surface!!!
 
 === alienSexTalk2 === //ingame
 # color: d6eaf6
--> npcStart ->
+-> npcStart2 ->
 NPC: The entanglement isn't enough for me anymore! I want something deeper!! Something closer!!!
 I want to merge everyone's consciousness together until there are no borders between selves!!!
 MC: Is such a thing even possible..?
@@ -980,7 +987,7 @@ NPC: I hope so!! I can't take being apart anymore!!!!!
 
 === alienSexTalk3 === //ingame
 # color: d6eaf6
--> npcStart ->
+-> npcStart2 ->
 NPC: They are sucking on each others' organs but without the intention of consuming! I didn't even know you could use mouths for things other than eating!
 Can you imagine how many more uses for mouths they have on the surface? Probably more than a million!!!
 -> npcEnd ->
@@ -988,7 +995,7 @@ Can you imagine how many more uses for mouths they have on the surface? Probably
 
 === alienTomb1 === 
 # color: d6eaf6
--> npcStart ->
+-> npcStart2 ->
 NPC: On the surface, they put the bodies of dead people inside the ground!
 I wonder what it feels like.. I can't wait to have it happen to me!
 -> npcEnd ->
@@ -996,7 +1003,7 @@ I wonder what it feels like.. I can't wait to have it happen to me!
 
 === alienAir1 === 
 # color: d6eaf6
--> npcStart ->
+-> npcStart2 ->
 NPC: Have you tried inhaling "air" yet?
 It gives me a rush every puff I take! In the surface they must be euphoric all the time!
 -> npcEnd ->
@@ -1004,7 +1011,7 @@ It gives me a rush every puff I take! In the surface they must be euphoric all t
 
 === alienAir2 === 
 # color: d6eaf6
--> npcStart ->
+-> npcStart2 ->
 NPC: I keep taking air in until it doesn't hurt all of my insides anymore!
 Then I'll know I'm ready to move to the surface!!
 -> npcEnd ->
@@ -1012,7 +1019,7 @@ Then I'll know I'm ready to move to the surface!!
 
 === alienArtist1 === 
 # color: d6eaf6
--> npcStart ->
+-> npcStart2 ->
 NPC: On the surface, they have distinctions between those who make art and those who do not, which has a lot of societal and hierarchical implications!
 It's so sophisticated! I love it!!
 -> npcEnd ->
@@ -1020,7 +1027,7 @@ It's so sophisticated! I love it!!
 
 === alienSexTalk4 === //ingame
 # color: d6eaf6
--> npcStart ->
+-> npcStart2 ->
 NPC: Somehow it arouses me even more to watch people entangling that doing it myself!!!
 How does it feel for you?
 +   [Painful.]
@@ -1037,14 +1044,14 @@ How does it feel for you?
 
 === alienSexTalk5 === //ingame
 # color: d6eaf6
--> npcStart ->
+-> npcStart2 ->
 NPC: My favorite part about the entanglement is that I can feel close to anyone, even oafish idiotic and pathetic people who I normally hate singing to!!!
 - -> npcEnd ->
 -> END
 
 === alienSexTalk6 === //ingame
 # color: d6eaf6
--> npcStart ->
+-> npcStart2 ->
 NPC: I can't wait for the entanglement to replace all forms of socialization!
 MC: Is that really going to happen..?
 NPC: I hope so! It's so much better than singing and telepathy! 
@@ -1054,7 +1061,7 @@ NPC: Misunderstanding each other is so easy with other means of communications, 
 
 === alienSexTalk7 === //ingame
 # color: d6eaf6
--> npcStart ->
+-> npcStart2 ->
 NPC: You!
 NPC: Do you want to do it with me now?!
 MC: Sorry, I...
@@ -1077,7 +1084,7 @@ MC: Sorry, I...
 
 === alienTalk8 === //ingame
 # color: d6eaf6
--> npcStart ->
+-> npcStart2 ->
 NPC: Isn't it awesome and so exciting that we keep finding new ways of entangling every day?!
 NPC: Unfortunately I've always struggled to live in the moment and I am overcome with fear of the day we've ran out of interesting new ways and grow bored of this as of everything else!!!
 - -> npcEnd ->
@@ -1085,7 +1092,7 @@ NPC: Unfortunately I've always struggled to live in the moment and I am overcome
 
 === alienSexTalk9 === //ingame
 # color: d6eaf6
--> npcStart ->
+-> npcStart2 ->
 NPC: I actually don't enjoy the entanglement physically all that much, but I love learning about all the new things our bodies can do!!!
 I'm so excited to see what else may grow when we're on the surface! I hope I get "ears"!!!
 - -> npcEnd ->
@@ -1095,7 +1102,7 @@ VAR npcRubbed=false
 
 === alienSexTalk10 === //ingame
 # color: d6eaf6
--> npcStart ->
+-> npcStart2 ->
 { npcRubbed==false:
     NPC: I've recently discovered that I feel ecstatic when someone rubs the tip of my dorsal fin!
     Will you do it for me?
@@ -1116,7 +1123,7 @@ VAR npcRubbed=false
 
 === alienSexTalk11 === //ingame
 # color: d6eaf6
--> npcStart ->
+-> npcStart2 ->
 NPC: I actually have really conflicting feelings about the entanglement that I find difficult to resolve!
 MC: Really? Me too! Can you say more?
 NPC: Oh, sorry! I was just imitating people on the surface! Apparently they always come up with reasons to feel weird about it!! It's so charming!!!
@@ -1127,7 +1134,7 @@ NPC: But let me be clear I LOVE ENTANGLING!!!
 
 === alienSexTalk12 === //ingame
 # color: d6eaf6
--> npcStart ->
+-> npcStart2 ->
 NPC: WHEN YOU ENTANGLE DO YOU HAVE VISIONS OF THE END OF THE WORLD???
 MC: I don't really --
 NPC: SPIKY HOST-LESS SHELLS WILL RAIN FROM THE SKY AND PARENTS WILL TURN ON CHILDREN AND IT IS FORTHCOMING!
@@ -1136,14 +1143,14 @@ NPC: SPIKY HOST-LESS SHELLS WILL RAIN FROM THE SKY AND PARENTS WILL TURN ON CHIL
 
 === alienSexTalk13 === //ingame
 # color: 1F7A6E
--> npcStart ->
+-> npcStart2 ->
 NPC: My favorite thing about the entanglement is that I can just do it with anyone at any time and there is no room for jealousy, bitterness, or any other negative feelings!
 - -> npcEnd ->
 -> END
 
 === alienSexTalk14 === //in game
 # color: d6eaf6
--> npcStart ->
+-> npcStart2 ->
 NPC: IT'S A LITTLE UNUSUAL THAT WE JUST STARTED DOING THIS WITH NO SEEMING REASON EVEN THOUGH NONE OF OUR ANCESTORS DID IT
 MC: Yes! And what's more --
 NPC: UNUSUAL IN A FUN AND EXCITING WAY! IT'S SO SPECIAL!!!
@@ -1152,7 +1159,7 @@ NPC: UNUSUAL IN A FUN AND EXCITING WAY! IT'S SO SPECIAL!!!
 
 === alienTip1 === //ingame
 # color: d6eaf6
--> npcStart ->
+-> npcStart2 ->
 NPC: My favorite thing about singing is that I can tone-shift using the FACE BUTTONS!!!
 What I mean by that is the NORTH, EAST, SOUTH and WEST BUTTONS!!!
 - -> npcEnd ->
@@ -1161,7 +1168,7 @@ What I mean by that is the NORTH, EAST, SOUTH and WEST BUTTONS!!!
 
 === alienEnkidu1 === //ingame
 # color: d6eaf6
--> npcStart ->
+-> npcStart2 ->
 NPC: Have you met Enkidu yet??
 +   [Yes.]
     {metEnkidu==false:
@@ -1189,14 +1196,14 @@ NPC: Have you met Enkidu yet??
 
 === alienEnkidu2 === //ingame
 # color: d6eaf6
--> npcStart ->
+-> npcStart2 ->
 NPC: ENKIDU IS SO GORGEOUS AND KIND AND BEAUTIFUL AND PERFECT
 -> npcEnd ->
 -> END
 
 === alienEnkidu3 === //ingame
 # color: d6eaf6
--> npcStart ->
+-> npcStart2 ->
 NPC: ENKIDU REALLY KNOWS HOW TO THROW A PARTY UNLIKE MOST PEOPLE FOR EXAMPLE YOU AND ME
 WE WOULD NEVER KNOW HOW
 -> npcEnd ->
@@ -1206,7 +1213,7 @@ WE WOULD NEVER KNOW HOW
 
 === shrimptux1 === //ingame
 # color: 1F7A6E
--> npcStart ->
+-> npcStart2 ->
 NPC: This may prove controversial but I am personally not too warm on this "Enkidu" personnage.
 They have this tendency of entangling with someone then out-of-the-blue deciding to withhold further entwining because they were not "fun" or "interesting" enough.
 (this of course according to their own arbitrary definitions of "fun" and "interesting"-ness...)
@@ -1217,7 +1224,7 @@ Ahem.. I misspoke. What I meant when I said "me" was "a friend of mine". You und
 
 === shrimptux2 === //ingame
 # color: 1F7A6E
--> npcStart ->
+-> npcStart2 ->
 NPC: Frankly, there is something "trite" about these parties that was not there before.
 I remember, before we began to entangle, we would find much more interesting and novel ways to entertain ourselves..
 Now it's all about the entanglement! So cheap and overdone. Bah!
@@ -1226,7 +1233,7 @@ Now it's all about the entanglement! So cheap and overdone. Bah!
 
 === shrimptux3 === //ingame
 # color: 1F7A6E
--> npcStart ->
+-> npcStart2 ->
 NPC: What is so disappointing about this cycle's party is that everyone is so busy dancing and entwining, no one has taken the time to make the buffet!
 What am I supposed to feast on in-between intense linking sessions? Mere unseasoned live fish? Bah!
 It makes me so disgusted, I haven't even been in the mood to entangle with anyone here! Despite the abundance of elfin, magnetic, & willing creatures wherever meets the eye!
@@ -1235,7 +1242,7 @@ It makes me so disgusted, I haven't even been in the mood to entangle with anyon
 
 === horma1 === //ingame
 # color: 7E0D13
--> npcStart ->
+-> npcStart2 ->
 NPC: EVERYONE HERE IS SO GORGEOUS, IT'S TOO BAD I'M CURRENTLY ON A "KNOT-LESS" DIET.
 +   [What's that?]
     IT'S THIS NEW THING WHERE YOU QUIT ENTANGLING FOR A CERTAIN LENGTHY DURATION.
@@ -1249,7 +1256,7 @@ NPC: EVERYONE HERE IS SO GORGEOUS, IT'S TOO BAD I'M CURRENTLY ON A "KNOT-LESS" D
 
 === horma2 === //ingame
 # color: 7E0D13
--> npcStart ->
+-> npcStart2 ->
 NPC: DANCING FEELS SO GOOD I WONDER WHAT IT FEELS LIKE ON THE SURFACE.
 PROBABLY ABOUT THE SAME BUT WITH MORE TONGUE ACTION?
 - -> npcEnd ->
@@ -1257,14 +1264,14 @@ PROBABLY ABOUT THE SAME BUT WITH MORE TONGUE ACTION?
 
 === popero1 === //inside
 # color: 966382
--> npcStart ->
+-> npcStart2 ->
 NPC: I could never get into music and dancing. It feels too aspirational.
 - -> npcEnd ->
 -> END 
 
 === eelor1 === //ingame
 # color: 6D6787
--> npcStart ->
+-> npcStart2 ->
 NPC: I've enjoyed myself at this party, but something odd happens where if I spend a lot of time in there I need to spend some time revitalizing away from the crowd.
 Is this what the change is like? Am I about to start being pulled to the surface?? I'm not ready!
 - -> npcEnd ->
@@ -1272,7 +1279,7 @@ Is this what the change is like? Am I about to start being pulled to the surface
 
 === xrys1 === //ingame
 # color: 2b6136
--> npcStart ->
+-> npcStart2 ->
 NPC: To be honest, I don't really connect with the music here so I'm just gonna wait here until it's time to move on to the next world.
 It's too "badoom-tshh POONG POONG" and I'm more into "zaa... PARATATTA shoooo ERN??". You get it?
 - -> npcEnd ->

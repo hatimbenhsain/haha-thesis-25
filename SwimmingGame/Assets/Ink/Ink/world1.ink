@@ -11,6 +11,12 @@ VAR libraryOpen=false
 VAR hadChatWithFriend=false
 VAR desireStep=0
 
+
+=== npcStart1 ===
+~world=1
+-> npcStart ->
+->->
+
 /* CORALNET */
 
 //I'm calling OP initator for now but could be different
@@ -26,6 +32,7 @@ VAR desireStep=0
 ~ stopSinging()
 ~ pauseTutorial(true)
 ~ muffleNPCsVolume()
+
 {
     - desireStep==0:
         ~desireStep=1
@@ -33,6 +40,7 @@ VAR desireStep=0
     - desireStep==1:
         ~changeDesire("Read more coralnet.")
 }
+~ activateBorder("coral",true)
 ->->
 
 === coralnetEnd ===
@@ -42,6 +50,7 @@ VAR desireStep=0
 }
 ~ continueSinging()
 ~ restoreNPCsVolume()
+~ activateBorder("coral",false)
 -> END
 
 VAR cnetAnswer1=0
@@ -661,6 +670,7 @@ Coralnet: motif: my entanglement
 ~ restoreNPCsVolume()
 ~ switchObject("Teacher - Library",true)
 ~ switchInterlocutor("Teacher - Library")
+~ activateBorder("coral",false)
 -> teacherAtLibrary
 
 // I like this one very much. I like the recurring reference to how it feels inside one's mouth. Also imagining a world where this part could feel more cut off vibe since the teacher is probably approaching in the middle when MC is reading? Now is also very nice!
@@ -670,7 +680,7 @@ Coralnet: motif: my entanglement
 
 // Initiated by the teacher as you finish reading coralnetProgress
 === teacherAtLibrary ===
- -> npcStart ->
+ -> npcStart1 ->
 Teacher: Sounds amazing, doesn't it?
 ~ switchObject("Roadblock - Library",false)
 ~ switchObject("Coral - Library",true)
@@ -719,7 +729,7 @@ Teacher: Say, it looks like the current is letting up. I could use a bite. Maybe
 
 // MC finds teacher at diner sitting. They start singing when MC gets nearby to invite conversation
 === teacherAtDiner ===
- -> npcStart ->
+ -> npcStart1 ->
 { 
 - talkedToTeacherAtDiner:
     Teacher: <>
@@ -797,7 +807,7 @@ Teacher: Oh, someone else will eat it.
 -> END
 
 === teacherAtCenter ===
--> npcStart ->
+-> npcStart1 ->
 Teacher: I know a trick for getting rid of these.
 ~fadeOut(1)
 Let's see...
@@ -1073,7 +1083,7 @@ MC: Let's never do this again.
 { npcsTalkedTo==0:
     ~npcsTalkedTo=npcsTalkedTo+1
 }
--> npcStart ->
+-> npcStart1 ->
 NPC: Welcome to the library.
 Let me know if you need any help.
 +   [What is this place?]
@@ -1109,7 +1119,7 @@ Let me know if you need any help.
 
 === npcAtLibrary1 ===
 # color: 7E0D13
--> npcStart ->
+-> npcStart1 ->
 NPC: I LOVE SINGING INTO THE CORALNET 
 {->one->|->two->}
  -> npcEnd ->
@@ -1137,7 +1147,7 @@ MC: That's good.
 
 === npcAtLibrary2 ===
 # color: 2b6136
--> npcStart ->
+-> npcStart1 ->
 NPC: I really should stop coming to the library... 
 The current in this corridor always ends up trapping me and I have to wait an ETERNITY before being able to go anywhere else.
 NPC: Ah well, I guess I can catch up on some epics...
@@ -1154,7 +1164,7 @@ Did you hear the one about how they got their tail stuck in between two copulati
 
 === npcAtLibrary3 ===
 # color: 1F7A6E
--> npcStart ->
+-> npcStart1 ->
 NPC: I hear that the pink coral is supposed to pacify water currents, but this entryway is almost always blocked...
 I wonder if it is a ploy to get us to read more coralnet...
 Of course, the library is free to use so the ploymasters must be highly attention-seeking and greedy initiators seeking more audience...
@@ -1163,7 +1173,7 @@ Of course, the library is free to use so the ploymasters must be highly attentio
 
 === npcAtLibrary4 ===
 #color: 99AFAA
--> npcStart ->
+-> npcStart1 ->
 { libraryOpen==false:
     NPC: Hnnnmnghh... If I focus my psychic energy towards the pink coral... Maybe it will start working again...
     Please don't distract me... I know I can do this...
@@ -1177,7 +1187,7 @@ Of course, the library is free to use so the ploymasters must be highly attentio
 
 === npcInCenter1 ===    //Eelor
 # color: 6D6787
--> npcStart ->
+-> npcStart1 ->
 NPC: I love kicking off walls! It's my favorite part about swimming!
 Do you know how to do it?
 +   [Yes.]
@@ -1216,7 +1226,7 @@ Do you know how to do it?
 
 === npcInCenter2 ===    //(Fonsh)
 #color: 99AFAA
--> npcStart ->
+-> npcStart1 ->
 NPC: Do you know the secret to swimming really fast?
 +   [Yes.]
     What is it then?
@@ -1249,7 +1259,7 @@ NPC: Do you know the secret to swimming really fast?
 
 === npcInCenter3 ===
 # color: 1d1c29
--> npcStart ->
+-> npcStart1 ->
 NPC: A strange phenomenon occurs, whenever I attempt to leave stray too far from this place.
 NPC: It's as if there are invisible walls block my passage.
 Some say it's the current, but I know the truth.
@@ -1267,21 +1277,21 @@ What do you believe?
 
 === npcInCenter4 ===
 # color: 2b6136
--> npcStart ->
+-> npcStart1 ->
 NPC: Ahem. Do you mind?
 -> npcEnd ->
 ->END
 
 === npcInCenter5 ===    //Eelor
 # color: 6D6787
--> npcStart ->
+-> npcStart1 ->
 NPC: I'm just standing next to the hole, no big deal.
 -> npcEnd ->
 -> END
 
 === npcInCenter6 ===  //(Fonsh)
 #color: 99AFAA
--> npcStart ->
+-> npcStart1 ->
 NPC: When I am swimming around this column I am filled with... a special feeling.
 -> npcEnd ->
 -> END
@@ -1291,7 +1301,7 @@ NPC: When I am swimming around this column I am filled with... a special feeling
 // Chat with virgin friend to try to establish more info about MC
 === npcInCenter7 ===
 # color: ffae1e
--> npcStart ->
+-> npcStart1 ->
 NPC: Good tidings friend.
 How's your current?
 +   [Chilly.]
@@ -1394,7 +1404,7 @@ Would you like to chat for a little bit?
 
 === npcInDiner1 ===
 # color: 1F7A6E
--> npcStart ->
+-> npcStart1 ->
 NPC: I like the food here... but it's nothing compared to the buffets at Enkidu's parties!
 Have you been to one of those?
 + [Yes.]
@@ -1425,7 +1435,7 @@ Have you been to one of those?
 
 === npcInDiner2 ===
 # color: 2b6136
--> npcStart ->
+-> npcStart1 ->
 NPC: Have you ever noticed how certain people harmonize differently than others?
 NPC: Sometimes I'm unable to connect with someone until I've sung the same note as them, or one that's closer to it.
 NPC: What do you think that says about them?
@@ -1440,7 +1450,7 @@ NPC: What do you think that says about them?
 
 === npcInDiner3 ===
 # color: 1F7A6E
--> npcStart ->
+-> npcStart1 ->
 NPC: The food here was much better in the last cycle. Do you recall?
 In truth, the further I go in cycles, the better my memory of the food is. Isn't that peculiar?
 If I were employed in the kitchen, I would make sure the quality was always maintained to the most delectable standards of yester-cycle, for I have a perfect palate.
@@ -1450,7 +1460,7 @@ Alas, my constitution is too delicate to gaze at fish guts. A shame! \\pauseFor 
 
 === npcInDiner4 === //Beloo
 # color: 1d1c29
--> npcStart ->
+-> npcStart1 ->
 NPC: Have you heard of the microwave technology? It sounds simply portentous!
 Apparently, powerful psychics can focus radiation waves into food to make it warm and thus more delectable!
 I envision a wonderful future where we are no longer slaves to the tyranny of current for temperature control!
@@ -1461,7 +1471,7 @@ I envision a wonderful future where we are no longer slaves to the tyranny of cu
 
 === npcInDiner5 ===
 # color: 966382
--> npcStart ->
+-> npcStart1 ->
 NPC: Like clownfish to bioluminescent sea anemone.
 -> npcEnd ->
 -> END
