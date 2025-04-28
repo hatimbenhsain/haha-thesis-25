@@ -108,6 +108,8 @@ public class Swimmer : MonoBehaviour
     public GameObject dustCloudPrefab;
     public GameObject strideEffectPrefab;
     private GameObject strideEffect;
+    [Tooltip("Past this speed do not make stride effect.")]
+    public float strideMaxSpeed=5f;
     [HideInInspector]
     public bool strideTrigger=false; //called by animator when the stride begins to trigger stride effect
     private float timerSinceLastStrideEffect=0f;
@@ -248,7 +250,7 @@ public class Swimmer : MonoBehaviour
         }
 
         //Initiate stride effect if striding
-        if(strideTrigger && timerSinceLastStrideEffect>=boostTime){
+        if(strideTrigger && timerSinceLastStrideEffect>=boostTime && GetVelocity().magnitude<=strideMaxSpeed){
             strideEffect=Instantiate(strideEffectPrefab,spriteRenderer.transform);
             strideEffect.SetActive(true);
             strideEffect.GetComponent<Animator>().Update(animator.GetCurrentAnimatorStateInfo(0).normalizedTime*animator.GetCurrentAnimatorStateInfo(0).length);   
