@@ -46,15 +46,6 @@ public class Migration : MonoBehaviour
     [Range(0f, 1f)]
     public float ambientValue;
 
-    public Animator border;
-    private Image borderImg;
-    public int numberOfBorderTypes=3;
-    private float borderChangeTimer;
-    public float borderChangeAverageTime=10f;
-    public float borderChangeTimeVariance=5f;
-    private float borderChangeTime;
-    private float originalBorderHue;
-
 
     void Start()
     {
@@ -77,13 +68,6 @@ public class Migration : MonoBehaviour
         if(migrationGenerator==null) migrationGenerator=FindObjectOfType<MigrationGenerator>();
 
         swimmer=FindObjectOfType<Swimmer>();
-
-        if(border!=null){
-            borderChangeTime=borderChangeAverageTime+Random.Range(-borderChangeTimeVariance,borderChangeTimeVariance);
-            borderImg=border.GetComponent<Image>();
-            Color.RGBToHSV(borderImg.color,out h,out s,out v);
-            originalBorderHue=h;
-        }
 
     }
 
@@ -156,20 +140,6 @@ public class Migration : MonoBehaviour
                     swimmer.Boost(current.normalized*currentForce*Time.deltaTime);
                 }
             }
-        }
-
-        if(border!=null){
-            borderChangeTimer+=Time.deltaTime;
-            if(borderChangeTimer>=borderChangeTime){
-                border.SetFloat("type",(float)Random.Range(0,numberOfBorderTypes));
-                borderChangeTimer=0f;
-                borderChangeTime=borderChangeAverageTime+Random.Range(-borderChangeTimeVariance,borderChangeTimeVariance);
-            }
-            Color c=borderImg.color;
-            Color.RGBToHSV(c,out h,out s,out v);
-            Color.RGBToHSV(newColor,out h2,out s2,out v2);
-            // h=originalBorderHue+Mathf.Clamp((h2+0.5f)%1f-originalBorderHue,-0.05f,0.05f);
-            borderImg.color=Color.Lerp(Color.HSVToRGB(originalBorderHue,s,v),Color.HSVToRGB(Mathf.Clamp(h2-0.5f,0f,1f),s,v),.1f);
         }
 
     }

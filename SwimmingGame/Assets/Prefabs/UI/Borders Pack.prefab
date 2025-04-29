@@ -691,12 +691,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 69326b9ad18be3646a864545868492bf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  reactToDialogue: 1
   screenBorders:
   - name: Coral
     components:
     - {fileID: 7397089617273252030}
     - {fileID: 8935148980745963561}
+    images: []
     anchoredPositions: []
     targetAnchoredPositions:
     - {x: -1400, y: 0}
@@ -705,11 +705,16 @@ MonoBehaviour:
     targetScales:
     - {x: 1, y: 1}
     - {x: -1, y: 1}
+    alphas: []
+    targetAlphas:
+    - 1
+    - 1
     active: 0
   - name: Floral
     components:
     - {fileID: 3044466657446858004}
     - {fileID: 9162165863384342111}
+    images: []
     anchoredPositions: []
     targetAnchoredPositions:
     - {x: 0, y: 800}
@@ -718,9 +723,11 @@ MonoBehaviour:
     targetScales:
     - {x: 1, y: 1}
     - {x: 1, y: 1}
+    alphas: []
+    targetAlphas:
+    - 1
+    - 1
     active: 0
-  inactiveScale: 2.2
-  activeScale: 1.2
   lerpSpeed: 1
 --- !u!1 &5591475174158027311
 GameObject:
