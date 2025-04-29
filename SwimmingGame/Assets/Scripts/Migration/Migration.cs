@@ -53,6 +53,7 @@ public class Migration : MonoBehaviour
     public float borderChangeAverageTime=10f;
     public float borderChangeTimeVariance=5f;
     private float borderChangeTime;
+    private float originalBorderHue;
 
 
     void Start()
@@ -80,6 +81,8 @@ public class Migration : MonoBehaviour
         if(border!=null){
             borderChangeTime=borderChangeAverageTime+Random.Range(-borderChangeTimeVariance,borderChangeTimeVariance);
             borderImg=border.GetComponent<Image>();
+            Color.RGBToHSV(borderImg.color,out h,out s,out v);
+            originalBorderHue=h;
         }
 
     }
@@ -165,8 +168,8 @@ public class Migration : MonoBehaviour
             Color c=borderImg.color;
             Color.RGBToHSV(c,out h,out s,out v);
             Color.RGBToHSV(newColor,out h2,out s2,out v2);
-            h=h2+.5f;
-            borderImg.color=Color.HSVToRGB(h,s,v);
+            // h=originalBorderHue+Mathf.Clamp((h2+0.5f)%1f-originalBorderHue,-0.05f,0.05f);
+            borderImg.color=Color.Lerp(Color.HSVToRGB(originalBorderHue,s,v),Color.HSVToRGB(Mathf.Clamp(h2-0.5f,0f,1f),s,v),.1f);
         }
 
     }
