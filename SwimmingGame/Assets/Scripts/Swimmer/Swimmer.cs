@@ -142,6 +142,8 @@ public class Swimmer : MonoBehaviour
     private float noInputTimer=0f;
     private Coroutine wakingCoroutine;
 
+    private bool visible=true;
+
     void Start()
     {
         controller=GetComponent<CharacterController>();
@@ -240,6 +242,10 @@ public class Swimmer : MonoBehaviour
 
         if(Input.GetKeyDown(KeyCode.R) && (Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift))){
             Respawn();
+        }
+
+        if(Input.GetKeyDown(KeyCode.H) && (Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift))){
+            TurnInvisible();
         }
 
     }
@@ -594,29 +600,31 @@ public class Swimmer : MonoBehaviour
 
     //Things to animate right after Dash happens
     void DashAnimation(Vector3 playerVelocity){
-        swimmerCamera.DashAnimation();
-        Vector3 projectVector=transform.right;
-        switch(dashDirection){
-            case Directions.UP:
-                projectVector=transform.up;
-                break;
-            case Directions.DOWN:
-                projectVector=-transform.up;
-                break;
-            case Directions.LEFT:
-                projectVector=-transform.right;
-                break;
-            case Directions.RIGHT:
-                projectVector=transform.right;
-                break;
+        if(visible){
+            swimmerCamera.DashAnimation();
+            Vector3 projectVector=transform.right;
+            switch(dashDirection){
+                case Directions.UP:
+                    projectVector=transform.up;
+                    break;
+                case Directions.DOWN:
+                    projectVector=-transform.up;
+                    break;
+                case Directions.LEFT:
+                    projectVector=-transform.right;
+                    break;
+                case Directions.RIGHT:
+                    projectVector=transform.right;
+                    break;
+            }
+            Vector3 projectedVector=Vector3.Project(playerVelocity,projectVector);
+            if(projectedVector.normalized==projectVector.normalized){
+                swimmerTrails.DashTrail(dashDirection,projectedVector.magnitude);
+            }
+            GameObject g=Instantiate(afterimageSprite,afterimageSprite.transform.position,afterimageSprite.transform.rotation);
+            g.SetActive(true);
+            g.GetComponent<SpriteRenderer>().sprite=spriteRenderer.sprite;
         }
-        Vector3 projectedVector=Vector3.Project(playerVelocity,projectVector);
-        if(projectedVector.normalized==projectVector.normalized){
-            swimmerTrails.DashTrail(dashDirection,projectedVector.magnitude);
-        }
-        GameObject g=Instantiate(afterimageSprite,afterimageSprite.transform.position,afterimageSprite.transform.rotation);
-        g.SetActive(true);
-        g.GetComponent<SpriteRenderer>().sprite=spriteRenderer.sprite;
     }
 
     private void OnCollisionStay(Collision other) {
@@ -817,6 +825,12 @@ public class Swimmer : MonoBehaviour
         if(respawnTransform!=null){
             Transport(respawnTransform.position,respawnTransform.rotation);
         }
+    }
+
+    public void TurnInvisible(){
+        visible=!visible;
+        spriteRenderer.enabled=visible;
+        swimmerTrails.visible=visible;
     }
 
     public void Transport(Vector3 position){
