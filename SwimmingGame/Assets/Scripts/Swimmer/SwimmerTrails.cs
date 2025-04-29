@@ -20,6 +20,9 @@ public class SwimmerTrails : MonoBehaviour
     public float pixelLineMinSpeed=1f;
     public float pixelLineMaxSpeed=3f;
 
+    [HideInInspector]
+    public bool visible=true;
+
     void Start()
     {
         swimmer=FindObjectOfType<Swimmer>();
@@ -33,8 +36,10 @@ public class SwimmerTrails : MonoBehaviour
     void Update()
     {
         float playerVelocity=swimmer.GetVelocity().magnitude;
+        float k=1f;
+        if(!visible) k=0f;
         for(int i=0;i<trails.Length;i++){
-            UpdateTrail(trails[i],defaultRatesOverTime[i],playerVelocity,minSpeeds[i],maxSpeeds[i]);
+            UpdateTrail(trails[i],defaultRatesOverTime[i],playerVelocity*k,minSpeeds[i],maxSpeeds[i]);
         }
     }
 
