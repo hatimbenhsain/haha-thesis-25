@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.InputSystem.Utilities;
 using UnityEngine.Rendering;
 using UnityEngine.Rendering.Universal;
+using UnityEngine.UI;
 
 public class Migration : MonoBehaviour
 {
@@ -45,6 +46,14 @@ public class Migration : MonoBehaviour
     [Range(0f, 1f)]
     public float ambientValue;
 
+    public Animator border;
+    private Image borderImg;
+    public int numberOfBorderTypes=3;
+    private float borderChangeTimer;
+    public float borderChangeAverageTime=10f;
+    public float borderChangeTimeVariance=5f;
+    private float borderChangeTime;
+
 
     void Start()
     {
@@ -67,6 +76,11 @@ public class Migration : MonoBehaviour
         if(migrationGenerator==null) migrationGenerator=FindObjectOfType<MigrationGenerator>();
 
         swimmer=FindObjectOfType<Swimmer>();
+
+        if(border!=null){
+            borderChangeTime=borderChangeAverageTime+Random.Range(-borderChangeTimeVariance,borderChangeTimeVariance);
+            borderImg=border.GetComponent<Image>();
+        }
 
     }
 
@@ -139,6 +153,20 @@ public class Migration : MonoBehaviour
                     swimmer.Boost(current.normalized*currentForce*Time.deltaTime);
                 }
             }
+        }
+
+        if(border!=null){
+            borderChangeTimer+=Time.deltaTime;
+            if(borderChangeTimer>=borderChangeTime){
+                border.SetFloat("type",(float)Random.Range(0,numberOfBorderTypes));
+                borderChangeTimer=0f;
+                borderChangeTime=borderChangeAverageTime+Random.Range(-borderChangeTimeVariance,borderChangeTimeVariance);
+            }
+            Color c=borderImg.color;
+            Color.RGBToHSV(c,out h,out s,out v);
+            Color.RGBToHSV(newColor,out h2,out s2,out v2);
+            h=h2+.5f;
+            borderImg.color=Color.HSVToRGB(h,s,v);
         }
 
     }
