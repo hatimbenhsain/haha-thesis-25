@@ -810,6 +810,9 @@ public class Dialogue : MonoBehaviour
         story.BindExternalFunction("changeStartKnot",(string name)=>{
             ChangeStartKnot(name);
         });
+        story.BindExternalFunction("activateBorder",(string name,bool b)=>{
+            ActivateBorder(name,b);
+        }); 
     }
 
     // EXTERNAL FUNCTIONS
@@ -994,6 +997,10 @@ public class Dialogue : MonoBehaviour
         if(npcInterlocutor!=null){
             npcInterlocutor.knotName=knotName;
         }
+    }
+
+    void ActivateBorder(string name, bool b){
+        FindObjectOfType<ScreenBorders>().ActivateBorder(name,b);
     }
 
 }

@@ -25,6 +25,9 @@ EXTERNAL setFMODGlobalParameter(name,value)
 EXTERNAL changeDesire(text)
 EXTERNAL clearScreen()
 EXTERNAL changeStartKnot(name)
+EXTERNAL activateBorder(name,b)
+
+VAR world=0
 
 === nextBrainKnot ===
 ~ nextBrain()
@@ -42,12 +45,20 @@ EXTERNAL changeStartKnot(name)
 ~ pauseTutorial(true)
 ~ muffleNPCsVolume()
 ~ setDialogueBubble("standard")
+{
+    -world==1:
+        ~ activateBorder("floral",true)
+    -world==2:
+        ~ activateBorder("rave",true)
+}
 ->->
 
 === npcEnd ===
 ~pauseTutorial(false)
 ~ continueSinging()
 ~ restoreNPCsVolume()
+~ activateBorder("floral",false)
+~ activateBorder("rave",false)
 ->->
 
 
