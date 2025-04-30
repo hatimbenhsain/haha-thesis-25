@@ -176,6 +176,10 @@ public class Tutorial : MonoBehaviour
         }
 
         currentlyUsed=false;
+
+        if(Input.GetKeyDown(KeyCode.T) && (Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift))){
+            PauseTutorial(!paused);
+        }
         
     }
 
