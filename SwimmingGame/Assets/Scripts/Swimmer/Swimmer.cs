@@ -144,6 +144,10 @@ public class Swimmer : MonoBehaviour
 
     private bool visible=true;
 
+
+    private RespawnTrigger[] respawnTriggers;   //Gathering these for cycling through
+    private int respawnTriggerIndex;
+
     void Start()
     {
         controller=GetComponent<CharacterController>();
@@ -165,6 +169,9 @@ public class Swimmer : MonoBehaviour
             wakingCoroutine=StartCoroutine(WakeUp(timeBeforeWakingUp));
             animator.SetTrigger("skipFallingAsleep");
         }
+
+        respawnTriggers=FindObjectsOfType<RespawnTrigger>();
+        respawnTriggerIndex=0;
 
     }
 
@@ -240,12 +247,27 @@ public class Swimmer : MonoBehaviour
         }
 
 
+        // DEBUG HOTKEYS
+
         if(Input.GetKeyDown(KeyCode.R) && (Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift))){
             Respawn();
         }
 
         if(Input.GetKeyDown(KeyCode.H) && (Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift))){
             TurnInvisible();
+        }
+
+        if(respawnTriggers.Length>0){
+            if(Input.GetKeyDown(KeyCode.LeftArrow) && (Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift))){
+                respawnTriggerIndex=(respawnTriggerIndex-1+respawnTriggers.Length)%respawnTriggers.Length;
+                respawnTransform=respawnTriggers[respawnTriggerIndex].transform;
+                Respawn();
+            }
+            if(Input.GetKeyDown(KeyCode.RightArrow) && (Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift))){
+                respawnTriggerIndex=(respawnTriggerIndex+1)%respawnTriggers.Length;
+                respawnTransform=respawnTriggers[respawnTriggerIndex].transform;
+                Respawn();
+            }
         }
 
     }
@@ -824,6 +846,7 @@ public class Swimmer : MonoBehaviour
     public void Respawn(){
         if(respawnTransform!=null){
             Transport(respawnTransform.position,respawnTransform.rotation);
+            StartCoroutine(WakeUp(0f));
         }
     }
 
