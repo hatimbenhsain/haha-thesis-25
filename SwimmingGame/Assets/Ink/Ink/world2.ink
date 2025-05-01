@@ -324,6 +324,8 @@ Enkidu: Sweetheart, I'm all about forwardness.
 VAR feelingsCounter=0
 
 === EnkiduAftercareTest ===
+# color: 2A3B5A
+# outline: FFF383
 MC: You stopped us there.
 Enkidu: I did.
 +   [I was disguted.]
