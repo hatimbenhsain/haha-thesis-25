@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Security.Cryptography;
 using Cinemachine;
 using Unity.VisualScripting;
+using UnityEditor;
 using UnityEditor.Rendering;
 using UnityEngine;
 using UnityEngine.Timeline;
@@ -113,6 +114,7 @@ public class Swimmer : MonoBehaviour
     [HideInInspector]
     public bool strideTrigger=false; //called by animator when the stride begins to trigger stride effect
     private float timerSinceLastStrideEffect=0f;
+    private bool strideEffectCharged=false;
     public GameObject afterimageSprite;
     private Vector3 prevVelocity;
 
@@ -250,7 +252,8 @@ public class Swimmer : MonoBehaviour
         }
 
         //Initiate stride effect if striding
-        if(strideTrigger && timerSinceLastStrideEffect>=boostTime && GetVelocity().magnitude<=strideMaxSpeed){
+        if(strideEffectCharged && strideTrigger && timerSinceLastStrideEffect>=boostTime && GetVelocity().magnitude<=strideMaxSpeed){
+            strideEffectCharged=false;
             strideEffect=Instantiate(strideEffectPrefab,spriteRenderer.transform);
             strideEffect.SetActive(true);
             strideEffect.GetComponent<Animator>().Update(animator.GetCurrentAnimatorStateInfo(0).normalizedTime*animator.GetCurrentAnimatorStateInfo(0).length);   
@@ -259,6 +262,8 @@ public class Swimmer : MonoBehaviour
             timerSinceLastStrideEffect+=Time.deltaTime;            
         }
         strideTrigger=false;
+
+        if(animator.GetCurrentAnimatorStateInfo(0).IsName("idleSwim")) strideEffectCharged=true;
 
     }
 
