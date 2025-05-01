@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Security.Cryptography;
 using Cinemachine;
 using Unity.VisualScripting;
+using UnityEditor;
 using UnityEditor.Rendering;
 using UnityEngine;
 using UnityEngine.Timeline;
@@ -106,6 +107,14 @@ public class Swimmer : MonoBehaviour
 
     [Header("Misc.")]
     public GameObject dustCloudPrefab;
+    public GameObject strideEffectPrefab;
+    private GameObject strideEffect;
+    [Tooltip("Past this speed do not make stride effect.")]
+    public float strideMaxSpeed=5f;
+    [HideInInspector]
+    public bool strideTrigger=false; //called by animator when the stride begins to trigger stride effect
+    private float timerSinceLastStrideEffect=0f;
+    private bool strideEffectCharged=false;
     public GameObject afterimageSprite;
     private Vector3 prevVelocity;
 
@@ -245,6 +254,22 @@ public class Swimmer : MonoBehaviour
             v=v+(1f-v)*Mathf.Floor(dashTimer-dashCooldownTime)/maxDashes;
             spriteRenderer.material.color=Color.Lerp(spriteRenderer.material.color,new Color(v,v,v),Time.deltaTime*colorLerpSpeed);
         }
+        
+
+        //Initiate stride effect if striding
+        if(strideEffectCharged && strideTrigger && timerSinceLastStrideEffect>=boostTime && GetVelocity().magnitude<=strideMaxSpeed){
+            strideEffectCharged=false;
+            strideEffect=Instantiate(strideEffectPrefab,spriteRenderer.transform);
+            strideEffect.SetActive(true);
+            strideEffect.GetComponent<Animator>().Update(animator.GetCurrentAnimatorStateInfo(0).normalizedTime*animator.GetCurrentAnimatorStateInfo(0).length);   
+            timerSinceLastStrideEffect=0f;
+        }else{
+            timerSinceLastStrideEffect+=Time.deltaTime;            
+        }
+        strideTrigger=false;
+
+        if(animator.GetCurrentAnimatorStateInfo(0).IsName("idleSwim")) strideEffectCharged=true;
+
 
 
         // DEBUG HOTKEYS
@@ -269,6 +294,7 @@ public class Swimmer : MonoBehaviour
                 Respawn();
             }
         }
+
 
     }
 
@@ -523,6 +549,10 @@ public class Swimmer : MonoBehaviour
             }else{
                 animator.SetBool("swimmingForward",false);
                 animator.SetBool("swimmingBackward",false);
+                if(timerSinceMoveForwardInput<ignoreStrideTime && strideEffect!=null){
+                    Destroy(strideEffect);
+                    Debug.Log("cancel stride");
+                }
                 boostTimer=boostTime+1f;
             }
 
