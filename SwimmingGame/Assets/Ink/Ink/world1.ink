@@ -919,7 +919,8 @@ VAR freezeMoment=false
 === teacherMainAct1 ===
 # ambient
 ~ freezeMoment=true
-MC: WAIT, stop!!! # time: 3
+~ switchObject("Overlay",true)
+MC: WAIT, stop!!! # time: 3 # speed:fast
 -> END
 // Main act interrupted and go back to edge sitting
 
