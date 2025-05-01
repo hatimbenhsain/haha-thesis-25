@@ -389,10 +389,14 @@ public class Dialogue : MonoBehaviour
             // }
             //Shuffle(positions);
             int offsetInt=Random.Range(0,choiceBoxesPositionsWheel.Length);
+            if(interlocutorTextBox==boneTextBox){
+                if(story.currentChoices.Count==2) offsetInt=0;
+                else offsetInt=4;
+            }
             for(int i=0;i<Mathf.Min(story.currentChoices.Count,choiceTextBoxes.Length);i++){
                 RectTransform rect=choiceTextBoxes[i].GetComponent<RectTransform>();
                 //Randomize starting position of where choice boxes appear
-                rect.anchoredPosition=choiceBoxesPositionsWheel[i+offsetInt%choiceBoxesPositionsWheel.Length];
+                rect.anchoredPosition=choiceBoxesPositionsWheel[(i+offsetInt)%choiceBoxesPositionsWheel.Length];
             }
         }
 
