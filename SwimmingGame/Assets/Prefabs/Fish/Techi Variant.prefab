@@ -8,6 +8,11 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1103803840341542045, guid: c65a1270c8041ee4486f6aaee23493e8,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2066594163889528028, guid: c65a1270c8041ee4486f6aaee23493e8,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -83,6 +88,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.y
       value: -90
       objectReference: {fileID: 0}
+    - target: {fileID: 7076769347558009670, guid: c65a1270c8041ee4486f6aaee23493e8,
+        type: 3}
+      propertyPath: wanderToFollowLongTime
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 7303767532875828662, guid: c65a1270c8041ee4486f6aaee23493e8,
         type: 3}
       propertyPath: m_Sprite
@@ -115,5 +125,37 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 5867124048622790340, guid: c65a1270c8041ee4486f6aaee23493e8,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 4865872357902965226}
   m_SourcePrefab: {fileID: 100100000, guid: c65a1270c8041ee4486f6aaee23493e8, type: 3}
+--- !u!1 &1013137565262666584 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5867124048622790340, guid: c65a1270c8041ee4486f6aaee23493e8,
+    type: 3}
+  m_PrefabInstance: {fileID: 6873430931114687900}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &4865872357902965226
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1013137565262666584}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0b5d88cd268df2a4e8a5f8d596b89a09, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  randomizeScale: 0
+  normalizeY: 0
+  minScale: 0.75
+  maxScale: 2
+  randomizeFlipX: 1
+  randomizeFlipY: 0
+  randomizeSpriteLibraryAsset: 0
+  spriteLibraryAssets: []
+  randomizeHue: 0
+  randomizeHueIntensity: 0.1294118
