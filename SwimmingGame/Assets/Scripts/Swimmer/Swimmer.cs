@@ -867,7 +867,7 @@ public class Swimmer : MonoBehaviour
         body.rotation=transform.rotation;
         Physics.SyncTransforms();
         swimmerCamera.ResetCamera();
-        FindObjectOfType<LevelLoader>().FadeIn();
+        FindObjectOfType<LevelLoader>().FadeIn(1f);
     }
 
     IEnumerator WakeUp(float time){
