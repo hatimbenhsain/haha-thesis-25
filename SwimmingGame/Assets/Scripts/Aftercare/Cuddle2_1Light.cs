@@ -10,6 +10,9 @@ public class Cuddle2_1Light : MonoBehaviour
     public float fogPulseInterval = 3f; // Interval for fog sine wave
     public float lightChangeInterval = 1f; // Interval for changing light color
     public float fogChangeInterval = 1f; // Interval for changing fog color
+    public Color fogOffColor = Color.black;
+    public Color lightOffColor = Color.black;
+
 
     private Color currentLightColor;
     private Color currentFogColor;
@@ -36,7 +39,7 @@ public class Cuddle2_1Light : MonoBehaviour
             lightPulseTimer += Time.deltaTime;
             float lightFrequency = (Mathf.PI * 2) / lightPulseInterval; // Frequency based on interval
             float lightIntensity = Mathf.Sin(lightPulseTimer * lightFrequency) * 0.5f + 0.5f; // Sine wave between 0 and 1
-            directionalLight.color = Color.Lerp(Color.black, currentLightColor, lightIntensity);
+            directionalLight.color = Color.Lerp(lightOffColor, currentLightColor, lightIntensity);
 
             // Change light color at intervals
             lightChangeTimer += Time.deltaTime;
@@ -51,7 +54,7 @@ public class Cuddle2_1Light : MonoBehaviour
         fogPulseTimer += Time.deltaTime;
         float fogFrequency = (Mathf.PI * 2) / fogPulseInterval; // Frequency based on interval
         float fogIntensity = Mathf.Sin(fogPulseTimer * fogFrequency) * 0.5f + 0.5f; // Sine wave between 0 and 1
-        RenderSettings.fogColor = Color.Lerp(Color.black, currentFogColor, fogIntensity);
+        RenderSettings.fogColor = Color.Lerp(fogOffColor, currentFogColor, fogIntensity);
 
         // Change fog color at intervals
         fogChangeTimer += Time.deltaTime;
