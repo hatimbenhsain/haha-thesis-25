@@ -346,6 +346,8 @@ Enkidu: I did.
 
 // goals: MC talks about ambivalence of sex, enkidu proposes naming
 === EnkiduAftercare1 ===
+# color: 2A3B5A
+# outline: FFF383
 ~pause(3)
 MC: You stopped us there. 
 Enkidu: I did.
