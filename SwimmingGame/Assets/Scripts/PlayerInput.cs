@@ -82,7 +82,7 @@ public class PlayerInput : MonoBehaviour
 
     void Update(){
         values=new object[] {look.x,look.y,rotation.x,rotation.y,singingNote.x,singingNote.y,movingForward,movingBackward,movingLeft,movingRight,movingUp,movingDown,boosting,interacting,aiming,singing,pausing,entering,shiftLeft,shiftRight,shiftTwice};
-        if(Input.GetKeyDown(KeyCode.I)){
+        if(Input.GetKeyDown(KeyCode.I) && (Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift))){
             InvertYAxis();
         }
 

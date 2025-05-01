@@ -25,8 +25,11 @@ public class Fish : NPCOverworld
     public string boopSound="event:/Overworld/Fish/Boop";
     public float pitch=1f;
 
+    private Animator playerAnimator;
+
     void Start(){
         swimmerSinging=FindObjectOfType<SwimmerSinging>();
+        playerAnimator=player.GetComponent<Animator>();
     }
 
     void Update(){
@@ -82,6 +85,10 @@ public class Fish : NPCOverworld
                         awayFromPlayerTimer=0f;
                         closeToPlayerTimer=0f;
                     }
+                }
+                AnimatorStateInfo animatorStateInfo=playerAnimator.GetCurrentAnimatorStateInfo(0);
+                if((animatorStateInfo.IsName("swimmerWakingUp") || animatorStateInfo.IsName("swimmerWakingUpWithOrgan")) && animatorStateInfo.normalizedTime>0.8f){
+                    ChangeMovementBehavior(MovementBehavior.RunFromPlayer);
                 }
                 break;
             case MovementBehavior.Wander:

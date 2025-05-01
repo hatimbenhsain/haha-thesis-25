@@ -32,9 +32,12 @@ public class LevelLoader : MonoBehaviour
     public Image loadingImage;
     [Header("Use crossfade scene loader after loading the level")]
     public bool useCrossFade=false;
+    public bool crossFadeReverseColor=true;
     public Texture2D crossFadeTexture;
     public float crossFadeTime = 2f;
     public float overrideTime=-1f;
+    public float freezeDuration=0f;
+    public bool waitForFadeOut=false;
 
     void Start()
     {
@@ -160,6 +163,12 @@ public class LevelLoader : MonoBehaviour
 
     IEnumerator EnsureSceneLoaderCoroutine(string currentScene, string destination, float crossFadeTime)
     {
+        if (waitForFadeOut){
+            fadingOut = true;
+            transitionTimer = 0f;
+
+            yield return new WaitForSeconds(transitionTime);
+        }
         if (SceneLoader.instance == null)
         {
             Debug.LogWarning("SceneLoader instance is null. Loading SceneLoader scene...");
@@ -179,7 +188,7 @@ public class LevelLoader : MonoBehaviour
         {
             yield return null;
         }
-        SceneLoader.instance.LoadScene(currentScene, destination, crossFadeTime, crossFadeTexture);
+        SceneLoader.instance.LoadScene(currentScene, destination, crossFadeTime, crossFadeTexture, crossFadeReverseColor, freezeDuration);
     }
 
     // Load level when enter trigger box

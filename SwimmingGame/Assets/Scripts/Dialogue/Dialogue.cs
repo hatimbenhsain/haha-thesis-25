@@ -362,6 +362,7 @@ public class Dialogue : MonoBehaviour
         if(currentCharacterIndex<displayText.Length && currentCharacterIndex>1){
             if(inlinePauseTimer<=0f) text=displayText.Substring(0,Mathf.Max(text.Length-1,0))+"<color="+nextCharColor+"><size="+nextCharSize.ToString()+">"+text[Mathf.Max(text.Length-1,0)]+"</size></color>";
             text+="<color=#00000000>"+displayText.Substring(Mathf.FloorToInt(currentCharacterIndex))+"</color>";
+            text=text.Replace("\\pause","");
         }
         lineTMP.text=text;
         canvasParent.SetActive(true);
@@ -389,10 +390,14 @@ public class Dialogue : MonoBehaviour
             // }
             //Shuffle(positions);
             int offsetInt=Random.Range(0,choiceBoxesPositionsWheel.Length);
+            if(interlocutorTextBox==boneTextBox){
+                if(story.currentChoices.Count==2) offsetInt=0;
+                else offsetInt=4;
+            }
             for(int i=0;i<Mathf.Min(story.currentChoices.Count,choiceTextBoxes.Length);i++){
                 RectTransform rect=choiceTextBoxes[i].GetComponent<RectTransform>();
                 //Randomize starting position of where choice boxes appear
-                rect.anchoredPosition=choiceBoxesPositionsWheel[i+offsetInt%choiceBoxesPositionsWheel.Length];
+                rect.anchoredPosition=choiceBoxesPositionsWheel[(i+offsetInt)%choiceBoxesPositionsWheel.Length];
             }
         }
 
@@ -810,6 +815,9 @@ public class Dialogue : MonoBehaviour
         story.BindExternalFunction("changeStartKnot",(string name)=>{
             ChangeStartKnot(name);
         });
+        story.BindExternalFunction("activateBorder",(string name,bool b)=>{
+            ActivateBorder(name,b);
+        }); 
     }
 
     // EXTERNAL FUNCTIONS
@@ -994,6 +1002,10 @@ public class Dialogue : MonoBehaviour
         if(npcInterlocutor!=null){
             npcInterlocutor.knotName=knotName;
         }
+    }
+
+    void ActivateBorder(string name, bool b){
+        FindObjectOfType<ScreenBorders>().ActivateBorder(name,b);
     }
 
 }

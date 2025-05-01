@@ -44,6 +44,7 @@ MC: Wait!! #speed: fast
 # ambient
 ~ changeDialogueView(2)
 ~ intensity=2
+MC: # time:1
 MC: Are you still there?  # time:3
 Ex: What is it? # time:3
 MC: What does this mean for us..? # time: 5 # speed: slow
@@ -56,7 +57,7 @@ Ex: I don't think you would survive it. # time: 3
 # ambient
 ~ intensity=3
 ~ changeDialogueView(2)
-MC: Did you even like me at all? Or was this just... some sort of a.. a distraction? Just to pass the time?! # time: 5
+MC: Did you even like me at all? Or was this just... some sort of a.. a distraction? Just to pass the time?! # time: 7
 Ex: Of course I did. \\pauseThis has nothing to do with you. # time: 4
 -> END
 
@@ -72,7 +73,7 @@ Ex: It's-- # time: 3
 ~pause(2)
 Ex: Do you really want to hear about that? # time: 3
 ~pause(2)
-MC: I guess not. Not really. # time: 3 # speed: slow
+MC: I guess not. Not really. # time: 5 # speed: slow
 -> END
 
 === intro5 ===
@@ -88,7 +89,7 @@ Ex: But I left you a song. On the coralnet. # time: 3
 ~ loadCutscene=true 
 MC: It was short. # time: 3
 ~ pause(2)
-MC: Wait. \\pauseDoes it have -- # time: 2
+MC: Wait. Are those our -- # time: 2
 -> END
 
 

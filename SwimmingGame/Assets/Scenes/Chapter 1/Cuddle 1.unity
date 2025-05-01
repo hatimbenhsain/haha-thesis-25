@@ -1999,7 +1999,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &260474980
 Transform:
   m_ObjectHideFlags: 0
@@ -10558,7 +10558,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!64 &1101308809
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -11594,6 +11594,16 @@ PrefabInstance:
     - target: {fileID: 5661031363680635953, guid: 54ee2c803d46c6648878673f7fe5c681,
         type: 3}
       propertyPath: fadeInTime
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5661031363680635953, guid: 54ee2c803d46c6648878673f7fe5c681,
+        type: 3}
+      propertyPath: useCrossFade
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5661031363680635953, guid: 54ee2c803d46c6648878673f7fe5c681,
+        type: 3}
+      propertyPath: crossFadeTime
       value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 5661031363680635953, guid: 54ee2c803d46c6648878673f7fe5c681,
@@ -11604,17 +11614,17 @@ PrefabInstance:
     - target: {fileID: 5661031363680635953, guid: 54ee2c803d46c6648878673f7fe5c681,
         type: 3}
       propertyPath: fadeInColor.b
-      value: 0.8243111
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5661031363680635953, guid: 54ee2c803d46c6648878673f7fe5c681,
         type: 3}
       propertyPath: fadeInColor.g
-      value: 0.749199
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5661031363680635953, guid: 54ee2c803d46c6648878673f7fe5c681,
         type: 3}
       propertyPath: fadeInColor.r
-      value: 0.8679245
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5661031363680635953, guid: 54ee2c803d46c6648878673f7fe5c681,
         type: 3}
@@ -11623,13 +11633,28 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5661031363680635953, guid: 54ee2c803d46c6648878673f7fe5c681,
         type: 3}
-      propertyPath: transitionTime
-      value: 0.2
+      propertyPath: freezeDuration
+      value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5661031363680635953, guid: 54ee2c803d46c6648878673f7fe5c681,
+        type: 3}
+      propertyPath: transitionTime
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5661031363680635953, guid: 54ee2c803d46c6648878673f7fe5c681,
+        type: 3}
+      propertyPath: crossFadeTexture
+      value: 
+      objectReference: {fileID: 2800000, guid: 3e46614ff66ce3f4bbc677882c17e238, type: 3}
     - target: {fileID: 5661031363680635953, guid: 54ee2c803d46c6648878673f7fe5c681,
         type: 3}
       propertyPath: destinationScene
       value: Migration 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5661031363680635953, guid: 54ee2c803d46c6648878673f7fe5c681,
+        type: 3}
+      propertyPath: crossFadeReverseColor
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7520034976802511986, guid: 54ee2c803d46c6648878673f7fe5c681,
         type: 3}

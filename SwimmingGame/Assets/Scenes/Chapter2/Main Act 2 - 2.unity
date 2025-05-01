@@ -6822,9 +6822,24 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5661031363680635953, guid: 54ee2c803d46c6648878673f7fe5c681,
         type: 3}
+      propertyPath: useCrossFade
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5661031363680635953, guid: 54ee2c803d46c6648878673f7fe5c681,
+        type: 3}
+      propertyPath: freezeDuration
+      value: 1.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 5661031363680635953, guid: 54ee2c803d46c6648878673f7fe5c681,
+        type: 3}
       propertyPath: transitionTime
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5661031363680635953, guid: 54ee2c803d46c6648878673f7fe5c681,
+        type: 3}
+      propertyPath: crossFadeTexture
+      value: 
+      objectReference: {fileID: 2800000, guid: da4e6107237c3cd4083814e5512699ad, type: 3}
     - target: {fileID: 5661031363680635953, guid: 54ee2c803d46c6648878673f7fe5c681,
         type: 3}
       propertyPath: destinationScene
@@ -13994,6 +14009,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b5107d69c9572924d98e177b619355d8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  springController: {fileID: 0}
+  levelLoader: {fileID: 0}
 --- !u!4 &1305196362841882815
 Transform:
   m_ObjectHideFlags: 0
@@ -15042,6 +15059,7 @@ MonoBehaviour:
   ignoreYAxisInverted: 1
   masterOpacity: 1
   isHarmonySprite: 0
+  onlyWhenSinging: 0
 --- !u!4 &1569983960986504698
 Transform:
   m_ObjectHideFlags: 0
@@ -18048,6 +18066,7 @@ MonoBehaviour:
   ignoreYAxisInverted: 0
   masterOpacity: 1
   isHarmonySprite: 0
+  onlyWhenSinging: 0
 --- !u!4 &2255972706652450286
 Transform:
   m_ObjectHideFlags: 0
@@ -40237,6 +40256,7 @@ MonoBehaviour:
   ignoreYAxisInverted: 0
   masterOpacity: 1
   isHarmonySprite: 0
+  onlyWhenSinging: 0
 --- !u!1 &6221969957921974472
 GameObject:
   m_ObjectHideFlags: 0
