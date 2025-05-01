@@ -126,4 +126,19 @@ public class SexMaterialManager : MonoBehaviour
         material.SetFloat("_Normal", Mathf.Lerp(material.GetFloat("_Normal"),Mathf.Lerp(fromPreset.normal, toPreset.normal, t),lerpSpeed*Time.deltaTime));
         material.SetFloat("_Add", Mathf.Lerp(material.GetFloat("_Add"),Mathf.Lerp(fromPreset.add, toPreset.add, t),lerpSpeed*Time.deltaTime));
     }
+
+    void OnDestroy()
+    {
+        for (int i = 0; i < bodyMaterials.Count && i < headMaterials.Count; i++)
+        {
+            if (i < bodyDefaultPresets.Count)
+                ApplyPreset(bodyMaterials[i], bodyDefaultPresets[i]);
+
+            if (i < headDefaultPresets.Count)
+                ApplyPreset(headMaterials[i], headDefaultPresets[i]);
+
+            if (i < climaxDefaultPresets.Count)
+                ApplyPreset(climaxMaterials[i], climaxDefaultPresets[i]);
+        }
+    }
 }
