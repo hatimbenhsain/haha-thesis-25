@@ -1005,7 +1005,8 @@ public class Dialogue : MonoBehaviour
     }
 
     void ActivateBorder(string name, bool b){
-        FindObjectOfType<ScreenBorders>().ActivateBorder(name,b);
+        ScreenBorders sb=FindObjectOfType<ScreenBorders>();
+        if (sb!=null) sb.ActivateBorder(name,b);
     }
 
 }
