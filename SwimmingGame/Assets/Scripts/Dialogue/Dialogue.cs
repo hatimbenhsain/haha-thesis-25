@@ -362,6 +362,7 @@ public class Dialogue : MonoBehaviour
         if(currentCharacterIndex<displayText.Length && currentCharacterIndex>1){
             if(inlinePauseTimer<=0f) text=displayText.Substring(0,Mathf.Max(text.Length-1,0))+"<color="+nextCharColor+"><size="+nextCharSize.ToString()+">"+text[Mathf.Max(text.Length-1,0)]+"</size></color>";
             text+="<color=#00000000>"+displayText.Substring(Mathf.FloorToInt(currentCharacterIndex))+"</color>";
+            text=text.Replace("\\pause","");
         }
         lineTMP.text=text;
         canvasParent.SetActive(true);
