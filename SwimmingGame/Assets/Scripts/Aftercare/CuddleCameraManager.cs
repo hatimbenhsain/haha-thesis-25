@@ -37,23 +37,25 @@ public class CuddleCameraManager : MonoBehaviour
 
     void Start()
     {
-        if (cameras != null && cameras.Length > shotIndex)
+        if (cameras.Length > 0)
             defaultCameraY = cameras[shotIndex].transform.localPosition.y; // Store initial Y position
 
-        if (bodyPos != null)
+        if (bodyPos.Length > 0)
             UpdatePosition(sexPartnerBody, bodyPos);
 
-        if (handPos != null)
+        if (handPos.Length > 0)
             UpdatePosition(hand, handPos);
 
-        if (handControlPos != null)
+        if (handControlPos.Length > 0)
             UpdatePosition(handControlPoint, handControlPos);
 
-        if (boundingBoxes != null && boundingBoxes.Length > shotIndex)
+        if (boundingBoxes.Length > 0)
             handController.boundingBox = boundingBoxes[shotIndex];
 
-        if (handRotationOffset != null && handRotationOffset.Length > shotIndex)
+        if (handRotationOffset.Length > 0)
             handController.rotationOffset = handRotationOffset[shotIndex];
+
+        SetActiveElements(shotIndex);
 
         blink = GetComponentInChildren<Animator>();
         blinkDuration = 0f;
@@ -75,28 +77,28 @@ public class CuddleCameraManager : MonoBehaviour
 
                 SetActiveElements(shotIndex);
 
-                if (cameras != null && cameras.Length > shotIndex)
+                if (cameras.Length > 0 && cameras.Length > shotIndex)
                     defaultCameraY = cameras[shotIndex].transform.localPosition.y; // Reset Y position for new active camera
 
-                if (bodyPos != null)
+                if (bodyPos.Length > 0)
                     UpdatePosition(sexPartnerBody, bodyPos);
 
-                if (handPos != null)
+                if (handPos.Length > 0)
                     UpdatePosition(hand, handPos);
 
-                if (handControlPos != null)
+                if (handControlPos.Length > 0)
                     UpdatePosition(handControlPoint, handControlPos);
 
-                if (boundingBoxes != null && boundingBoxes.Length > shotIndex)
+                if (boundingBoxes.Length > 0 && boundingBoxes.Length > shotIndex)
                     handController.boundingBox = boundingBoxes[shotIndex];
 
-                if (handRotationOffset != null && handRotationOffset.Length > shotIndex)
+                if (handRotationOffset.Length > 0 && handRotationOffset.Length > shotIndex)
                     handController.rotationOffset = handRotationOffset[shotIndex];
 
-                if (sexPartnerAnimator != null && sexPartnerAnimationSwitchPose != null && sexPartnerAnimationSwitchPose.Length > shotIndex)
+                if (sexPartnerAnimator != null && sexPartnerAnimationSwitchPose.Length > 0 && sexPartnerAnimationSwitchPose.Length > shotIndex)
                     sexPartnerAnimator.SetBool("SwitchPose", sexPartnerAnimationSwitchPose[shotIndex]);
 
-                if (colliderViews != null)
+                if (colliderViews.Length > 0)
                 {
                     foreach (GameObject cv in colliderViews)
                     {
@@ -127,7 +129,7 @@ public class CuddleCameraManager : MonoBehaviour
 
     public void SetActiveElements(int index)
     {
-        if (cameras != null)
+        if (cameras.Length > 0)
         {
             for (int i = 0; i < cameras.Length; i++)
             {
@@ -136,7 +138,7 @@ public class CuddleCameraManager : MonoBehaviour
             }
         }
 
-        if (planes != null)
+        if (planes.Length > 0)
         {
             for (int i = 0; i < planes.Length; i++)
             {
@@ -145,7 +147,7 @@ public class CuddleCameraManager : MonoBehaviour
             }
         }
 
-        if (boundingBoxes != null)
+        if (boundingBoxes.Length > 0)
         {
             for (int i = 0; i < boundingBoxes.Length; i++)
             {
@@ -154,7 +156,7 @@ public class CuddleCameraManager : MonoBehaviour
             }
         }
 
-        if (sexPartnerColliders != null)
+        if (sexPartnerColliders.Length > 0)
         {
             for (int i = 0; i < sexPartnerColliders.Length; i++)
             {
@@ -163,7 +165,7 @@ public class CuddleCameraManager : MonoBehaviour
             }
         }
 
-        if (backPlane != null)
+        if (backPlane.Length > 0)
         {
             for (int i = 0; i < backPlane.Length; i++)
             {
@@ -175,7 +177,7 @@ public class CuddleCameraManager : MonoBehaviour
         // Reset bob timer when switching cameras
         bobTimer = 0f;
 
-        if (cameras != null && cameras.Length > index && cameras[index] != null)
+        if (cameras.Length > 0 && cameras.Length > index && cameras[index] != null)
             defaultCameraY = cameras[index].transform.position.y; // Reset Y position for new active camera
     }
 
@@ -196,7 +198,7 @@ public class CuddleCameraManager : MonoBehaviour
 
     void UpdatePosition(Transform transform, GameObject[] transformObject)
     {
-        if (transformObject != null && transformObject.Length > shotIndex && transformObject[shotIndex] != null)
+        if (transformObject.Length > 0 && transformObject.Length > shotIndex && transformObject[shotIndex] != null)
         {
             transform.position = transformObject[shotIndex].transform.position;
             transform.rotation = transformObject[shotIndex].transform.rotation;
