@@ -638,7 +638,7 @@ Coralnet: motif: keeping the secret
 === coralnetProgress === //the coralnet to read to progress story
 -> coralnetStart ->
 Coralnet: motif: my entanglement
-~ fadeOut(-1)
+//~ fadeOut(-1)
 > i experienced it today. i'm happy to share my experience.
 > oh? how was it? tell us about it.
 > it was in the back of our music hall. 
@@ -666,12 +666,7 @@ Coralnet: motif: my entanglement
 { npcsTalkedTo > 2:
     ~finishTutorialPart(6)
 }
-~ continueSinging()
-~ restoreNPCsVolume()
-~ switchObject("Teacher - Library",true)
-~ switchInterlocutor("Teacher - Library")
-~ activateBorder("coral",false)
--> teacherAtLibrary
+-> END
 
 // I like this one very much. I like the recurring reference to how it feels inside one's mouth. Also imagining a world where this part could feel more cut off vibe since the teacher is probably approaching in the middle when MC is reading? Now is also very nice!
 
