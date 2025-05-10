@@ -326,6 +326,7 @@ public class PauseMenu : MonoBehaviour
         // set timescale back to 1, unlock camera
         pauseMenuUI.SetActive(false);
         settingMenuUI.SetActive(false);
+        chapterSelectMenuUI.SetActive(false);
         Time.timeScale = 1f;
         GameIsPaused = false;
         UnityEngine.Cursor.visible = false;
