@@ -721,6 +721,7 @@ Teacher: Say, it looks like the current is letting up. I could use a bite. Maybe
 ~ restoreNPCsVolume()
 ~ desireStep=2
 ~ changeDesire("Exit library.")
+~ activateBorder("floral",false)
 -> END
 
 // Same I feel like here the rest of the interaction is nice but I feel like MC should be more surprised by the teacher being next to them.
