@@ -54,6 +54,7 @@ public class LevelLoader : MonoBehaviour
     private bool isBlinking = false;
     private bool isBlinkingOut=false;
     public bool showcaseReset=false;
+    private PlayerInput playerInput;
 
     void Start()
     {
@@ -76,7 +77,7 @@ public class LevelLoader : MonoBehaviour
             }
         }
         blinkDuration = 0f;
-
+        playerInput = FindObjectOfType<PlayerInput>();
     }
 
     void Update()
@@ -140,7 +141,7 @@ public class LevelLoader : MonoBehaviour
         // Showcase Reset Logic
         if (showcaseReset)
         {
-            if (Input.anyKey || Input.GetAxis("Horizontal") != 0 || Input.GetAxis("Vertical") != 0)
+            if (!playerInput.noInput)
             {
 
                 idleTimer = 0f; // Reset the idle timer if input is detected
