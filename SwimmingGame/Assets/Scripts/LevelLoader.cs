@@ -4,6 +4,7 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using TMPro;
 
 public class LevelLoader : MonoBehaviour
 {
@@ -32,8 +33,27 @@ public class LevelLoader : MonoBehaviour
     public Image loadingImage;
     [Header("Use crossfade scene loader after loading the level")]
     public bool useCrossFade=false;
+    public bool crossFadeReverseColor=true;
+    public Texture2D crossFadeTexture;
     public float crossFadeTime = 2f;
     public float overrideTime=-1f;
+    public float freezeDuration=0f;
+    public bool waitForFadeOut=false;
+
+    [Header("Showcase Reset Settings")]
+    public int resetCountdownTime = 10; // Time to start the on-screen countdown
+    public int onScreenCountdownTime = 3; // Time to show countdown UI
+    public GameObject countdownUI; // GameObject containing the UI canvas and TextMeshPro
+    public TextMeshProUGUI countdownText; // TextMeshPro component to display the countdown
+
+    private float idleTimer = 0f;
+    private bool isCountingDown = false; // Flag to track if countdown is active
+
+    public Animator blink;
+    private float blinkDuration;
+    private bool isBlinking = false;
+    private bool isBlinkingOut=false;
+    public bool showcaseReset=false;
 
     void Start()
     {
@@ -55,6 +75,7 @@ public class LevelLoader : MonoBehaviour
             image.color=new Color(c.r,c.g,c.b,1f);
             }
         }
+        blinkDuration = 0f;
 
     }
 
@@ -116,7 +137,100 @@ public class LevelLoader : MonoBehaviour
             EnsureSceneLoaderAndLoad(SceneManager.GetActiveScene().name, destinationScene, crossFadeTime);
         }
 
+        // Showcase Reset Logic
+        if (showcaseReset)
+        {
+            if (Input.anyKey || Input.GetAxis("Horizontal") != 0 || Input.GetAxis("Vertical") != 0)
+            {
 
+                idleTimer = 0f; // Reset the idle timer if input is detected
+                if (isCountingDown)
+                {
+                    isBlinkingOut=true;
+                    if (blink != null)
+                    {
+                        blink.SetBool("Blink", true); 
+                        isBlinking = true;
+                    }
+                    StartCoroutine(StopCountdownCoroutine()); // Stop the countdown if it was active
+                }
+            }
+            else
+            {
+                idleTimer += deltaTime; // Increment the idle timer if no input is detected
+
+                if (idleTimer >= resetCountdownTime + onScreenCountdownTime)
+                {
+                    StartCoroutine(ResetShowcaseCoroutine()); // Perform the reset action
+                }
+                else if (idleTimer >= resetCountdownTime && !isCountingDown)
+                {
+
+                    // Trigger the blinking animation
+                    if (blink != null)
+                    {
+                        blink.SetBool("Blink", true);
+                        isBlinking = true; // Set the blinking flag to true
+                    }
+                }
+            }
+        }
+        if (isBlinking){
+            blinkDuration += deltaTime; // Increment the blink duration
+            if (blinkDuration >= 0.2f) 
+            {
+                isBlinking = false; // Reset the blinking flag
+                if (blink != null)
+                blink.SetBool("Blink", false);
+                blinkDuration = 0f;
+                if(!isBlinkingOut){
+                StartCountdown(); // Start the countdown UI
+                }
+                else{
+                    isBlinkingOut = false; // Reset the blinking out flag
+                }
+
+            }
+        }
+    }
+
+    private void StartCountdown()
+    {
+        isCountingDown = true;
+        countdownUI.SetActive(true); // Activate the countdown UI
+        StartCoroutine(CountdownCoroutine());
+    }
+
+    private IEnumerator StopCountdownCoroutine()
+    {
+        yield return new WaitForSeconds(0.2f); // Wait for the countdown time
+        isCountingDown = false;
+
+        countdownUI.SetActive(false); // Deactivate the countdown UI
+        StopAllCoroutines(); // Stop the countdown coroutine
+    }
+
+    private IEnumerator CountdownCoroutine()
+    {
+        int remainingTime = onScreenCountdownTime;
+        while (remainingTime > 0)
+        {
+            countdownText.text = remainingTime.ToString(); // Update the TextMeshPro text
+            yield return new WaitForSeconds(1f); // Wait for 1 second
+            remainingTime--;
+        }
+    }
+
+    private IEnumerator ResetShowcaseCoroutine()
+    {
+        isBlinkingOut=true;
+        if (blink != null)
+        {
+            blink.SetBool("Blink", true);
+            isBlinking = true; // Set the blinking flag to true
+        }
+        yield return new WaitForSeconds(0.2f); 
+        LoadLevel("GameStart"); 
     }
 
     public void FadeIn(float time=-1f){
@@ -159,6 +273,12 @@ public class LevelLoader : MonoBehaviour
 
     IEnumerator EnsureSceneLoaderCoroutine(string currentScene, string destination, float crossFadeTime)
     {
+        if (waitForFadeOut){
+            fadingOut = true;
+            transitionTimer = 0f;
+
+            yield return new WaitForSeconds(transitionTime);
+        }
         if (SceneLoader.instance == null)
         {
             Debug.LogWarning("SceneLoader instance is null. Loading SceneLoader scene...");
@@ -178,7 +298,7 @@ public class LevelLoader : MonoBehaviour
         {
             yield return null;
         }
-        SceneLoader.instance.LoadScene(currentScene, destination, crossFadeTime);
+        SceneLoader.instance.LoadScene(currentScene, destination, crossFadeTime, crossFadeTexture, crossFadeReverseColor, freezeDuration);
     }
 
     // Load level when enter trigger box
@@ -216,12 +336,4 @@ public class LevelLoader : MonoBehaviour
         operation.allowSceneActivation = true; // Activate the scene
     }
 
-    IEnumerator CrossFadeLoadLevelCoroutine(string levelIndex)
-    {
-        AsyncOperation operation = SceneManager.LoadSceneAsync(levelIndex);
-
-        yield return new WaitForSeconds(transitionTime);
-
-        SceneManager.LoadScene(levelIndex);
-    }
 }

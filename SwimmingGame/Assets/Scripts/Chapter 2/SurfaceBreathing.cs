@@ -12,9 +12,12 @@ public class SurfaceBreathing : MonoBehaviour
 
     public int maxBreathes=10;
 
-    public SpriteAnimator seaSurfaceAnimator;
+    public SpriteAnimator seaSurfaceAnimator, seaSurfaceAnimator2;
     public float fastAnimationSpeed=4f;
     public float slowAnimationSpeed=1f;
+
+    public float fastAnimationSpeed2=4f;
+    public float slowAnimationSpeed2=1f;
 
     private int breathCounter=0;
 
@@ -31,6 +34,7 @@ public class SurfaceBreathing : MonoBehaviour
             Sound.PlayOneShotVolume("event:/Overworld/Choke/Choke",1f);
             breathTimer=0f;
             seaSurfaceAnimator.imageSpeed=fastAnimationSpeed;
+            seaSurfaceAnimator2.imageSpeed=fastAnimationSpeed2;
             playerInput.movedForwardTrigger=false;
             breathCounter+=1;
             if(breathCounter==maxBreathes){
@@ -39,6 +43,7 @@ public class SurfaceBreathing : MonoBehaviour
 
         }else if(breathTimer>maxTimeBetweenBreaths*.5f){
             seaSurfaceAnimator.imageSpeed=slowAnimationSpeed;
+            seaSurfaceAnimator2.imageSpeed=slowAnimationSpeed2;
         }
     }
 }

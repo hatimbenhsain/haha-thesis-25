@@ -7,13 +7,16 @@ using Cinemachine;
 using TMPro;
 using UnityEngine.UI;
 using UnityEngine.Events;
+using System;
 
 public class PauseMenu : MonoBehaviour
 {
     public static bool GameIsPaused = false;
     public bool inSettings=false;
+    public bool inChapterSelect=false;
     public GameObject pauseMenuUI;
     public GameObject settingMenuUI;
+    public GameObject chapterSelectMenuUI;
     public string mainMenuScene;
     public GameObject[] controls;
     [Tooltip("Overworld 0, mainact 1, climax 2, cuddle 3")]
@@ -25,6 +28,7 @@ public class PauseMenu : MonoBehaviour
 
     public GameObject[] buttons;
     public GameObject[] settingsButtons;
+    public GameObject[] chapterSelectButtons;
     private GameObject[] currentButtons;
     private TMP_Text[][] buttonsText;
     private int buttonIndex=0;
@@ -35,6 +39,7 @@ public class PauseMenu : MonoBehaviour
 
     public UnityEvent[] buttonEvents;
     public UnityEvent[] settingsEvents;
+    public UnityEvent[] chapterSelectEvents;
     private UnityEvent[] events;
 
     FMOD.Studio.Bus masterBus;
@@ -70,6 +75,7 @@ public class PauseMenu : MonoBehaviour
         if(PlayerPrefs.HasKey("soundLevel")){
             masterBus.setVolume(PlayerPrefs.GetFloat("soundLevel"));
         }
+
     }
 
     // Update is called once per frame
@@ -144,6 +150,11 @@ public class PauseMenu : MonoBehaviour
         FindObjectOfType<LevelLoader>().LoadLevel("GameStart");
     }
 
+    public void LoadLevel(string levelName){
+        Resume();
+        FindObjectOfType<LevelLoader>().LoadLevel(levelName);
+    }
+
     public void SetSoundLevel(float f){
         masterBus.setVolume(f);
     }
@@ -172,9 +183,34 @@ public class PauseMenu : MonoBehaviour
         buttonIndex=0;
     }
 
+    public void ChapterSelect(bool b){
+        inChapterSelect=b;
+        chapterSelectMenuUI.SetActive(false);
+        pauseMenuUI.SetActive(false);
+        if(inChapterSelect){
+            chapterSelectMenuUI.SetActive(true);
+            GetChapterSelectButtons();
+        }
+        else{
+            pauseMenuUI.SetActive(true);
+            GetChapterSelectButtons();
+        }
+        buttonIndex=0;
+    }
+
     void GetButtons(){
         currentButtons=inSettings?settingsButtons:buttons;
         events=inSettings?settingsEvents:buttonEvents;
+        buttonsText=new TMP_Text[currentButtons.Length][];
+        for(int i=0;i<currentButtons.Length;i++){
+            buttonsText[i]=currentButtons[i].GetComponentsInChildren<TMP_Text>();
+        }
+    }
+
+    void GetChapterSelectButtons()
+    {
+        currentButtons=inChapterSelect?chapterSelectButtons:buttons;
+        events=inChapterSelect?chapterSelectEvents:buttonEvents;
         buttonsText=new TMP_Text[currentButtons.Length][];
         for(int i=0;i<currentButtons.Length;i++){
             buttonsText[i]=currentButtons[i].GetComponentsInChildren<TMP_Text>();
@@ -290,6 +326,7 @@ public class PauseMenu : MonoBehaviour
         // set timescale back to 1, unlock camera
         pauseMenuUI.SetActive(false);
         settingMenuUI.SetActive(false);
+        chapterSelectMenuUI.SetActive(false);
         Time.timeScale = 1f;
         GameIsPaused = false;
         UnityEngine.Cursor.visible = false;

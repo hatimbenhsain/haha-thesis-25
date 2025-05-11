@@ -24,16 +24,27 @@ public class TouchController : MonoBehaviour
     public Quaternion initialRotation;
     private Vector2 movementVector;
     private bool isUsingGamepad;
-    public float circularMotionSpeed;
-    public float circularMotionRadius;
+    public float maxCircularMotionSpeed;
+    public float minCircularMotionSpeed;
+    public float maxCircularMotionRadius;
+    public float minCircularMotionRadius;
+    [SerializeField]
+    private float circularMotionSpeed;
+    [SerializeField]
+    private float circularMotionRadius;
 
     public BoxCollider boundingBox; // bounding box for movement
+    private float handTime = 2f;
+    private Vector3 initialPosition; 
 
     private void Start()
     {
+        circularMotionRadius = Random.Range(minCircularMotionRadius, maxCircularMotionRadius); 
+        circularMotionSpeed = Random.Range(minCircularMotionSpeed, maxCircularMotionSpeed); 
         playerInput = FindObjectOfType<PlayerInput>();
         targetPosition = transform.position;
         initialRotation = transform.rotation;
+        initialPosition = transform.position;
     }
 
     private void FixedUpdate()
@@ -153,12 +164,33 @@ public class TouchController : MonoBehaviour
 
 void MoveAround()
 {
+    handTime -= Time.fixedDeltaTime;
+    // Change radius, speed, and direction every 2 seconds
+    if (handTime <= 0f)
+    {
+        circularMotionRadius = Random.Range(minCircularMotionRadius, maxCircularMotionRadius); 
+        circularMotionSpeed = Random.Range(minCircularMotionSpeed, maxCircularMotionSpeed); 
+        circularMotionSpeed *= Random.value > 0.5f ? 1 : -1; // Randomly reverse direction
+        handTime = Random.Range(1f,4f); // Reset the timer
+    }
+
     float angle = Time.time * circularMotionSpeed;
     float x = Mathf.Cos(angle) * circularMotionRadius;
     float z = Mathf.Sin(angle) * circularMotionRadius;
 
     Vector3 circularPosition = new Vector3(x, 0, z);
-    targetPosition = transform.position + circularPosition;
+    Vector3 potentialTargetPosition = transform.position + circularPosition;
+
+    // Check if the potential target position is too far from the initial position
+    if (Vector3.Distance(potentialTargetPosition, initialPosition) > circularMotionRadius * 2)
+    {
+        // Move towards the initial position while keeping the circular motion
+        targetPosition = Vector3.Lerp(potentialTargetPosition, initialPosition, Time.fixedDeltaTime * lerpSpeed);
+    }
+    else
+    {
+        targetPosition = potentialTargetPosition;
+    }
     transform.position = Vector3.Lerp(transform.position, targetPosition, lerpSpeed * Time.fixedDeltaTime);
 }
 

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Security.Cryptography;
 using Cinemachine;
 using Unity.VisualScripting;
+using UnityEditor;
 using UnityEditor.Rendering;
 using UnityEngine;
 using UnityEngine.Timeline;
@@ -106,6 +107,14 @@ public class Swimmer : MonoBehaviour
 
     [Header("Misc.")]
     public GameObject dustCloudPrefab;
+    public GameObject strideEffectPrefab;
+    private GameObject strideEffect;
+    [Tooltip("Past this speed do not make stride effect.")]
+    public float strideMaxSpeed=5f;
+    [HideInInspector]
+    public bool strideTrigger=false; //called by animator when the stride begins to trigger stride effect
+    private float timerSinceLastStrideEffect=0f;
+    private bool strideEffectCharged=false;
     public GameObject afterimageSprite;
     private Vector3 prevVelocity;
 
@@ -142,6 +151,12 @@ public class Swimmer : MonoBehaviour
     private float noInputTimer=0f;
     private Coroutine wakingCoroutine;
 
+    private bool visible=true;
+
+
+    private RespawnTrigger[] respawnTriggers;   //Gathering these for cycling through
+    private int respawnTriggerIndex;
+
     void Start()
     {
         controller=GetComponent<CharacterController>();
@@ -163,6 +178,9 @@ public class Swimmer : MonoBehaviour
             wakingCoroutine=StartCoroutine(WakeUp(timeBeforeWakingUp));
             animator.SetTrigger("skipFallingAsleep");
         }
+
+        respawnTriggers=FindObjectsOfType<RespawnTrigger>();
+        respawnTriggerIndex=0;
 
     }
 
@@ -236,11 +254,47 @@ public class Swimmer : MonoBehaviour
             v=v+(1f-v)*Mathf.Floor(dashTimer-dashCooldownTime)/maxDashes;
             spriteRenderer.material.color=Color.Lerp(spriteRenderer.material.color,new Color(v,v,v),Time.deltaTime*colorLerpSpeed);
         }
+        
 
+        //Initiate stride effect if striding
+        if(strideEffectCharged && strideTrigger && timerSinceLastStrideEffect>=boostTime && GetVelocity().magnitude<=strideMaxSpeed){
+            strideEffectCharged=false;
+            strideEffect=Instantiate(strideEffectPrefab,spriteRenderer.transform);
+            strideEffect.SetActive(true);
+            strideEffect.GetComponent<Animator>().Update(animator.GetCurrentAnimatorStateInfo(0).normalizedTime*animator.GetCurrentAnimatorStateInfo(0).length);   
+            timerSinceLastStrideEffect=0f;
+        }else{
+            timerSinceLastStrideEffect+=Time.deltaTime;            
+        }
+        strideTrigger=false;
+
+        if(animator.GetCurrentAnimatorStateInfo(0).IsName("idleSwim")) strideEffectCharged=true;
+
+
+
+        // DEBUG HOTKEYS
 
         if(Input.GetKeyDown(KeyCode.R) && (Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift))){
             Respawn();
         }
+
+        if(Input.GetKeyDown(KeyCode.H) && (Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift))){
+            TurnInvisible();
+        }
+
+        if(respawnTriggers.Length>0){
+            if(Input.GetKeyDown(KeyCode.LeftArrow) && (Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift))){
+                respawnTriggerIndex=(respawnTriggerIndex-1+respawnTriggers.Length)%respawnTriggers.Length;
+                respawnTransform=respawnTriggers[respawnTriggerIndex].transform;
+                Respawn();
+            }
+            if(Input.GetKeyDown(KeyCode.RightArrow) && (Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift))){
+                respawnTriggerIndex=(respawnTriggerIndex+1)%respawnTriggers.Length;
+                respawnTransform=respawnTriggers[respawnTriggerIndex].transform;
+                Respawn();
+            }
+        }
+
 
     }
 
@@ -495,6 +549,10 @@ public class Swimmer : MonoBehaviour
             }else{
                 animator.SetBool("swimmingForward",false);
                 animator.SetBool("swimmingBackward",false);
+                if(timerSinceMoveForwardInput<ignoreStrideTime && strideEffect!=null){
+                    Destroy(strideEffect);
+                    Debug.Log("cancel stride");
+                }
                 boostTimer=boostTime+1f;
             }
 
@@ -594,29 +652,31 @@ public class Swimmer : MonoBehaviour
 
     //Things to animate right after Dash happens
     void DashAnimation(Vector3 playerVelocity){
-        swimmerCamera.DashAnimation();
-        Vector3 projectVector=transform.right;
-        switch(dashDirection){
-            case Directions.UP:
-                projectVector=transform.up;
-                break;
-            case Directions.DOWN:
-                projectVector=-transform.up;
-                break;
-            case Directions.LEFT:
-                projectVector=-transform.right;
-                break;
-            case Directions.RIGHT:
-                projectVector=transform.right;
-                break;
+        if(visible){
+            swimmerCamera.DashAnimation();
+            Vector3 projectVector=transform.right;
+            switch(dashDirection){
+                case Directions.UP:
+                    projectVector=transform.up;
+                    break;
+                case Directions.DOWN:
+                    projectVector=-transform.up;
+                    break;
+                case Directions.LEFT:
+                    projectVector=-transform.right;
+                    break;
+                case Directions.RIGHT:
+                    projectVector=transform.right;
+                    break;
+            }
+            Vector3 projectedVector=Vector3.Project(playerVelocity,projectVector);
+            if(projectedVector.normalized==projectVector.normalized){
+                swimmerTrails.DashTrail(dashDirection,projectedVector.magnitude);
+            }
+            GameObject g=Instantiate(afterimageSprite,afterimageSprite.transform.position,afterimageSprite.transform.rotation);
+            g.SetActive(true);
+            g.GetComponent<SpriteRenderer>().sprite=spriteRenderer.sprite;
         }
-        Vector3 projectedVector=Vector3.Project(playerVelocity,projectVector);
-        if(projectedVector.normalized==projectVector.normalized){
-            swimmerTrails.DashTrail(dashDirection,projectedVector.magnitude);
-        }
-        GameObject g=Instantiate(afterimageSprite,afterimageSprite.transform.position,afterimageSprite.transform.rotation);
-        g.SetActive(true);
-        g.GetComponent<SpriteRenderer>().sprite=spriteRenderer.sprite;
     }
 
     private void OnCollisionStay(Collision other) {
@@ -816,7 +876,14 @@ public class Swimmer : MonoBehaviour
     public void Respawn(){
         if(respawnTransform!=null){
             Transport(respawnTransform.position,respawnTransform.rotation);
+            StartCoroutine(WakeUp(0f));
         }
+    }
+
+    public void TurnInvisible(){
+        visible=!visible;
+        spriteRenderer.enabled=visible;
+        swimmerTrails.visible=visible;
     }
 
     public void Transport(Vector3 position){
@@ -830,7 +897,7 @@ public class Swimmer : MonoBehaviour
         body.rotation=transform.rotation;
         Physics.SyncTransforms();
         swimmerCamera.ResetCamera();
-        FindObjectOfType<LevelLoader>().FadeIn();
+        FindObjectOfType<LevelLoader>().FadeIn(1f);
     }
 
     IEnumerator WakeUp(float time){

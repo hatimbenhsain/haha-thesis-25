@@ -1307,6 +1307,7 @@ MonoBehaviour:
   maxExhaleTime: 0.3
   minExhaleTime: 0
   acceleration: 60
+  inhaleTimeModifier: 1
   drag: 0.7
   turnSpeed: 2
   tiltAngle: 45
@@ -2238,6 +2239,7 @@ MonoBehaviour:
   maxExhaleTime: 0.3
   minExhaleTime: 0
   acceleration: 60
+  inhaleTimeModifier: 1
   drag: 0.7
   turnSpeed: 2
   tiltAngle: 45
@@ -4147,6 +4149,7 @@ MonoBehaviour:
   maxExhaleTime: 0.3
   minExhaleTime: 0
   acceleration: 60
+  inhaleTimeModifier: 1
   drag: 0.7
   turnSpeed: 2
   tiltAngle: 45
@@ -6252,6 +6255,7 @@ MonoBehaviour:
   maxExhaleTime: 0.3
   minExhaleTime: 0
   acceleration: 60
+  inhaleTimeModifier: 1
   drag: 0.7
   turnSpeed: 2
   tiltAngle: 45
@@ -6818,9 +6822,24 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5661031363680635953, guid: 54ee2c803d46c6648878673f7fe5c681,
         type: 3}
+      propertyPath: useCrossFade
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5661031363680635953, guid: 54ee2c803d46c6648878673f7fe5c681,
+        type: 3}
+      propertyPath: freezeDuration
+      value: 1.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 5661031363680635953, guid: 54ee2c803d46c6648878673f7fe5c681,
+        type: 3}
       propertyPath: transitionTime
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5661031363680635953, guid: 54ee2c803d46c6648878673f7fe5c681,
+        type: 3}
+      propertyPath: crossFadeTexture
+      value: 
+      objectReference: {fileID: 2800000, guid: da4e6107237c3cd4083814e5512699ad, type: 3}
     - target: {fileID: 5661031363680635953, guid: 54ee2c803d46c6648878673f7fe5c681,
         type: 3}
       propertyPath: destinationScene
@@ -13990,6 +14009,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b5107d69c9572924d98e177b619355d8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  springController: {fileID: 0}
+  levelLoader: {fileID: 0}
 --- !u!4 &1305196362841882815
 Transform:
   m_ObjectHideFlags: 0
@@ -15038,6 +15059,7 @@ MonoBehaviour:
   ignoreYAxisInverted: 1
   masterOpacity: 1
   isHarmonySprite: 0
+  onlyWhenSinging: 0
 --- !u!4 &1569983960986504698
 Transform:
   m_ObjectHideFlags: 0
@@ -17117,17 +17139,17 @@ PrefabInstance:
     - target: {fileID: -8679921383154817045, guid: 3dc81b892bcbc7341900ed50a428c6cb,
         type: 3}
       propertyPath: m_LocalScale.x
-      value: 211.50562
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 3dc81b892bcbc7341900ed50a428c6cb,
         type: 3}
       propertyPath: m_LocalScale.y
-      value: 449.7036
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 3dc81b892bcbc7341900ed50a428c6cb,
         type: 3}
       propertyPath: m_LocalScale.z
-      value: 219.2404
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 3dc81b892bcbc7341900ed50a428c6cb,
         type: 3}
@@ -17147,12 +17169,12 @@ PrefabInstance:
     - target: {fileID: -8679921383154817045, guid: 3dc81b892bcbc7341900ed50a428c6cb,
         type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0.7071068
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 3dc81b892bcbc7341900ed50a428c6cb,
         type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0.7071068
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 3dc81b892bcbc7341900ed50a428c6cb,
         type: 3}
@@ -17167,7 +17189,7 @@ PrefabInstance:
     - target: {fileID: -8679921383154817045, guid: 3dc81b892bcbc7341900ed50a428c6cb,
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
-      value: 90
+      value: 180
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 3dc81b892bcbc7341900ed50a428c6cb,
         type: 3}
@@ -17180,6 +17202,11 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -7511558181221131132, guid: 3dc81b892bcbc7341900ed50a428c6cb,
+        type: 3}
+      propertyPath: m_Materials.Array.data[1]
+      value: 
+      objectReference: {fileID: 2100000, guid: 4135f6bc470828c4d84cae89f3b34738, type: 2}
+    - target: {fileID: -3674540190610712467, guid: 3dc81b892bcbc7341900ed50a428c6cb,
         type: 3}
       propertyPath: m_Materials.Array.data[1]
       value: 
@@ -17197,6 +17224,10 @@ PrefabInstance:
         type: 3}
       insertIndex: -1
       addedObject: {fileID: 8085583776568884644}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 3dc81b892bcbc7341900ed50a428c6cb,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 8085583776568884645}
   m_SourcePrefab: {fileID: 100100000, guid: 3dc81b892bcbc7341900ed50a428c6cb, type: 3}
 --- !u!4 &2051115723795512875 stripped
 Transform:
@@ -18035,6 +18066,7 @@ MonoBehaviour:
   ignoreYAxisInverted: 0
   masterOpacity: 1
   isHarmonySprite: 0
+  onlyWhenSinging: 0
 --- !u!4 &2255972706652450286
 Transform:
   m_ObjectHideFlags: 0
@@ -35566,6 +35598,7 @@ MonoBehaviour:
   maxExhaleTime: 0.3
   minExhaleTime: 0
   acceleration: 60
+  inhaleTimeModifier: 1
   drag: 0.7
   turnSpeed: 2
   tiltAngle: 45
@@ -40223,6 +40256,7 @@ MonoBehaviour:
   ignoreYAxisInverted: 0
   masterOpacity: 1
   isHarmonySprite: 0
+  onlyWhenSinging: 0
 --- !u!1 &6221969957921974472
 GameObject:
   m_ObjectHideFlags: 0
@@ -48542,10 +48576,31 @@ CapsuleCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.002605901
-  m_Height: 0.0028906509
-  m_Direction: 1
-  m_Center: {x: -2.4317276e-10, y: 0.0026775314, z: -2.345939e-10}
+  m_Radius: 0.2
+  m_Height: 0.69
+  m_Direction: 2
+  m_Center: {x: 0, y: 0, z: -0.37}
+--- !u!95 &8085583776568884645
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2051115723795512876}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 73bd20fbecf93dd499512c77bdfd70c3, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!4 &8085886063968828246
 Transform:
   m_ObjectHideFlags: 0
@@ -48762,6 +48817,7 @@ MonoBehaviour:
   maxExhaleTime: 0.3
   minExhaleTime: 0
   acceleration: 60
+  inhaleTimeModifier: 1
   drag: 0.7
   turnSpeed: 0.7
   tiltAngle: 45
@@ -48775,6 +48831,7 @@ MonoBehaviour:
   minimumMovementForce: 10
   playerCamera: {fileID: 6259349461353528351}
   virtualCamera: {fileID: 7107309844289591921}
+  organAnimator: {fileID: 8085583776568884645}
   defaultCameraLerpSpeed: 4
   quickCameraLerpSpeed: 10
   defaultCameraDistance: 5
@@ -48782,6 +48839,7 @@ MonoBehaviour:
   ZoomInCameraDistance: 4
   shakeAmplitude: 0.7
   lockCamera: 1
+  canMove: 1
 --- !u!4 &8123439259869643086
 Transform:
   m_ObjectHideFlags: 0
