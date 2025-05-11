@@ -90,7 +90,7 @@ public class StartMenu : MonoBehaviour
     //What happens if button press
     void CheckButtons(){
         if(!IsSlider(currentButtons[buttonIndex])){
-            if(playerInput.prevInteracting && !playerInput.interacting){
+            if((playerInput.prevInteracting && !playerInput.interacting) || (playerInput.prevEntering && !playerInput.entering)){
                 if(buttonIndex>=0 && buttonIndex<events.Length){
                     events[buttonIndex].Invoke();
                 }else{

@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using RootMotion.Demos;
 using UnityEngine;
 
 public class SpriteFloat : MonoBehaviour
@@ -11,6 +12,7 @@ public class SpriteFloat : MonoBehaviour
     private Transform spriteTransform;
 
     public bool matchMusic=false;
+    public float offset=-1f;
 
     void Start(){
         SpriteRenderer spriteRenderer=GetComponentInChildren<SpriteRenderer>();
@@ -20,7 +22,8 @@ public class SpriteFloat : MonoBehaviour
             spriteTransform=transform;
         }
         spriteOriginalPosition=spriteTransform.localPosition;
-        floatTimer=Random.Range(0f,floatPeriod);
+        if(offset==-1f) floatTimer=Random.Range(0f,floatPeriod);
+        else floatTimer=offset;
     }
 
     void Update(){

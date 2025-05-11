@@ -300,6 +300,28 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &2069340832 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6649150515216322558, guid: d5fb6ac750f88b3409218636f1413d88,
+    type: 3}
+  m_PrefabInstance: {fileID: 8962292871834799091}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &2069340837
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2069340832}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e2ce22f81614eeb4a85d51303ad8dae2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  floatPeriod: 8
+  floatIntensity: 2.083333
+  matchMusic: 0
+  offset: 2
 --- !u!1001 &8962292871834799091
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -308,6 +330,41 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 638799640108321009, guid: d5fb6ac750f88b3409218636f1413d88,
+        type: 3}
+      propertyPath: buttons.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 638799640108321009, guid: d5fb6ac750f88b3409218636f1413d88,
+        type: 3}
+      propertyPath: buttonEvents.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 638799640108321009, guid: d5fb6ac750f88b3409218636f1413d88,
+        type: 3}
+      propertyPath: buttonEvents.Array.data[1].m_PersistentCalls.m_Calls.Array.size
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 837081534644591620, guid: d5fb6ac750f88b3409218636f1413d88,
+        type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 111.9
+      objectReference: {fileID: 0}
+    - target: {fileID: 837081534644591620, guid: d5fb6ac750f88b3409218636f1413d88,
+        type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -399.36
+      objectReference: {fileID: 0}
+    - target: {fileID: 1650483416720893995, guid: d5fb6ac750f88b3409218636f1413d88,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1876738549419460480, guid: d5fb6ac750f88b3409218636f1413d88,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2477173669888475896, guid: d5fb6ac750f88b3409218636f1413d88,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -363,10 +420,49 @@ PrefabInstance:
       propertyPath: m_Name
       value: Start Scene
       objectReference: {fileID: 0}
+    - target: {fileID: 6555402006170001331, guid: d5fb6ac750f88b3409218636f1413d88,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6946865642094955954, guid: d5fb6ac750f88b3409218636f1413d88,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9106498248714272469, guid: d5fb6ac750f88b3409218636f1413d88,
+        type: 3}
+      propertyPath: m_text
+      value: "Press Start to \nPlay Chapter 1."
+      objectReference: {fileID: 0}
+    - target: {fileID: 9106498248714272469, guid: d5fb6ac750f88b3409218636f1413d88,
+        type: 3}
+      propertyPath: m_fontSize
+      value: 30
+      objectReference: {fileID: 0}
+    - target: {fileID: 9106498248714272469, guid: d5fb6ac750f88b3409218636f1413d88,
+        type: 3}
+      propertyPath: m_margin.z
+      value: -203.902
+      objectReference: {fileID: 0}
+    - target: {fileID: 9106498248714272469, guid: d5fb6ac750f88b3409218636f1413d88,
+        type: 3}
+      propertyPath: m_fontStyle
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9106498248714272469, guid: d5fb6ac750f88b3409218636f1413d88,
+        type: 3}
+      propertyPath: m_fontSizeBase
+      value: 30
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 6649150515216322558, guid: d5fb6ac750f88b3409218636f1413d88,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 2069340837}
   m_SourcePrefab: {fileID: 100100000, guid: d5fb6ac750f88b3409218636f1413d88, type: 3}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
