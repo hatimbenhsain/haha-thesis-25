@@ -19,11 +19,16 @@ public class MoveHandAround : MonoBehaviour
     public bool isMoving;
     public float decelerationSpeed = 0.1f;
     private Vector3 parentVelocity;
+    public float boundingRadius;
+    public Vector2 xPositionRange;
+    public Vector2 zPositionRange;
+    private Vector3 initialPosition;
 
     // Start is called before the first frame update
     void Start()
     {
         playerInput = FindObjectOfType<PlayerInput>();
+        initialPosition = transform.position;  // Store the initial position of the object
     }
 
     // Update is called once per frame
@@ -64,15 +69,14 @@ public class MoveHandAround : MonoBehaviour
         }
 
         // calculate the target position based on input
-        Vector3 move = Vector3.ClampMagnitude(new Vector3(moveX, 0, moveZ),1f) * moveSpeed * Time.deltaTime;
+        Vector3 move = Vector3.ClampMagnitude(new Vector3(moveX, 0, moveZ), 1f) * moveSpeed * Time.deltaTime;
         targetPosition = handController.position + move;
 
         // Check if the handController is within the max distance
-        if (Mathf.Abs((transform.position-targetPosition).x)>maxXDistance ||  Mathf.Abs((transform.position-targetPosition).z)>maxZDistance)
+        if (Mathf.Abs((transform.position - targetPosition).x) > maxXDistance || Mathf.Abs((transform.position - targetPosition).z) > maxZDistance)
         {
             // Move the parent object if the handController is out of bounds
-            //Vector3 direction = (targetPosition - transform.position).normalized;
-            parentVelocity = parentMoveSpeed * Vector3.ClampMagnitude(new Vector3(moveX, 0, moveZ),1f) * Time.deltaTime;
+            parentVelocity = parentMoveSpeed * Vector3.ClampMagnitude(new Vector3(moveX, 0, moveZ), 1f) * Time.deltaTime;
             transform.position += parentVelocity;
         }
         else
@@ -87,6 +91,13 @@ public class MoveHandAround : MonoBehaviour
                 transform.position += parentVelocity;
             }
         }
+
+        // Clamp the transform position within the specified x and z ranges
+        transform.position = new Vector3(
+            Mathf.Clamp(transform.position.x, xPositionRange.x, xPositionRange.y),
+            transform.position.y,
+            Mathf.Clamp(transform.position.z, zPositionRange.x, zPositionRange.y)
+        );
     }
 
     void ConvertMovementInput(bool movingForward, bool movingBackward, bool movingLeft, bool movingRight)
