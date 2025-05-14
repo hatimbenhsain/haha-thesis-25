@@ -231,7 +231,7 @@ public class LevelLoader : MonoBehaviour
             isBlinking = true; // Set the blinking flag to true
         }
         yield return new WaitForSeconds(0.2f); 
-        LoadLevel("GameStart"); 
+        LoadLevel(ResetManager.GameStartScene); 
     }
 
     public void FadeIn(float time=-1f){

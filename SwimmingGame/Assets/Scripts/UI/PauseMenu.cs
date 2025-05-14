@@ -147,7 +147,7 @@ public class PauseMenu : MonoBehaviour
 
     public void Menu(){
         Resume();
-        FindObjectOfType<LevelLoader>().LoadLevel("GameStart");
+        FindObjectOfType<LevelLoader>().LoadLevel(ResetManager.GameStartScene);
     }
 
     public void LoadLevel(string levelName){
