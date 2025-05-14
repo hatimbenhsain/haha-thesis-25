@@ -61,6 +61,10 @@ public class Intro : MonoBehaviour
     private float depthOfFieldBaseFocalLength;
     public Image swimmingNoise;
     public float swimmingNoiseTargetOpacity=.1f;
+
+    private Swimmer swimmer;
+
+    
     
 
     void Start()
@@ -81,6 +85,8 @@ public class Intro : MonoBehaviour
         if(profile.TryGet<DepthOfField>(out depthOfField)){
             depthOfFieldBaseFocalLength=depthOfField.focalLength.value;
         }
+
+        swimmer=FindObjectOfType<Swimmer>();
     }
 
     void Update()
@@ -125,6 +131,9 @@ public class Intro : MonoBehaviour
                 pos.x=0;
                 singingWheel.anchoredPosition=pos;
             }
+        }else{
+            swimmer.canMove=false;
+            swimmer.canRotate=false;
         }
 
         if(!loadedCutscene && (bool)dialogue.story.variablesState["loadCutscene"]==true){
