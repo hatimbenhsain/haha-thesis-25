@@ -37,6 +37,7 @@ public class StartMenu : MonoBehaviour
     private PlayerInput playerInput;
     public static bool GameIsPaused = false;
     private CursorLockMode myLockState;
+    private bool buttonLocked=false;
 
     FMOD.Studio.Bus masterBus;
     FMOD.Studio.Bus singingBus;
@@ -91,7 +92,7 @@ public class StartMenu : MonoBehaviour
     void CheckButtons(){
         if(!IsSlider(currentButtons[buttonIndex])){
             if((playerInput.prevInteracting && !playerInput.interacting) || (playerInput.prevEntering && !playerInput.entering)){
-                if(buttonIndex>=0 && buttonIndex<events.Length){
+                if(buttonIndex>=0 && buttonIndex<events.Length && !buttonLocked){
                     events[buttonIndex].Invoke();
                 }else{
                     Debug.LogWarning("Tried to invoke empty event.");
@@ -114,6 +115,7 @@ public class StartMenu : MonoBehaviour
 
 
     public void LoadLevel(string levelName){
+        buttonLocked=true;
         Resume();
         FindObjectOfType<LevelLoader>().LoadLevel(levelName);
     }
@@ -196,7 +198,7 @@ public class StartMenu : MonoBehaviour
             int value=-1;
             if(isSlider) value=GetSliderValue(i);
             if(i==buttonIndex){
-                if(!playerInput.interacting || isSlider){
+                if(!playerInput.interacting || isSlider || buttonLocked){
                     c=textButtonHighlightedColor;
                 }else{
                     c=textButtonInteractingColor;

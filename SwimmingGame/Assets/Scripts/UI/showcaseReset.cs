@@ -7,7 +7,7 @@ using UnityEngine.SceneManagement;
 public static class ResetManager
 {
     public static bool reset = true; // Static bool to track reset state
-    public static string GameStartScene = "GameStart_Chapter2"; // Static string to track the scene to load
+    public static string GameStartScene = "GameStart"; // Static string to track the scene to load
 }
 
 public class showcaseReset : MonoBehaviour
