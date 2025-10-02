@@ -12,7 +12,6 @@ GameObject:
   - component: {fileID: 977487549211004241}
   - component: {fileID: 4656128113918389568}
   - component: {fileID: 4221480226038782880}
-  - component: {fileID: 2039063274577801562}
   - component: {fileID: 266718698812943828}
   m_Layer: 0
   m_Name: Sprite
@@ -56,7 +55,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 4b8560d6d1cb2144a815bbfcd14242ec, type: 2}
+  - {fileID: 2100000, guid: 06b0b0fbd51205d4d9ad292736e1a4ca, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -119,21 +118,6 @@ MonoBehaviour:
   m_labelHash: 1.9198983e-34
   m_SpriteKey: 0
   m_SpriteHash: 92981821
---- !u!114 &2039063274577801562
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2972016019740830479}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7a525ff6a91343e4ea70af0a1a435e0f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  lockX: 0
-  lockY: 0
-  lockZ: 0
 --- !u!114 &266718698812943828
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -166,11 +150,11 @@ GameObject:
   m_Component:
   - component: {fileID: 6266479326994365663}
   - component: {fileID: 5045547596031275419}
-  - component: {fileID: 3517655477764628164}
   - component: {fileID: 1376306947070552323}
   - component: {fileID: 1957262868107249622}
-  - component: {fileID: 6129602031918282777}
-  m_Layer: 12
+  - component: {fileID: 176035267582900623}
+  - component: {fileID: 4119015157645925787}
+  m_Layer: 15
   m_Name: Plant
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -214,22 +198,6 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
---- !u!114 &3517655477764628164
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3155070073983480598}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c9fec36cbdfe7c04db53affa14378692, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  rustleSound: event:/Overworld/Rustle/Esoteric
-  pitch: 1
-  volume: 1
-  minimumSingingDistance: 10
 --- !u!114 &1376306947070552323
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -273,7 +241,7 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 0.6, y: 0.55, z: 0.6}
   m_Center: {x: 0, y: 0.29, z: 0}
---- !u!114 &6129602031918282777
+--- !u!114 &176035267582900623
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -282,7 +250,22 @@ MonoBehaviour:
   m_GameObject: {fileID: 3155070073983480598}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a016a435cadfefe4c944aed5cbd6cff1, type: 3}
+  m_Script: {fileID: 11500000, guid: d0cb4f171cdef0d4586fbc3ffa572f9b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  active: 0
+  rustleSound: event:/Overworld/Rustle/Esoteric
+  pitch: 1
+  volume: 1
+  minimumSingingDistance: 10
+--- !u!114 &4119015157645925787
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3155070073983480598}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a97bec1882ae4e04bad9128c289180c9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
