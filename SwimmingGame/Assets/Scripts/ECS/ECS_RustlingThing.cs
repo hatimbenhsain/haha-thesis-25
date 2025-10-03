@@ -4,11 +4,14 @@ using UnityEngine;
 
 public class ECS_RustlingThing : MonoBehaviour 
 {
-    [Tooltip("FMOD Path sound for when player boops fish.")]
-    public string rustleSound="event:/Overworld/Things/Rustle/";
-    public float pitch=0f;
-    public float volume=1f;
+    public RustlableData rustlableData;
+    public SpriteRenderer spriteRenderer;
 
-    [Tooltip("Minimum distance from singer to rustle")]
-    public float minimumSingingDistance=10f;
+    public float timeToRustle;
+    public int rustleState=0;
+    public bool rustling=false;
+
+    void Start(){
+        spriteRenderer=GetComponentInChildren<SpriteRenderer>();
+    }
 }
