@@ -32,7 +32,7 @@ public class ECS_Rustler : MonoBehaviour
         if(playSound) Sound.Play3DOneShotVolume(rustlingThing.rustlableData.rustleSound,rustlingThing.rustlableData.volume,rustlingThing.transform,"",0,rustlingThing.rustlableData.pitch);
         //rustlingThing.GetComponent<Animator>().SetTrigger("Rustle");
         rustlingThing.timeToRustle=rustler.timeToRustle;
-        if(!rustlingThing.rustling){
+        if(!rustlingThing.rustling && rustlingThing.rustlableData.sprites.Length>0){
             rustler.StartCoroutine(AnimateSprite(rustlingThing,0f));
             rustlingThing.rustling=true;
         }
