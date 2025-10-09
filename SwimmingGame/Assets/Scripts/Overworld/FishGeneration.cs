@@ -32,7 +32,6 @@ public class FishGeneration : MonoBehaviour
         for(int i=numberOfLeadersToGenerate;i<numberOfFishToGenerate;i++){
             fishes[i]=Generate();
             fishes[i].movementBehavior=MovementBehavior.FollowLeader;
-            Debug.Log("made follower");
         }
 
     }
