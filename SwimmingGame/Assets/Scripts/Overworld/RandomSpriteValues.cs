@@ -15,6 +15,10 @@ public class RandomSpriteValues : MonoBehaviour
     public bool randomizeFlipX=false;
     public bool randomizeFlipY=false;
 
+    public bool randomizeRotX=false;
+    public bool randomizeRotY=false;
+    public bool randomizeRotZ=false;
+
     public bool randomizeSpriteLibraryAsset=false;
     public SpriteLibraryAsset[] spriteLibraryAssets; 
 
@@ -48,6 +52,25 @@ public class RandomSpriteValues : MonoBehaviour
                 spriteRenderer.flipY=true;
             }
         }
+
+        if(randomizeRotX){
+            Vector3 rot=transform.localRotation.eulerAngles;
+            rot.x=Random.Range(-180f,180f);
+            transform.localRotation=Quaternion.Euler(rot);
+        }
+
+        if(randomizeRotY){
+            Vector3 rot=transform.localRotation.eulerAngles;
+            rot.y=Random.Range(-180f,180f);
+            transform.localRotation=Quaternion.Euler(rot);
+        }
+
+        if(randomizeRotZ){
+            Vector3 rot=transform.localRotation.eulerAngles;
+            rot.z=Random.Range(-180f,180f);
+            transform.localRotation=Quaternion.Euler(rot);
+        }
+
 
         if(randomizeSpriteLibraryAsset){
             SpriteLibrary spriteLibrary=GetComponent<SpriteLibrary>();

@@ -46,7 +46,6 @@ public class CullingArea : MonoBehaviour
         if(c==null){
             c=other.gameObject.GetComponentInParent<CulledObject>();
         }
-        Debug.Log(c.gameObject);
         objectsToActivate.Add(c);
     }
 
@@ -55,7 +54,6 @@ public class CullingArea : MonoBehaviour
         if(c==null){
             c=other.gameObject.GetComponentInParent<CulledObject>();
         }
-        Debug.Log(c.gameObject);
         objectsToDeactivate.Add(c);
     }
 }
