@@ -4,15 +4,14 @@ using UnityEngine;
 
 public class ECS_FaceCamera : MonoBehaviour
 {
-    // Start is called before the first frame update
+    public bool lockX=false;
+    public bool lockY=false;
+    public bool lockZ=false;
+
+    public Vector3 originalRotation;
+    
     void Start()
     {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
+        originalRotation=transform.localRotation.eulerAngles;
     }
 }

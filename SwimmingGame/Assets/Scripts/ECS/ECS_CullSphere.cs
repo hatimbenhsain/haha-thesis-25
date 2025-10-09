@@ -17,6 +17,11 @@ public class ECS_CullSphere : MonoBehaviour
     private int frame=0;
 
 
+    public delegate void OnCullObject(GameObject gameObject);
+    public static event OnCullObject OnAddObject;
+    public static event OnCullObject OnRemoveObject;
+
+
     void Start(){
         objectsToActivate=new List<ECS_CulledObject>();
         objectsToDeactivate=new List<ECS_CulledObject>();
@@ -34,12 +39,15 @@ public class ECS_CullSphere : MonoBehaviour
         if(frame%frameFrequency==0){
             while(k<maxObjectsToCullInAFrame && objectsToActivate.Count>0){
                 objectsInPlay.Add(objectsToActivate[0]);
+                OnAddObject?.Invoke(objectsToActivate[0].gameObject);
                 objectsToActivate.RemoveAt(0);
                 k++;
             }
 
             while(k<maxObjectsToCullInAFrame && objectsToDeactivate.Count>0){
+                OnRemoveObject?.Invoke(objectsToDeactivate[0].gameObject);
                 objectsInPlay.Remove(objectsToDeactivate[0]);
+                objectsToDeactivate.RemoveAt(0);
                 k++;
             }
         }
@@ -51,7 +59,6 @@ public class ECS_CullSphere : MonoBehaviour
         if(c==null){
             c=other.gameObject.GetComponentInParent<ECS_CulledObject>();
         }
-        Debug.Log(c.gameObject);
         objectsToActivate.Add(c);
     }
 
@@ -60,7 +67,6 @@ public class ECS_CullSphere : MonoBehaviour
         if(c==null){
             c=other.gameObject.GetComponentInParent<ECS_CulledObject>();
         }
-        Debug.Log(c.gameObject);
         objectsToDeactivate.Add(c);
     }
 
