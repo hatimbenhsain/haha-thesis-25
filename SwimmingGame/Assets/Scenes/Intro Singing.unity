@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.03636142, g: 0.04198786, b: 0.037259843, a: 1}
+  m_IndirectSpecularColor: {r: 0.07924773, g: 0.07924773, b: 0.07924773, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -7253,6 +7253,7 @@ MonoBehaviour:
   floatPeriod: 5
   floatIntensity: 3
   matchMusic: 0
+  offset: -1
 --- !u!224 &1198028740 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 725702211813546550, guid: c5e3a2b3532bc254daefce58a4b04d3c,
@@ -11402,6 +11403,7 @@ GameObject:
   - component: {fileID: 2044407887}
   - component: {fileID: 2044407889}
   - component: {fileID: 2044407888}
+  - component: {fileID: 2044407890}
   m_Layer: 5
   m_Name: Protagonist
   m_TagString: Untagged
@@ -11466,6 +11468,30 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2044407886}
   m_CullTransparentMesh: 1
+--- !u!114 &2044407890
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2044407886}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 73254f75d551d0742b46f4481bb5ba4b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  imageIndex: 0
+  imageSpeed: 2
+  synchronizeImageWithParent: 0
+  parentImage: {fileID: 0}
+  sprites:
+  - {fileID: -1486478430, guid: 616e9a4126bcadf4c85045e61163af7a, type: 3}
+  - {fileID: 1516516481, guid: 616e9a4126bcadf4c85045e61163af7a, type: 3}
+  - {fileID: 1745018748, guid: 616e9a4126bcadf4c85045e61163af7a, type: 3}
+  - {fileID: 1216204480, guid: 616e9a4126bcadf4c85045e61163af7a, type: 3}
+  pulsePeriod: 0
+  pulseRotationIntensity: 0
+  pulseOpacityIntensity: 0
 --- !u!1 &2047977092
 GameObject:
   m_ObjectHideFlags: 0
