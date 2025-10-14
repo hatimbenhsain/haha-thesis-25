@@ -40,4 +40,9 @@ public class DestroyAfter : MonoBehaviour
             Destroy(gameObject);
         }
     }
+
+    public static IEnumerator DestroyAfterTime(GameObject gameObjectToDestroy, float waitTime){
+        yield return new WaitForSeconds(waitTime);
+        Destroy(gameObjectToDestroy);
+    }
 }

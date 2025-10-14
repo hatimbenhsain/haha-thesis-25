@@ -458,12 +458,39 @@ public class Dialogue : MonoBehaviour
     void HideText(){
         interlocutorLineTMP.text="";
         playerLineTMP.text="";
-        canvasParent.SetActive(false);
+        if(playerTextBox.activeInHierarchy){
+            BurstTextbox(playerTextBox);
+        }else{
+            Debug.Log("player tbox not active");
+        }
         playerTextBox.SetActive(false);
+        if(interlocutorTextBox.activeInHierarchy){
+            BurstTextbox(interlocutorTextBox);
+        }
         interlocutorTextBox.SetActive(false);
         foreach(InterlocutorBox interlocutorBox in interlocutorsTextBoxes){
+            if(interlocutorBox.textBox.activeInHierarchy){
+                BurstTextbox(interlocutorBox.textBox);
+            }
             interlocutorBox.textBox.SetActive(false);
         }
+        canvasParent.SetActive(false);
+    }
+
+    void BurstTextbox(GameObject burstingTextBox){
+        GameObject clone=Instantiate(burstingTextBox,burstingTextBox.transform.parent);
+        Animator[] animators=clone.GetComponentsInChildren<Animator>();
+        foreach(Animator a in animators){
+            StartCoroutine(SetBursting(a));
+        }
+        StartCoroutine(DestroyAfter.DestroyAfterTime(clone,2f));
+        Debug.Log("bursting:");
+        Debug.Log(clone);
+    }
+
+    IEnumerator SetBursting(Animator a){
+        yield return new WaitForSeconds(.1f);
+        a.SetBool("burst",true);
     }
 
     //Remove choice UI elements
@@ -1008,6 +1035,7 @@ public class Dialogue : MonoBehaviour
         ScreenBorders sb=FindObjectOfType<ScreenBorders>();
         if (sb!=null) sb.ActivateBorder(name,b);
     }
+
 
 }
 
