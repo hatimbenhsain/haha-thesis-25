@@ -490,7 +490,7 @@ public class Dialogue : MonoBehaviour
 
     IEnumerator SetBursting(Animator a){
         yield return new WaitForSeconds(.1f);
-        a.SetBool("burst",true);
+        a.SetTrigger("burst");
     }
 
     //Remove choice UI elements
