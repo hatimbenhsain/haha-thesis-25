@@ -1,0 +1,53 @@
+what slows it down:
++ activating/deactivating the components each frame
+	=> never do this, have ecs like components and one manager 
++ animating & rotating each individual one
+
+
++ use batching? / sprite atlas  (would it rly make such a big diff?)
++ compute shaders? (seems rly complicated)
++ billboarding on shader instead of script (facecamera)
+	billboard renderer?
++ use ecs/dots?
++ review my display occlusion and try unity's
++ try threading
+
++ make different cullable children per type of object (plant specific one)
++ give swimmer one big cull and one smaller one (big deactivates object completely, small gives it more complex behavior)
++ look into LOD and making a better system than the one i have rn
++ maybe an ECS like system where everything just has components
++ make sprite animator coroutine based
+
+
+
+AI lessons:
++ utility system with behavior scores (eat=0.4, flee=0.4, follow=0.2..
+
+
+shader to do:
++ look into making parent/child with: locked x/y/z axis
++ 
+
+
+bugs:
++ at play start every plant speaks
+
+
+no spriterandomval: 11
+no flora: 5.5
+everything: 13.5
+empty flora: 3.8
+no animators sprite resolver etc: 9.6
+
+general to dos:
+/ give everything their datas including sprites
+\ modify randomizer value
+/ test performance
+\ try bigger ecs cull sphere?
++ figure out fixed axis for some (in shader or just keep rotate camera component)
+/ apply ecs sphere to swimmer
++ check that every plant works as intended
++ check that other scenes aren't broken
+
++ apply to fish?
++ apply to migrants?
