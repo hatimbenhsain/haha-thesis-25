@@ -395,7 +395,6 @@ public class DialogueBoxPlacement : MonoBehaviour
             npcPos=WorldToCanvasPoint(canvasRect,npc.transform.position,camera,out success);
             angle=Mathf.Atan2((rect.anchoredPosition.y-npcPos.y)/minOvalHeight,(rect.anchoredPosition.x-npcPos.x)/minOvalWidth)*180f/Mathf.PI;
         }
-        Debug.Log(angle);
         targetPos=rect.anchoredPosition;
     }
 
@@ -403,6 +402,7 @@ public class DialogueBoxPlacement : MonoBehaviour
         if(bubbles){
             bubble1.gameObject.SetActive(false);
             bubble2.gameObject.SetActive(false);
+            Debug.Log("set inactive bubbles");
         }
     }
 
