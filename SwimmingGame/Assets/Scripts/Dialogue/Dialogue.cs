@@ -135,6 +135,8 @@ public class Dialogue : MonoBehaviour
     List<Coroutine> burstCoroutines;
     
 
+    private List<string> prevTags;
+
     void Awake()
     {
         playerInput=FindObjectOfType<PlayerInput>();
@@ -472,16 +474,16 @@ public class Dialogue : MonoBehaviour
     void HideText(bool everything=true){
         interlocutorLineTMP.text="";
         playerLineTMP.text="";
-        if(burst && playerTextBox.activeInHierarchy){
+        if(burst && playerTextBox.activeInHierarchy && !ContainsTag(prevTags,"stayonscreen")){
             BurstTextbox(playerTextBox);
         }
         playerTextBox.SetActive(false);
-        if(burst && interlocutorTextBox.activeInHierarchy){
+        if(burst && interlocutorTextBox.activeInHierarchy && !ContainsTag(prevTags,"stayonscreen")){
             BurstTextbox(interlocutorTextBox);
         }
         interlocutorTextBox.SetActive(false);
         foreach(InterlocutorBox interlocutorBox in interlocutorsTextBoxes){
-            if(burst && interlocutorBox.textBox.activeInHierarchy){
+            if(burst && interlocutorBox.textBox.activeInHierarchy && !ContainsTag(prevTags,"stayonscreen")){
                 BurstTextbox(interlocutorBox.textBox);
             }
             interlocutorBox.textBox.SetActive(false);
@@ -674,6 +676,8 @@ public class Dialogue : MonoBehaviour
     }
 
     void Continue(){
+        prevTags=story.currentTags;
+
         if(story.canContinue){
             //Destroying burst clones when skipping dialogue too fast
             // TO TRY TO DO: REVERSE ANIMATION INSTEAD
@@ -1064,6 +1068,7 @@ public class Dialogue : MonoBehaviour
 
     void ClearScreen(){
         foreach (GameObject lingeringBox in lingeringBoxes){
+            if(burstAfterEveryLine) BurstTextbox(lingeringBox);
             Destroy(lingeringBox);
         }
         lingeringBoxes.Clear();
