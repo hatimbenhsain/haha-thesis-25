@@ -22,6 +22,7 @@ public class AnimatedImage : MonoBehaviour
     private Vector3 initialRotation;
     private float initialOpacity;
     
+    public bool ignoreTimeDilation;
 
     void Start()
     {
@@ -45,7 +46,8 @@ public class AnimatedImage : MonoBehaviour
 
         image.sprite=sprites[Mathf.FloorToInt(imageIndex)];
 
-        pulseTimer+=Time.deltaTime;
+        if(ignoreTimeDilation) pulseTimer+=Time.unscaledDeltaTime;
+        else pulseTimer+=Time.deltaTime;
 
         if(pulseRotationIntensity!=0f){
             Vector3 rot=initialRotation;

@@ -14,6 +14,8 @@ public class SpriteFloat : MonoBehaviour
     public bool matchMusic=false;
     public float offset=-1f;
 
+    public bool ignoreTimeDilation=false;
+
     void Start(){
         SpriteRenderer spriteRenderer=GetComponentInChildren<SpriteRenderer>();
         if(spriteRenderer!=null){
@@ -31,7 +33,8 @@ public class SpriteFloat : MonoBehaviour
         if(matchMusic){
             period=60f*period/MusicBeat.GetBPM();
         }
-        floatTimer+=Time.deltaTime;
+        if(!ignoreTimeDilation) floatTimer+=Time.deltaTime;
+        else floatTimer+=Time.unscaledDeltaTime;
         Vector3 spritePos=spriteOriginalPosition;
         spritePos.y=spriteOriginalPosition.y+Mathf.Sin(floatTimer*Mathf.PI*2f/period)*floatIntensity;
         spriteTransform.localPosition=spritePos;

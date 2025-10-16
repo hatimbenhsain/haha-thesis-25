@@ -127,6 +127,16 @@ public class Dialogue : MonoBehaviour
 
     private List<GameObject> lingeringBoxes;    //Storing boxes that stay on screen
 
+    [Tooltip("Burst settings")]
+    private bool burst=false;
+    public bool burstAfterEveryLine=false;
+    public bool burstAtPauses=true;
+    List<GameObject> burstClones;
+    List<Coroutine> burstCoroutines;
+    
+
+    private List<string> prevTags;
+
     void Awake()
     {
         playerInput=FindObjectOfType<PlayerInput>();
@@ -176,6 +186,9 @@ public class Dialogue : MonoBehaviour
         bubblesInstance=RuntimeManager.CreateInstance("event:/Non-Diagetic SFX/Bubbles - Loop");
 
         lingeringBoxes=new List<GameObject>();
+
+        burstClones=new List<GameObject>();
+        burstCoroutines=new List<Coroutine>();
 
     }
 
@@ -291,8 +304,8 @@ public class Dialogue : MonoBehaviour
                     currentChoiceIndex<=story.currentChoices.Count && currentChoiceIndex>=0){
                     story.ChooseChoiceIndex(currentChoiceIndex);
                     Continue();
-                    choicePicked=false;
                     HideChoices();
+                    choicePicked=false;
                     currentChoiceIndex=-1;
                     if(story.currentChoices.Count==0){
                         if(!story.canContinue){
@@ -340,6 +353,9 @@ public class Dialogue : MonoBehaviour
             StartDialogue(inkJSONAsset,currentKnotName,npcInterlocutor);
             startStoryTrigger=false;
         }
+
+        if(burstAfterEveryLine) burst=true;
+        else burst=false;
     }
 
     virtual public void DialogueUpdate(){
@@ -455,21 +471,64 @@ public class Dialogue : MonoBehaviour
     }
 
     //Remove all UI elements
-    void HideText(){
+    void HideText(bool everything=true){
         interlocutorLineTMP.text="";
         playerLineTMP.text="";
-        canvasParent.SetActive(false);
+        if(burst && playerTextBox.activeInHierarchy && !ContainsTag(prevTags,"stayonscreen")){
+            BurstTextbox(playerTextBox);
+        }
         playerTextBox.SetActive(false);
+        if(burst && interlocutorTextBox.activeInHierarchy && !ContainsTag(prevTags,"stayonscreen")){
+            BurstTextbox(interlocutorTextBox);
+        }
         interlocutorTextBox.SetActive(false);
         foreach(InterlocutorBox interlocutorBox in interlocutorsTextBoxes){
+            if(burst && interlocutorBox.textBox.activeInHierarchy && !ContainsTag(prevTags,"stayonscreen")){
+                BurstTextbox(interlocutorBox.textBox);
+            }
             interlocutorBox.textBox.SetActive(false);
         }
+        if(everything) canvasParent.SetActive(false);
+    }
+
+    void BurstTextbox(GameObject burstingTextBox){
+        GameObject imageCarrier=burstingTextBox.GetComponentInChildren<Image>().gameObject;
+        burstClones.Add(Instantiate(imageCarrier,imageCarrier.transform.position,imageCarrier.transform.rotation,canvasParent.transform.parent));
+        DialogueBoxPlacement dbp;
+        if(burstingTextBox.TryGetComponent<DialogueBoxPlacement>(out dbp)){
+            if(dbp.bubble1!=null){
+                burstClones.Add(Instantiate(dbp.bubble1.gameObject,dbp.bubble1.transform.position,dbp.bubble1.transform.rotation,canvasParent.transform.parent));
+            }
+            if(dbp.bubble2!=null){
+                burstClones.Add(Instantiate(dbp.bubble2.gameObject,dbp.bubble2.transform.position,dbp.bubble2.transform.rotation,canvasParent.transform.parent));
+            }
+        }
+
+        foreach(GameObject clone in burstClones){
+            burstCoroutines.Add(StartCoroutine(SetBursting(clone)));
+        }
+    }
+
+    IEnumerator SetBursting(GameObject g){
+        yield return new WaitForSeconds(.01f);
+        g.GetComponentInChildren<Animator>().SetTrigger("burst");
+        yield return new WaitForSeconds(1f);
+        burstClones.Remove(g);
+        Destroy(g);
+        burstCoroutines.RemoveAt(0);
     }
 
     //Remove choice UI elements
     public virtual void HideChoices(){
         singingTimer=0f;
         for(int i=0;i<choiceTextBoxes.Length;i++){
+            Debug.Log("burst choice boxes?");
+            
+            if(choiceTextBoxes[i].gameObject.activeInHierarchy){
+                BurstTextbox(choiceTextBoxes[i]);
+                Debug.Log(choiceTextBoxes[i].gameObject);
+                Debug.Log(burstClones[burstClones.Count-1]);                
+            }
             choiceTextBoxes[i].gameObject.SetActive(false);
             choiceTextBoxes[i].GetComponent<RectTransform>().localScale=Vector3.one;
         }
@@ -582,6 +641,7 @@ public class Dialogue : MonoBehaviour
     }
 
     public void EndDialogue(){
+        if(burstAtPauses) burst=true;
         inDialogue=false;
         HideText();
         playerInput.RestoreDefaultMap();
@@ -616,7 +676,20 @@ public class Dialogue : MonoBehaviour
     }
 
     void Continue(){
+        prevTags=story.currentTags;
+
         if(story.canContinue){
+            //Destroying burst clones when skipping dialogue too fast
+            // TO TRY TO DO: REVERSE ANIMATION INSTEAD
+            for(var i=burstCoroutines.Count-1;i>=0;i--){
+                StopCoroutine(burstCoroutines[i]);
+                burstCoroutines.RemoveAt(i);
+            }
+            for(var i=burstClones.Count-1;i>=0;i--){
+                Destroy(burstClones[i]);
+                burstClones.RemoveAt(i);
+            }
+
 			displayText="";
 
             GameObject prevTextBox=textBox;
@@ -653,7 +726,7 @@ public class Dialogue : MonoBehaviour
                 }
             }
             if(textBox!=prevTextBox){
-                HideText();
+                HideText(false);
             }
 
             // PARSING INLINE TAGS:
@@ -824,6 +897,8 @@ public class Dialogue : MonoBehaviour
 
     void Pause(float time){
         pauseTimer=time;
+        Debug.Log("start pause");
+        if(burstAtPauses) burst=true;
         HideText();
     }
 
@@ -993,6 +1068,7 @@ public class Dialogue : MonoBehaviour
 
     void ClearScreen(){
         foreach (GameObject lingeringBox in lingeringBoxes){
+            if(burstAfterEveryLine) BurstTextbox(lingeringBox);
             Destroy(lingeringBox);
         }
         lingeringBoxes.Clear();
@@ -1008,6 +1084,7 @@ public class Dialogue : MonoBehaviour
         ScreenBorders sb=FindObjectOfType<ScreenBorders>();
         if (sb!=null) sb.ActivateBorder(name,b);
     }
+
 
 }
 

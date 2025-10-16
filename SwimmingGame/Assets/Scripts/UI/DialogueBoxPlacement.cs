@@ -66,6 +66,10 @@ public class DialogueBoxPlacement : MonoBehaviour
     // private float mcBubbleDirection=1f;
 
 
+    private Animator animator;
+    private Animator animator_bubble1;
+    private Animator animator_bubble2;
+
 
     void Start()
     {
@@ -79,6 +83,8 @@ public class DialogueBoxPlacement : MonoBehaviour
             bubble2.transform.parent=transform.parent;
             bubble2.SetSiblingIndex(0);
             bubble1.SetSiblingIndex(1);
+            animator_bubble1=bubble1.gameObject.GetComponentInChildren<Animator>();
+            animator_bubble2=bubble2.gameObject.GetComponentInChildren<Animator>();
         }
 
         if(moveMCRect){
@@ -90,6 +96,9 @@ public class DialogueBoxPlacement : MonoBehaviour
         //         mcBubble1.SetSiblingIndex(1);
         //     }
         }
+
+        animator=GetComponentInChildren<Animator>();
+
     }
 
     void Update()
@@ -220,44 +229,54 @@ public class DialogueBoxPlacement : MonoBehaviour
                 // pos=circleCenter;
                 // pos.x+=Mathf.Cos(alpha*Mathf.PI/180f)*r;
                 // pos.y+=Mathf.Sin(alpha*Mathf.PI/180f)*r;
-                bool bubbleOutsideBounds=false;
+                
 
-                if(!success || Vector3.Angle(camera.transform.forward,npc.transform.position-camera.transform.position)>90f){
-                    bubbleOutsideBoundsTimer+=Time.deltaTime;
-                    bubbleOutsideBounds=true;
-                }else{
-                    bubbleOutsideBoundsTimer-=Time.deltaTime;
-                }
+                if(placeMe){
+                    bool bubbleOutsideBounds=false;
 
-                if(!bubbleOutsideBounds){
-                    pos=GetRightTrianglePoint(npcPos,rect.anchoredPosition,angle,true);
-                    tries=0;
-                    while((pos.y-bubble1.sizeDelta.y/2f<-canvasRect.sizeDelta.y/2f || pos.y+bubble1.sizeDelta.y/2f>canvasRect.sizeDelta.y/2f || 
-                        pos.x-bubble1.sizeDelta.x/2f<-canvasRect.sizeDelta.x/2f || pos.x+bubble1.sizeDelta.x/2f>canvasRect.sizeDelta.x/2f || 
-                        (Mathf.Sign(pos.x)!=npcPos.x && !isMC) || (Mathf.Sign(pos.y)!=npcPos.y && !isMC)) && tries<2){
-                        bubbleDirection=-bubbleDirection;
+                    if(!success || Vector3.Angle(camera.transform.forward,npc.transform.position-camera.transform.position)>90f){
+                        bubbleOutsideBoundsTimer+=Time.deltaTime;
+                        bubbleOutsideBounds=true;
+                    }else{
+                        bubbleOutsideBoundsTimer-=Time.deltaTime;
+                    }
+
+                    if(!bubbleOutsideBounds){
                         pos=GetRightTrianglePoint(npcPos,rect.anchoredPosition,angle,true);
-                        tries+=1;
+                        tries=0;
+                        while((pos.y-bubble1.sizeDelta.y/2f<-canvasRect.sizeDelta.y/2f || pos.y+bubble1.sizeDelta.y/2f>canvasRect.sizeDelta.y/2f || 
+                            pos.x-bubble1.sizeDelta.x/2f<-canvasRect.sizeDelta.x/2f || pos.x+bubble1.sizeDelta.x/2f>canvasRect.sizeDelta.x/2f || 
+                            (Mathf.Sign(pos.x)!=npcPos.x && !isMC) || (Mathf.Sign(pos.y)!=npcPos.y && !isMC)) && tries<2){
+                            bubbleDirection=-bubbleDirection;
+                            pos=GetRightTrianglePoint(npcPos,rect.anchoredPosition,angle,true);
+                            tries+=1;
+                        }
+
+                        
+                        bubbleOutsideBoundsTimer=Mathf.Clamp(bubbleOutsideBoundsTimer,0f,1f);
+
+                        bubble1targetPos=pos;
+                        float offset=0f;
+                        if(bubbleDirection==-1f){
+                            offset=-90f;
+                        }
+                        Vector2 circleCenter=(npcPos+bubble1.anchoredPosition)/2f;
+                        bubble2targetPos=(circleCenter+GetRightTrianglePoint(npcPos,bubble1.anchoredPosition,angle+45f+offset))/2f;
+
+
                     }
 
                     
-                    bubbleOutsideBoundsTimer=Mathf.Clamp(bubbleOutsideBoundsTimer,0f,1f);
+                        bubble1targetPos.x=Mathf.Clamp(bubble1targetPos.x,(-canvasRect.sizeDelta.x+bubble1.sizeDelta.x)/2f,(canvasRect.sizeDelta.x-bubble1.sizeDelta.x)/2f);
+                        bubble1targetPos.y=Mathf.Clamp(bubble1targetPos.y,(-canvasRect.sizeDelta.y+bubble1.sizeDelta.y)/2f,(canvasRect.sizeDelta.y-bubble1.sizeDelta.y)/2f);
+                        bubble2targetPos.x=Mathf.Clamp(bubble2targetPos.x,(-canvasRect.sizeDelta.x+bubble2.sizeDelta.x)/2f,(canvasRect.sizeDelta.x-bubble2.sizeDelta.x)/2f);
+                        bubble2targetPos.y=Mathf.Clamp(bubble2targetPos.y,(-canvasRect.sizeDelta.y+bubble2.sizeDelta.y)/2f,(canvasRect.sizeDelta.y-bubble2.sizeDelta.y)/2f);
 
-                    bubble1targetPos=pos;
-                    float offset=0f;
-                    if(bubbleDirection==-1f){
-                        offset=-90f;
-                    }
-                    Vector2 circleCenter=(npcPos+bubble1.anchoredPosition)/2f;
-                    bubble2targetPos=(circleCenter+GetRightTrianglePoint(npcPos,bubble1.anchoredPosition,angle+45f+offset))/2f;
+                        bubble1.anchoredPosition=Vector2.SmoothDamp(bubble1.anchoredPosition,bubble1targetPos,ref bubble1Velocity,bubbleSmoothTime);
+                        bubble2.anchoredPosition=Vector2.SmoothDamp(bubble2.anchoredPosition,bubble2targetPos,ref bubble2Velocity,bubbleSmoothTime);
                 }
-                bubble1targetPos.x=Mathf.Clamp(bubble1targetPos.x,(-canvasRect.sizeDelta.x+bubble1.sizeDelta.x)/2f,(canvasRect.sizeDelta.x-bubble1.sizeDelta.x)/2f);
-                bubble1targetPos.y=Mathf.Clamp(bubble1targetPos.y,(-canvasRect.sizeDelta.y+bubble1.sizeDelta.y)/2f,(canvasRect.sizeDelta.y-bubble1.sizeDelta.y)/2f);
-                bubble2targetPos.x=Mathf.Clamp(bubble2targetPos.x,(-canvasRect.sizeDelta.x+bubble2.sizeDelta.x)/2f,(canvasRect.sizeDelta.x-bubble2.sizeDelta.x)/2f);
-                bubble2targetPos.y=Mathf.Clamp(bubble2targetPos.y,(-canvasRect.sizeDelta.y+bubble2.sizeDelta.y)/2f,(canvasRect.sizeDelta.y-bubble2.sizeDelta.y)/2f);
 
-                bubble1.anchoredPosition=Vector2.SmoothDamp(bubble1.anchoredPosition,bubble1targetPos,ref bubble1Velocity,bubbleSmoothTime);
-                bubble2.anchoredPosition=Vector2.SmoothDamp(bubble2.anchoredPosition,bubble2targetPos,ref bubble2Velocity,bubbleSmoothTime);
+                
             }
 
             if(moveMCRect){
@@ -310,6 +329,16 @@ public class DialogueBoxPlacement : MonoBehaviour
                 // pos.y=Mathf.Abs(pos.y)*yDir;
                 // pos=(mcBubble1.anchoredPosition+mcPos)/2f;
                 // mcBubble2.anchoredPosition=pos;
+            }
+        }
+
+        if(bubbles){
+            if(animator_bubble1!=null){
+                animator_bubble1.speed=animator.speed;
+            }
+
+            if(animator_bubble2!=null){
+                animator_bubble2.speed=animator.speed;
             }
         }
     }
@@ -366,7 +395,6 @@ public class DialogueBoxPlacement : MonoBehaviour
             npcPos=WorldToCanvasPoint(canvasRect,npc.transform.position,camera,out success);
             angle=Mathf.Atan2((rect.anchoredPosition.y-npcPos.y)/minOvalHeight,(rect.anchoredPosition.x-npcPos.x)/minOvalWidth)*180f/Mathf.PI;
         }
-        Debug.Log(angle);
         targetPos=rect.anchoredPosition;
     }
 
@@ -374,6 +402,7 @@ public class DialogueBoxPlacement : MonoBehaviour
         if(bubbles){
             bubble1.gameObject.SetActive(false);
             bubble2.gameObject.SetActive(false);
+            Debug.Log("set inactive bubbles");
         }
     }
 

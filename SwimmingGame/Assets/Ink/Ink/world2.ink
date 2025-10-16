@@ -596,7 +596,7 @@ NPC7: I want it now.. # speed:fast # stayonscreen # time:0.2
 NPC8: I'm counting the cycles... # speed:150 # stayonscreen # time:0.2
 NPC9: To be on the surface. # speed:150 # stayonscreen # time:0.2
 NPC10: To be UP THERE. # speed:120 # stayonscreen # time:0.2
-MCSmall: I-- # notambient
+MCSmall: I-- # notambient # stayonscreen
 ~clearScreen()
 ~pause(2)
 MC: Is this what life is like? On the surface?
