@@ -1292,7 +1292,7 @@ Let me know if you need any help.
 +   [What is this place?]
     This is the entrance to the library. 
     If you head further in, you can find a lot of the community's coralnet.
-    Feel free to read or speak into any of them.
+    Feel free to read or speak into any of them!
 +   [Who are you?]
     My name is Elevide! Nice to meet you.
     MC: Name..?
@@ -1301,7 +1301,7 @@ Let me know if you need any help.
         NPC: Oh, no. 
         I don't think anyone "works" here?
         I just really like helping people.
-        If you want you can join me too.
+        If you want you can join me too. It's fun!
         MC: Maybe some other time...
     ++  [No worries.]
         MC: Sure, uh, no worries.
@@ -1334,12 +1334,12 @@ SO I COVERED MYSELF IN SAND AND I ATTACHED SCALES ON MY BODY AND PRETENDED TO BE
 UNTIL MY EX LEFT ME ALONE
 BUT THEN I REALLY ENJOYED THE BOTTOM-FEEDER LIFESTYLE AND I BECAME ADDICTED TO BURROWING 
 AND EATING ANYTHING THAT FELL INTO MY MOUTH 
-MOSTLY OTHER PEOPLE'S DROPPINGS PROBABLY
+MOSTLY SAND ETC.
 I WAS SO WRAPPED UP IN IT THAT I DIDN'T REALIZE EVERYONE HAD MOVED ON TO THE NEXT SEASON
 SO I JUST STAYED THERE BUT THEN I MISSED ANOTHER SEASON 
 THEN ANOTHER
 AND NOW I THINK IT'S BEEN A FEW AND I THINK I JUST MET MY EX'S GRANDCHILD
-MC: ...And you're feeling okay with telling me this?
+MC: ...And you're just telling me this?
 NPC: YOU SEEM REALLY TRUSTWORTHY
 ->->
 =two
@@ -1356,12 +1356,12 @@ The current in this corridor always ends up trapping me and I have to wait an ET
 NPC: Ah well, I guess I can catch up on some epics...
 Did you hear the one about how they got their tail stuck in between two copulating clams?
 + [Yes.]
-    NPC: Isn't it riveting? I'm eager to hear if and how they got out.
-    Say, did you read the latest update? Have they gotten out yet?
+    NPC: Isn't it riveting? I'm eager to hear if how and when they got out.
+    Say, have you checked it recently? Have they gotten out yet?
     No, actually don't tell me! I must find out for myself.
 + [No.]
     NPC: I highly recommend it! It is simply riveting.
-    A true tale oƒ patience and woe...
+    A true tale of patience and woe...
 - -> npcEnd ->
 -> END
 
@@ -1370,7 +1370,7 @@ Did you hear the one about how they got their tail stuck in between two copulati
 -> npcStart1 ->
 NPC: I hear that the pink coral is supposed to pacify water currents, but this entryway is almost always blocked...
 I wonder if it is a ploy to get us to read more coralnet...
-Of course, the library is free to use so the ploymasters must be highly attention-seeking and greedy initiators seeking more audience...
+Of course, no one would profit materially so the ploymasters must be highly attention-seeking initiators seeking more audience...
 -> npcEnd ->
 -> END
 
@@ -1383,7 +1383,7 @@ Of course, the library is free to use so the ploymasters must be highly attentio
 - else:
     NPC: I did it! I reactivated the pink coral using my fierce psychic control!
     It was all me! Pretty impressive right? Wait you didn't see it?
-    Just wait here... I can shut it down then on once more so that you can believe me! Just give me one moment...
+    Just wait here... I can shut it off then on once more so then you can believe me! Just give me one moment...
 }
 -> npcEnd ->
 -> END
@@ -1402,13 +1402,11 @@ Do you know how to do it?
         Ok!
         All you have to do is kick your feet against it!
         +++ [...What?]
-            Oh!
-            You mean like, teach you ~how~ to do it, huh?
+            Do you need more instructions?
             You basically just have to rapidly swim away from a wall while being near one.
             Does that make more sense?
             ++++ [Yes.]
                 Good!
-                Don't worry, I know what you are.
             ++++ [No.]
                 Oh!
                 Basically, you need to do a "rapid button press".
@@ -1418,8 +1416,7 @@ Do you know how to do it?
                     Yeah, I figured it would.
                 +++++ [No.]
                     Oh!
-                    Sorry, I thought you were...
-                    Nevermind! Goodbye!
+                    I don't think there's any other I could help you! It's not that hard.
         +++ [Oh, duh.]
             Yeah! Ask me again if you forget!
     ++  [No thanks.]
@@ -1438,7 +1435,7 @@ NPC: Do you know the secret to swimming really fast?
     ++  [Resoluteness.]
         Oh wait... really?
     ++  [An aerodynamic body.]
-        I heard that before... Can you help me with mine? I think my back's sort of sticking out.
+        I heard that before... Do you think mine is okay? I think my back's sort of sticking out..
 +   [No.]
     Well do you wanna hear it?
     ++  [Yes.]
@@ -1456,25 +1453,26 @@ NPC: Do you know the secret to swimming really fast?
             ++++ [Whatever.]
                 Ok.
     ++  [No.]
-        Uh... okay.
+        Uhm... okay.
 -  -> npcEnd ->
 -> END
 
 === npcInCenter3 ===
 # color: 1d1c29
 -> npcStart1 ->
-NPC: A strange phenomenon occurs, whenever I attempt to leave stray too far from this place.
+NPC: A strange phenomenon occurs, whenever I attempt to stray too far from this environment.
 NPC: It's as if there are invisible walls block my passage.
 Some say it's the current, but I know the truth.
-It is gigantic and powerful psychics who are holding us in place, because they are still preparing the next place for our arrival.
+It's gigantic and powerful psychics who are holding us in place, because they are still preparing the next place for our arrival.
 What do you believe?
-+   [It's the current.]
-    Foolish sea slug. Remain blind.
++   [It's just the current.]
+    Foolish deep sea slug. Remain blind.
 +   [It's psychics.]
     Yes!
 +   [Mindset.]
     NPC: Hmmm...
     So you're saying our mindset is keeping us here and unconsciously stopping us from moving forth? I see...
+    I need to improve myself..
 -  -> npcEnd ->
 ->END
 
@@ -1496,6 +1494,7 @@ NPC: I'm just standing next to the hole, no big deal.
 #color: 99AFAA
 -> npcStart1 ->
 NPC: When I am swimming around this column I am filled with... a special feeling.
+NPC: I have seen others do certain dastardly things with it.. I wonder if I could as well.
 -> npcEnd ->
 -> END
 
@@ -1529,49 +1528,64 @@ How's your current?
 NPC: ...
 Would you like to chat for a little bit?
 +   [Sure.]
-    MC: We're chatting aren't we?
+    MC: Sure, why not.
     ~hadChatWithFriend=true
-    NPC: We are.
+    NPC: Okay.
     ...
-    You've been spending a lot of time at the library.
+    MC: What do you wanna chat about?
+    NPC: You've been.. spending a lot of time at the library.
     MC: I like it there.
-    NPC: Read any good one lately?
+    NPC: Heard any good one lately?
     MC: Same stuff as usual, mostly.
     NPC: Right.
     NPC: I don't think it's healthy.
-    The coralnet is for releasing excessive emotions, not for lingering and shutting one's self off.
-    MC: It's good for me. It's--
-    MC: It's the only thing I feel like doing anymore. These days.
+    The coralnet exists to release excessive emotions, not for lingering and shutting one's self off.
+    MC: It "exists for"? How do you even know that?
+    MC: And, besides, It's good for me. It's the only thing I feel like doing anymore. These days.
     NPC: Well...
-    At least you're not having... 
-    You know. Whatever everyone's been doing lately?
+    At least you're not doing... 
+    You know. Whatever everyone's been up to lately?
+    MC: The entanglement?
+    NPC: Is that what they call it?
     MC: You think there's something wrong with it?
     NPC: Oh? I don't know. I mean, maybe?
-    It's just strange. It's not something that we used to do. I don't know if I trust it.
-    And with people disappearing left and right... Going to whatever the outside is... I don't know.
-    It doesn't flow right with me. This shouldn't be the time to "experiment".
+    It's just strange. It's not something that we used to do.
+    And there's all these people disappearing left and right.. Like your ex-lover. Leaving you high and dry.
+    MC: I'm sure it wasn't personal.
+    NPC: I wasn't saying it was. 
+    MC: Um. I know. I don't know why I said that.
+    ~pause(2)
+    NPC: Anyway... I don't know.
+    It  just doesn't flow right with me. None of it. This shouldn't be the time to "experiment".
     What do YOU think?
     ++  [It's odd.]
         MC: It's odd. Um. The things I've been reading on the coralnet...
         NPC: Yes?
-        MC: I don't know. It rubs me the wrong way. But I still don't really know what it is.
+        MC: I don't know. It rubs me the wrong way. But I still don't really know what it is. And it's sort of conflicting. All these organs... 
         NPC: I don't even want to hear about it...
         MC: Well, it's not that bad.
-        NPC: Huh.
-        MC: Still...
+        NPC: It's not?
+        MC: I don't know. Still...
     ++  [I don't know.]
         MC: I have no idea, really. I guess I still don't know much about it.
-        NPC: Yeah, me neither, I guess.
+        NPC: Yeah. Neither do I. But what I know is that we were all doing fine before.
+        MC: Okay... but...
     ++  [It's fine.]
         MC: It's fine. If people like it... I don't see anything wrong with it.
         NPC: For now.
         MC: We'll have to see I guess.
-        But...
-    -- MC: You're not curious to try it? Even a little bit See what it's about?
-    NPC: No!! Really not.
-    MC: Haha, okay.
-    I'll let you know how it is if I do.
-    NPC: Is there anyone that...?
+        And about the surface.. I'm sure those people will be back soon.
+        NPC: I'm not so sure.
+        MC: Ok...
+        ~pause(2)
+        But, like...
+    -- MC: You're not curious to try it? Not even a little bit? See what it's about?
+    NPC: No!! Absolutely not!
+    MC: Hahaha, okay.
+    NPC: It's not funny. I would never.
+    MC: Okay! I'll let you know how it is if I do.
+    NPC: Are you serious?
+    Is there anyone that...?
     MC: No! No...
     Well...
     NPC: Well?
@@ -1597,8 +1611,12 @@ Would you like to chat for a little bit?
         ~changeDesire("Find the library stranger in the diner.")
         ~desireStep=3
     }
+    There's probably nothing I can say to dissuade you. But hopefully this will at least quell your curiosity. Regardless..
     Please, don't get eaten? I heard that that's what happens at the end.
     MC: I'll try not to.
+    NPC: And stay here. I know it may seem like everyone else is doing it, but we're happy here.
+    MC: Not EVERYONE is doing it. It's just a few. And of course I won't. I would never.
+    NPC: Good.
 +   [I'm busy.]
     MC: Sorry, I have things to do.
 - ->->
