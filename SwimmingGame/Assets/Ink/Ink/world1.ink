@@ -58,22 +58,22 @@ VAR cnetAnswer1=0
 -> coralnetStart ->
 Coralnet: motif: favorite swimming style?
 > what's everyone's favorite swimming style and why?
-> personally i like to mix hermit and shark style on the lower half and cerulean top i find it the most efficient.
+> i like to do hermit on my lower body and cerulean top and i switch to octopus when my arms get tired i find it the most efficient.
 > i just kind of do what everyone else is doing
-> i reaaaally like sliding on walls, does anyone else do this
-> i like going backwards because i always get surprised when i reach something
-> i like sliding on walls too
+> i love to slide on walls. does anyone else do this
+> i like going backwards because it's always a lovely surprise bumping into something
+> i like sliding on walls as well
 > i alternate
 {   
 - cnetAnswer1==0:
     Add answer?
     -> answers ->
 - cnetAnswer1==1:
-    > i enjoy floating with the current and trying to be as still as possible.
+    > i enjoy floating with the current and trying to be as still as possible, unnoticeable to everyone around me.
 - cnetAnswer1==2:
-    > i enjoy being on my back and throwing my arms behind me and kicking.
+    > i enjoy being on my back and feeling held by the water.
 - cnetAnswer1==3:
-    > i like coasting slowly with my arms forward and only moving my legs.
+    > i like coasting slowly with my arms forward and only moving my legs it's when i do my best thinking.
 }
 -> coralnetEnd
 
@@ -81,15 +81,15 @@ Coralnet: motif: favorite swimming style?
 +   [Yes.]
     What will you say?
     ++  [I like staying still.]
-        > i enjoy floating with the current and trying to be as still as possible.
+        > i enjoy floating with the current and trying to be as still as possible, unnoticeable to everyone around me.
         ~cnetAnswer1=1
         -> coralnetEnd
     ++  [I like being on my back.]
-        > i enjoy being on my back and throwing my arms behind me and kicking.
+        > i enjoy being on my back and feeling held by the water.
         ~cnetAnswer1=2
         -> coralnetEnd
     ++  [I like coasting slowly.]
-        > i like coasting slowly with my arms forward and only moving my legs.
+        > i like coasting slowly with my arms forward and only moving my legs it's when i do my best thinking.
         ~cnetAnswer1=3
         -> coralnetEnd
 +   [No.]
@@ -105,13 +105,14 @@ Coralnet: motif: has anyone actually done "it" yet?
 > yeah i have.
 > i did it with a bunch of people.
 > how does it work exactly?
-> so one of you shrinks down and you enter the other person's mouth.
+> one of you shrinks down, and you enter the other person's mouth.
 > then you tickle the under of their tongue.
-> that's seahorseshit. it's really simple you just have to lie very still next to each other and then it feels good in your stomach.
-> hi! actual person who's done it here.
-> basically there's two types of people: one with a hole and one with a long hard object. the long object goes into the hole many times.
+> ridiculous. it's really simple, you just have to lie very still next to each other and then it feels good in your abdomen.
+> hi! i'm an actual person who's done it, here.
+> basically there's two types of people: one with an orifice and one with a long hard object. the long object goes into the orifice many times.
+> that's ridiculous. what would even determine if you're a orifice or long object person? plus it sounds highly unpleasant.
 > all of these sound disgusting. are people really doing this?
-> how much chewing are you supposed to do? does anyone know?
+> how much kicking are you supposed to do? does anyone know?
 {   
 - cnetAnswer2==0:
     Add answer?
@@ -119,9 +120,9 @@ Coralnet: motif: has anyone actually done "it" yet?
 - cnetAnswer2==1:
     > i am also curious about it and am eager to hear more.
 - cnetAnswer2==2:
-    > i did it and it was incredible and really undescribable sorry no more details.
+    > i did it and it was incredible and really undescribable apologies no more details.
 - cnetAnswer2==3:
-    > a lot of chewing be careful about your teeth. this is the truth because i know because i've done it.
+    > a lot of kicking be careful about their teeth. this is the truth because i know because i've done it.
 }
 -> coralnetEnd
 
@@ -133,11 +134,11 @@ Coralnet: motif: has anyone actually done "it" yet?
         ~cnetAnswer2=1
         -> coralnetEnd
     ++  [I've done it,]
-        > i did it and it was incredible and really undescribable sorry no more details.
+        > i did it and it was incredible and really apologies sorry no more details.
         ~cnetAnswer2=2
         -> coralnetEnd
     ++  [Lots of chewing.]
-        > a lot of chewing be careful about your teeth. this is the truth because i know because i've done it.
+        > a lot of kicking be careful about their teeth. this is the truth because i know because i've done it.
         ~cnetAnswer2=3
         -> coralnetEnd
 +   [No.]
@@ -150,26 +151,27 @@ VAR cnetAnswer3=0
 -> coralnetStart ->
 Coralnet: motif: hole in my head
 > i woke up with a hole in my head. what do i do?
-> you have to be more specific than that.
+> please add specificity
 > it's a hole on the side of my head. i don't know why it's there.
 > initiator are you sure you weren't stabbed?
 > have you tried putting things in it?
 > yes, it feels a little odd.
 > and i always feel a sort of unpleasant pressure so i started plugging it
 > why?
-> just felt right
+> it felt right
 > how big is it initiator?
 > about the size of my finger.
-> initiator i have a lot of experience with holes could we meet and i could examine you?
-> no?? it's really weird i would rather not or else i wouldn't be on here.
-> initiator any update? i think i have one too.
+> initiator i have a lot of experience with orifices could we meet and i could examine you?
+> no, it's really weird and i would rather not or else i wouldn't be on here
+> initiator any update? i think i have two of them, right above my mouth
+> i conceal it with my tongue
 > yes it's still really strange but i feel i am becoming stronger and more deadly
 {   
 - cnetAnswer3==0:
     Add answer?
     -> answers ->
 - cnetAnswer3==1:
-    > i would continue putting things in it. it might complete you eventually.
+    > i would continue putting things in it. eventually you might be complete
 - cnetAnswer3==2:
     > the hole points to your emptyheadedness. try to absorb more culture and thought.
 - cnetAnswer3==3:
@@ -181,7 +183,7 @@ Coralnet: motif: hole in my head
 +   [Yes.]
     What will you say?
     ++  [Plug it.]
-        > i would continue putting things in it. it might complete you eventually.
+        > i would continue putting things in it. eventually you might be complete
         ~cnetAnswer3=1
         -> coralnetEnd
     ++  [It's a sign.]
@@ -201,11 +203,11 @@ VAR cnetAnswer4=0
 Coralnet: motif: ate my lover
 > is it abnormal to eat your lover without asking if you could?
 > they were annoying me a lot and i didn't want to hear their thoughts anymore.
-> my friends are saying it's questionable behavior.
+> my swimmates are calling it objectionable behavior.
 > initiator why didn't you just stop singing with them?
-> felt rude
-> i think it's ok i've eaten 20 of my past lovers and each time they get tastier
-> hi i think you shouldn't date someone if they're not ready to be eaten i think it's ok initiator
+> it felt rude
+> i think it's ok i've eaten 20 of my past lovers and each time they were plumper & tastier
+> i think you shouldn't connect with someone if they're not ready to be eaten i think it's ok initiator
 {   
 - cnetAnswer4==0:
     Add answer?
@@ -213,9 +215,9 @@ Coralnet: motif: ate my lover
 - cnetAnswer4==1:
     > i believe it is ok because you must have truly loved them and now you will be together forever which sounds nice.
 - cnetAnswer4==2:
-    > initiator i would try to refrain from doing this again unless you really want to which is hard.
+    > initiator i would try to refrain from doing this again unless you really want to which is difficult i understand.
 - cnetAnswer4==3:
-    > has nobody heard of ambiguity? i'm sure initiator's relationship was full of complexities and beyond any floater's understanding.
+    > i'm sure initiator's relationship was full of complexities and beyond any floater's understanding this is a concept known as ambiguity
 }
 -> coralnetEnd
 
@@ -227,11 +229,11 @@ Coralnet: motif: ate my lover
         ~cnetAnswer4=1
         -> coralnetEnd
     ++  [It's not ok.]
-        > initiator i would try to refrain from doing this again unless you really want to which is hard.
+        > initiator i would try to refrain from doing this again unless you really want to which is difficult i understand.
         ~cnetAnswer4=2
         -> coralnetEnd
     ++  [It's in-between.]
-        > has nobody heard of ambiguity? i'm sure initiator's relationship was full of complexities and beyond any floater's understanding.
+        > i'm sure initiator's relationship was full of complexities and beyond any floater's understanding this is a concept known as ambiguity
         ~cnetAnswer4=3
         -> coralnetEnd
 +   [No.]
@@ -240,22 +242,22 @@ Coralnet: motif: ate my lover
 VAR cnetAnswer5=0
 === coralnet5 ===
 -> coralnetStart ->
-Coralnet: motif: anyone yearns?
-> anyone yearns to be in the next season? i miss the parties
-> initiator why dont' you just have a party here
+Coralnet: motif: does anyone yearn?
+> does anyone yearn to be in the next season? i miss the parties
+> initiator why dont' you just start your own party here
 > it's not the same
-> initiator that doesn't seem right maybe you hit your heard really hard? have you seen a doctor?
+> initiator i'm always satisfied with the current state this doesn't seem right maybe you hit your head really hard? have you seen an educated healer?
 > no
 {   
 - cnetAnswer5==0:
     Add answer?
     -> answers ->
 - cnetAnswer5==1:
-    > i understand initiator i yearn as well but for something different, i'm not sure what exactly yet.
+    > i understand initiator i yearn as well but for something different. i'm not sure what exactly yet.
 - cnetAnswer5==2:
-    > that's really odd why would you desire something that you cannot bring about initiator? i find this very disturbing
+    > that's odd why would you desire something that you cannot bring about initiator? i find this disturbing
 - cnetAnswer5==3:
-    > i hate parties there's too many people and most of them do not really love you i could not sync with you initiator
+    > i hate parties there's too many persons and most of them do not really love you i could not synch with you initiator
 }
 -> coralnetEnd
 
@@ -263,15 +265,15 @@ Coralnet: motif: anyone yearns?
 +   [Yes.]
     What will you say?
     ++  [I understand.]
-        > i understand initiator i yearn as well but for something different, i'm not sure what exactly yet.
+        > i understand initiator i yearn as well but for something different. i'm not sure what exactly yet.
         ~cnetAnswer5=1
         -> coralnetEnd
     ++  [It's weird]
-        > that's really odd why would you desire something that you cannot bring about initiator? i find this very disturbing
+        > that is odd why would you desire something that you cannot bring about initiator? i find this disturbing
         ~cnetAnswer5=2
         -> coralnetEnd
     ++  [I hate parties]
-        > i hate parties there's too many people and most of them do not really love you i could not sync with you initiator
+        > i hate parties there's too many persons and most of them do not really love you i could not synch with you initiator
         ~cnetAnswer5=3
         -> coralnetEnd
 +   [No.]
@@ -287,8 +289,8 @@ Coralnet: motif: what's it like outside?
 > i don't know
 > i tried going but i felt very bad everywhere and had to come back inside.
 > has anyone who's traversed come back yet?
-> my sibling said they did and there was sharp glass everywhere and everything was blurry and they never got hungry
-> but i think they lied
+> my sibling said they did and there was sharp glass everywhere and everything was blurry and they never felt hungry again
+> but i think it was a lie
 {   
 - cnetAnswer6==0:
     Add answer?
@@ -296,9 +298,9 @@ Coralnet: motif: what's it like outside?
 - cnetAnswer6==1:
     > probably terrible for your skin etc. i do not recommend that people go it seems unsafe.
 - cnetAnswer6==2:
-    > so amazing and nice i'm sure and no one there misses us and they're dancing and touching and holding each other close it fills me with bile
+    > so amazing and nice i'm sure and no one there misses us and they're dancing and holding each other close it fills me with bile
 - cnetAnswer6==3:
-    > i don't know i wish i knew but also not really does anyone understand me?
+    > i don't know i wish i knew but also not really does anyone perhaps understand the state i'm in?
 }
 -> coralnetEnd
 
@@ -310,11 +312,11 @@ Coralnet: motif: what's it like outside?
         ~cnetAnswer6=1
         -> coralnetEnd
     ++  [Probably great.]
-        > so amazing and nice i'm sure and no one there misses us and they're dancing and touching and holding each other close it fills me with bile
+        > so amazing and nice i'm sure and no one there misses us and they're dancing and holding each other close it fills me with bile
         ~cnetAnswer6=2
         -> coralnetEnd
     ++  [I don't know.]
-        > i don't know i wish i knew but also not really does anyone understand me?
+        > i don't know i wish i knew but also not really does anyone perhaps understand the state i'm in?
         ~cnetAnswer6=3
         -> coralnetEnd
 +   [No.]
@@ -326,10 +328,10 @@ VAR cnetAnswer7=0
 -> coralnetStart ->
 Coralnet: motif: i went outside
 > i went outside and there was sharp glass everywhere and everything was blurry and i was never hungry
-> that's not true my lover said they were born outside and that there wasn't any sharp glass anywhere
+> that's not true my lover said they were born outside and they never mentioned glass
 > what else did they say?
-> they said the ground burns your feet and everything that you try to eat turns into spikes so they had to come here
-> none of this is true i went outside and it's the same as here but more magenta
+> they said the ground burns your feet and everything you try to eat turns into spikes so they had to come down here
+> your head is full of planktons i went outside and it's the same as here but more magenta
 {   
 - cnetAnswer7==0:
     Add answer?
@@ -368,7 +370,7 @@ Coralnet: motif: i went outside
 > come on there's no way it's that bad i'm sure it's just boring and stupid and empty and you die of dullness
 ->->
 = answer3
-> initiator i would like to know if you met a very august yet cold-eyed person and how they are doing
+> initiator i would like to know if perhaps you met a very august yet cold-eyed person and maybe how they are doing but it matters not very much
 ->->
 
 
@@ -377,12 +379,15 @@ VAR cnetAnswer8=0
 -> coralnetStart ->
 Coralnet: motif: i miss my lover
 > i miss my lover a lot. what do i do?
-> initiator did your lover provide you with most of your food? maybe you should find a good hunter to replace them
+> initiator did your lover provide you with most of your food? you could find a good hunter to replace them
 > no it wasn't like that.
 > i think i just really liked their company.
 > initiator did they have a particularly good voice? maybe you could start going to more concerts and operas
-> hi i tried this but i still feel the missing.
+> initiator i am good at finding and providing food for weak ones maybe we should connect
+> i tried this (not food thing) but i still feel the missing.
 > what do i do?
+> what can i do?
+> what should i do?
 {   
 - cnetAnswer8==0:
     Add answer?
@@ -421,7 +426,7 @@ Coralnet: motif: i miss my lover
 > i am not initiator but i am curious about this not because i feel similarly simply out of inquisitiveness.
 ->->
 = answer3
-> initiator you sound so pathetic it's actually pitiful why would you care so much what a washout
+> initiator you sound so pathetic it's actually pitiful why would you care so much what a floater you are
 ->->
 
 VAR cnetAnswer9=0
@@ -458,7 +463,7 @@ Coralnet: motif: i see them everywhere
         -> answer2 ->
         ~cnetAnswer9=2
         -> coralnetEnd
-    ++  [Pathetic.]
+    ++  [Pitiful.]
         -> answer3 ->
         ~cnetAnswer9=3
         -> coralnetEnd
@@ -469,10 +474,10 @@ Coralnet: motif: i see them everywhere
 > does anyone know how one could get better just wondering for initiator if there's better suggestions that they haven't tried or are less stupid.
 ->->
 = answer2
-> i still see them.
+> i still see them and it hurts in a sort of painful way but it's not a big deal
 ->->
 = answer3
-> initiator you sound so pathetic it's actually pitiful why would you care so much what a washout.
+> initiator you sound so pitiful it's actually pitiful why would you care so much what a washout.
 ->->
 
 VAR cnetAnswer10=0
@@ -481,7 +486,7 @@ VAR cnetAnswer10=0
 Coralnet: motif: current order
 > does anyone know why the current sometimes is really cold and sometimes too hot?
 > i think it's when people emit evil and dark vibrations it makes it cold but sometimes hot and it's perfect when there's only nice people around
-> hi i don't know
+> i don't know
 > what the second person said sounds right
 {   
 - cnetAnswer10==0:
@@ -518,7 +523,7 @@ Coralnet: motif: current order
 > i agree the second person was right i think.
 ->->
 = answer2
-> this is such a trivial thing to worry about, i envy you initiator. you do not know true pain.
+> this is such a trivial thing to worry about, i envy you, initiator. you do not know true pain.
 ->->
 = answer3
 > i believe it is tied to emotions for example if someone you called a friend refuses to play with you and everything feels both big and small which is like unbearable coldness.
@@ -531,7 +536,7 @@ VAR cnetAnswer11=0
 Coralnet: motif: has anyone tried this
 > recently i tried wrapping my organ around of a pillar and it felt extremely good
 > what organ? what are you talking about
-> if you don't know what i'm talking about this isn't for you
+> if you don't know what i'm talking about this is not meant for you
 > initiator i tried this and i didn't feel anything did you do anything else?
 > i just kind of rubbed it a lot and it was really great
 > i did this too but instead of a pillar it was a wall and i spread it kind of everywhere
@@ -572,7 +577,7 @@ Coralnet: motif: has anyone tried this
 > what is this about?
 ->->
 = answer2
-> what was the point of this action? i feel an odd emotion as i hear this which makes me quizzical.
+> what was the point of this action? i feel an odd emotion as i hear this which makes me also quizzical.
 ->->
 = answer3
 > this puts me in a state of revulsion but i am not sure why. so i would like to learn more if possible.
@@ -583,17 +588,16 @@ VAR cnetAnswer12=0
 === coralnet12 ===
 -> coralnetStart ->
 Coralnet: motif: keeping the secret
-> there's a lot of people who haven't experienced "it" yet and i don't like talking to them because they feel like little children.
+> there's a lot of people who haven't experienced "it" yet and i don't like talking to them because they are like little fingerlings.
 > how can we know who else has done it so we can avoid the unchanged?
-> initiator since when are we keeping it a secret and why
+> initiator are we keeping it a secret and why i wasn't aware of this
 > i think those of us who had it were chosen and we shouldn't mix with the less-deserving
 > chosen for what
 > initator chosen by whom
 > it doesn't matter can you just answer my question
-> i try using a lot of euphemisms... "it" is a good one. i'm also partial to "relations" and "fun"
+> i try using a lot of euphemisms... "it" is a good one. i'm also partial to "relations" and "enjoyment"
 > has anyone come up with an actual name for it actually??
 > what are we talking about???
-> what?
 {   
 - cnetAnswer12==0:
     Add answer?
@@ -626,7 +630,7 @@ Coralnet: motif: keeping the secret
 ->->
 
 = answer1
-> what is this about??? i would love to learn.
+> what is this about? i would love to learn
 ->->
 = answer2
 > please stop using the coralnet for unfair conversations that leave a lot of us out it doesn't feel nice.
@@ -637,31 +641,38 @@ Coralnet: motif: keeping the secret
 
 === coralnetProgress === //the coralnet to read to progress story
 -> coralnetStart ->
+// SOUND CUE: OST FOR THIS
 Coralnet: motif: my entanglement
 ~ fadeOut(-1)
 > i experienced it today. i'm happy to share my experience.
 > oh? how was it? tell us about it.
 > it was in the back of our music hall. 
-> we were practicing a song for the end-of-season show.
+> we were practicing a song for the end-of-season.
 > we felt a tugging from underneath our skin, in the middle top of our back.
 > who did you do it with?
 > it was my singing partner. not my lover, but someone i've always been deeply intimate with.
 > and after the tugging?
-> first, there was a burning sensation. then, it started to come out, and it felt cold as ice.
+> first, there was a burning sensation. 
+> then it started to come out.. and it felt cold as ice.
 > what was it exactly?
 > it was neither tail nor fin nor antenna. it was a tendril of sorts. 
-> it was long and sinewy and soft.
+> it was long, and sinewy, and soft.
 > there was a beautiful burst of smaller wriggling tendrils at the end of it, like a flower.
 > and what did you do with it?
-> at first we just sensed our surroundings
-> the organ felt more sensitive than the inside of my mouth.
+> at first we merely sensed our surroundings
+> the organ felt even more sensitive than the inside of my mouth. which is very sensitive.
 > then we started feeling each other. we brushed ourselves and we made knots of our bodies.
-> we tugged and let go. we followed the current and fought against it.
-> we became stickier. it was harder to separate each other.
-> our organs were the same color and we couldn't tell whose part was which.
+> we tugged and let go. we became one with the current.
+> we became stickier. it was more difficult to separate each other.
+> our organs were the same color and we couldn't tell which was whose
 > and how did it feel?
-> initiator, how did it feel?
+> initiator, how did it feel? was it pleasurable?
+> i wish this happened to me
 > initiator, tell us how it was.
+> it sounds amazing.
+> initiator? 
+> this should have been me
+> would you do it again? initiator?
 ~pauseTutorial(false)   //coralnetEnd stuff
 { npcsTalkedTo > 2:
     ~finishTutorialPart(6)
@@ -678,6 +689,9 @@ Coralnet: motif: my entanglement
 
 /* MAIN STORY */
 
+// SOUND CUE: ADD QUICK TEACHER BARK SOUND
+// SOUND CUE: SOUND WHEN STARTLED
+VAR awkwardnessLevel=3
 // Initiated by the teacher as you finish reading coralnetProgress
 === teacherAtLibrary ===
  -> npcStart1 ->
@@ -686,22 +700,86 @@ Teacher: Sounds amazing, doesn't it?
 ~ switchObject("Coral - Library",true)
 ~ libraryOpen=true
 ~ fadeIn(-1)
-MC: What?
+MC: Huh?
 Teacher: The entanglement. \\pauseYou were reading about it just now, right? Have you done it yet?
-MC: ...
-Teacher: I've done it a couple times now. It wasn't nearly as intense as they described, but maybe I just haven't found the right person.
-Teacher: I wonder what happens at the end, maybe a giant sparkly explosion?
-MC: Didn't you just say you've done it before...?
-Teacher: Yes, but I've never reached this "climax" that I've often heard spoken about. I always stop before.
-Teacher: It always felt a bit scary. \\pause\\pauseLike maybe I would burst.
-MC: Ah.
-Teacher: ...
++   [How did you connect with me?]
+    MC: How did you connect with me?
+    Teacher: Oh! Sorry!! I must've startled you..
+    Ah.. you were humming to yourself. I harmonized with you.
+    Sorry, I guess maybe you weren't fully aware. I know it's not usual to talk at these sort of places..
+    ++  [It's fine.]
+        MC: It's fine. Uhm..
+        I guess I was engrossed. But it's nice to.. discuss, and stuff.
+        Teacher: Yeah, some of the things they sing about can get pretty weird, right? Haha.
+        MC: ..I guess so.
+        You were saying something about the, um, entanglement?
+        Teacher: Oh! Yeah..
+        ~awkwardnessLevel=awkwardnessLevel-1
+    ++  [It's weird.]
+        MC: Yeah, I kind of prefer just quietly reading, right now.
+        Teacher: Ah...
+        Um.. I'll leave you alone then.
+        MC: You were saying something, about this.. entanglement?
+        I guess I'm uh.. kind of curious
+        Teacher: Oh! Yeah.
+        ~awkwardnessLevel=awkwardnessLevel+1
++   [I haven't.]
+    MC: No, I haven't.
+    I'd like to hear more.
+    Teacher: A-ah?
+    MC: I mean, uh.. if you know anything about it?
+    Teacher: Yeah.. Actually...
+    ~awkwardnessLevel=awkwardnessLevel-1
+Teacher: I've done it a couple times now. 
+It wasn't nearly as intense as they described, but maybe.. I just haven't found the right person?
+Teacher: I wonder what happens at the end, maybe some sort of a giant sparkly explosion? Haha..
+MC: But you're saying you've done it before...?
+Teacher: Oh, yes, right. I have. 
+But I've never reached this "climax" that I've often heard of. I've always stopped before. Both times I've done it.
++   [Why?]
+    MC: Why?
+    Teacher: It always felt a bit scary. \\pause\\pauseLike maybe I would burst.
+    ~pause(2)
+    But also...
+    ++  [Exciting?]
+        MC: Exciting?
+        Teacher: Yes.
+        ~ awkwardnessLevel=awkwardnessLevel-1
+        ~ pause(2)
+    ++  [Also?]
+        MC: Also?
+        Teacher: Um.. exciting, I guess.
+        ~ awkwardnessLevel=awkwardnessLevel+1
+        ~ pause(2)
++   [You should keep going.]
+    MC: You should try to keep going. It might be interesting.
+    Teacher: Ah.. yeah, maybe.. 
+    I think I just haven't found someone that I feel.. completely comfortable with.
+    ~awkwardnessLevel=awkwardnessLevel-1
+    ~ pause(2)
+    MC: I see.
++   [I understand.]
+    MC: I understand. 
+    Teacher: Ah?
+    ++  [It's probably scary]
+        MC: I'm sure it's... frightening.
+        Teacher: Yes, but also...
+        Exciting.
+        MC: Ah.
+        ~awkwardnessLevel=awkwardnessLevel-1
+    ++  [Yes.]
+        MC: Yes.
+        ~awkwardnessLevel=awkwardnessLevel+1
+- Teacher: ...
 Teacher: I always see you here. Do you only come to browse or...?
-MC: Uh... I'm not sure how to answer that...
-Teacher: ...
-MC: I like to read.
-Teacher: Yes, me too...
-Teacher: Say, it looks like the current is letting up. I could use a bite. Maybe we can continue this conversation at the diner?
+MC: Uh... Well I didn't come here to...
+Teacher: To..?
+MC: I mean, uh, I like to read.
+Teacher: Yes! Me too.
+Sorry, I wasn't asking if you were here looking for..
+MC: Right. I didn't think you were either.
+~ pause(2)
+Teacher: Say, it looks like the current is letting up. I could use a bite. Perhaps we can continue this conversation at the diner?
 +   [No.]
     MC: No. Sorry. 
     ~ overrideRotationWithSpeed("Roadblock - Library",1.5)
@@ -724,8 +802,36 @@ Teacher: Say, it looks like the current is letting up. I could use a bite. Maybe
 ~ activateBorder("floral",false)
 -> END
 
-// Same I feel like here the rest of the interaction is nice but I feel like MC should be more surprised by the teacher being next to them.
+// AT THIS POINT MAKE TEACHER RESPOND TO SINGING
 
+VAR talkedToTeacherAgain=false
+
+=== teacherAtLibrary2 ===
+-> npcStart1 ->
+Teacher: Did you change your mind about the diner?
+MC: Um.. Well I don't know.
+How do you get there again?
+Teacher: It's through that exit, over there.
+~ overrideRotationWithSpeed("Roadblock - Library",1.5)
+~ pause(2)
+It was blocked earlier, but seems like the current's let up.
+MC: Ok.
++   [See you there.]
+    MC: See you there.
+    Teacher: Ah!
+    I.. look forward to it.
+    { talkedToTeacherAgain == false:
+        ~awkwardnessLevel=-1
+    }
++   [Cool.]
+    MC: Cool. I was just wondering.
+    Teacher: Okay..
+    { talkedToTeacherAgain == false:
+        ~awkwardnessLevel=awkwardnessLevel-1
+    }
+- ~talkedToTeacherAgain=true
+- -> npcEnd ->
+-> END
 
 
 // MC finds teacher at diner sitting. They start singing when MC gets nearby to invite conversation
@@ -756,30 +862,74 @@ Teacher: Say, it looks like the current is letting up. I could use a bite. Maybe
 
 = chat
 ~talkedToTeacherAtDiner=true
-Teacher: I'm surprised you've come to talk to me. 
-Teacher: I must've been really bothersome at the library.
-MC: I was really curt with you.
-Teacher: It's alright.
-~pause(4)
-Teacher: So what brings you here?
+{ 
+ - talkedToTeacherAgain:
+    Teacher: So you came.
+    MC: Yes.
+    ~pause(4)
+    { awkwardnessLevel>1:
+        Teacher: I'm surprised. I thought I made a bad impression.
+        MC: It's.. It was fine. I was just startled.
+        ~ pause(2)
+        MC: But I wanted to come here.
+    }
+ - awkwardnessLevel<1:
+    Teacher: I had a feeling you'd come.
+    MC: But I said I wouldn't.
+    Teacher: Oh, haha.
+    MC: Why would you think I would?
+    Teacher: Well.. Um. Just a vibe I got.
+    ~ pause(4)
+ - awkwardnessLevel>3:
+    Teacher: Oh, you're here!
+    MC: Yeah.
+    ~pause(2)
+    Teacher: I must've been really bothersome at the library. #speed:fast # ambient # time:0.5
+    MC: I was really curt with you. # speed:fast # time:0.5 # notambient
+    Teacher: It's alright.
+    ~pause(4)
+    So what brings you here?
+ -  else:
+    Teacher: I'm surprised you've come after all.
+    MC: Yeah..
+    I think I am as well.
+    ~ pause(2)
+}
 Teacher: Can I share some food with you? They have really tasteful salmonds this season.
-MC: I'm okay.
+MC: I'm not hungry.
 ~pause(4)
 MC: Have you been watching me?
 Teacher: What?
-MC: At the library. You said you often see me there.
-Teacher: Oh, I just meant I notice you there almost everytime I visit.
+MC: At the library. You said hat you've often seen me there.
+Teacher: Oh! Um.. I wouldn't say I watch you..
+I just meant I notice you there almost everytime I visit.
 MC: Right.
-~pause(4)
+~pause(2)
++   [I'm noticeable.]
+    MC: I guess I'm noticeable.
+    Teacher: I would say so, yes.
++   [(Say nothing.)]
+- ~ pause(2)
 Teacher: Would that be bad? If I watched you?
-MC: No.
-Teacher: Then I guess I do watch you a little bit.
-~pause(4)
-Teacher: Would you like to...
++   [No.]
+    MC: No.
+    Teacher: Then I guess I do watch you a little bit.
++   [I would like it.]
+    MC: I would actually like it.
+    Teacher: Then I guess I do watch you a little bit.
++   [Yes.]
+    MC: Yeah, kind of.
+    ~ pause(2)
+    It's weird when you don't know someone like that.
+    Teacher: Ah... I guess so.
+    MC: But we know each other now.
+    Teacher: We do.
+- ~ pause(4)
+Teacher: Since you're not hungry.. Would you like to..
 MC: Yeah?
-~changeDesire("Follow the library stranger.")
-~desireStep=4
-Teacher: Go somewhere with fewer other people?
+~ changeDesire("Follow the library stranger.")
+~ desireStep=4
+Teacher: Go somewhere with fewer people?
 +   [Let's go.]
     MC: Sure. Let's go.
     -> going
@@ -793,12 +943,13 @@ Teacher: Go somewhere with fewer other people?
 - ->->
 
 = going
-Teacher: Okay. I'll show you one of my favorite places.
+Teacher: Okay then. I'll show you one of my favorite places.
 ~ fadeOut(1) //maybe at this point show a camera view of the tunnel?
 You know the tunnel entrance, when you exit the diner and head straight to the bottom?
 Meet me there.
 MC: Wait, what about your food...?
-Teacher: Oh, someone else will eat it.
+Teacher: Oh..
+It's fine. Others will eat it.
 ~ changeDesire("Meet the library stranger at the bottom.")
 ~ restoreNPCsVolume()
 ~ pauseTutorial(false)
@@ -807,18 +958,25 @@ Teacher: Oh, someone else will eat it.
 ~ fadeIn(1)
 -> END
 
+// SOUND CUE: TEACHER LEAVING
+
 === teacherAtCenter ===
 -> npcStart1 ->
 Teacher: I know a trick for getting rid of these.
 ~fadeOut(1)
-Let's see...
+Let's see... I'm focusing my psychic powers...
 ~ pause(2)
+// SOUND CUE: OPENING PORTAL (MAYBE ALSO IN LIBRARY)
 ~ switchObject("Coral - Edge Tunnel",true)
 ~ switchObject("Roadblock - Edge",false)
 ~ followingTeacher=true
 There we go.
 ~ fadeIn(1)
-Come on.
+MC: Where did you learn to do that?
+Teacher: Um.. One of my past lovers.
+MC: Does the entanglement make you..?
+Teacher: No, it also depends on your diet. You should incorporate more rock salt.
+Anyway, let's go.
 ~changeDesire("Follow the library stranger.")
 ~ nextBrain()
 ~ restoreNPCsVolume()
@@ -832,7 +990,7 @@ Come on.
 //Appears if harmonizing while on the way to the edge
 === teacherOnTheWay1 ===
 # ambient
-{->one|->two|->three}
+{->one|->two|->three|->four|->five}
 = one
 Teacher: Are you excited? # time: 3
 ~ pause(4)
@@ -842,10 +1000,24 @@ Teacher: Me too. #time: 3
 -> END
 = two
 MC: Have you done this often? # time: 4
-Teacher: Only a couple times... With some friends. # time: 5
+Teacher: Only a couple times... # time: 5
 Teacher: Don't worry, it's not scary or painful. # time: 4
+Teacher: I mean, not very scary. Maybe a bit. # time: 4
 -> END
 = three 
+Teacher: I'm a bit full from the salmonds. # time : 3
+And the chestnurchins. # time : 3
+MC: Did you try the mackeroni? # time : 3
+Teacher: It's ok. I prefer the turtliatelle. # time: 3
+-> END
+= four
+MC: Is it ok if you're so full? # time: 3
+MC: I heard you have to wait five currents after a meal before trying to entangle # time: 5
+Teacher: Is that what we're doing? # time: 3
+MC: Um. Are we-- I thought-- # time: 3
+Teacher: I'm kidding. I'm sure it's fine. Maybe it helps you digest. # time : 4
+-> END
+= five
 MC: How much farther away? # time: 3
 Teacher: Just a few more strokes... # time: 3
 -> END
