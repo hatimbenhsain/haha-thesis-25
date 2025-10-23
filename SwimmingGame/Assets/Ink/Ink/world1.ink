@@ -1037,13 +1037,15 @@ Teacher: It's nice here, isn't it?
 MC: Yeah. I was actually here just now.
 Teacher: Oh, haha, wait, really?
 MC: Yeah.
-Teacher: That makes sense.
+Teacher: That makes sense. I can picture you hanging out here.
 ~pause(2)
+Teacher: Do you usually come by -- #speed:fast # ambient # time:0.25
 MC: So do you want to try it with me?  #speed: fast
 Teacher: Oh!
 Teacher: Yes, sure. \\pause\\pauseI mean, that's what I thought this was leading to.
-MC: Oh. Sorry. Is it abnormal to talk about it directly?
+MC: Oh. Sorry. Is talking about it directly.. abnormal?
 Teacher: No, not at all!
+...
 Teacher: I feel really attracted to you.
 +   [Thanks.]
     MC: Ok. Thanks.
@@ -1057,12 +1059,12 @@ Teacher: I feel really attracted to you.
     MC: That's cool.
     Teacher: ...Right. You're welcome.
 - MC: How do we get started?
-Teacher: Ah...\\pause\\pause Well that's the thing, it's been different everytime I've done it. 
+Teacher: Ah...\\pause\\pause Well that's the thing. It's been different everytime I've done it. 
 Teacher: It would just kind of happen spontaneously. But maybe...
 MC: Yes?
-Teacher: Maybe we should try just harmonizing for a while? Like they were saying on the coralnet?
+Teacher: Maybe we should try just harmonizing for a while? Like they say on the coralnet?
 MC: Ok. Let's do it.
-Teacher: You take the lead.
+Teacher: You can take the lead.
 ~ nextBrain()
 -> END
 // Teacher and MC harmonize a few times
@@ -1163,20 +1165,46 @@ Teacher: How was that?
         Teacher: But I liked it. It felt also more intimate than most.
     - else:
         Teacher: It was very intense, wasn't it?
-        Teacher: I enjoyed it a lot.
+        Teacher: I enjoyed it very much.
 }
 Teacher: I really liked the way you felt.
 Teacher: And that climax... Did you expect it to just fall off like that?
 +   [Yeah.]
-    MC: It felt kind of natural, didn't it? Like it was leading up to it?
+    MC: It felt kind of natural.. to me. Like it was leading up to it? It made sense.
     Teacher: Maybe.
+     MC: Yeah.
 +   [No.]
     MC: No! Does that mean we can't do it again?
     Teacher: Haha, no, I think it grows back.
     MC: I see.
--MC: Yeah.
-~ changeDialogueView(2)
-Teacher: So...
+- ~ changeDialogueView(2)
+MC: By the way..
+Teacher: Yes?
+MC: What attracted you to me?
+Teacher: Oh. Hmm...
+You have a certain... sullen air.
+MC: Sullen?
+Teacher: Yes. Broody.
+MC: ...
+I guess I found it mysterious.
+MC: ...
+Teacher: What about you?
++   [Your straight- forwardness.]
+    MC: I kind of like that you came up to me so directly.
+    MC: It made things easy.
+    Teacher: Oh, yes. I guess I'm that way.
+    ~ pause(2)
+    Anyway...
++   [Your experience.]
+    MC: I liked that you're more experienced than me.
+    Teacher: Ha, not by that much...
+    Speaking of..
++   [Your physical body.]
+    MC: I like the way that you look.
+    Like.. more than I do.. most others. I guess.
+    Teacher: Ah. I see.
+    ~ pause(2)
+    Anyway...
 Teacher: You said you've never done this before, right?
 +   [I haven't.]
     MC: No, I haven't.
@@ -1186,7 +1214,7 @@ Teacher: You said you've never done this before, right?
     Teacher: Just curious.
     Teacher: What about...
 - With your lover? Before they left?
-MC: How do you know bout that?
+MC: How do you know about them?
 Teacher: Oh! I mean...
 Teacher: Like I said, I've seen you around. And people talk.
 ~ changeDialogueView(3)
@@ -1209,11 +1237,11 @@ Teacher: Right.
 Teacher: Would you have liked to... with them?
 +   [Yes.]
     MC: Well, yes.
-    MC: I mean, obviously.
+    MC: I mean... yeah. Probably.
     MC: But there's really no point in thinking about it. At this point.
     Teacher: Right...
 +   [No.]
-    MC: No. I'd really rather not think about it.
+    MC: No. In fact I'd rather not think about it.
     Teacher: That makes sense. Sorry for bringing that up.
     MC: It's fine.
 +   [I don't know.]
@@ -1227,7 +1255,7 @@ MC: What do you mean?
 ~ blink=true
 ~ fadeOut(-1)
 Teacher: Well you know... 
-Teacher: They're saying that we're all starting to change to be able to live in the outside.
+Teacher: They're saying that we're all starting to change so we can live in the outside.
 Teacher: And since we've entangled... We must be changing too.
 MC: I don't-- What?
 //Maybe transition to overworld view at this point
@@ -1238,11 +1266,12 @@ Teacher: I'm not sure? It's just what I've heard.
 MC: Is that why you were trying to do it with me?
 Teacher: What? No! I told you, I'm really attracted to you.
 Teacher: And you asked first! I wasn't--
-MC: I know, I know.
-MC: I didn't know it was like that. I don't want to change. I can't--
-MC: I'm sorry. I really need to get going.
-Teacher: No, I'm sorry. I...
-MC: Let's never do this again.
+MC: I know. Um..
+MC: I didn't know it was like that. I don't want to change. I can't-- #speed: fast
+~ pause(2)
+MC: I'm sorry. I think I need to get going. This was, um..
+Teacher: No, I'm sorry. I-- #speed: fast
+MC: Let's never do this again. # speed: fast
 ~ loadLevel("Migration 1")
 -> END
 // Transition to migration
