@@ -46,7 +46,7 @@ Care for a chat?
 - NPC: How's your current?
 +   [Crowded.]
     MC: Feels suffocating.
-    I can't swim a pace without bumping into others doing... whatever.
+    I cannot swim a pace without bumping into certain others doing... whatever.
     NPC: I know. At least here it's a bit calmer.
     But you still can't escape that incessant thumping...
     MC: Yeah. I had to get out of there.
@@ -55,9 +55,8 @@ Care for a chat?
     It's kind of nice. I don't have to be just me.
     NPC: Really? 
     Well. At least you're not spending all your time in the coralnet anymore.
-    MC: ...Sure.
-    There isn't any in this world anyway.
-    MC: I mean, it's also all kind of overwhelming. That's why I'm here now.
+    MC: ..Sure.
+    MC: I mean, it's also kind of overwhelming. That's why I'm here now.
 +   [Liberating.]
     MC: It has a fresh, liberating taste. 
     I believe I could act however I want to here, and no one would care.
@@ -78,14 +77,14 @@ I'm sure you've... seen a lot in there.
 MC: Yeah. There's a lot going on.
 NPC: I used to enjoy these parties. Really. But they've... perverted it. It's against current.
 MC: ...It's not that bad.
-NPC: So, \\pausehow have you been feeling? I know that last one you had relations with went away as well...
+NPC: So, \\pausehow have you been feeling? I know that last one you had relations with also went away...
 +   [Fine.]
     MC: I'm fine. Really.
     NPC: Really?
     MC: Verily.
     NPC: You know...
     NPC: Just because both of your exes went to the surface...
-    MC: I wouldn't call that second one that. Ex. It was just an experiment. 
+    MC: I wouldn't call them that.
     NPC ...in a row doesn't necessarily mean that it's a pattern. Lots of people nowadays are heading up there and...
     MC: I said it's fine!!! I don't think it's a pattern!!!
     I don't even need that sort of stuff anyway....!!!
@@ -111,7 +110,7 @@ NPC: So, \\pausehow have you been feeling? I know that last one you had relation
     MC: I think you're making too big a deal out of it.
     NPC: Getting that attached to someone is unnatural. Perhaps you too are changing.
     MC: Aghhhh!!
-    NPC: It's okay. Maybe if you just eat leaner fish and incorporate more rock salt in your diet and --
+    NPC: It's okay. Maybe if you just eat leaner fish and --
     MC: Can we sing of something different?
     NPC: ....
     Fine.
@@ -121,7 +120,7 @@ NPC: So, \\pausehow have you been feeling? I know that last one you had relation
     MC: I said I don't want to sing about it! Besides, I wouldn't even call that last one "my ex"..! #speed:fast
     NPC: Burying things like this won't do you any good.
     MC: I'm not burying.
-    NPC: Well, sure, except that you are.
+    NPC: Well, you are.
     MC: I'm taking the space and time to process everything and --
     NPC: A lot of time.
     AND just because no one ever wants to stay with me doesn't mean I'm sad, or -- 
@@ -130,10 +129,10 @@ NPC: So, \\pausehow have you been feeling? I know that last one you had relation
     If you put it that way.
 - NPC: Anyway...
 Did you see that Enkidu person? What's their deal?
-The name? I've never needed one. Neither has anyone else I know. What makes them think they're so important?
-MC: Well it does make it easier to refer to them. This one and that one... It's not very clear.
-NPC: I've never had any problems communicating who I'm talking about at any instance.
-MC: Sure, okay. But yeah, it's strange.
+What's with the name? I've never needed one before. Neither has anyone else I know. What makes them think they're so important?
+MC: Well it does make it easier to refer to them.
+NPC: ...
+MC: But, uh, yeah. It's strange.
 Still. There's something kind of intriguing about them.
 NPC: Intriguing? Really?
 MC: ...
@@ -146,31 +145,26 @@ MC: I'm sure, yeah.
 Can I ask you a question?
 NPC: Sure.
 MC: Why do you hate the entanglement so much?
-NPC: Well, hate is a strong word. My emotions are always in balance.
+NPC: Well, hate is a strong word. And I would say that my emotions are always in balance.
 MC: ...Right.
-NPC: Regardless. I just don't trust it. We never used to do it, so why now?
+NPC: Regardless, I just don't trust it. We never used to do it, so why now?
 MC: Yeah...
 And the whole deal with the surface...
-NPC: Well, I now think that part is fine with me. 
-If people want to try their luck up there, it's none of my business. We're better off with less floaters around here anyway..
-MC: What does that even mean?
-NPC: Floaters. You know. Anyway.
-It's just the act itself... The way those two organs just come out... I wish I didn't know that I could grow one to be frank. I hope I don't.
+NPC: Well, that part is fine with me. If people want to try their luck up there, it's none of my business.
+It's just the act itself... The way those two organs just come out... I wish I didn't know that I could grow one, to be frank.
 And the way they writhe and... Ugh! It nauseates me to even think about it.
-MC: How do you even know the way they look?
-NPC: Are you kidding? Everyone has their organs out in there! It's repugnant.
+MC: Right...
+NPC: ...
 Anyway...
 What now? Do you want to take a stroll around the edge?
 MC: Actually...
 I was thinking, maybe I'd go back in there for a bit.
 NPC: Really?
-MC: Yeah, I don't know. I guess I'm just curious to see if anything big happened. Maybe Enkidu dropped their vizor or something. Haha.
-NPC: That's not very funny.
-MC: ...
-NPC: Well, be careful in there please. 
-I know you've done "it" before but with all the other changes you never know what might happen this time. You still might get eaten.
-MC: People usually ask before it really doesn't happen that often.
-MC: And, besides, that's not why I'm going back in there.
+MC: Yeah, I don't know. I guess I'm just curious to see if anything big happened. Maybe Enkidu dropped their vizor or something.
+NPC: ...
+Well, be careful in there please. 
+I know you've done "it" before but with all the other changes you never know what might happen this time. They might eat you this time. //ISABELLE nitpicky but you end two sentences with this time
+MC: ...Ok. And that's not why I'm going back in there.
 NPC: Right.
 MC: Right.
 
