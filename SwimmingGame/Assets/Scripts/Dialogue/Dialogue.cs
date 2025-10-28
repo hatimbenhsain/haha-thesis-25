@@ -1019,21 +1019,25 @@ public class Dialogue : MonoBehaviour
     }
 
     void LoadInt(string name){
-        object value=DialogueValues.Instance.LoadVariable(name);
+        object value = DialogueValues.Instance.LoadVariable(name);
+        if (value == null) value = PlayerPrefs.GetInt(name);
         if(value!=null){
             story.variablesState[name]=(int)value;
         }
+
     }
 
     void LoadFloat(string name){
-        object value=DialogueValues.Instance.LoadVariable(name);
+        object value = DialogueValues.Instance.LoadVariable(name);
+        if (value == null) value = PlayerPrefs.GetFloat(name);
         if(value!=null){
             story.variablesState[name]=(float)value;
         }
     }
 
     void LoadString(string name){
-        object value=DialogueValues.Instance.LoadVariable(name);
+        object value = DialogueValues.Instance.LoadVariable(name);
+        if (value == null) value = PlayerPrefs.GetString(name);
         if(value!=null){
             story.variablesState[name]=(string)value;
         }
