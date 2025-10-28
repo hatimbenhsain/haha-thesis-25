@@ -56,6 +56,8 @@ public class LevelLoader : MonoBehaviour
     public bool showcaseReset=false;
     private PlayerInput playerInput;
 
+    private bool isGameStartSceneLoaded = false; // Flag to track if GameStart scene is already loaded
+
     void Start()
     {
         if (loadingImage != null)
@@ -139,7 +141,7 @@ public class LevelLoader : MonoBehaviour
         }
 
         // Showcase Reset Logic
-        if (showcaseReset)
+        if (ResetManager.reset)
         {
             if (!playerInput.noInput)
             {
@@ -162,6 +164,7 @@ public class LevelLoader : MonoBehaviour
 
                 if (idleTimer >= resetCountdownTime + onScreenCountdownTime)
                 {
+                    
                     StartCoroutine(ResetShowcaseCoroutine()); // Perform the reset action
                 }
                 else if (idleTimer >= resetCountdownTime && !isCountingDown)
@@ -224,14 +227,18 @@ public class LevelLoader : MonoBehaviour
 
     private IEnumerator ResetShowcaseCoroutine()
     {
-        isBlinkingOut=true;
-        if (blink != null)
+        if (!isGameStartSceneLoaded) // Check if GameStart scene is already loaded
         {
-            blink.SetBool("Blink", true);
-            isBlinking = true; // Set the blinking flag to true
+            isGameStartSceneLoaded = true; // Set the flag to true
+            isBlinkingOut=true;
+            if (blink != null)
+            {
+                blink.SetBool("Blink", true);
+                isBlinking = true; // Set the blinking flag to true
+            }
+            yield return new WaitForSeconds(0.2f); 
+            LoadLevel(ResetManager.GameStartScene); 
         }
-        yield return new WaitForSeconds(0.2f); 
-        LoadLevel(ResetManager.GameStartScene); 
     }
 
     public void FadeIn(float time=-1f){
