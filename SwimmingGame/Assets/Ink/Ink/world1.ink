@@ -3,7 +3,7 @@ INCLUDE Functions.ink
 VAR sexIntensity=0
 VAR npcsTalkedTo=0
 VAR coralTalkedTo=0
-VAR coralToTalkToBeforeProgress=4
+VAR coralToTalkToBeforeProgress=1
 VAR followingTeacher=false
 VAR talkedToTeacherAtDiner=false
 VAR retractHandTrigger=false
@@ -677,9 +677,10 @@ Coralnet: motif: my entanglement
 { npcsTalkedTo > 2:
     ~finishTutorialPart(6)
 }
-~ continueSinging()
+//~ continueSinging()
 ~ restoreNPCsVolume()
 ~ switchObject("Teacher - Library",true)
+~ makeInterlocutorIdle()
 ~ switchInterlocutor("Teacher - Library")
 ~ activateBorder("coral",false)
 -> teacherAtLibrary
@@ -696,6 +697,7 @@ VAR awkwardnessLevel=3
 === teacherAtLibrary ===
  -> npcStart1 ->
 Teacher: Sounds amazing, doesn't it?
+~ stopSinging()
 ~ switchObject("Roadblock - Library",false)
 ~ switchObject("Coral - Library",true)
 ~ libraryOpen=true
@@ -730,7 +732,7 @@ Teacher: The entanglement. \\pauseYou were reading about it just now, right? Hav
     MC: I mean, uh.. if you know anything about it?
     Teacher: Yeah.. Actually...
     ~awkwardnessLevel=awkwardnessLevel-1
-Teacher: I've done it a couple times now. 
+- Teacher: I've done it a couple times now. 
 It wasn't nearly as intense as they described, but maybe.. I just haven't found the right person?
 Teacher: I wonder what happens at the end, maybe some sort of a giant sparkly explosion? Haha..
 MC: But you're saying you've done it before...?
@@ -753,7 +755,7 @@ But I've never reached this "climax" that I've often heard of. I've always stopp
         ~ pause(2)
 +   [You should keep going.]
     MC: You should try to keep going. It might be interesting.
-    Teacher: Ah.. yeah, maybe.. 
+    Teacher: Ah.. yes, perhaps.. 
     I think I just haven't found someone that I feel.. completely comfortable with.
     ~awkwardnessLevel=awkwardnessLevel-1
     ~ pause(2)
@@ -776,10 +778,13 @@ MC: Uh... Well I didn't come here to...
 Teacher: To..?
 MC: I mean, uh, I like to read.
 Teacher: Yes! Me too.
-Sorry, I wasn't asking if you were here looking for..
+Sorry, I didn't mean to ask if you were here looking for..
 MC: Right. I didn't think you were either.
 ~ pause(2)
 Teacher: Say, it looks like the current is letting up. I could use a bite. Perhaps we can continue this conversation at the diner?
+MC: Oh. You want to.. uh..
+~ pause(2)
+MC: Actually..
 +   [No.]
     MC: No. Sorry. 
     ~ overrideRotationWithSpeed("Roadblock - Library",1.5)
@@ -800,6 +805,7 @@ Teacher: Say, it looks like the current is letting up. I could use a bite. Perha
 ~ desireStep=2
 ~ changeDesire("Exit library.")
 ~ activateBorder("floral",false)
+~ continueSinging()
 -> END
 
 // AT THIS POINT MAKE TEACHER RESPOND TO SINGING
@@ -826,12 +832,50 @@ MC: Ok.
 +   [Cool.]
     MC: Cool. I was just wondering.
     Teacher: Okay..
-    { talkedToTeacherAgain == false:
+    { talkedToTeacherAgain == false && awkwardnessLevel>-1:
         ~awkwardnessLevel=awkwardnessLevel-1
     }
 - ~talkedToTeacherAgain=true
-- -> npcEnd ->
+- ~ changeStartKnot("teacherAtLibrary3")
+-> npcEnd ->
 -> END
+
+=== teacherAtLibrary3 ===
+-> npcStart1 ->
+MC: It looks like this coralnet stopped working..
+Teacher: Oh? Yes, it seems as much.
+I've heard that they can get short-circuited by intense emotions..
+MC: Intense emotions..?
+Teacher: Maybe.. when I startled you?
+MC: Ah.. I guess so.
+~ pause(2)
+Teacher: So you came to read it again?
+MC: Uh.. I just wanted to.. add a reply..
+Teacher: What would you have said?
++   [Seems exciting.]
+    MC: That it seemed like an exciting experience.
+    ~pause(2)
+    Teacher: Would you like to try it?
+    ~ pause(2)
+    MC: Perhaps.
++   [Asked how it was.]
+    MC: I guess I would've also asked what it felt like.
+    Teacher: A lot of others already asked. Wouldn't that be redundant?
+    MC: Um.. Can't hurt.
++   [A joke.]
+    MC: Some sort of a joke.. maybe.
+    Teacher: Oh? Like what?
+    MC: Uhm..
+    ~pause(2)
+    It seems to evade me now.
+    Teacher: Ah.
+- ~ changeStartKnot("teacherAtLibrary2")
+{ awkwardnessLevel>-1:
+    ~awkwardnessLevel=awkwardnessLevel-1
+}
+-> npcEnd ->
+-> END
+
 
 
 // MC finds teacher at diner sitting. They start singing when MC gets nearby to invite conversation
@@ -900,11 +944,12 @@ MC: I'm not hungry.
 ~pause(4)
 MC: Have you been watching me?
 Teacher: What?
-MC: At the library. You said hat you've often seen me there.
-Teacher: Oh! Um.. I wouldn't say I watch you..
-I just meant I notice you there almost everytime I visit.
+MC: At the library. You said that you've often seen me there.
+Teacher: Hmm.. Well.. I wouldn't say I watch you..
+I just meant.. I notice you there almost everytime I visit.
 MC: Right.
 ~pause(2)
+MC: ...
 +   [I'm noticeable.]
     MC: I guess I'm noticeable.
     Teacher: I would say so, yes.
@@ -950,6 +995,7 @@ Meet me there.
 MC: Wait, what about your food...?
 Teacher: Oh..
 It's fine. Others will eat it.
+~ activateBorder("floral",false)
 ~ changeDesire("Meet the library stranger at the bottom.")
 ~ restoreNPCsVolume()
 ~ pauseTutorial(false)
@@ -981,6 +1027,7 @@ Anyway, let's go.
 ~ nextBrain()
 ~ restoreNPCsVolume()
 ~ pauseTutorial(false)
+~ activateBorder("floral",false)
 -> END
 
 
@@ -990,37 +1037,44 @@ Anyway, let's go.
 //Appears if harmonizing while on the way to the edge
 === teacherOnTheWay1 ===
 # ambient
-{->one|->two|->three|->four|->five}
+~ activateBorder("floral",true)
+~ stopSinging()
+{->one->|->two->|->three->|->four->|->five->}
+~ activateBorder("floral",false)
+~ continueSinging()
+-> END
+
 = one
-Teacher: Are you excited? # time: 3
-~ pause(4)
-MC: I think. # time: 3
-~ pause(4)
-Teacher: Me too. #time: 3
--> END
+Teacher: Are you excited? # time: 2
+~ pause(1)
+MC: I think. # time: 2
+~ pause(2)
+Teacher: Me too. #time: 2
+~ activateBorder("floral",false)
+->->
 = two
-MC: Have you done this often? # time: 4
-Teacher: Only a couple times... # time: 5
-Teacher: Don't worry, it's not scary or painful. # time: 4
-Teacher: I mean, not very scary. Maybe a bit. # time: 4
--> END
+MC: Have you done this often? # time: 3
+Teacher: Only a couple times... # time: 3
+Teacher: Don't worry, it's not scary or painful. # time: 3
+Teacher: I mean, not very scary. Maybe a bit. # time: 3
+->->
 = three 
 Teacher: I'm a bit full from the salmonds. # time : 3
 And the chestnurchins. # time : 3
 MC: Did you try the mackeroni? # time : 3
 Teacher: It's ok. I prefer the turtliatelle. # time: 3
--> END
+->->
 = four
 MC: Is it ok if you're so full? # time: 3
 MC: I heard you have to wait five currents after a meal before trying to entangle # time: 5
 Teacher: Is that what we're doing? # time: 3
 MC: Um. Are we-- I thought-- # time: 3
 Teacher: I'm kidding. I'm sure it's fine. Maybe it helps you digest. # time : 4
--> END
+->->
 = five
 MC: How much farther away? # time: 3
 Teacher: Just a few more strokes... # time: 3
--> END
+->->
 
 
 //TO-DO: add more things that they can say on the way.
