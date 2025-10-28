@@ -10,6 +10,7 @@ VAR retractHandTrigger=false
 VAR libraryOpen=false
 VAR hadChatWithFriend=false
 VAR desireStep=0
+VAR showcaseMode=0
 
 
 === npcStart1 ===
@@ -24,6 +25,10 @@ VAR desireStep=0
 
 === coralnetStart ===
 ~ coralTalkedTo=coralTalkedTo+1
+~ loadInt("showcaseMode")
+{ showcaseMode==1:
+    ~coralToTalkToBeforeProgress=2
+}
 { coralTalkedTo==coralToTalkToBeforeProgress:
     -> coralnetProgress
 }
@@ -782,6 +787,15 @@ Sorry, I didn't mean to ask if you were here looking for..
 MC: Right. I didn't think you were either.
 ~ pause(2)
 Teacher: Say, it looks like the current is letting up. I could use a bite. Perhaps we can continue this conversation at the diner?
+~ loadInt("showcaseMode")
+{ showcaseMode==1:
+    -> skipToTheEnd ->
+- else:
+    -> normalEnd ->
+}
+-> END
+
+= normalEnd
 MC: Oh. You want to.. uh..
 ~ pause(2)
 MC: Actually..
@@ -806,7 +820,21 @@ MC: Actually..
 ~ changeDesire("Exit library.")
 ~ activateBorder("floral",false)
 ~ continueSinging()
--> END
+->->
+
+= skipToTheEnd
+~ pause(2)
+MC: Actually...
+Why don't we just get straight to it?
+Teacher: ...Ah?
+MC: We don't have much time, and this is a showcase demo after all. So let's skip the boring fluff...
+MC: Do you know anywhere with less people?
+Teacher: ..Hm. This is quick.
+But I guess you're right. This would normally be a slower burn but there's other gameplay modes to see.
+I know a place. Follow me.
+- ~ loadLevel("Foreplay 1")
+~ activateBorder("floral",false)
+->->
 
 // AT THIS POINT MAKE TEACHER RESPOND TO SINGING
 

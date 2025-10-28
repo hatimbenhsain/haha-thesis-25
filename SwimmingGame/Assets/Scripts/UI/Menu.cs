@@ -52,6 +52,10 @@ public class Menu : MonoBehaviour
 
     public TMP_Text desireText;
 
+
+    [Header("Debug")]
+    public TMP_Text debugTMP;
+
     // Start is called before the first frame update
     public void Start()
     {
@@ -92,11 +96,29 @@ public class Menu : MonoBehaviour
     // Update is called once per frame
     public virtual void Update()
     {
-        if(active){
+        if (active)
+        {
             NavigateButtons();
             CheckButtons();
             ShowButtons();
         }
+
+        if ((Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift)) && Input.GetKeyDown(KeyCode.S))
+        {
+            int i = PlayerPrefs.GetInt("showcaseMode");
+            if (i == 0) i = 1;
+            else i = 0;
+            PlayerPrefs.SetInt("showcaseMode", i);
+            debugTMP.text = "showcase mode: " + i;
+            debugTMP.gameObject.SetActive(true);
+            StartCoroutine(HideDebugTMP());
+        }
+    }
+    
+    IEnumerator HideDebugTMP()
+    {
+        yield return new WaitForSeconds(2f);
+        debugTMP.gameObject.SetActive(false);
     }
 
     void NavigateButtons(){
