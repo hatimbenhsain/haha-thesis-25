@@ -26,6 +26,7 @@ EXTERNAL changeDesire(text)
 EXTERNAL clearScreen()
 EXTERNAL changeStartKnot(name)
 EXTERNAL activateBorder(name,b)
+EXTERNAL makeInterlocutorIdle()
 
 VAR world=0
 
