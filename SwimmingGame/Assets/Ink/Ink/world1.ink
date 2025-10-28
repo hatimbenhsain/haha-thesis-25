@@ -3,7 +3,7 @@ INCLUDE Functions.ink
 VAR sexIntensity=0
 VAR npcsTalkedTo=0
 VAR coralTalkedTo=0
-VAR coralToTalkToBeforeProgress=1
+VAR coralToTalkToBeforeProgress=4
 VAR followingTeacher=false
 VAR talkedToTeacherAtDiner=false
 VAR retractHandTrigger=false
@@ -1231,7 +1231,7 @@ Teacher: And that climax... Did you expect it to just fall off like that?
     MC: No! Does that mean we can't do it again?
     Teacher: Haha, no, I think it grows back.
     MC: I see.
-- ~ changeDialogueView(2)
+- ~ changeDialogueView(4)
 MC: By the way..
 Teacher: Yes?
 MC: What attracted you to me?
@@ -1246,20 +1246,27 @@ Teacher: What about you?
 +   [Your straight- forwardness.]
     MC: I kind of like that you came up to me so directly.
     MC: It made things easy.
-    Teacher: Oh, yes. I guess I'm that way.
-    ~ pause(2)
+    Teacher: Oh, yes. 
+    ~pause(2)
+    I guess I'm that way.
+    ~ changeDialogueView(2)
     Anyway...
 +   [Your experience.]
     MC: I liked that you're more experienced than me.
-    Teacher: Ha, not by that much...
+    Teacher: Ha...
+    ~pause(2)
+    Not by that much.
+    ~ changeDialogueView(2)
     Speaking of..
 +   [Your physical body.]
     MC: I like the way that you look.
     Like.. more than I do.. most others. I guess.
-    Teacher: Ah. I see.
-    ~ pause(2)
+    Teacher: Ah. 
+    ~pause(2)
+    I see.
+    ~ changeDialogueView(2)
     Anyway...
-Teacher: You said you've never done this before, right?
+- Teacher: You said you've never done this before, right?
 +   [I haven't.]
     MC: No, I haven't.
     Teacher: Not even...
