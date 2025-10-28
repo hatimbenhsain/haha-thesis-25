@@ -9103,8 +9103,8 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 7795107522691087772}
-        m_TargetAssemblyTypeName: PauseMenu, Assembly-CSharp
-        m_MethodName: LoadMenu
+        m_TargetAssemblyTypeName: Menu, Assembly-CSharp
+        m_MethodName: LoadMainMenu
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -11640,9 +11640,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 74e5ceef40406a34bbdb72093927dcaa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  active: 0
   inSettings: 0
   inChapterSelect: 0
-  pauseMenuUI: {fileID: 1105019640248825564}
+  menuUI: {fileID: 1105019640248825564}
   settingMenuUI: {fileID: 8309519152714332742}
   chapterSelectMenuUI: {fileID: 6277647994682036254}
   mainMenuScene: 
@@ -11652,6 +11653,8 @@ MonoBehaviour:
   - {fileID: 1632890468195297654}
   - {fileID: 3623690451348408631}
   controlsIndex: 0
+  myLockState: 0
+  playerInput: {fileID: 0}
   buttons:
   - {fileID: 2704083323842217939}
   - {fileID: 1933353532706280529}
@@ -11772,8 +11775,8 @@ MonoBehaviour:
   - m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 7795107522691087772}
-        m_TargetAssemblyTypeName: PauseMenu, Assembly-CSharp
-        m_MethodName: Menu
+        m_TargetAssemblyTypeName: Menu, Assembly-CSharp
+        m_MethodName: MainMenu
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -12039,6 +12042,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  desireText: {fileID: 7136464596782734056}
   desireText: {fileID: 7136464596782734056}
 --- !u!1 &8309519152714332742
 GameObject:
