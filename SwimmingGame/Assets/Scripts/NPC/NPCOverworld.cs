@@ -222,7 +222,7 @@ public class NPCOverworld : MonoBehaviour
         }
 
         if(startDialogueOnEnable){
-            StartDialogue();
+            DialogueStart();
         }
 
         if(animateSwimming && animator!=null && currentState!=NPCStates.Swimming && currentState!=NPCStates.SwimmingAndSinging && currentState!=NPCStates.SexSwimmingAndSinging) animator.SetBool("swimming",false);
@@ -576,27 +576,21 @@ public class NPCOverworld : MonoBehaviour
                 }
                 break;
             case NPCStates.SwimmingAndSinging:
-                StartDialogue();
+                if(stopToTalk) ChangeState(NPCStates.Idle);
+                DialogueStart();
                 break;
             case NPCStates.Singing:
-                StartDialogue();
+                ChangeState(NPCStates.Idle);
+                DialogueStart();
                 break;
         }
     }
 
     //Always call this! Never change directly
-    public void ChangeState(NPCStates state)
-    {
-        pastState = currentState;
-        currentState = state;
-        if (animateSwimming && animator != null && currentState != NPCStates.Swimming && currentState != NPCStates.SwimmingAndSinging && currentState != NPCStates.SexSwimmingAndSinging) animator.SetBool("swimming", false);
-    }
-    
-    //Use case: to neutralize an npc so it doesn't go back to prev state when ending dialogue
-    public void BecomeIdle()
-    {
-        pastState = NPCStates.Idle;
-        currentState = NPCStates.Idle;
+    public void ChangeState(NPCStates state){
+        pastState=currentState;
+        currentState=state;
+        if(animateSwimming && animator!=null && currentState!=NPCStates.Swimming && currentState!=NPCStates.SwimmingAndSinging && currentState!=NPCStates.SexSwimmingAndSinging) animator.SetBool("swimming",false);
     }
 
     public void ChangeMovementBehavior(MovementBehavior mb){
@@ -604,37 +598,14 @@ public class NPCOverworld : MonoBehaviour
         movementBehavior=mb;
     }
 
-    //Use this function to start dialogue in Dialogue.cs
-    void StartDialogue()
-    {
-        if (knotName != "")
-        {
-            if (!forceDialogue)
-            {
-                FindObjectOfType<Dialogue>().TryStartDialogue(inkJSONAsset, knotName, this);
-            }
-            else
-            {
+    void DialogueStart(){
+        if(knotName!=""){
+            if(!forceDialogue){
+                FindObjectOfType<Dialogue>().TryStartDialogue(inkJSONAsset,knotName,this);
+            }else{
                 FindObjectOfType<Dialogue>().EndDialogue();
-                FindObjectOfType<Dialogue>().StartDialogue(inkJSONAsset, knotName, this);
+                FindObjectOfType<Dialogue>().StartDialogue(inkJSONAsset,knotName,this);
             }
-        }
-
-        DialogueStarted();
-    }
-    
-    // Do this to me when dialogue has started
-    public void DialogueStarted()
-    {
-        switch(currentState){
-            case NPCStates.SexSwimmingAndSinging:
-                break;
-            case NPCStates.SwimmingAndSinging:
-                if(stopToTalk) ChangeState(NPCStates.Idle);
-                break;
-            case NPCStates.Singing:
-                ChangeState(NPCStates.Idle);
-                break;
         }
     }
 
