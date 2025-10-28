@@ -740,7 +740,7 @@ public class Dialogue : MonoBehaviour
             //Get text display time length
             if(ContainsTag(story.currentTags,"time")){
                 string tag=GetTag(story.currentTags,"time");
-                ambientTimer=float.Parse(tag.Replace("time:","").Trim());
+                ambientTimer=float.Parse(tag.Replace(" ","").Replace("time:","").Trim());
             }
 
             //Get text speed
@@ -843,8 +843,13 @@ public class Dialogue : MonoBehaviour
         story.BindExternalFunction("switchObject",(string name, bool b)=>{
             SwitchObject(name,b);
         });
-        story.BindExternalFunction("switchInterlocutor",(string name)=>{
+        story.BindExternalFunction("switchInterlocutor", (string name) =>
+        {
             SwitchInterlocutor(name);
+        });
+        story.BindExternalFunction("makeInterlocutorIdle", () =>
+        {
+            MakeInterlocutorIdle();
         });
         story.BindExternalFunction("overrideRotation",(string targetName)=>{
             OverrideRotation(targetName);
@@ -973,18 +978,33 @@ public class Dialogue : MonoBehaviour
         gameManager.SwitchObject(name,b);
     }
 
-    void SwitchInterlocutor(string name){
-        GameObject g=gameManager.FindObject(name);
+    void SwitchInterlocutor(string name)
+    {
+        GameObject g = gameManager.FindObject(name);
         NPCOverworld newInterlocutor;
-        if(g!=null && g.TryGetComponent<NPCOverworld>(out newInterlocutor)){
-            if(npcInterlocutor!=null){
+        if (g != null && g.TryGetComponent<NPCOverworld>(out newInterlocutor))
+        {
+            if (npcInterlocutor != null)
+            {
                 npcInterlocutor.FinishedDialogue(isAmbient);
             }
-            npcInterlocutor=newInterlocutor;
-        }else if(g==null){
+            npcInterlocutor = newInterlocutor;
+            npcInterlocutor.DialogueStarted();
+        }
+        else if (g == null)
+        {
             Debug.Log("Tried switching interlocutor & couldn't find gameobject");
-        }else{
+        }
+        else
+        {
             Debug.Log("Tried switching interlocutor & couldn't find NPCOverworld");
+        }
+    }
+    
+    void MakeInterlocutorIdle()
+    {
+        if(npcInterlocutor!=null){
+            npcInterlocutor.BecomeIdle();
         }
     }
 
