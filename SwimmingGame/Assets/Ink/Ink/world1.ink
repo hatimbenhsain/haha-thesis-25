@@ -832,7 +832,7 @@ MC: Do you know anywhere with less people?
 Teacher: ..Hm. This is quick.
 But I guess you're right. This would normally be a slower burn but there's other gameplay modes to see.
 I know a place. Follow me.
-- ~ loadLevel("Foreplay 1")
+- ~ loadLevel("Foreplay 1 - 1")
 ~ activateBorder("floral",false)
 ->->
 
