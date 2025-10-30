@@ -20,13 +20,14 @@ Where are you going? # time: 3
 Ex: To the surface. # time: 3
 MC: I.. # time: 3
 Could I come with you? # time: 3
-Ex: I don't think that would be right for you. # time: 3
+Ex: That wouldn't be right for you. # time: 3
 ~ pause(2)
-MC: Why are you going? Is it.. something I did? # time: 3
-Ex: No. \\pauseI just feel the calling. # time: 5
+MC: How do you know that? And, why are you going? Is it something I did? # time: 5
+Ex: No. \\pauseThere's just the calling. # time: 5
 ~pause(2)
-MC: Will you come back? Every now and then? Or maybe we can still communicate, with telepathy? # time: 5
-Ex: ..I don't think it works that way. # time: 3
+MC: Will you come back? Every now and then? # time:3
+MC: Or maybe we can still communicate, with telepathy? # time: 3
+Ex: ..It probably doesn't work that way. # time: 3
 ~pause(4)
 Ex: Anyway..
 ~nextBrain()
@@ -45,10 +46,10 @@ MC: Wait!! #speed: fast
 ~ changeDialogueView(2)
 ~ intensity=2
 MC: # time:1
-MC: Are you still there?  # time:3
+MC: Are.. are you still there? Do you receive me? # time:5
 Ex: What is it? # time:3
 MC: What does this mean for us..? # time: 5 # speed: slow
-Ex: Evidently this has to be our end. # time: 3
+Ex: Evidently, this has to be our end. # time: 3
 MC: And are you sure I can't -- # time: 1.5 # speed: fast
 Ex: I don't think you would survive it. # time: 3
 -> END
@@ -58,7 +59,7 @@ Ex: I don't think you would survive it. # time: 3
 ~ intensity=3
 ~ changeDialogueView(2)
 MC: Did you even like me at all? Or was this just... some sort of a.. a distraction? Just to pass the time?! # time: 7
-Ex: Of course I did. \\pauseThis has nothing to do with you. # time: 4
+Ex: Sure, I did. \\pauseThis has nothing to do with you. # time: 4
 -> END
 
 === intro4 ===
@@ -66,14 +67,14 @@ Ex: Of course I did. \\pauseThis has nothing to do with you. # time: 4
 ~ intensity=4
 ~ changeDialogueView(2)
 MC: Will you miss me at all? # time: 3
-Ex: I will likely think about you, \\pauseif I see a rock or a plant or such that has a similar shape to you. \\pauseSometimes, it will ache a little bit. # time: 8
-Ex: But mostly, I will be too occupied with all the discoveries I am making to really feel "sorrow". # time: 8
+Ex: I will likely think about you, \\pauseif I see a rock or a plant or such that has a similar shape to you. \\pauseSometimes, it may even ache a little bit. # time: 8
+Ex: But mostly, I will be too occupied with all the discoveries I am making. # time: 8
 MC: What's it like on the surface? #speed: slow # time: 4
 Ex: It's-- # time: 3
 ~pause(2)
 Ex: Do you really want to hear about that? # time: 3
 ~pause(2)
-MC: I guess not. Not really. # time: 5 # speed: slow
+MC: I guess not. \\pauseNot really. # time: 5 # speed: slow
 -> END
 
 === intro5 ===
@@ -81,15 +82,15 @@ MC: I guess not. Not really. # time: 5 # speed: slow
 ~ intensity=5
 ~ changeDialogueView(2)
 MC: What is that, up ahead? \\pauseIt looks frightening. # time: 4
-Ex: It's part of all the changes that are happening. Everyone is doing it now. # time: 6
-MC: But that... that didn't really happen, did it? Between us? # time:5
+Ex: It's part of all the changes that are happening. Everyone is doing "that" now. # time: 6
+MC: But it... it didn't really happen, did it? Between us? # time:5
 Ex: No. # time: 3
-MC: And neither did this conversation. # time: 3
-Ex: But I left you a song. On the coralnet. # time: 3
+MC: And this conversation.. # time: 3
+Ex: There was a song I left. On the coralnet. # time: 3
 ~ loadCutscene=true 
-MC: It was short. # time: 3
+MC: It was very short. # time: 3
 ~ pause(2)
-MC: Wait. Are those our -- # time: 2
+MC: I wish you... Wait. Are those.. Is that our -- # time: 2
 -> END
 
 
