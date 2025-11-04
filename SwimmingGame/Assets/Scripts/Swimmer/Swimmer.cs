@@ -201,7 +201,7 @@ public class Swimmer : MonoBehaviour
         timerSinceMoveForwardInput+=Time.deltaTime;
         
         if(playerInput.movedForwardTrigger && canMove && timerSinceMoveForwardInput>=ignoreStrideTime){
-            swimmerSound.Stride(body.velocity.magnitude);
+            swimmerSound.Stride(GetVelocity().magnitude);
             boostTimer=0f;
             timerSinceMoveForwardInput=0f;
             animator.SetTrigger("boostForward");
@@ -212,6 +212,10 @@ public class Swimmer : MonoBehaviour
             forcesToAdd+=force;
             if(force!=Vector3.zero){
                 justKickedBack=true;
+            }
+            else
+            {
+                swimmerSound.SwimBackward();
             }
             pressedBackTimer=0f;
         }else if(playerInput.movedForwardTrigger && !canMove){

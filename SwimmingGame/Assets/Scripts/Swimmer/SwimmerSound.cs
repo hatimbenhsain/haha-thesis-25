@@ -17,6 +17,8 @@ public class SwimmerSound : Sound
     public float kickVolume=1f;
     public float dashVolume=1f;
     public float kickbackVolume = 1f;
+    public float swimBackwardVolume = 1f;
+    public float ambientSwimmingVolume = 1f;
     
     public Transform camera;
     public Transform swimmer;
@@ -36,12 +38,11 @@ public class SwimmerSound : Sound
             cameraDistance = Vector3.Distance(swimmer.position, camera.position);
         }
         RuntimeManager.StudioSystem.setParameterByName("distanceToCamera", cameraDistance);
-        Debug.Log("camera distance: " + cameraDistance);
     }
 
     public void Stride(float speed){
         PlayOneShotVolume("event:/Swimming/Stride",masterVolume*strideVolume,"swimmingSpeed",speed);
-    }
+    } 
 
     public void Kick(){
         PlayOneShotVolume("event:/Swimming/Kick",masterVolume*kickVolume);
@@ -50,9 +51,15 @@ public class SwimmerSound : Sound
     public void Dash(){
         PlayOneShotVolume("event:/Swimming/Dash",masterVolume*dashVolume);
     }
+
+    public void KickBack()
+    {
+        PlayOneShotVolume("event:/Swimming/Kickback", masterVolume * kickbackVolume);
+    }
     
-    public void KickBack(){
-        PlayOneShotVolume("event:/Swimming/Kickback",masterVolume*kickbackVolume);
+    public void SwimBackward()
+    {
+        PlayOneShotVolume("event:/Swimming/SwimBackward", masterVolume * swimBackwardVolume);
     }
 
 
@@ -61,11 +68,13 @@ public class SwimmerSound : Sound
             ambientSwimmingInstance.start();
         }
         float volume=Mathf.Clamp(speed/maxSwimmingSpeed,0f,1f);
-        ambientSwimmingInstance.setParameterByName("swimmingVolume",volume*masterVolume);
+        ambientSwimmingInstance.setParameterByName("swimmingVolume", 1f);
+        ambientSwimmingInstance.setVolume(masterVolume*ambientSwimmingVolume);
     }
 
-    public void StopSwimming(){
-        ambientSwimmingInstance.stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
+    public void StopSwimming()
+    {
+        //ambientSwimmingInstance.stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
+        ambientSwimmingInstance.setParameterByName("swimmingVolume", 0f);
     }
-
 }
