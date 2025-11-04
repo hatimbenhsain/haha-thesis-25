@@ -7,7 +7,13 @@ public class LoadColliderScene : MonoBehaviour
 {
     public string sceneToLoad;
     // Start is called before the first frame update
-    void Awake(){
+    void Start()
+    {
+        StartCoroutine(LoadColliderCoroutine());
+    }
+    private IEnumerator LoadColliderCoroutine()
+    {
+        yield return new WaitForSeconds(0.2f); //wait for a bit to start
         AsyncOperation operation = SceneManager.LoadSceneAsync(sceneToLoad, LoadSceneMode.Additive);
 
         // Wait for the scene to finish loading
@@ -26,5 +32,5 @@ public class LoadColliderScene : MonoBehaviour
                 Debug.LogError($"Failed to set active scene: {sceneToLoad} is not valid.");
             }
         };
-    }
+    } 
 }
