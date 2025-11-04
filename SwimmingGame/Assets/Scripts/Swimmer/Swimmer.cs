@@ -201,7 +201,7 @@ public class Swimmer : MonoBehaviour
         timerSinceMoveForwardInput+=Time.deltaTime;
         
         if(playerInput.movedForwardTrigger && canMove && timerSinceMoveForwardInput>=ignoreStrideTime){
-            swimmerSound.Stride();
+            swimmerSound.Stride(body.velocity.magnitude);
             boostTimer=0f;
             timerSinceMoveForwardInput=0f;
             animator.SetTrigger("boostForward");

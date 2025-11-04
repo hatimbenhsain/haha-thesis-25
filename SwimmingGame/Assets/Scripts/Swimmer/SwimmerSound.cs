@@ -26,8 +26,8 @@ public class SwimmerSound : Sound
         
     }
 
-    public void Stride(){
-        PlayOneShotVolume("event:/Swimming/Stride",masterVolume*strideVolume);
+    public void Stride(float speed){
+        PlayOneShotVolume("event:/Swimming/Stride",masterVolume*strideVolume,"swimmingSpeed",speed);
     }
 
     public void Kick(){
@@ -39,7 +39,7 @@ public class SwimmerSound : Sound
     }
     
     public void KickBack(){
-        PlayOneShotVolume("event:/Swimming/Kick",masterVolume*kickbackVolume);
+        PlayOneShotVolume("event:/Swimming/Kickback",masterVolume*kickbackVolume);
     }
 
 
