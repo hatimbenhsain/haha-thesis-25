@@ -381,8 +381,16 @@ public class Swimmer : MonoBehaviour
                         rotMaxVelocity=rotationCoastingMaxVelocity;
                     }
                     rotationVelocity+=new Vector3(playerInput.look.y,playerInput.look.x,0f)*acc*Time.fixedDeltaTime;
-                    if(pressedBackTimer>=1f) rotationVelocity=Vector3.ClampMagnitude(rotationVelocity,rotMaxVelocity);
-                    else rotationVelocity=Vector3.Lerp(rotationVelocity,Vector3.ClampMagnitude(rotationVelocity,rotMaxVelocity),Time.fixedDeltaTime*rotationOverrideRestoreSpeed);
+                    if (pressedBackTimer >= 1f) rotationVelocity = Vector3.ClampMagnitude(rotationVelocity, rotMaxVelocity);
+                    else rotationVelocity = Vector3.Lerp(rotationVelocity, Vector3.ClampMagnitude(rotationVelocity, rotMaxVelocity), Time.fixedDeltaTime * rotationOverrideRestoreSpeed);
+
+                    if (playerInput.look.x > 0.1f)
+                    {
+                        spriteRenderer.flipX=true;
+                    }else if (playerInput.look.x < -0.1f)
+                    {
+                        spriteRenderer.flipX=false;
+                    }
                 }
 
                 //Finding rotation to do
@@ -848,8 +856,13 @@ public class Swimmer : MonoBehaviour
         return hitInfo;
     }
 
-    public Vector3 GetVelocity(){
+    public Vector3 GetVelocity()
+    {
         return body.velocity;
+    }
+    
+    public Vector3 GetRotationVelocity(){
+        return rotationVelocity;
     }
 
     public bool IsCoasting(){

@@ -11,6 +11,9 @@ public class SwimmerSound : Sound
     public float maxSwimmingSpeed=3f;
 
     private EventInstance ambientSwimmingInstance;
+    private EventInstance turningInstance;
+
+    private StudioEventEmitter ambience;
 
 
     public float strideVolume=1f;
@@ -19,15 +22,20 @@ public class SwimmerSound : Sound
     public float kickbackVolume = 1f;
     public float swimBackwardVolume = 1f;
     public float ambientSwimmingVolume = 1f;
+    public float turningVolume = 1f;
     
-    public Transform camera;
-    public Transform swimmer;
+    public Transform cameraTransform;
+    public Transform swimmerTransform;
+
+    public Swimmer swimmer;
 
     public bool ignoreCameraDistance;
 
     void Start()
     {
         ambientSwimmingInstance = FMODUnity.RuntimeManager.CreateInstance("event:/Swimming/AmbientSwimming");
+        turningInstance = FMODUnity.RuntimeManager.CreateInstance("event:/Swimming/Turning");
+        ambience = GameObject.Find("Underwater Ambiance").GetComponent<StudioEventEmitter>();
     }
 
     void Update()
@@ -35,9 +43,12 @@ public class SwimmerSound : Sound
         float cameraDistance = 2f;
         if (!ignoreCameraDistance)
         {
-            cameraDistance = Vector3.Distance(swimmer.position, camera.position);
+            cameraDistance = Vector3.Distance(swimmerTransform.position, cameraTransform.position);
         }
         RuntimeManager.StudioSystem.setParameterByName("distanceToCamera", cameraDistance);
+
+        Turning();
+
     }
 
     public void Stride(float speed){
@@ -76,5 +87,15 @@ public class SwimmerSound : Sound
     {
         //ambientSwimmingInstance.stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
         ambientSwimmingInstance.setParameterByName("swimmingVolume", 0f);
+    }
+
+    public void Turning()
+    {
+        if(!IsPlaying(turningInstance)){
+            turningInstance.start();
+        }
+        turningInstance.setParameterByName("turningSpeed", swimmer.GetRotationVelocity().magnitude); ;
+        turningInstance.setParameterByName("swimmingSpeed", swimmer.GetVelocity().magnitude);;
+        turningInstance.setVolume(masterVolume*turningVolume);
     }
 }
