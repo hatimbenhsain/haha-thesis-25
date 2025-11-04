@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using FMOD.Studio;
@@ -11,19 +12,31 @@ public class SwimmerSound : Sound
 
     private EventInstance ambientSwimmingInstance;
 
+
     public float strideVolume=1f;
     public float kickVolume=1f;
     public float dashVolume=1f;
-    public float kickbackVolume=1f;
+    public float kickbackVolume = 1f;
+    
+    public Transform camera;
+    public Transform swimmer;
+
+    public bool ignoreCameraDistance;
 
     void Start()
     {
-        ambientSwimmingInstance=FMODUnity.RuntimeManager.CreateInstance("event:/Swimming/AmbientSwimming");
+        ambientSwimmingInstance = FMODUnity.RuntimeManager.CreateInstance("event:/Swimming/AmbientSwimming");
     }
 
     void Update()
     {
-        
+        float cameraDistance = 2f;
+        if (!ignoreCameraDistance)
+        {
+            cameraDistance = Vector3.Distance(swimmer.position, camera.position);
+        }
+        RuntimeManager.StudioSystem.setParameterByName("distanceToCamera", cameraDistance);
+        Debug.Log("camera distance: " + cameraDistance);
     }
 
     public void Stride(float speed){
