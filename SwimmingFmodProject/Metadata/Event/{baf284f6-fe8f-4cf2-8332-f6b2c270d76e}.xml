@@ -188,6 +188,7 @@
 	<object class="MixerBusEffectChain" id="{6f7453cc-b963-468f-b113-b3859adc66dd}">
 		<relationship name="effects">
 			<destination>{4c36832b-122d-4ff5-93d1-e1856f7c61e7}</destination>
+			<destination>{3f7d57cd-3d2a-4971-9e3c-fb327e368ff6}</destination>
 		</relationship>
 	</object>
 	<object class="MixerBusPanner" id="{7b0f776d-ae28-4bb3-a794-5428d18a4542}" />
@@ -233,6 +234,17 @@
 		</relationship>
 	</object>
 	<object class="MixerBusFader" id="{4c36832b-122d-4ff5-93d1-e1856f7c61e7}" />
+	<object class="PitchShifterEffect" id="{3f7d57cd-3d2a-4971-9e3c-fb327e368ff6}">
+		<property name="bypass">
+			<value>true</value>
+		</property>
+		<property name="pitch">
+			<value>0.959999979</value>
+		</property>
+		<relationship name="modulators">
+			<destination>{0b2be954-e975-428a-a2e7-3a558bce49f5}</destination>
+		</relationship>
+	</object>
 	<object class="AutomationPoint" id="{34204af8-503d-4b63-8c5b-0a28441cdd8f}">
 		<property name="position">
 			<value>0</value>
@@ -288,6 +300,17 @@
 		<relationship name="modulators">
 			<destination>{1f2f543d-9c5b-4ace-8241-ace1e21dd327}</destination>
 		</relationship>
+	</object>
+	<object class="LFOModulator" id="{0b2be954-e975-428a-a2e7-3a558bce49f5}">
+		<property name="nameOfPropertyBeingModulated">
+			<value>pitch</value>
+		</property>
+		<property name="shape">
+			<value>5</value>
+		</property>
+		<property name="depth">
+			<value>64</value>
+		</property>
 	</object>
 	<object class="LFOModulator" id="{1f2f543d-9c5b-4ace-8241-ace1e21dd327}">
 		<property name="nameOfPropertyBeingModulated">
