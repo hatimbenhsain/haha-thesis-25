@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "Rustlable Data", menuName = "ScriptableObjects", order = 2)]
+[CreateAssetMenu(fileName = "Rustlable Data", menuName = "ScriptableObjects/Rustlable Data", order = 2)]
 public class RustlableData : ScriptableObject
 {
     [Tooltip("FMOD Path sound for when player boops fish.")]
