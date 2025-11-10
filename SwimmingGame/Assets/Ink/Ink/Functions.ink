@@ -27,6 +27,7 @@ EXTERNAL clearScreen()
 EXTERNAL changeStartKnot(name)
 EXTERNAL activateBorder(name,b)
 EXTERNAL makeInterlocutorIdle()
+EXTERNAL triggerMetamorphosis()
 
 VAR world=0
 

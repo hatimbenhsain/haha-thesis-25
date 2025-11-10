@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SpriteMetamorphosis : MonoBehaviour
+public class SpriteMetamorphosis : Metamorphosis
 {
     [Tooltip("If 1 or more, overrides sprites & product. If more than 1, picks a random one.")]
 
@@ -34,12 +34,12 @@ public class SpriteMetamorphosis : MonoBehaviour
     {
         if (metamorphosisTrigger)
         {
-            Metamorphosis();
+            TriggerMetamorphosis();
             metamorphosisTrigger = false;
         }
     }
 
-    public void Metamorphosis()
+    public override void TriggerMetamorphosis()
     {
         StartCoroutine(MetamorphosisCoroutine());
     }
@@ -52,7 +52,8 @@ public class SpriteMetamorphosis : MonoBehaviour
             yield return new WaitForSeconds(frameDuration);
             frameNumber++;
         }
-        Instantiate(product, transform.position, transform.rotation, transform.parent);
+        GameObject g = Instantiate(product, transform.position, transform.rotation, transform.parent);
+        g.transform.localScale = transform.localScale;
         Destroy(gameObject);
     }
 

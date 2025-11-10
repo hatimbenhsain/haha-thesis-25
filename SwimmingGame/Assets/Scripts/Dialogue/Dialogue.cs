@@ -893,9 +893,20 @@ public class Dialogue : MonoBehaviour
         story.BindExternalFunction("changeStartKnot",(string name)=>{
             ChangeStartKnot(name);
         });
-        story.BindExternalFunction("activateBorder",(string name,bool b)=>{
-            ActivateBorder(name,b);
+        story.BindExternalFunction("activateBorder", (string name, bool b) =>
+        {
+            ActivateBorder(name, b);
+        });
+        story.BindExternalFunction("triggerMetamorphosis", () =>
+        {
+            TriggerMetamorphosis();
         }); 
+        /* Template
+        story.BindExternalFunction("FUNCTIONNAME", () =>
+        {
+            FUNCTIONNAME();
+        }); 
+        */
     }
 
     // EXTERNAL FUNCTIONS
@@ -1104,9 +1115,21 @@ public class Dialogue : MonoBehaviour
         }
     }
 
-    void ActivateBorder(string name, bool b){
-        ScreenBorders sb=FindObjectOfType<ScreenBorders>();
-        if (sb!=null) sb.ActivateBorder(name,b);
+    void ActivateBorder(string name, bool b)
+    {
+        ScreenBorders sb = FindObjectOfType<ScreenBorders>();
+        if (sb != null) sb.ActivateBorder(name, b);
+    }
+    
+    void TriggerMetamorphosis(){
+        if (npcInterlocutor != null)
+        {
+            Metamorphosis[] metamorphoses = npcInterlocutor.GetComponentsInChildren<Metamorphosis>();
+            foreach(Metamorphosis m in metamorphoses)
+            {
+                m.TriggerMetamorphosis();
+            }
+        }
     }
 
 
