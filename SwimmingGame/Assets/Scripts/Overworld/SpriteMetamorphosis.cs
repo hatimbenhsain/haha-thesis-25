@@ -20,13 +20,22 @@ public class SpriteMetamorphosis : Metamorphosis
     private int frameNumber = 0;
     public SpriteRenderer spriteRenderer;
 
+
+    public float delayTime = 0f;
+    public bool randomizeDelay = false;
+
     void Start()
     {
-        if (metamorphosisData.Length>0)
+        if (metamorphosisData.Length > 0)
         {
             int i = Random.Range(0, metamorphosisData.Length);
             sprites = metamorphosisData[i].sprites;
             product = metamorphosisData[i].product;
+        }
+
+        if (randomizeDelay)
+        {
+            delayTime = Random.Range(0f, delayTime);
         }
     }
 
@@ -46,6 +55,7 @@ public class SpriteMetamorphosis : Metamorphosis
 
     IEnumerator MetamorphosisCoroutine()
     {
+        yield return new WaitForSeconds(delayTime);
         while (frameNumber < sprites.Length)
         {
             spriteRenderer.sprite = sprites[frameNumber];
