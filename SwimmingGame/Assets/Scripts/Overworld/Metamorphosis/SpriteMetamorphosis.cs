@@ -24,6 +24,7 @@ public class SpriteMetamorphosis : Metamorphosis
 
     public float delayTime = 0f;
     public bool randomizeDelay = false;
+    public float minimumDelay = 0f;
 
     [Tooltip("Ref of sound to play at the start of the metamorphosis (3D)")]
     public string soundToPlay;
@@ -39,7 +40,7 @@ public class SpriteMetamorphosis : Metamorphosis
 
         if (randomizeDelay)
         {
-            delayTime = Random.Range(0f, delayTime);
+            delayTime = minimumDelay+Random.Range(0f, delayTime);
         }
     }
 

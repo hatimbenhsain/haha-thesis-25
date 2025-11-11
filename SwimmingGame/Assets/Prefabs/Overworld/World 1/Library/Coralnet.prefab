@@ -1117,7 +1117,7 @@ MonoBehaviour:
   m_PreserveMeshAssetOnDestroy: 0
   assetGuid: 
   m_Mesh: {fileID: 0}
-  m_VersionIndex: 2505
+  m_VersionIndex: 2508
   m_IsSelectable: 1
   m_SelectedFaces: 
   m_SelectedEdges: []
@@ -1366,6 +1366,8 @@ GameObject:
   - component: {fileID: 649120159164716680}
   - component: {fileID: 8360720905768431580}
   - component: {fileID: 9115998919602027385}
+  - component: {fileID: 4613592229174225347}
+  - component: {fileID: 2866504053660642411}
   m_Layer: 0
   m_Name: Spot Light
   m_TagString: Untagged
@@ -1550,18 +1552,51 @@ MonoBehaviour:
   glareBehind: 0.5
   fresnelPow: 8
   noiseMode: 1
-  noiseIntensity: 1
+  noiseIntensity: 0.55
   noiseScaleUseGlobal: 0
-  noiseScaleLocal: 1
+  noiseScaleLocal: 0.7
   noiseVelocityUseGlobal: 1
   noiseVelocityLocal: {x: 0.07, y: 0.18, z: 0.05}
   dimensions: 0
   tiltFactor: {x: 0, y: 0}
-  _TrackChangesDuringPlaytime: 0
+  _TrackChangesDuringPlaytime: 1
   _SortingLayerID: 0
   _SortingOrder: 0
   _FadeOutBegin: -150
   _FadeOutEnd: -200
+--- !u!114 &4613592229174225347
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5639554990353004278}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d4d69db65d6d47040b7bd02d847008da, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  componentsToChange: 3
+  restoreIntensityOnDisable: 0
+  frequency: 2
+  intensityAmplitude:
+    m_MinValue: -17
+    m_MaxValue: 5
+--- !u!114 &2866504053660642411
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5639554990353004278}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0b5bc3712cf8c6047b153dbf742b0e8a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  metamorphosing: 0
+  lerpValue: 1
+  targetIntensity: 7
 --- !u!1 &5871421570185087683
 GameObject:
   m_ObjectHideFlags: 0
@@ -2139,6 +2174,14 @@ PrefabInstance:
       insertIndex: -1
       addedObject: {fileID: 5158146349798694943}
     m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 4720774764992607001, guid: b1f8fe9778a6ffa4c8c93cd5747b6832,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 3983913221044712556}
+    - targetCorrespondingSourceObject: {fileID: 4720774764992607001, guid: b1f8fe9778a6ffa4c8c93cd5747b6832,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 6863962022671074592}
     - targetCorrespondingSourceObject: {fileID: 4280882485286813214, guid: b1f8fe9778a6ffa4c8c93cd5747b6832,
         type: 3}
       insertIndex: -1
@@ -2195,6 +2238,57 @@ SpriteRenderer:
     type: 3}
   m_PrefabInstance: {fileID: 3659143688096585106}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &8305882836961797771 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4720774764992607001, guid: b1f8fe9778a6ffa4c8c93cd5747b6832,
+    type: 3}
+  m_PrefabInstance: {fileID: 3659143688096585106}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &3983913221044712556
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8305882836961797771}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1a8b42367837120418311454c3779985, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  metamorphosing: 0
+  lerpValue: 5
+  targetMaxVolume: 0.5
+--- !u!114 &6863962022671074592
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8305882836961797771}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c626f0b1139222a4d8fa3957d3d52be7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  metamorphosing: 0
+  npcOverworld: {fileID: 9026854523020323031}
+  light: {fileID: 649120159164716680}
+  effectPulse: {fileID: 4613592229174225347}
+  targetIntensity: -10
+  lerpValue: 0.75
+--- !u!114 &9026854523020323031 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 5729202771288997189, guid: b1f8fe9778a6ffa4c8c93cd5747b6832,
+    type: 3}
+  m_PrefabInstance: {fileID: 3659143688096585106}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8305882836961797771}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d02b7b7658607244db710fde9df1fcd3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &6618142920220197497
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2212,6 +2306,21 @@ PrefabInstance:
         type: 3}
       propertyPath: m_IsActive
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2336150581219190708, guid: 01ce2fa414661e0408f6118b9fdd2447,
+        type: 3}
+      propertyPath: delayTime
+      value: 1.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 2336150581219190708, guid: 01ce2fa414661e0408f6118b9fdd2447,
+        type: 3}
+      propertyPath: minimumDelay
+      value: 0.4
+      objectReference: {fileID: 0}
+    - target: {fileID: 2336150581219190708, guid: 01ce2fa414661e0408f6118b9fdd2447,
+        type: 3}
+      propertyPath: randomizeDelay
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7131205609301953267, guid: 01ce2fa414661e0408f6118b9fdd2447,
         type: 3}
@@ -2331,6 +2440,21 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4015774904175521839, guid: e2f721c0f732fd54b8c89c9e5a31c3e1,
+        type: 3}
+      propertyPath: delayTime
+      value: 1.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 4015774904175521839, guid: e2f721c0f732fd54b8c89c9e5a31c3e1,
+        type: 3}
+      propertyPath: minimumDelay
+      value: 0.4
+      objectReference: {fileID: 0}
+    - target: {fileID: 4015774904175521839, guid: e2f721c0f732fd54b8c89c9e5a31c3e1,
+        type: 3}
+      propertyPath: randomizeDelay
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6698996036676175936, guid: e2f721c0f732fd54b8c89c9e5a31c3e1,
         type: 3}
