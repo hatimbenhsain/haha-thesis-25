@@ -901,6 +901,11 @@ public class Dialogue : MonoBehaviour
         {
             TriggerMetamorphosis();
         }); 
+        // Play Sound Effect
+        story.BindExternalFunction("playOneShot", (string path,float volume) =>
+        {
+            Sound.PlayOneShotVolume(path,volume);
+        }); 
         /* Template
         story.BindExternalFunction("FUNCTIONNAME", () =>
         {

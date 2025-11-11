@@ -28,6 +28,7 @@ EXTERNAL changeStartKnot(name)
 EXTERNAL activateBorder(name,b)
 EXTERNAL makeInterlocutorIdle()
 EXTERNAL triggerMetamorphosis()
+EXTERNAL playOneShot(path, volume)
 
 VAR world=0
 

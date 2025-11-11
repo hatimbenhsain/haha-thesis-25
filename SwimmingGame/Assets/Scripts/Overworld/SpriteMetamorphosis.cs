@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using FMODUnity;
 using UnityEngine;
 
 public class SpriteMetamorphosis : Metamorphosis
@@ -23,6 +24,9 @@ public class SpriteMetamorphosis : Metamorphosis
 
     public float delayTime = 0f;
     public bool randomizeDelay = false;
+
+    [Tooltip("Ref of sound to play at the start of the metamorphosis (3D)")]
+    public string soundToPlay;
 
     void Start()
     {
@@ -56,6 +60,7 @@ public class SpriteMetamorphosis : Metamorphosis
     IEnumerator MetamorphosisCoroutine()
     {
         yield return new WaitForSeconds(delayTime);
+        if(soundToPlay!="") Sound.Play3DOneShotVolume(soundToPlay, 1f, transform);
         while (frameNumber < sprites.Length)
         {
             spriteRenderer.sprite = sprites[frameNumber];

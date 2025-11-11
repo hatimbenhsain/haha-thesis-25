@@ -58,6 +58,11 @@ VAR showcaseMode=0
 ~ activateBorder("coral",false)
 -> END
 
+=== coralnetAddedAnswer ===
+~ triggerMetamorphosis()
+~ playOneShot("event:/Overworld/Things/Coralnet Metamorphosis",1)
+->->
+
 VAR cnetAnswer1=0
 === coralnet1 ===
 -> coralnetStart ->
@@ -86,19 +91,19 @@ Coralnet: motif: favorite swimming style?
 +   [Yes.]
     What will you say?
     ++  [I like staying still.]
+        -> coralnetAddedAnswer ->
         > i enjoy floating with the current and trying to be as still as possible, unnoticeable to everyone around me.
         ~cnetAnswer1=1
-        ~triggerMetamorphosis()
         -> coralnetEnd
     ++  [I like being on my back.]
+        -> coralnetAddedAnswer ->
         > i enjoy being on my back and feeling held by the water.
         ~cnetAnswer1=2
-        ~triggerMetamorphosis()
         -> coralnetEnd
     ++  [I like coasting slowly.]
+        -> coralnetAddedAnswer ->
         > i like coasting slowly with my arms forward and only moving my legs it's when i do my best thinking.
         ~cnetAnswer1=3
-        ~triggerMetamorphosis()
         -> coralnetEnd
 +   [No.]
 ->->
@@ -138,19 +143,19 @@ Coralnet: motif: has anyone actually done "it" yet?
 +   [Yes.]
     What will you say?
     ++  [I want to hear about it.]
+        -> coralnetAddedAnswer ->
         > i am also curious about it and am eager to hear more.
         ~cnetAnswer2=1
-        ~triggerMetamorphosis()
         -> coralnetEnd
     ++  [I've done it,]
+        -> coralnetAddedAnswer ->
         > i did it and it was incredible and really apologies sorry no more details.
         ~cnetAnswer2=2
-        ~triggerMetamorphosis()
         -> coralnetEnd
     ++  [Lots of chewing.]
+        -> coralnetAddedAnswer ->
         > a lot of kicking be careful about their teeth. this is the truth because i know because i've done it.
         ~cnetAnswer2=3
-        ~triggerMetamorphosis()
         -> coralnetEnd
 +   [No.]
 ->->
@@ -194,19 +199,19 @@ Coralnet: motif: hole in my head
 +   [Yes.]
     What will you say?
     ++  [Plug it.]
+        -> coralnetAddedAnswer ->
         > i would continue putting things in it. eventually you might be complete
         ~cnetAnswer3=1
-        ~triggerMetamorphosis()
         -> coralnetEnd
     ++  [It's a sign.]
+        -> coralnetAddedAnswer ->
         > the hole points to your emptyheadedness. try to absorb more culture and thought.
         ~cnetAnswer3=2
-        ~triggerMetamorphosis()
         -> coralnetEnd
     ++  [It's scary.]
+        -> coralnetAddedAnswer ->
         > this makes me very apprehensive initiator. i suggest you banish yourself so as not to infect more of us.
         ~cnetAnswer3=3
-        ~triggerMetamorphosis()
         -> coralnetEnd
 +   [No.]
 ->->
@@ -239,19 +244,19 @@ Coralnet: motif: ate my lover
 +   [Yes.]
     What will you say?
     ++  [It's ok.]
+        -> coralnetAddedAnswer ->
         > i believe it is ok because you must have truly loved them and now you will be together forever which sounds nice.
         ~cnetAnswer4=1
-        ~triggerMetamorphosis()
         -> coralnetEnd
     ++  [It's not ok.]
+        -> coralnetAddedAnswer ->
         > initiator i would try to refrain from doing this again unless you really want to which is difficult i understand.
         ~cnetAnswer4=2
-        ~triggerMetamorphosis()
         -> coralnetEnd
     ++  [It's in-between.]
+        -> coralnetAddedAnswer ->
         > i'm sure initiator's relationship was full of complexities and beyond any floater's understanding this is a concept known as ambiguity
         ~cnetAnswer4=3
-        ~triggerMetamorphosis()
         -> coralnetEnd
 +   [No.]
 ->->
@@ -282,19 +287,19 @@ Coralnet: motif: does anyone yearn?
 +   [Yes.]
     What will you say?
     ++  [I understand.]
+        -> coralnetAddedAnswer ->
         > i understand initiator i yearn as well but for something different. i'm not sure what exactly yet.
         ~cnetAnswer5=1
-        ~triggerMetamorphosis()
         -> coralnetEnd
     ++  [It's weird]
+        -> coralnetAddedAnswer ->
         > that is odd why would you desire something that you cannot bring about initiator? i find this disturbing
         ~cnetAnswer5=2
-        ~triggerMetamorphosis()
         -> coralnetEnd
     ++  [I hate parties]
+        -> coralnetAddedAnswer ->
         > i hate parties there's too many persons and most of them do not really love you i could not synch with you initiator
         ~cnetAnswer5=3
-        ~triggerMetamorphosis()
         -> coralnetEnd
 +   [No.]
 ->->
@@ -328,19 +333,19 @@ Coralnet: motif: what's it like outside?
 +   [Yes.]
     What will you say?
     ++  [Probably bad.]
+        -> coralnetAddedAnswer ->
         > probably terrible for your skin etc. i do not recommend that people go it seems unsafe.
         ~cnetAnswer6=1
-        ~triggerMetamorphosis()
         -> coralnetEnd
     ++  [Probably great.]
+        -> coralnetAddedAnswer ->
         > so amazing and nice i'm sure and no one there misses us and they're dancing and holding each other close it fills me with bile
         ~cnetAnswer6=2
-        ~triggerMetamorphosis()
         -> coralnetEnd
     ++  [I don't know.]
+        -> coralnetAddedAnswer ->
         > i don't know i wish i knew but also not really does anyone perhaps understand the state i'm in?
         ~cnetAnswer6=3
-        ~triggerMetamorphosis()
         -> coralnetEnd
 +   [No.]
 ->->
@@ -372,18 +377,18 @@ Coralnet: motif: i went outside
 +   [Yes.]
     What will you say?
     ++  [This is scary.]
+        -> coralnetAddedAnswer ->
         -> answer1 ->
         ~cnetAnswer7=1
-        ~triggerMetamorphosis()
         -> coralnetEnd
     ++  [Seahorseshit.]
+        -> coralnetAddedAnswer ->
         -> answer2 ->
-        ~triggerMetamorphosis()
         ~cnetAnswer7=2
         -> coralnetEnd
     ++  [Did you meet them?]
+        -> coralnetAddedAnswer ->
         -> answer3 ->
-        ~triggerMetamorphosis()
         ~cnetAnswer7=3
         -> coralnetEnd
 +   [No.]
@@ -431,19 +436,19 @@ Coralnet: motif: i miss my lover
 +   [Yes.]
     What will you say?
     ++  [Still looking.]
+        -> coralnetAddedAnswer ->
         -> answer1 ->
         ~cnetAnswer8=1
-        ~triggerMetamorphosis()
         -> coralnetEnd
     ++  [Also wondering.]
+        -> coralnetAddedAnswer ->
         -> answer2 ->
         ~cnetAnswer8=2
-        ~triggerMetamorphosis()
         -> coralnetEnd
     ++  [Pathetic.]
+        -> coralnetAddedAnswer ->
         -> answer3 ->
         ~cnetAnswer8=3
-        ~triggerMetamorphosis()
         -> coralnetEnd
 +   [No.]
 ->->
@@ -485,19 +490,19 @@ Coralnet: motif: i see them everywhere
 +   [Yes.]
     What will you say?
     ++  [How to get better?]
+        -> coralnetAddedAnswer ->
         -> answer1 ->
         ~cnetAnswer9=1
-        ~triggerMetamorphosis()
         -> coralnetEnd
     ++  [I still see them.]
+        -> coralnetAddedAnswer ->
         -> answer2 ->
         ~cnetAnswer9=2
-        ~triggerMetamorphosis()
         -> coralnetEnd
     ++  [Pitiful.]
+        -> coralnetAddedAnswer ->
         -> answer3 ->
         ~cnetAnswer9=3
-        ~triggerMetamorphosis()
         -> coralnetEnd
 +   [No.]
 ->->
@@ -537,19 +542,19 @@ Coralnet: motif: current order
 +   [Yes.]
     What will you say?
     ++  [Second person.]
+        -> coralnetAddedAnswer ->
         -> answer1 ->
         ~cnetAnswer10=1
-        ~triggerMetamorphosis()
         -> coralnetEnd
     ++  [Doesn't matter.]
+        -> coralnetAddedAnswer ->
         -> answer2 ->
         ~cnetAnswer10=2
-        ~triggerMetamorphosis()
         -> coralnetEnd
     ++  [Emotions.]
+        -> coralnetAddedAnswer ->
         -> answer3 ->
         ~cnetAnswer10=3
-        ~triggerMetamorphosis()
         -> coralnetEnd
 +   [No.]
 ->->
@@ -594,19 +599,19 @@ Coralnet: motif: has anyone tried this
 +   [Yes.]
     What will you say?
     ++  [What?]
+        -> coralnetAddedAnswer ->
         -> answer1 ->
         ~cnetAnswer11=1
-        ~triggerMetamorphosis()
         -> coralnetEnd
     ++  [Why?]
+        -> coralnetAddedAnswer ->
         -> answer2 ->
         ~cnetAnswer11=2
-        ~triggerMetamorphosis()
         -> coralnetEnd
     ++  [Disgusting.]
+        -> coralnetAddedAnswer ->
         -> answer3 ->
         ~cnetAnswer11=3
-        ~triggerMetamorphosis()
         -> coralnetEnd
 +   [No.]
 ->->
@@ -653,19 +658,19 @@ Coralnet: motif: keeping the secret
 +   [Yes.]
     What will you say?
     ++  [What?]
+        -> coralnetAddedAnswer ->
         -> answer1 ->
         ~cnetAnswer12=1
-        ~triggerMetamorphosis()
         -> coralnetEnd
     ++  [Stop.]
+        -> coralnetAddedAnswer ->
         -> answer2 ->
         ~cnetAnswer12=2
-        ~triggerMetamorphosis()
         -> coralnetEnd
     ++  [I know too.]
+        -> coralnetAddedAnswer ->
         -> answer3 ->
         ~cnetAnswer12=3
-        ~triggerMetamorphosis()
         -> coralnetEnd
 +   [No.]
 ->->
