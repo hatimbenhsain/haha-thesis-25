@@ -11,6 +11,7 @@ VAR libraryOpen=false
 VAR hadChatWithFriend=false
 VAR desireStep=0
 VAR showcaseMode=0
+VAR talkedToThisCoralnet=false
 
 
 === npcStart1 ===
@@ -24,12 +25,14 @@ VAR showcaseMode=0
 // other ideas: first author, singer
 
 === coralnetStart ===
-~ coralTalkedTo=coralTalkedTo+1
+{ talkedToThisCoralnet==false:
+    ~ coralTalkedTo=coralTalkedTo+1
+}
 ~ loadInt("showcaseMode")
 { showcaseMode==1:
     ~coralToTalkToBeforeProgress=2
 }
-{ coralTalkedTo==coralToTalkToBeforeProgress:
+{ coralTalkedTo==coralToTalkToBeforeProgress && talkedToThisCoralnet==false:
     -> coralnetProgress
 }
 ~ setDialogueBubble("bone")
@@ -65,6 +68,11 @@ VAR showcaseMode=0
 
 VAR cnetAnswer1=0
 === coralnet1 ===
+{coralnet1>1: 
+    ~talkedToThisCoralnet=true
+- else:
+    ~talkedToThisCoralnet=false
+}
 -> coralnetStart ->
 Coralnet: motif: favorite swimming style?
 > what's everyone's favorite swimming style and why?
@@ -111,6 +119,11 @@ Coralnet: motif: favorite swimming style?
 
 VAR cnetAnswer2=0
 === coralnet2 ===
+{coralnet2>1: 
+    ~talkedToThisCoralnet=true
+- else:
+    ~talkedToThisCoralnet=false
+}
 -> coralnetStart ->
 Coralnet: motif: has anyone actually done "it" yet?
 > motif.
@@ -164,6 +177,11 @@ Coralnet: motif: has anyone actually done "it" yet?
 // the reference to human sex
 VAR cnetAnswer3=0
 === coralnet3 ===
+{coralnet3>1: 
+    ~talkedToThisCoralnet=true
+- else:
+    ~talkedToThisCoralnet=false
+}
 -> coralnetStart ->
 Coralnet: motif: hole in my head
 > i woke up with a hole in my head. what do i do?
@@ -218,6 +236,11 @@ Coralnet: motif: hole in my head
 
 VAR cnetAnswer4=0
 === coralnet4 ===
+{coralnet4>1: 
+    ~talkedToThisCoralnet=true
+- else:
+    ~talkedToThisCoralnet=false
+}
 -> coralnetStart ->
 Coralnet: motif: ate my lover
 > is it abnormal to eat your lover without asking if you could?
@@ -263,6 +286,11 @@ Coralnet: motif: ate my lover
 
 VAR cnetAnswer5=0
 === coralnet5 ===
+{coralnet5>1: 
+    ~talkedToThisCoralnet=true
+- else:
+    ~talkedToThisCoralnet=false
+}
 -> coralnetStart ->
 Coralnet: motif: does anyone yearn?
 > does anyone yearn to be in the next season? i miss the parties
@@ -307,6 +335,11 @@ Coralnet: motif: does anyone yearn?
 
 VAR cnetAnswer6=0
 === coralnet6 ===
+{coralnet6>1: 
+    ~talkedToThisCoralnet=true
+- else:
+    ~talkedToThisCoralnet=false
+}
 -> coralnetStart ->
 Coralnet: motif: what's it like outside?
 > motif.
@@ -353,6 +386,11 @@ Coralnet: motif: what's it like outside?
 
 VAR cnetAnswer7=0
 === coralnet7 ===
+{coralnet7>1: 
+    ~talkedToThisCoralnet=true
+- else:
+    ~talkedToThisCoralnet=false
+}
 -> coralnetStart ->
 Coralnet: motif: i went outside
 > i went outside and there was sharp glass everywhere and everything was blurry and i was never hungry
@@ -407,6 +445,11 @@ Coralnet: motif: i went outside
 
 VAR cnetAnswer8=0
 === coralnet8 ===
+{coralnet8>1: 
+    ~talkedToThisCoralnet=true
+- else:
+    ~talkedToThisCoralnet=false
+}
 -> coralnetStart ->
 Coralnet: motif: i miss my lover
 > i miss my lover a lot. what do i do?
@@ -465,6 +508,11 @@ Coralnet: motif: i miss my lover
 
 VAR cnetAnswer9=0
 === coralnet9 ===
+{coralnet9>1: 
+    ~talkedToThisCoralnet=true
+- else:
+    ~talkedToThisCoralnet=false
+}
 -> coralnetStart ->
 Coralnet: motif: i see them everywhere
 > ever since my lover left me i see them everywhere i always feel their presence even though they're not there.
@@ -519,6 +567,11 @@ Coralnet: motif: i see them everywhere
 
 VAR cnetAnswer10=0
 === coralnet10 ===
+{coralnet10>1: 
+    ~talkedToThisCoralnet=true
+- else:
+    ~talkedToThisCoralnet=false
+}
 -> coralnetStart ->
 Coralnet: motif: current order
 > does anyone know why the current sometimes is really cold and sometimes too hot?
@@ -572,6 +625,11 @@ Coralnet: motif: current order
 
 VAR cnetAnswer11=0
 === coralnet11 ===
+{coralnet11>1: 
+    ~talkedToThisCoralnet=true
+- else:
+    ~talkedToThisCoralnet=false
+}
 -> coralnetStart ->
 Coralnet: motif: has anyone tried this
 > recently i tried wrapping my organ around of a pillar and it felt extremely good
@@ -629,6 +687,11 @@ Coralnet: motif: has anyone tried this
 
 VAR cnetAnswer12=0
 === coralnet12 ===
+{coralnet12>1: 
+    ~talkedToThisCoralnet=true
+- else:
+    ~talkedToThisCoralnet=false
+}
 -> coralnetStart ->
 Coralnet: motif: keeping the secret
 > there's a lot of people who haven't experienced "it" yet and i don't like talking to them because they are like little fingerlings.
