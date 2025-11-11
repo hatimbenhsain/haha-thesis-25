@@ -53,7 +53,7 @@ public class LevelLoader : MonoBehaviour
     private float blinkDuration;
     private bool isBlinking = false;
     private bool isBlinkingOut=false;
-    public bool showcaseReset=false;
+    //public bool showcaseReset=false;
     private PlayerInput playerInput;
 
     private bool isGameStartSceneLoaded = false; // Flag to track if GameStart scene is already loaded

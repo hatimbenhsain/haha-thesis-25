@@ -6,30 +6,14 @@ using UnityEngine.SceneManagement;
 
 public static class ResetManager
 {
-    public static bool reset = true; // Static bool to track reset state
+    public static bool reset; // Static bool to track reset state
     public static string GameStartScene = "GameStart"; // Static string to track the scene to load
-}
 
-public class showcaseReset : MonoBehaviour
-{
-    public bool enableReset = false; // Bool to control whether reset is enabled
-
-    public void SetResetEnabled(bool isEnabled)
+    [RuntimeInitializeOnLoadMethod]
+    static void OnRuntimeInitialized()
     {
-        enableReset = isEnabled; // Set the reset flag
+        Debug.Log("Runtime initialized: First scene loaded: After Awake is called.");
+        reset=(PlayerPrefs.GetInt("showcaseMode")==1);
+        Debug.Log("showcase mode is "+reset);
     }
-
-    void Update()
-    {
-        // If enableReset is true, set ResetManager.reset to true
-        if (enableReset)
-        {
-            ResetManager.reset = true;
-            Debug.Log("Reset is enabled.");
-        }
-
-      
-    }
-
-  
 }

@@ -110,6 +110,7 @@ public class Menu : MonoBehaviour
             else i = 0;
             PlayerPrefs.SetInt("showcaseMode", i);
             debugTMP.text = "showcase mode: " + i;
+            ResetManager.reset=(PlayerPrefs.GetInt("showcaseMode")==1);
             debugTMP.gameObject.SetActive(true);
             StartCoroutine(HideDebugTMP());
         }
