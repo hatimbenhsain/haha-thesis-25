@@ -858,7 +858,8 @@ public class Swimmer : MonoBehaviour
 
     public Vector3 GetVelocity()
     {
-        return body.velocity;
+        if(body!=null) return body.velocity;
+        else return Vector3.zero;
     }
     
     public Vector3 GetRotationVelocity(){
