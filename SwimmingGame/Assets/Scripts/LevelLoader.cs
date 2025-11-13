@@ -306,7 +306,6 @@ public class LevelLoader : MonoBehaviour
         {
             yield return null;
         }
-        Sound.StopAndReleaseAll();
         SceneLoader.instance.LoadScene(currentScene, destination, crossFadeTime, crossFadeTexture, crossFadeReverseColor, freezeDuration);
     }
 
@@ -342,7 +341,6 @@ public class LevelLoader : MonoBehaviour
             }
             yield return null; // Wait for the next frame
         }
-        Sound.StopAndReleaseAll();
         operation.allowSceneActivation = true; // Activate the scene
     }
 

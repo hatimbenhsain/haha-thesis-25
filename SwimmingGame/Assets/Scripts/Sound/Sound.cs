@@ -8,14 +8,6 @@ public class Sound : MonoBehaviour
 {
     public float masterVolume=1f;
 
-    public static Dictionary<string, EventInstance> eventInstances;
-
-    void Awake()
-    {
-        if(eventInstances==null) eventInstances=new Dictionary<string, EventInstance>();
-    }
-
-
 
     public static void PlayOneShotVolume(string path, float volume, string parameterName="",float parameterValue=0f, float pitch=-100f)
     {
@@ -70,13 +62,18 @@ public class Sound : MonoBehaviour
 
     public static EventInstance GetInstance(string name){
         EventInstance instance=new EventInstance();
-        if(eventInstances.ContainsKey(name)){
-            instance=eventInstances[name];
+        if(SoundMaker.Instance.eventInstances.ContainsKey(name)){
+            instance=SoundMaker.Instance.eventInstances[name];
+            Debug.Log("found instance in dictionary");
         }else{
             GameObject go=GameObject.Find(name);
             if(go!=null){
-                if(go.TryGetComponent<EventInstance>(out instance)){
-                    eventInstances[name]=instance;
+                StudioEventEmitter em;
+                Debug.Log("found gameobject");
+                if(go.TryGetComponent<StudioEventEmitter>(out em)){
+                    Debug.Log("found emitter");
+                    instance=em.EventInstance;
+                    SoundMaker.Instance.eventInstances[name]=instance;
                 }                
             }
         }
@@ -85,29 +82,55 @@ public class Sound : MonoBehaviour
 
     public static void PlayInstance(string path, string name, float volume=1f){
         var instance=GetInstance(name);
-        if(instance.isValid()){
+        if(!instance.isValid()){
             instance = RuntimeManager.CreateInstance(path);
-            eventInstances[name]=instance;
+            SoundMaker.Instance.eventInstances[name]=instance;
         }
         instance.setVolume(volume);
         instance.start();
     }
 
 
-    public static void SetInstanceParameter(string name, string parameterName,float parameterValue){
+    public static void SetInstanceParameter(string name, string parameterName,float parameterValue, bool ignoreSeekSpeed=false){
         var instance=GetInstance(name);
         if(instance.isValid()){
-            instance=eventInstances[name];
-            instance.setParameterByName(parameterName, parameterValue);
+            instance=SoundMaker.Instance.eventInstances[name];
+            instance.setParameterByName(parameterName, parameterValue, ignoreSeekSpeed);
         }else{
             Debug.LogWarning("Tried to set instance parameters but couldn't find instance.");
         }
     }
 
-    public static void StopAndReleaseAll(){
-        foreach(KeyValuePair<string,EventInstance> kvp  in eventInstances){
-            kvp.Value.stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
-            kvp.Value.release();
+    public static void SetInstanceVolume(string name, float volume){
+        var instance=GetInstance(name);
+        if(instance.isValid()){
+            instance=SoundMaker.Instance.eventInstances[name];
+            instance.setVolume(volume);
+        }else{
+            Debug.LogWarning("Tried to set instance parameters but couldn't find instance.");
         }
     }
+
+    public static void StopInstance(string name, bool release=false){
+        var instance=GetInstance(name);
+        if(instance.isValid()){
+            instance.stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
+            if(release){
+                instance.release();
+            }
+        }else{
+            Debug.LogWarning("Tried to stop instance but couldn't find instance.");
+        }
+    }
+
+    public static void StopInstance(EventInstance instance, bool release=false){
+        if(instance.isValid()){
+            instance.stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
+            if(release){
+                instance.release();
+            }
+        }
+    }
+
+
 }

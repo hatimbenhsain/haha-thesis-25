@@ -201,7 +201,7 @@ public class Dialogue : MonoBehaviour
 
         swimmerSinging = FindObjectOfType<SwimmerSinging>();
 
-        bubblesInstance = RuntimeManager.CreateInstance("event:/Non-Diagetic SFX/Bubbles - Loop");
+        bubblesInstance = RuntimeManager.CreateInstance("event:/Non-Diagetic SFX/Bubbles/Bubbles - Loop");
 
         lingeringBoxes = new List<GameObject>();
 
@@ -439,7 +439,7 @@ public class Dialogue : MonoBehaviour
         choicePicked = true;
         bubblesInstance.stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
         singingTimer = 0f;
-        Sound.PlayOneShotVolume("event:/Non-Diagetic SFX/Bubbles - Burst", 1f);
+        Sound.PlayOneShotVolume("event:/Non-Diagetic SFX/Bubbles/Bubbles - Burst", 1f);
     }
 
     //Show spoken text (not choices) on UI
@@ -631,8 +631,6 @@ public class Dialogue : MonoBehaviour
         singingTimer = 0f;
         for (int i = 0; i < choiceTextBoxes.Length; i++)
         {
-            Debug.Log("burst choice boxes?");
-
             if (choiceTextBoxes[i].gameObject.activeInHierarchy)
             {
                 BurstTextbox(choiceTextBoxes[i]);
@@ -1115,6 +1113,22 @@ public class Dialogue : MonoBehaviour
         {
             Sound.PlayOneShotVolume(path, volume);
         });
+        story.BindExternalFunction("playInstance", (string path, string name, float volume) =>
+        {
+            Sound.PlayInstance(path,name,volume);
+        }); 
+        story.BindExternalFunction("setInstanceParameter", (string name, string parameterName,float parameterValue, bool ignoreSeekSpeed) =>
+        {
+            Sound.SetInstanceParameter(name,parameterName,parameterValue,ignoreSeekSpeed);
+        }); 
+        story.BindExternalFunction("setInstanceVolume", (string name, float volume) =>
+        {
+            Sound.SetInstanceVolume(name,volume);
+        }); 
+        story.BindExternalFunction("stopInstance", (string name, bool release) =>
+        {
+            Sound.StopInstance(name, release);
+        }); 
         /* Template
         story.BindExternalFunction("FUNCTIONNAME", () =>
         {
