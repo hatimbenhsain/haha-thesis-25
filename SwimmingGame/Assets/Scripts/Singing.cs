@@ -83,7 +83,7 @@ public class Singing : Sound
     public void StopNote(string note){
         if(singleVoiceMode && (note=="" || possibleNotes.Contains(note))){
             voice.stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
-        }else if(!singleVoiceMode && events.ContainsKey(note)){
+        }else if(!singleVoiceMode && events!=null && events.ContainsKey(note)){
             EventInstance instance=events[note];
             instance.stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
         }
