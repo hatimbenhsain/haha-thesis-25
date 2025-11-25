@@ -29,6 +29,10 @@ EXTERNAL activateBorder(name,b)
 EXTERNAL makeInterlocutorIdle()
 EXTERNAL triggerMetamorphosis()
 EXTERNAL playOneShot(path, volume)
+EXTERNAL playInstance(path, name, volume)
+EXTERNAL setInstanceParameter(name, parameterName, parameterValue, ignoreSeekSpeed)
+EXTERNAL setInstanceVolume(name, volume)
+EXTERNAL stopInstance(name, release)
 
 VAR world=0
 
@@ -40,14 +44,20 @@ VAR world=0
 === function muffleNPCsVolume()
 ~ setFMODGlobalParameter("npcSingingVolume",0.3)
 
+=== function muffleSwimmingVolume()
+~ setFMODGlobalParameter("SwimmingSoundsVolume",0.5)
+
 === function restoreNPCsVolume()
 ~ setFMODGlobalParameter("npcSingingVolume",1)
 
+=== function restoreSwimmingVolume()
+~ setFMODGlobalParameter("SwimmingSoundsVolume",1)
 
 === npcStart ===
 ~ stopSinging()
 ~ pauseTutorial(true)
 ~ muffleNPCsVolume()
+~ muffleSwimmingVolume()
 ~ setDialogueBubble("standard")
 {
     -world==1:
@@ -61,6 +71,7 @@ VAR world=0
 ~pauseTutorial(false)
 ~ continueSinging()
 ~ restoreNPCsVolume()
+~ restoreSwimmingVolume()
 ~ activateBorder("floral",false)
 ~ activateBorder("rave",false)
 ->->

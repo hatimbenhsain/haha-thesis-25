@@ -5,11 +5,6 @@ using TMPro;
 public class PauseMenu : Menu
 {
 
-    // I DONT REMEMBER WHAT THIS IS FOR..?
-    private CinemachineVirtualCamera playerCamera;
-    private Transform playerCameraRoot; // The target position and rotation for the player
-
-
     public override void Initiate()
     {
         base.Initiate();
