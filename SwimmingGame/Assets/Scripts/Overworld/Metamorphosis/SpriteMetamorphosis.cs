@@ -70,6 +70,7 @@ public class SpriteMetamorphosis : Metamorphosis
         }
         GameObject g = Instantiate(product, transform.position, transform.rotation, transform.parent);
         g.transform.localScale = transform.localScale;
+        g.transform.position=gameObject.transform.position;
         Destroy(gameObject);
     }
 
