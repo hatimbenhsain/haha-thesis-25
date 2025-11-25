@@ -1244,7 +1244,7 @@ MC: Yeah.
 Teacher: That makes sense. I can picture you hanging out here.
 ~pause(2)
 Teacher: Do you usually come by -- #speed:fast # ambient # time:0.25
-MC: So do you want to try it with me?  #speed: fast
+MC: So do you want to try it with me?  #speed: fast  # time:0.5 # notambient
 Teacher: Oh!
 Teacher: Yes, sure. \\pause\\pauseI mean, that's what I thought this was leading to.
 MC: Oh. Sorry. Is talking about it directly.. abnormal?
