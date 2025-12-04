@@ -1,5 +1,23 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!114 &-8327408695897610737
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa0ef948bee3975418fd9c43f38032e0, type: 3}
+  m_Name: GrabPassRendererFeature
+  m_EditorClassIdentifier: 
+  m_Active: 1
+  _timing: 1
+  _grabbedTextureName: _GrabbedTexture
+  _shaderLightModes:
+  - UseColorTexture
+  _sortingCriteria: 23
 --- !u!114 &-4093990968604499959
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -94,7 +112,8 @@ MonoBehaviour:
   - {fileID: 8404051811847548700}
   - {fileID: 7823771338814433428}
   - {fileID: -2049297934814559124}
-  m_RendererFeatureMap: adc0de57c6d2eee509e0abaae7382fc7cc37a135df75154f1caf26a79830a17494a8ea9d949e936c6cc46fcc626e8fe3
+  - {fileID: -8327408695897610737}
+  m_RendererFeatureMap: adc0de57c6d2eee509e0abaae7382fc7cc37a135df75154f1caf26a79830a17494a8ea9d949e936c6cc46fcc626e8fe30f26865de9196f8c
   m_UseNativeRenderPass: 0
   postProcessData: {fileID: 11400000, guid: 41439944d30ece34e96484bdb6645b55, type: 2}
   xrSystemData: {fileID: 11400000, guid: 60e1133243b97e347b653163a8c01b64, type: 2}
@@ -211,11 +230,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6d613f08f173d4dd895bb07b3230baa9, type: 3}
   m_Name: FullScreenPassRendererFeature
   m_EditorClassIdentifier: 
-  m_Active: 1
+  m_Active: 0
   injectionPoint: 450
   fetchColorBuffer: 1
   requirements: -1
-  passMaterial: {fileID: 2100000, guid: f29fd56306bbc6c46af1fb10bbf14bac, type: 2}
+  passMaterial: {fileID: 2100000, guid: 6efbaf9522e160c4ba9873ec2981ba46, type: 2}
   passIndex: 0
   bindDepthStencilAttachment: 0
   m_Version: 1
