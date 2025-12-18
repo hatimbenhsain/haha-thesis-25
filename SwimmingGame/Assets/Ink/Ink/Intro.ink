@@ -81,6 +81,7 @@ MC: I guess not. \\pauseNot really. # time: 5 # speed: slow
 # ambient
 ~ intensity=5
 ~ changeDialogueView(2)
+~ pauseTutorial(true)
 MC: What is that, up ahead? \\pauseIt looks frightening. # time: 4
 Ex: It's part of all the changes that are happening. Everyone is doing "that" now. # time: 6
 MC: But it... it didn't really happen, did it? Between us? # time:5
