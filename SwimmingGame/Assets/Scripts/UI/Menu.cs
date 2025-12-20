@@ -37,9 +37,19 @@ public class Menu : MonoBehaviour
     private TMP_Text[][] buttonsText;
     private int buttonIndex=0;
 
+    public float buttonHighlightedScale=1.1f;
+
     public Color textButtonHighlightedColor;
     public Color textButtonIdleColor;
     public Color textButtonInteractingColor;
+
+    [Tooltip("If -1 don't change")]
+    public float textButtonhighlightedFontSize=-1f;
+    public float textButtonIdleFontsize=-1f;
+    [Tooltip("If -1, instanteneous")]
+    public float textButtonLerpSpeed=-1f;
+
+
 
     public UnityEvent[] buttonEvents;
     public UnityEvent[] settingsEvents;
@@ -86,6 +96,11 @@ public class Menu : MonoBehaviour
         }
 
         Initiate();
+
+        if (textButtonhighlightedFontSize != -1f && textButtonIdleFontsize==-1f)
+        {
+            textButtonIdleFontsize=buttonsText[0][0].fontSize;
+        }
 
     }
     
@@ -251,6 +266,8 @@ public class Menu : MonoBehaviour
     void ShowButtons(){
         for(int i=0;i<currentButtons.Length;i++){            
             Color c;
+            float targetFontSize;
+            float targetScale;
             bool isSlider=IsSlider(currentButtons[i]);
             int value=-1;
             if(isSlider) value=GetSliderValue(i);
@@ -260,6 +277,7 @@ public class Menu : MonoBehaviour
                 }else{
                     c=textButtonInteractingColor;
                 }
+                targetFontSize=textButtonhighlightedFontSize;
                 // Image[] images=buttons[i].GetComponentsInChildren<Image>();
                 // for(var k=0;k<images.Length;k++){
                 //     Color c=images[k].color;
@@ -267,8 +285,10 @@ public class Menu : MonoBehaviour
                 //     images[k].color=c;
                 // }
                 // buttons[i].GetComponentInChildren<Animator>().speed=1.25f;
+                targetScale=buttonHighlightedScale;
             }else{
                 c=textButtonIdleColor;
+                targetFontSize=textButtonIdleFontsize;
                 // Image[] images=buttons[i].GetComponentsInChildren<Image>();
                 // for(var k=0;k<images.Length;k++){
                 //     Color c=images[k].color;
@@ -276,13 +296,32 @@ public class Menu : MonoBehaviour
                 //     images[k].color=c;
                 // }
                 // buttons[i].GetComponentInChildren<Animator>().speed=0.5f;
+                targetScale=1f;
             }
+            if(textButtonLerpSpeed>-1) currentButtons[i].GetComponent<RectTransform>().localScale=Vector3.Lerp(currentButtons[i].GetComponent<RectTransform>().localScale,Vector3.one*targetScale,textButtonLerpSpeed*Time.unscaledDeltaTime);
+            else currentButtons[i].GetComponent<RectTransform>().localScale=Vector3.one*targetScale;
             for(int k=0;k<buttonsText[i].Length;k++){
-                buttonsText[i][k].color=c;
+                // Change button text color
+                if(textButtonLerpSpeed>-1) buttonsText[i][k].color=Color.Lerp(buttonsText[i][k].color,c,textButtonLerpSpeed*Time.unscaledDeltaTime);
+                else buttonsText[i][k].color=c;
                 if(isSlider){
                     if((buttonsText[i][k].name=="Left" && value==0)||(buttonsText[i][k].name=="Right" && value==10)){
                         buttonsText[i][k].color=textButtonIdleColor;
                     }
+                }
+
+                // Change font size
+                if (targetFontSize != -1)
+                {
+                    if(textButtonLerpSpeed>-1){
+                        buttonsText[i][k].fontSize=Mathf.Lerp(buttonsText[i][k].fontSize,targetFontSize,textButtonLerpSpeed*Time.unscaledDeltaTime);
+                        if (Mathf.Abs(buttonsText[i][k].fontSize - targetFontSize) < 1f)
+                        {
+                            buttonsText[i][k].fontSize=targetFontSize;
+                        }
+                    }
+                    else buttonsText[i][k].fontSize=targetFontSize;
+                    //buttonsText[i][k].fontSize=Mathf.Round(buttonsText[i][k].fontSize);
                 }
             }
         }
