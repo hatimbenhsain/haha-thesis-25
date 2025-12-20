@@ -8,6 +8,10 @@ using UnityEngine.Events;
 
 public class StartMenu : Menu
 {    
+    private bool startedGame=false;
+
+    public Animator canvasAnimator;
+
     public override void Initiate()
     {
         base.Initiate();
@@ -23,6 +27,21 @@ public class StartMenu : Menu
         UnityEngine.Cursor.visible = true;
         GetButtons();
         myLockState = UnityEngine.Cursor.lockState;
+    }
+
+    public override void Update()
+    {
+        base.Update();
+
+        if (!startedGame)
+        {
+            if (FindObjectOfType<LevelLoader>().loadingLevel)
+            {
+                startedGame=true;
+                canvasAnimator.enabled=true;
+                canvasAnimator.SetTrigger("depart");
+            }
+        }
     }
 
 }
