@@ -8,6 +8,7 @@ using TMPro;
 using UnityEngine.UI;
 using UnityEngine.Events;
 using System;
+using UnityAtoms.Editor;
 
 public class Menu : MonoBehaviour
 {
@@ -34,6 +35,7 @@ public class Menu : MonoBehaviour
     public GameObject[] settingsButtons;
     public GameObject[] chapterSelectButtons;
     private GameObject[] currentButtons;
+    private float[] currentButtonsAnimationTimes;
     private TMP_Text[][] buttonsText;
     private int buttonIndex=0;
 
@@ -48,6 +50,10 @@ public class Menu : MonoBehaviour
     public float textButtonIdleFontsize=-1f;
     [Tooltip("If -1, instanteneous")]
     public float textButtonLerpSpeed=-1f;
+    [Tooltip("Used with animation curve for when unselected")]
+    public float textButtonLerpOutSpeed=-1f;
+
+    public AnimationCurve animationCurve;
 
 
 
@@ -75,13 +81,7 @@ public class Menu : MonoBehaviour
         playerCameraRoot = GameObject.Find("PlayerCameraRoot")?.GetComponent<Transform>();
         controls[controlsIndex].gameObject.SetActive(true);
 
-        buttonsText = new TMP_Text[buttons.Length][];
-        for (int i = 0; i < buttons.Length; i++)
-        {
-            buttonsText[i] = buttons[i].GetComponentsInChildren<TMP_Text>();
-        }
-
-        currentButtons = buttons;
+        GetButtons();
 
         //Getting FMOD master bus
         masterBus = FMODUnity.RuntimeManager.GetBus("bus:/");
@@ -239,8 +239,10 @@ public class Menu : MonoBehaviour
         currentButtons=inSettings?settingsButtons:buttons;
         events=inSettings?settingsEvents:buttonEvents;
         buttonsText=new TMP_Text[currentButtons.Length][];
+        currentButtonsAnimationTimes=new float[currentButtons.Length];
         for(int i=0;i<currentButtons.Length;i++){
             buttonsText[i]=currentButtons[i].GetComponentsInChildren<TMP_Text>();
+            currentButtonsAnimationTimes[i]=0f;
         }
     }
 
@@ -270,6 +272,11 @@ public class Menu : MonoBehaviour
             float targetScale;
             bool isSlider=IsSlider(currentButtons[i]);
             int value=-1;
+
+            // The following value is used to gauge progress from base to target form (for eg scale).
+            // This is used to determine how much sketchiness effect is applied
+            float progress=1f;
+
             if(isSlider) value=GetSliderValue(i);
             if(i==buttonIndex){
                 if(!playerInput.interacting || isSlider || buttonsLocked){
@@ -286,6 +293,8 @@ public class Menu : MonoBehaviour
                 // }
                 // buttons[i].GetComponentInChildren<Animator>().speed=1.25f;
                 targetScale=buttonHighlightedScale;
+                currentButtons[i].transform.SetAsLastSibling();
+                currentButtonsAnimationTimes[i]+=Time.deltaTime*textButtonLerpSpeed;
             }else{
                 c=textButtonIdleColor;
                 targetFontSize=textButtonIdleFontsize;
@@ -297,13 +306,30 @@ public class Menu : MonoBehaviour
                 // }
                 // buttons[i].GetComponentInChildren<Animator>().speed=0.5f;
                 targetScale=1f;
+                currentButtonsAnimationTimes[i]-=Time.deltaTime*textButtonLerpOutSpeed;
             }
-            if(textButtonLerpSpeed>-1) currentButtons[i].GetComponent<RectTransform>().localScale=Vector3.Lerp(currentButtons[i].GetComponent<RectTransform>().localScale,Vector3.one*targetScale,textButtonLerpSpeed*Time.unscaledDeltaTime);
-            else currentButtons[i].GetComponent<RectTransform>().localScale=Vector3.one*targetScale;
+
+            currentButtonsAnimationTimes[i]=Mathf.Clamp(currentButtonsAnimationTimes[i],0f,1f);
+
+            RectTransform rectTransform=currentButtons[i].GetComponent<RectTransform>();
+
+            if(textButtonLerpSpeed>-1){
+                //rectTransform.localScale=Vector3.Lerp(rectTransform.localScale,Vector3.one*targetScale,textButtonLerpSpeed*Time.unscaledDeltaTime);
+                rectTransform.localScale=Vector3.Lerp(Vector3.one,Vector3.one*buttonHighlightedScale,animationCurve.Evaluate(currentButtonsAnimationTimes[i]));
+            }
+            else rectTransform.localScale=Vector3.one*targetScale;
+
+            // if(buttonHighlightedScale!=-1f){
+            //     progress=1-Mathf.Abs((rectTransform.localScale.x-targetScale)/(buttonHighlightedScale-1f));
+            // }
+
             for(int k=0;k<buttonsText[i].Length;k++){
                 // Change button text color
-                if(textButtonLerpSpeed>-1) buttonsText[i][k].color=Color.Lerp(buttonsText[i][k].color,c,textButtonLerpSpeed*Time.unscaledDeltaTime);
-                else buttonsText[i][k].color=c;
+                // if(textButtonLerpSpeed>-1) buttonsText[i][k].color=Color.Lerp(buttonsText[i][k].color,c,textButtonLerpSpeed*Time.unscaledDeltaTime);
+                // else{ 
+                    buttonsText[i][k].color=c;
+                //}
+
                 if(isSlider){
                     if((buttonsText[i][k].name=="Left" && value==0)||(buttonsText[i][k].name=="Right" && value==10)){
                         buttonsText[i][k].color=textButtonIdleColor;
@@ -322,6 +348,20 @@ public class Menu : MonoBehaviour
                     }
                     else buttonsText[i][k].fontSize=targetFontSize;
                     //buttonsText[i][k].fontSize=Mathf.Round(buttonsText[i][k].fontSize);
+                }
+
+                int bracketIndex=buttonsText[i][k].text.IndexOf(">");
+                if (progress <= .625)
+                {
+                    buttonsText[i][k].text="<sketchy3>"+buttonsText[i][k].text.Substring(bracketIndex+1);
+                }
+                else if (i == buttonIndex)
+                {
+                    buttonsText[i][k].text="<sketchy2>"+buttonsText[i][k].text.Substring(bracketIndex+1);
+                }
+                else
+                {
+                    buttonsText[i][k].text="<sketchy>"+buttonsText[i][k].text.Substring(bracketIndex+1);
                 }
             }
         }
