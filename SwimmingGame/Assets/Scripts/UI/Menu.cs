@@ -10,6 +10,7 @@ using UnityEngine.Events;
 using System;
 using UnityAtoms.Editor;
 using System.Text.RegularExpressions;
+using VLB;
 
 public class Menu : MonoBehaviour
 {
@@ -40,6 +41,8 @@ public class Menu : MonoBehaviour
     private TMP_Text[][] buttonsText;
     private int buttonIndex=0;
 
+    [Header("Animation Values")]
+
     public float buttonHighlightedScale=1.1f;
 
     public Color textButtonHighlightedColor;
@@ -52,11 +55,15 @@ public class Menu : MonoBehaviour
     [Tooltip("If -1, instanteneous")]
     public float textButtonLerpSpeed=-1f;
     [Tooltip("Used with animation curve for when unselected")]
-    public float textButtonLerpOutSpeed=-1f;
+    public float textButtonLerpOutSpeedModifier=-1f;
 
     public AnimationCurve animationCurve;
 
+    public float submenu_buttonHighlightedScale=1.1f;
+    public float submenu_textButtonLerpSpeed=1.1f;
 
+
+    [Header("Other Data")]
 
     public UnityEvent[] buttonEvents;
     public UnityEvent[] settingsEvents;
@@ -257,6 +264,18 @@ public class Menu : MonoBehaviour
         }
     }
 
+    bool IsInSubMenu()
+    {
+        if (currentButtons == buttons)
+        {
+            return false;
+        }
+        else
+        {
+            return true;
+        }
+    }
+
     bool IsSlider(GameObject button){
         if(button.name.Contains("Slider")){
             return true;
@@ -278,6 +297,13 @@ public class Menu : MonoBehaviour
             // This is used to determine how much sketchiness effect is applied
             float progress=1f;
 
+            float highlightedScale=buttonHighlightedScale;
+            float lerpSpeed=textButtonLerpSpeed;
+            if(IsInSubMenu()){
+                highlightedScale=submenu_buttonHighlightedScale;
+                lerpSpeed=submenu_textButtonLerpSpeed;
+            }
+
             if(isSlider) value=GetSliderValue(i);
             if(i==buttonIndex){
                 if(!playerInput.interacting || isSlider || buttonsLocked){
@@ -293,9 +319,9 @@ public class Menu : MonoBehaviour
                 //     images[k].color=c;
                 // }
                 // buttons[i].GetComponentInChildren<Animator>().speed=1.25f;
-                targetScale=buttonHighlightedScale;
+                targetScale=highlightedScale;
                 currentButtons[i].transform.SetAsLastSibling();
-                currentButtonsAnimationTimes[i]+=Time.deltaTime*textButtonLerpSpeed;
+                currentButtonsAnimationTimes[i]+=Time.deltaTime*lerpSpeed;
             }else{
                 c=textButtonIdleColor;
                 targetFontSize=textButtonIdleFontsize;
@@ -307,18 +333,25 @@ public class Menu : MonoBehaviour
                 // }
                 // buttons[i].GetComponentInChildren<Animator>().speed=0.5f;
                 targetScale=1f;
-                currentButtonsAnimationTimes[i]-=Time.deltaTime*textButtonLerpOutSpeed;
+                currentButtonsAnimationTimes[i]-=Time.deltaTime*lerpSpeed*textButtonLerpOutSpeedModifier;
             }
 
             currentButtonsAnimationTimes[i]=Mathf.Clamp(currentButtonsAnimationTimes[i],0f,1f);
 
             RectTransform rectTransform=currentButtons[i].GetComponent<RectTransform>();
 
+
+
             if(textButtonLerpSpeed>-1){
                 //rectTransform.localScale=Vector3.Lerp(rectTransform.localScale,Vector3.one*targetScale,textButtonLerpSpeed*Time.unscaledDeltaTime);
-                rectTransform.localScale=Vector3.Lerp(Vector3.one,Vector3.one*buttonHighlightedScale,animationCurve.Evaluate(currentButtonsAnimationTimes[i]));
+                rectTransform.localScale=Vector3.Lerp(Vector3.one,Vector3.one*highlightedScale,animationCurve.Evaluate(currentButtonsAnimationTimes[i]));
             }
             else rectTransform.localScale=Vector3.one*targetScale;
+
+            // if(isSlider){
+            //     currentButtons[i].transform.Find("Slider").rectTransform.localScale
+            // }
+
 
             // if(buttonHighlightedScale!=-1f){
             //     progress=1-Mathf.Abs((rectTransform.localScale.x-targetScale)/(buttonHighlightedScale-1f));
