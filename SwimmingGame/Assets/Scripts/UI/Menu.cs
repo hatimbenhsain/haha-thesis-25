@@ -218,7 +218,7 @@ public class Menu : MonoBehaviour
         menuUI.SetActive(false);
         if(inSettings){
             settingMenuUI.SetActive(true);
-            GetButtons();
+            GetButtons(settingsButtons,settingsEvents);
             ResetSliderValues();
         }
         else{
@@ -234,33 +234,28 @@ public class Menu : MonoBehaviour
         menuUI.SetActive(false);
         if(inChapterSelect){
             chapterSelectMenuUI.SetActive(true);
-            GetChapterSelectButtons();
+            GetButtons(chapterSelectButtons,chapterSelectEvents);
         }
         else{
             menuUI.SetActive(true);
-            GetChapterSelectButtons();
+            GetButtons();
         }
         buttonIndex=0;
     }
 
-    public void GetButtons(){
-        currentButtons=inSettings?settingsButtons:buttons;
-        events=inSettings?settingsEvents:buttonEvents;
+    public void GetButtons(GameObject[] nextButtons=null, UnityEvent[] nextEvents=null){
+        if (nextButtons == null)
+        {
+            nextButtons=buttons;
+            nextEvents=buttonEvents;
+        }
+        currentButtons=nextButtons;
+        events=nextEvents;
         buttonsText=new TMP_Text[currentButtons.Length][];
         currentButtonsAnimationTimes=new float[currentButtons.Length];
         for(int i=0;i<currentButtons.Length;i++){
             buttonsText[i]=currentButtons[i].GetComponentsInChildren<TMP_Text>();
             currentButtonsAnimationTimes[i]=0f;
-        }
-    }
-
-    void GetChapterSelectButtons()
-    {
-        currentButtons=inChapterSelect?chapterSelectButtons:buttons;
-        events=inChapterSelect?chapterSelectEvents:buttonEvents;
-        buttonsText=new TMP_Text[currentButtons.Length][];
-        for(int i=0;i<currentButtons.Length;i++){
-            buttonsText[i]=currentButtons[i].GetComponentsInChildren<TMP_Text>();
         }
     }
 
@@ -432,8 +427,6 @@ public class Menu : MonoBehaviour
                         txt=txt.Substring(txt.IndexOf(">")+1);
                     }
                     txt=Regex.Replace(txt, "[^0-9]", "");
-                    Debug.Log(txt);
-                    Debug.Log(int.Parse(txt));
                     return int.Parse(txt);
                 }
             }

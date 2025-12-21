@@ -44,7 +44,7 @@ public class AnimatedImage : MonoBehaviour
             imageIndex=parentImage.imageIndex;
         }
 
-        image.sprite=sprites[Mathf.FloorToInt(imageIndex)];
+        if(sprites.Length>1) image.sprite=sprites[Mathf.FloorToInt(imageIndex)];
 
         if(ignoreTimeDilation) pulseTimer+=Time.unscaledDeltaTime;
         else pulseTimer+=Time.deltaTime;
