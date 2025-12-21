@@ -9,6 +9,7 @@ using UnityEngine.UI;
 using UnityEngine.Events;
 using System;
 using UnityAtoms.Editor;
+using System.Text.RegularExpressions;
 
 public class Menu : MonoBehaviour
 {
@@ -350,18 +351,20 @@ public class Menu : MonoBehaviour
                     //buttonsText[i][k].fontSize=Mathf.Round(buttonsText[i][k].fontSize);
                 }
 
-                int bracketIndex=buttonsText[i][k].text.IndexOf(">");
-                if (progress <= .625)
-                {
-                    buttonsText[i][k].text="<sketchy3>"+buttonsText[i][k].text.Substring(bracketIndex+1);
-                }
-                else if (i == buttonIndex)
-                {
-                    buttonsText[i][k].text="<sketchy2>"+buttonsText[i][k].text.Substring(bracketIndex+1);
-                }
-                else
-                {
-                    buttonsText[i][k].text="<sketchy>"+buttonsText[i][k].text.Substring(bracketIndex+1);
+                if(buttonsText[i][k].text.Contains("<") && buttonsText[i][k].text.Substring(buttonsText[i][k].text.IndexOf("<")).Contains(">")){
+                    int bracketIndex=buttonsText[i][k].text.IndexOf(">");
+                    if (progress <= .625)
+                    {
+                        buttonsText[i][k].text="<sketchy3>"+buttonsText[i][k].text.Substring(bracketIndex+1);
+                    }
+                    else if (i == buttonIndex)
+                    {
+                        buttonsText[i][k].text="<sketchy2>"+buttonsText[i][k].text.Substring(bracketIndex+1);
+                    }
+                    else
+                    {
+                        buttonsText[i][k].text="<sketchy>"+buttonsText[i][k].text.Substring(bracketIndex+1);
+                    }
                 }
             }
         }
@@ -390,7 +393,15 @@ public class Menu : MonoBehaviour
         if(IsSlider(currentButtons[i])){
             for(int k=0;k<buttonsText[i].Length;k++){
                 if(buttonsText[i][k].name=="Value"){
-                    return int.Parse(buttonsText[i][k].text);
+                    string txt=buttonsText[i][k].text;
+                    if(txt.Contains("<") && txt.Substring(txt.IndexOf("<")).Contains(">"))
+                    {
+                        txt=txt.Substring(txt.IndexOf(">")+1);
+                    }
+                    txt=Regex.Replace(txt, "[^0-9]", "");
+                    Debug.Log(txt);
+                    Debug.Log(int.Parse(txt));
+                    return int.Parse(txt);
                 }
             }
         }
@@ -415,7 +426,13 @@ public class Menu : MonoBehaviour
         {
             if (buttonsText[i][k].name == "Value")
             {
-                buttonsText[i][k].text = value.ToString();
+                string txt=buttonsText[i][k].text;
+                if(txt.Contains("<") && txt.Substring(txt.IndexOf("<")).Contains(">"))
+                {
+                    buttonsText[i][k].text=txt.Substring(0,txt.IndexOf(">")+1)+value.ToString();
+                }else{
+                    buttonsText[i][k].text = value.ToString();
+                }
             }
         }
     }
