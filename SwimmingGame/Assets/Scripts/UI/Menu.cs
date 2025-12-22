@@ -62,6 +62,9 @@ public class Menu : MonoBehaviour
     public float submenu_buttonHighlightedScale=1.1f;
     public float submenu_textButtonLerpSpeed=1.1f;
 
+    public float fadeOutSpeed=-1f;
+    [HideInInspector]
+    public bool fadingOutCanvas;
 
     [Header("Other Data")]
 
@@ -79,6 +82,8 @@ public class Menu : MonoBehaviour
 
     [Header("Debug")]
     public TMP_Text debugTMP;
+
+    CanvasGroup canvasGroup;
 
     // Start is called before the first frame update
     public void Start()
@@ -136,6 +141,22 @@ public class Menu : MonoBehaviour
             ResetManager.reset=(PlayerPrefs.GetInt("showcaseMode")==1);
             debugTMP.gameObject.SetActive(true);
             StartCoroutine(HideDebugTMP());
+        }
+
+        if (fadingOutCanvas)
+        {
+            if (canvasGroup == null)
+            {
+                canvasGroup=GetComponentInChildren<CanvasGroup>();
+            }   
+            canvasGroup.alpha=Mathf.Lerp(canvasGroup.alpha,0f,fadeOutSpeed*Time.unscaledDeltaTime);
+            if (canvasGroup.alpha <= 0.01f)
+            {
+                canvasGroup.alpha=0f;
+                menuUI.SetActive(false);
+                settingMenuUI.SetActive(false);
+                chapterSelectMenuUI.SetActive(false);
+            }
         }
     }
     
@@ -533,9 +554,12 @@ public class Menu : MonoBehaviour
     public void Resume()
     {
         // set timescale back to 1, unlock camera
-        menuUI.SetActive(false);
-        settingMenuUI.SetActive(false);
-        chapterSelectMenuUI.SetActive(false);
+        if (fadeOutSpeed == -1f)
+        {
+            menuUI.SetActive(false);
+            settingMenuUI.SetActive(false);
+            chapterSelectMenuUI.SetActive(false);
+        }
         Time.timeScale = 1f;
         GameIsPaused = false;
         UnityEngine.Cursor.visible = false;
@@ -557,6 +581,16 @@ public class Menu : MonoBehaviour
         UnityEngine.Cursor.visible = true;
         GetButtons();
         singingBus.setVolume(0f);
+
+        if (fadeOutSpeed != -1f)
+        {
+            if (canvasGroup == null)
+            {
+                canvasGroup=GetComponentInChildren<CanvasGroup>();
+            }   
+            canvasGroup.alpha=1f;
+        }
+
     }
 
     void OnDestroy(){

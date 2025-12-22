@@ -40,6 +40,7 @@ public class StartMenu : Menu
                 startedGame=true;
                 canvasAnimator.enabled=true;
                 canvasAnimator.SetTrigger("depart");
+                fadingOutCanvas=true;
             }
         }
     }
