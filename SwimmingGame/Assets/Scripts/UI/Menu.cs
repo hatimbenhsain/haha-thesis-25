@@ -379,21 +379,78 @@ public class Menu : MonoBehaviour
                     //buttonsText[i][k].fontSize=Mathf.Round(buttonsText[i][k].fontSize);
                 }
 
-                if(buttonsText[i][k].text.Contains("<") && buttonsText[i][k].text.Substring(buttonsText[i][k].text.IndexOf("<")).Contains(">")){
-                    int bracketIndex=buttonsText[i][k].text.IndexOf(">");
-                    if (progress <= .625)
+                //Below: Finding "sketchy" tag and replacing it
+                // TO-DO: Make a standardized function for looking up bracketed tags
+                for(int n=0; n < buttonsText[i][k].text.Length; n++)
+                {
+                    if (buttonsText[i][k].text[n] == '<')
                     {
-                        buttonsText[i][k].text="<sketchy3>"+buttonsText[i][k].text.Substring(bracketIndex+1);
-                    }
-                    else if (i == buttonIndex)
-                    {
-                        buttonsText[i][k].text="<sketchy2>"+buttonsText[i][k].text.Substring(bracketIndex+1);
-                    }
-                    else
-                    {
-                        buttonsText[i][k].text="<sketchy>"+buttonsText[i][k].text.Substring(bracketIndex+1);
+                        int m=n+1;
+                        while (m < buttonsText[i][k].text.Length)
+                        {
+                            if (buttonsText[i][k].text[m] == '>')
+                            {
+                                string tagContent=buttonsText[i][k].text.Substring(n+1,m-n-1);
+                                if(tagContent=="sketchy" || tagContent=="sketchy2" || tagContent=="sketchy3"){
+                                    //Transitional sketchy with more movement
+                                    if (progress <= .625)
+                                    {
+                                        buttonsText[i][k].text=buttonsText[i][k].text.Substring(0,n)+"<sketchy3>"+buttonsText[i][k].text.Substring(m+1);
+                                    }
+                                    // Active sketchy when selected
+                                    else if (i == buttonIndex)
+                                    {
+                                        buttonsText[i][k].text=buttonsText[i][k].text.Substring(0,n)+"<sketchy2>"+buttonsText[i][k].text.Substring(m+1);
+                                    }
+                                    // Inactive sketchy when not selected
+                                    else
+                                    {
+                                        buttonsText[i][k].text=buttonsText[i][k].text.Substring(0,n)+"<sketchy>"+buttonsText[i][k].text.Substring(m+1);
+                                    }
+                                    // There is also sketchy0 which I don't want to ever change
+                                }
+                                else if(tagContent=="wave1" || tagContent=="wave2"){
+                                    if (i == buttonIndex)
+                                    {
+                                        buttonsText[i][k].text=buttonsText[i][k].text.Substring(0,n)+"<wave2>"+buttonsText[i][k].text.Substring(m+1);
+                                    }
+                                    // Inactive  when not selected
+                                    else
+                                    {
+                                        buttonsText[i][k].text=buttonsText[i][k].text.Substring(0,n)+"<wave1>"+buttonsText[i][k].text.Substring(m+1);
+                                    }
+                                }
+                                break;
+                            }
+                            m++;
+                        }
+                        n=m;
                     }
                 }
+
+                // if(buttonsText[i][k].text.Contains("<") && buttonsText[i][k].text.Substring(buttonsText[i][k].text.IndexOf("<")).Contains(">")){
+                //     int bracketIndex1=buttonsText[i][k].text.IndexOf("<");
+                //     int bracketIndex2=buttonsText[i][k].text.IndexOf(">");
+                //     string tagContent=buttonsText[i][k].text.Substring(bracketIndex1+1,bracketIndex2-bracketIndex2-1);
+                //     if(tagContent=="sketchy" || tagContent=="sketchy2" || tagContent=="sketchy3"){
+                //         //Transitional sketchy with more movement
+                //         if (progress <= .625)
+                //         {
+                //             buttonsText[i][k].text="<sketchy3>"+buttonsText[i][k].text.Substring(bracketIndex2+1);
+                //         }
+                //         // Active sketchy when selected
+                //         else if (i == buttonIndex)
+                //         {
+                //             buttonsText[i][k].text="<sketchy2>"+buttonsText[i][k].text.Substring(bracketIndex2+1);
+                //         }
+                //         // Inactive sketchy when not selected
+                //         else
+                //         {
+                //             buttonsText[i][k].text="<sketchy>"+buttonsText[i][k].text.Substring(bracketIndex2+1);
+                //         }
+                //         // There is also sketchy0 which I don't want to ever change
+                //     }
+                // }
             }
         }
     }
