@@ -383,9 +383,11 @@ public class Menu : MonoBehaviour
                 // TO-DO: Make a standardized function for looking up bracketed tags
                 for(int n=0; n < buttonsText[i][k].text.Length; n++)
                 {
+                    int m=n;
                     if (buttonsText[i][k].text[n] == '<')
                     {
-                        int m=n+1;
+                        if(n<buttonsText[i][k].text.Length && buttonsText[i][k].text[n+1]=='/') n++;
+                        m=n+1;
                         while (m < buttonsText[i][k].text.Length)
                         {
                             if (buttonsText[i][k].text[m] == '>')
@@ -395,31 +397,32 @@ public class Menu : MonoBehaviour
                                     //Transitional sketchy with more movement
                                     if (progress <= .625)
                                     {
-                                        buttonsText[i][k].text=buttonsText[i][k].text.Substring(0,n)+"<sketchy3>"+buttonsText[i][k].text.Substring(m+1);
+                                        tagContent="sketchy3";
                                     }
                                     // Active sketchy when selected
                                     else if (i == buttonIndex)
                                     {
-                                        buttonsText[i][k].text=buttonsText[i][k].text.Substring(0,n)+"<sketchy2>"+buttonsText[i][k].text.Substring(m+1);
+                                        tagContent="sketchy2";
                                     }
                                     // Inactive sketchy when not selected
                                     else
                                     {
-                                        buttonsText[i][k].text=buttonsText[i][k].text.Substring(0,n)+"<sketchy>"+buttonsText[i][k].text.Substring(m+1);
+                                        tagContent="sketchy";
                                     }
                                     // There is also sketchy0 which I don't want to ever change
                                 }
                                 else if(tagContent=="wave1" || tagContent=="wave2"){
                                     if (i == buttonIndex)
                                     {
-                                        buttonsText[i][k].text=buttonsText[i][k].text.Substring(0,n)+"<wave2>"+buttonsText[i][k].text.Substring(m+1);
+                                        tagContent="wave2";
                                     }
                                     // Inactive  when not selected
                                     else
                                     {
-                                        buttonsText[i][k].text=buttonsText[i][k].text.Substring(0,n)+"<wave1>"+buttonsText[i][k].text.Substring(m+1);
+                                        tagContent="wave1";
                                     }
                                 }
+                                buttonsText[i][k].text=buttonsText[i][k].text.Substring(0,n+1)+tagContent+buttonsText[i][k].text.Substring(m);
                                 break;
                             }
                             m++;
