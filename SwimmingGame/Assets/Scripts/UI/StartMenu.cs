@@ -41,6 +41,10 @@ public class StartMenu : Menu
                 canvasAnimator.enabled=true;
                 canvasAnimator.SetTrigger("depart");
                 fadingOutCanvas=true;
+                Sound.StopInstance("Click Button",true);
+                Sound.PlayOneShotVolume("event:/One-Time SFX/TitleScreen_Kick",1f);
+                Sound.PlayOneShotVolume("event:/One-Time SFX/TitleScreen_Start",1f);
+                Sound.StopInstance("Title Screen Ambiance");
             }
         }
     }

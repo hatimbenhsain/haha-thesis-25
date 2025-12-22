@@ -169,9 +169,11 @@ public class Menu : MonoBehaviour
     void NavigateButtons(){
         if((playerInput.navigateDown && !playerInput.prevNavigateDown)){
             buttonIndex+=1;
+            Sound.PlayOneShotVolume("event:/Non-Diagetic SFX/Select Button",1f);
         }
         if((playerInput.navigateUp && !playerInput.prevNavigateUp)){
             buttonIndex-=1;
+            Sound.PlayOneShotVolume("event:/Non-Diagetic SFX/Select Button",1f);
         }
         buttonIndex=(buttonIndex+currentButtons.Length)%currentButtons.Length;
     }
@@ -181,6 +183,7 @@ public class Menu : MonoBehaviour
         if(!IsSlider(currentButtons[buttonIndex])){
             if(playerInput.prevInteracting && !playerInput.interacting){
                 if(buttonIndex>=0 && buttonIndex<events.Length && !buttonsLocked){
+                    Sound.PlayInstance("event:/Non-Diagetic SFX/Click Button","Click Button",1f);
                     events[buttonIndex].Invoke();
                 }else{
                     Debug.LogWarning("Tried to invoke empty event.");
@@ -407,7 +410,7 @@ public class Menu : MonoBehaviour
                     int m=n;
                     if (buttonsText[i][k].text[n] == '<')
                     {
-                        if(n<buttonsText[i][k].text.Length && buttonsText[i][k].text[n+1]=='/') n++;
+                        if(n<buttonsText[i][k].text.Length-1 && buttonsText[i][k].text[n+1]=='/') n++;
                         m=n+1;
                         while (m < buttonsText[i][k].text.Length)
                         {
