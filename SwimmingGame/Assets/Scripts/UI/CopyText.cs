@@ -17,6 +17,6 @@ public class CopyText : MonoBehaviour
 
     void Update()
     {
-        text.text=prefix+reference.text+suffix;
+        if(text.text!=prefix+reference.text+suffix) text.text=prefix+reference.text+suffix;
     }
 }
