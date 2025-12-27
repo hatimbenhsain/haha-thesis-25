@@ -21,6 +21,7 @@ public class Menu : MonoBehaviour
     public GameObject menuUI;
     public GameObject settingMenuUI;
     public GameObject chapterSelectMenuUI;
+    public GameObject sceneControlMenuUI;
     public string mainMenuScene;
     public GameObject[] controls;
     [Tooltip("Overworld 0, mainact 1, climax 2, cuddle 3")]
@@ -36,6 +37,7 @@ public class Menu : MonoBehaviour
     public GameObject[] buttons;
     public GameObject[] settingsButtons;
     public GameObject[] chapterSelectButtons;
+    public GameObject[] sceneControlButtons;
     private GameObject[] currentButtons;
     private float[] currentButtonsAnimationTimes;
     private TMP_Text[][] buttonsText;
@@ -71,6 +73,7 @@ public class Menu : MonoBehaviour
     public UnityEvent[] buttonEvents;
     public UnityEvent[] settingsEvents;
     public UnityEvent[] chapterSelectEvents;
+    public UnityEvent[] sceneControlEvents;
     private UnityEvent[] events;
 
     FMOD.Studio.Bus masterBus;
@@ -84,10 +87,13 @@ public class Menu : MonoBehaviour
     public TMP_Text debugTMP;
 
     CanvasGroup canvasGroup;
+    GameObject canvasObject;
 
     // Start is called before the first frame update
     public void Start()
     {
+        canvasObject=GetComponentInChildren<Canvas>().gameObject;
+
         playerInput = FindObjectOfType<PlayerInput>();
         GameIsPaused = false;
         playerCamera = GameObject.Find("PlayerFollowCamera")?.GetComponent<CinemachineVirtualCamera>();
@@ -156,6 +162,8 @@ public class Menu : MonoBehaviour
                 menuUI.SetActive(false);
                 settingMenuUI.SetActive(false);
                 chapterSelectMenuUI.SetActive(false);
+                canvasObject.SetActive(false);
+                fadingOutCanvas=false;
             }
         }
     }
@@ -267,6 +275,21 @@ public class Menu : MonoBehaviour
         buttonIndex=0;
     }
 
+    public void SceneControl(bool b){
+        // inChapterSelect=b;
+        // chapterSelectMenuUI.SetActive(false);
+        // menuUI.SetActive(false);
+        // if(inChapterSelect){
+        //     chapterSelectMenuUI.SetActive(true);
+        //     GetButtons(chapterSelectButtons,chapterSelectEvents);
+        // }
+        // else{
+        //     menuUI.SetActive(true);
+        //     GetButtons();
+        // }
+        // buttonIndex=0;
+    }
+
     public void GetButtons(GameObject[] nextButtons=null, UnityEvent[] nextEvents=null){
         if (nextButtons == null)
         {
@@ -340,7 +363,7 @@ public class Menu : MonoBehaviour
                 // buttons[i].GetComponentInChildren<Animator>().speed=1.25f;
                 targetScale=highlightedScale;
                 currentButtons[i].transform.SetAsLastSibling();
-                currentButtonsAnimationTimes[i]+=Time.deltaTime*lerpSpeed;
+                currentButtonsAnimationTimes[i]+=Time.unscaledDeltaTime*lerpSpeed;
             }else{
                 c=textButtonIdleColor;
                 targetFontSize=textButtonIdleFontsize;
@@ -352,7 +375,7 @@ public class Menu : MonoBehaviour
                 // }
                 // buttons[i].GetComponentInChildren<Animator>().speed=0.5f;
                 targetScale=1f;
-                currentButtonsAnimationTimes[i]-=Time.deltaTime*lerpSpeed*textButtonLerpOutSpeedModifier;
+                currentButtonsAnimationTimes[i]-=Time.unscaledDeltaTime*lerpSpeed*textButtonLerpOutSpeedModifier;
             }
 
             currentButtonsAnimationTimes[i]=Mathf.Clamp(currentButtonsAnimationTimes[i],0f,1f);
@@ -562,6 +585,7 @@ public class Menu : MonoBehaviour
             menuUI.SetActive(false);
             settingMenuUI.SetActive(false);
             chapterSelectMenuUI.SetActive(false);
+            canvasObject.SetActive(false);
         }
         Time.timeScale = 1f;
         GameIsPaused = false;
@@ -571,6 +595,11 @@ public class Menu : MonoBehaviour
         inChapterSelect=false;
         singingBus.setVolume(1f);
 
+        if (fadeOutSpeed != -1f)
+        {
+            fadingOutCanvas=true;
+        }
+
     }
 
 
@@ -578,6 +607,7 @@ public class Menu : MonoBehaviour
     {
         UnityEngine.Cursor.lockState = CursorLockMode.None;
         // set timescale to 0, lock camera
+        canvasObject.SetActive(true);
         if(inSettings) settingMenuUI.SetActive(true);
         else menuUI.SetActive(true);
         Time.timeScale = 0f;
@@ -593,6 +623,8 @@ public class Menu : MonoBehaviour
             }   
             canvasGroup.alpha=1f;
         }
+        
+        fadingOutCanvas=false;
 
     }
 
