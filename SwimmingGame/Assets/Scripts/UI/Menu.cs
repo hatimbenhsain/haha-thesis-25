@@ -16,8 +16,12 @@ public class Menu : MonoBehaviour
 {
     public bool active=false;
     public static bool GameIsPaused = false;
+    [HideInInspector]
     public bool inSettings=false;
+    [HideInInspector]
     public bool inChapterSelect=false;
+    [HideInInspector]
+    public bool inSceneControl=false;
     public GameObject menuUI;
     public GameObject settingMenuUI;
     public GameObject chapterSelectMenuUI;
@@ -88,6 +92,8 @@ public class Menu : MonoBehaviour
 
     CanvasGroup canvasGroup;
     GameObject canvasObject;
+
+    public Animator canvasAnimator;
 
     // Start is called before the first frame update
     public void Start()
@@ -245,9 +251,8 @@ public class Menu : MonoBehaviour
     }
 
     public void Settings(bool b){
+        SwitchScreens();
         inSettings=b;
-        settingMenuUI.SetActive(false);
-        menuUI.SetActive(false);
         if(inSettings){
             settingMenuUI.SetActive(true);
             GetButtons(settingsButtons,settingsEvents);
@@ -258,12 +263,12 @@ public class Menu : MonoBehaviour
             GetButtons();
         }
         buttonIndex=0;
+        canvasAnimator.SetBool("inSettings",b);
     }
 
     public void ChapterSelect(bool b){
-        inChapterSelect=b;
-        chapterSelectMenuUI.SetActive(false);
-        menuUI.SetActive(false);
+        SwitchScreens();
+        inChapterSelect=b;       
         if(inChapterSelect){
             chapterSelectMenuUI.SetActive(true);
             GetButtons(chapterSelectButtons,chapterSelectEvents);
@@ -273,21 +278,36 @@ public class Menu : MonoBehaviour
             GetButtons();
         }
         buttonIndex=0;
+        canvasAnimator.SetBool("inChapterSelect",b);
     }
 
     public void SceneControl(bool b){
-        // inChapterSelect=b;
-        // chapterSelectMenuUI.SetActive(false);
-        // menuUI.SetActive(false);
-        // if(inChapterSelect){
-        //     chapterSelectMenuUI.SetActive(true);
-        //     GetButtons(chapterSelectButtons,chapterSelectEvents);
-        // }
-        // else{
-        //     menuUI.SetActive(true);
-        //     GetButtons();
-        // }
-        // buttonIndex=0;
+        SwitchScreens();
+        inSceneControl=b;
+        if(inSceneControl){
+            sceneControlMenuUI.SetActive(true);
+            GetButtons(sceneControlButtons,sceneControlEvents);
+        }
+        else{
+            menuUI.SetActive(true);
+            GetButtons();
+        }
+        buttonIndex=0;
+        canvasAnimator.SetBool("inSceneControl",b);
+    }
+
+    public void SwitchScreens()
+    {
+        menuUI.SetActive(false);
+        sceneControlMenuUI.SetActive(false);
+        chapterSelectMenuUI.SetActive(false);
+        settingMenuUI.SetActive(false);
+        inSceneControl=false;
+        inSettings=false;
+        inChapterSelect=false;
+        canvasAnimator.SetBool("inSceneControl",false);
+        canvasAnimator.SetBool("inChapterSelect",false);
+        canvasAnimator.SetBool("inSettings",false);
     }
 
     public void GetButtons(GameObject[] nextButtons=null, UnityEvent[] nextEvents=null){
@@ -623,7 +643,7 @@ public class Menu : MonoBehaviour
             }   
             canvasGroup.alpha=1f;
         }
-        
+
         fadingOutCanvas=false;
 
     }

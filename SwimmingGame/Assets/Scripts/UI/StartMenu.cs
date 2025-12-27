@@ -10,7 +10,7 @@ public class StartMenu : Menu
 {    
     private bool startedGame=false;
 
-    public Animator canvasAnimator;
+    
 
     public override void Initiate()
     {
