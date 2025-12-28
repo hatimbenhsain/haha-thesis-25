@@ -1033,6 +1033,10 @@ public class Dialogue : MonoBehaviour
         {
             FinishTutorialPart(i);
         });
+        story.BindExternalFunction("goToTutorialPart", (int i) =>
+        {
+            GoToTutorialPart(i);
+        });
         story.BindExternalFunction("switchObject", (string name, bool b) =>
         {
             SwitchObject(name, b);
@@ -1231,6 +1235,12 @@ public class Dialogue : MonoBehaviour
     {
         FindObjectOfType<Tutorial>().FinishTutorialPart(i);
     }
+
+    void GoToTutorialPart(int i)
+    {
+        FindObjectOfType<Tutorial>().GoToTutorialPart(i);
+    }
+
 
     void SwitchObject(string name, bool b)
     {
