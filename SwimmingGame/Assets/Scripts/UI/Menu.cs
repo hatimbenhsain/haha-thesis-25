@@ -28,7 +28,7 @@ public class Menu : MonoBehaviour
     public GameObject sceneControlMenuUI;
     public string mainMenuScene;
     public GameObject[] controls;
-    [Tooltip("Overworld 0, mainact 1, climax 2, cuddle 3")]
+    [Tooltip("Overworld 0, mainact 1, climax 2, cuddle 3 -- Not currently using")]
     public int controlsIndex;
     private CinemachineVirtualCamera playerCamera;
     private Transform playerCameraRoot; // The target position and rotation for the player
@@ -102,7 +102,7 @@ public class Menu : MonoBehaviour
         GameIsPaused = false;
         playerCamera = GameObject.Find("PlayerFollowCamera")?.GetComponent<CinemachineVirtualCamera>();
         playerCameraRoot = GameObject.Find("PlayerCameraRoot")?.GetComponent<Transform>();
-        controls[controlsIndex].gameObject.SetActive(true);
+        //controls[controlsIndex].gameObject.SetActive(true);
 
         GetButtons();
 
