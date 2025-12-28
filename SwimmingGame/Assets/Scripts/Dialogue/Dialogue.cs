@@ -595,15 +595,16 @@ public class Dialogue : MonoBehaviour
     void BurstTextbox(GameObject burstingTextBox)
     {
         GameObject imageCarrier = burstingTextBox.GetComponentInChildren<Image>().gameObject;
-        burstClones.Add(Instantiate(imageCarrier, imageCarrier.transform.position, imageCarrier.transform.rotation, canvasParent.transform.parent));
+        Animator a;
+        if(imageCarrier.TryGetComponent<Animator>(out a)) burstClones.Add(Instantiate(imageCarrier, imageCarrier.transform.position, imageCarrier.transform.rotation, canvasParent.transform.parent));
         DialogueBoxPlacement dbp;
         if (burstingTextBox.TryGetComponent<DialogueBoxPlacement>(out dbp))
         {
-            if (dbp.bubble1 != null)
+            if (dbp.bubble1 != null && dbp.bubble1.TryGetComponent<Animator>(out a))
             {
                 burstClones.Add(Instantiate(dbp.bubble1.gameObject, dbp.bubble1.transform.position, dbp.bubble1.transform.rotation, canvasParent.transform.parent));
             }
-            if (dbp.bubble2 != null)
+            if (dbp.bubble2 != null && dbp.bubble2.TryGetComponent<Animator>(out a))
             {
                 burstClones.Add(Instantiate(dbp.bubble2.gameObject, dbp.bubble2.transform.position, dbp.bubble2.transform.rotation, canvasParent.transform.parent));
             }

@@ -46,8 +46,8 @@ MC: Wait!! #speed: fast
 # ambient
 ~ changeDialogueView(2)
 ~ intensity=2
-MC: # time:1
-MC: Are.. are you still there? Do you receive me? # time:5
+MC: Are...# time:1
+MC: Are you still there? Do you receive me? # time:5
 Ex: What is it? # time:3
 MC: What does this mean for us..? # time: 5 # speed: slow
 Ex: Evidently, this has to be our end. # time: 3
@@ -82,6 +82,7 @@ MC: I guess not. \\pauseNot really. # time: 5 # speed: slow
 # ambient
 ~ intensity=5
 ~ changeDialogueView(2)
+~ pauseTutorial(true)
 MC: What is that, up ahead? \\pauseIt looks frightening. # time: 4
 Ex: It's part of all the changes that are happening. Everyone is doing "that" now. # time: 6
 MC: But it... it didn't really happen, did it? Between us? # time:5
