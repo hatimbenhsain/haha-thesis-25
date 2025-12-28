@@ -37,6 +37,7 @@ MC: Hold on..
 ~ swimmerCamOn=true
 ~ changeDialogueView(2)
 MC: Wait!! #speed: fast
+~ changeDesire("\nFollow \nthem.")
 ~ pauseTutorial(false)
 ~ finishTutorialPart(2)
 -> END
