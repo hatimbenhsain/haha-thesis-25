@@ -91,15 +91,13 @@ public class Menu : MonoBehaviour
     public TMP_Text debugTMP;
 
     CanvasGroup canvasGroup;
-    GameObject canvasObject;
+    public GameObject canvasObject;
 
     public Animator canvasAnimator;
 
     // Start is called before the first frame update
     public void Start()
     {
-        canvasObject=GetComponentInChildren<Canvas>().gameObject;
-
         playerInput = FindObjectOfType<PlayerInput>();
         GameIsPaused = false;
         playerCamera = GameObject.Find("PlayerFollowCamera")?.GetComponent<CinemachineVirtualCamera>();
@@ -299,9 +297,9 @@ public class Menu : MonoBehaviour
     public void SwitchScreens()
     {
         menuUI.SetActive(false);
-        sceneControlMenuUI.SetActive(false);
-        chapterSelectMenuUI.SetActive(false);
-        settingMenuUI.SetActive(false);
+        if(sceneControlMenuUI!=null) sceneControlMenuUI.SetActive(false);
+        if(chapterSelectMenuUI!=null)  chapterSelectMenuUI.SetActive(false);
+        if(settingMenuUI!=null) settingMenuUI.SetActive(false);
         inSceneControl=false;
         inSettings=false;
         inChapterSelect=false;

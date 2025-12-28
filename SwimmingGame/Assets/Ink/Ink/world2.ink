@@ -32,7 +32,7 @@ NPC: Friend.
 }
 - -> npcEnd ->
 ~ switchObject("Roadblock 5",false)
-~changeDesire("Find Enkidu.")
+~changeDesire("<br>Find <br>Enkidu.")
 -> END
 =chat 
 Care for a chat?
@@ -185,7 +185,7 @@ VAR metEnkidu=false
 # color: 2A3B5A
 # outline: FFF383
 -> npcStart2 ->
-~changeDesire("Find a way out of the party.")
+~changeDesire("<br>Find a way out of <br>the party.")
 Enkidu: Hello there!
 MC: ...Hello?
 Enkidu: That's how they start conversations on the surface!

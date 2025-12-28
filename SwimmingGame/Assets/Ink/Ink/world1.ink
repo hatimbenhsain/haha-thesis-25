@@ -45,9 +45,9 @@ VAR talkedToThisCoralnet=false
 {
     - desireStep==0:
         ~desireStep=1
-        ~changeDesire("Read more coralnet.")
+        ~changeDesire("<br>Read more coralnet.")
     - desireStep==1:
-        ~changeDesire("Read more coralnet.")
+        ~changeDesire("<br>Read more coralnet.")
 }
 ~ activateBorder("coral",true)
 ->->
@@ -939,7 +939,7 @@ MC: Actually..
 - ~ pauseTutorial(false)
 ~ restoreNPCsVolume()
 ~ desireStep=2
-~ changeDesire("Exit library.")
+~ changeDesire("<br><br>Exit<br> Library.")
 ~ activateBorder("floral",false)
 ~ continueSinging()
 ->->
@@ -1122,7 +1122,7 @@ Teacher: Would that be bad? If I watched you?
 - ~ pause(4)
 Teacher: Since you're not hungry.. Would you like to..
 MC: Yeah?
-~ changeDesire("Follow the library stranger.")
+~ changeDesire("<br>Follow <br>the library stranger.")
 ~ desireStep=4
 Teacher: Go somewhere with fewer people?
 +   [Let's go.]
@@ -1146,7 +1146,7 @@ MC: Wait, what about your food...?
 Teacher: Oh..
 It's fine. Others will eat it.
 ~ activateBorder("floral",false)
-~ changeDesire("Meet the library stranger at the bottom.")
+~ changeDesire("<br>Meet <br>the library stranger at the bottom.")
 ~ restoreNPCsVolume()
 ~ pauseTutorial(false)
 ~ switchObject("Teacher",false)
@@ -1173,7 +1173,7 @@ Teacher: Um.. One of my past lovers.
 MC: Does the entanglement make you..?
 Teacher: No, it also depends on your diet. You should incorporate more rock salt.
 Anyway, let's go.
-~changeDesire("Follow the library stranger.")
+~changeDesire("<br>Follow<br> the library stranger.")
 ~ nextBrain()
 ~ restoreNPCsVolume()
 ~ pauseTutorial(false)
@@ -1526,7 +1526,7 @@ Let me know if you need any help.
 {
     - desireStep==0:
         ~desireStep=1
-        ~changeDesire("Read coralnet.")
+        ~changeDesire("<br>Read Coralnet.")
 }
 - -> npcEnd ->
 -> END
