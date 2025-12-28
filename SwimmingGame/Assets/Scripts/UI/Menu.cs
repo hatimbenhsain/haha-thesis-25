@@ -628,8 +628,10 @@ public class Menu : MonoBehaviour
         UnityEngine.Cursor.lockState = CursorLockMode.None;
         // set timescale to 0, lock camera
         canvasObject.SetActive(true);
-        if(inSettings) settingMenuUI.SetActive(true);
-        else menuUI.SetActive(true);
+        SwitchScreens();
+        //if(inSettings) settingMenuUI.SetActive(true);
+        //else 
+        menuUI.SetActive(true);
         Time.timeScale = 0f;
         UnityEngine.Cursor.visible = true;
         GetButtons();
