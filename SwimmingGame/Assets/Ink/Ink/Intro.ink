@@ -12,7 +12,7 @@ VAR intensity=0
 // Main character is swimming in the dark. As the conversation progresses, they begin to see two sexual organs entangling. They have the faces of the Protagonist and the Ex as heads. The faces are obscured until the end of the conversation.
 === intro1 ===
 ~ stopSinging()
-~ pauseTutorial(true)
+~ finishTutorialPart(2)
 Ex: So, \\pauseI'm leaving. # time: 3
 ~ intensity=1
 MC: What? # time: 3
@@ -39,7 +39,7 @@ MC: Hold on..
 MC: Wait!! #speed: fast
 ~ changeDesire("\nFollow \nthem.")
 ~ pauseTutorial(false)
-~ finishTutorialPart(2)
+~ finishTutorialPart(3)
 -> END
 
 === intro2 ===
