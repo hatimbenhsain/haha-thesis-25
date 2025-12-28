@@ -8,6 +8,10 @@ using UnityEngine.Events;
 
 public class StartMenu : Menu
 {    
+    private bool startedGame=false;
+
+    
+
     public override void Initiate()
     {
         base.Initiate();
@@ -23,6 +27,26 @@ public class StartMenu : Menu
         UnityEngine.Cursor.visible = true;
         GetButtons();
         myLockState = UnityEngine.Cursor.lockState;
+    }
+
+    public override void Update()
+    {
+        base.Update();
+
+        if (!startedGame)
+        {
+            if (FindObjectOfType<LevelLoader>().loadingLevel)
+            {
+                startedGame=true;
+                canvasAnimator.enabled=true;
+                canvasAnimator.SetTrigger("depart");
+                fadingOutCanvas=true;
+                Sound.StopInstance("Click Button",true);
+                Sound.PlayOneShotVolume("event:/One-Time SFX/TitleScreen_Kick",1f);
+                Sound.PlayOneShotVolume("event:/One-Time SFX/TitleScreen_Start",1f);
+                Sound.StopInstance("Title Screen Ambiance");
+            }
+        }
     }
 
 }

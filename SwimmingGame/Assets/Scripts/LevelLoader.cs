@@ -58,6 +58,9 @@ public class LevelLoader : MonoBehaviour
 
     private bool isGameStartSceneLoaded = false; // Flag to track if GameStart scene is already loaded
 
+    [HideInInspector]
+    public bool loadingLevel=false;
+
     void Start()
     {
         if (loadingImage != null)
@@ -281,6 +284,7 @@ public class LevelLoader : MonoBehaviour
 
     IEnumerator EnsureSceneLoaderCoroutine(string currentScene, string destination, float crossFadeTime)
     {
+        loadingLevel=true;
         if (waitForFadeOut){
             fadingOut = true;
             transitionTimer = 0f;
@@ -320,6 +324,7 @@ public class LevelLoader : MonoBehaviour
 
     IEnumerator LoadLevelCoroutine(string levelIndex)
     {
+        loadingLevel=true;
         fadingOut = true;
         transitionTimer = 0f;
 
