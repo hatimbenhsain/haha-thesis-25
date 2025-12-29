@@ -108,13 +108,15 @@ public class Tutorial : MonoBehaviour
                         string note="";
                         NPCSinging[] npcSingings=FindObjectsOfType<NPCSinging>();
                         foreach(NPCSinging npcSinging in npcSingings){
-                            if(npcSinging.singing){
+                            if(npcSinging.canSing){
                                 float distance=Vector3.Distance(swimmerSinging.transform.position,npcSinging.transform.position);
                                 if(npcSinging.InRange() && distance<minDistance){
                                     minDistance=distance;
-                                    note=npcSinging.singingNote;
-                                    if(npcSinging.isHarmonizing()){
-                                        currentlyUsed=true;
+                                    if(npcSinging.singing){
+                                        note=npcSinging.singingNote;
+                                        if(npcSinging.isHarmonizing()){
+                                            currentlyUsed=true;
+                                        }
                                     }
                                 }
                             }
@@ -129,6 +131,19 @@ public class Tutorial : MonoBehaviour
                             icons[3].active=true;
                         }else if(note=="G#5"){
                             icons[4].active=true;
+                        }
+
+                        if (note != "")
+                        {
+                            tMPro.text="To harmonize, <br>sing one of the notes <br>across your singing partner's.";
+                        }
+                        else if (minDistance < 100f)
+                        {
+                            tMPro.text="To harmonize, <br>wait for your partner<br> to start singing.";
+                        }
+                        else
+                        {
+                            tMPro.text="To harmonize, <br>get close to a singing <br>coralnet or a person.";
                         }
                     }
 
@@ -251,7 +266,12 @@ public struct TutorialPart{
     [HideInInspector]
     public bool active, triggered;
     public bool done;
-    public bool disappearsAfterTime, disappearsAfterLeavingZone, disappearsAutomatically, isHarmony;
+    [Tooltip("Disappears after using the button for the time above.")]
+    public bool disappearsAfterTime;
+    public bool disappearsAfterLeavingZone; 
+    [Tooltip("Disappears after \"time before disappearing\".")]
+    public bool disappearsAutomatically;
+    public bool isHarmony;
     [Tooltip("If this is false, the tutorial doesn't move on until you stopped using the input.")]
     public bool skipEvenIfUsing;
 }
