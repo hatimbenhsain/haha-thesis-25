@@ -133,6 +133,8 @@ public class Tutorial : MonoBehaviour
                             icons[4].active=true;
                         }
 
+                        string prevText=tMPro.text;
+                        
                         if (note != "")
                         {
                             tMPro.text="To harmonize, <br>sing one of the notes <br>across your singing partner's.";
@@ -144,6 +146,11 @@ public class Tutorial : MonoBehaviour
                         else
                         {
                             tMPro.text="To harmonize, <br>get close to a singing <br>coralnet or a person.";
+                        }
+
+                        if (prevText != tMPro.text)
+                        {
+                            opacity=0f;
                         }
                     }
 
