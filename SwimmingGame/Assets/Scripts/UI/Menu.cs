@@ -8,7 +8,6 @@ using TMPro;
 using UnityEngine.UI;
 using UnityEngine.Events;
 using System;
-using UnityAtoms.Editor;
 using System.Text.RegularExpressions;
 using VLB;
 
