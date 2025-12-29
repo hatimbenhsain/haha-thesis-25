@@ -1514,6 +1514,25 @@ Let me know if you need any help.
     This is the entrance to the library. 
     If you head further in, you can find a lot of the community's coralnet.
     Feel free to read or speak into any of them!
+    ...By the way, do you know what coralnet is?
+    ++  [Yes.]
+        MC: Of course I know what coralnet is. I'm always here reading.
+        NPC: Ok, just making sure!
+    ++  [No.]
+        MC: What is coralnet?
+        NPC: Coralnet are those noisy brown conical things...
+        ~ overrideRotationWithSpeed("Coralnet - Entrance",1.5)
+        Like the one over there!
+        People use them to deposit their thoughts and such.
+        It uses coral technology. You know. Or something like that.
+        You should try talking to one of them!
+        ...but you knew all of this, didn't you? I've seen you here before!
+        MC: Um...
+        NPC: It's okay! I know why you asked!
+        You know that I love to help! Thank you giving me the opportunity to explain. It's very sweet!
+        MC: Ah.. No problem.
+        NPC: Go on, I know how much you treasure your reading time. Thanks for singing with me!
+        MC: I don't read.. that much.
 +   [Who are you?]
     ~pauseTutorial(true)
     My name is Elevide! Nice to meet you.

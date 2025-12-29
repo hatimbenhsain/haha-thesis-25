@@ -45,6 +45,11 @@ public class GameManager : MonoBehaviour
                 return g;
             }
         }
+        GameObject go=GameObject.Find(name);
+        if (go != null)
+        {
+            return go;
+        }
         Debug.Log("Could not find object "+name);
         return null;
     }
