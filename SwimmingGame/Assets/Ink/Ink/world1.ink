@@ -55,7 +55,7 @@ VAR talkedToThisCoralnet=false
 === coralnetEnd ===
 ~pauseTutorial(false)
 { npcsTalkedTo > 2:
-    ~finishTutorialPart(6)
+    ~finishTutorialPart(11)
 }
 ~ continueSinging()
 ~ restoreNPCsVolume()
@@ -799,7 +799,7 @@ Coralnet: motif: my entanglement
 > would you do it again? initiator?
 ~pauseTutorial(false)   //coralnetEnd stuff
 { npcsTalkedTo > 2:
-    ~finishTutorialPart(6)
+    ~finishTutorialPart(11)
 }
 //~ continueSinging()
 ~ restoreNPCsVolume()
@@ -1492,19 +1492,30 @@ MC: Let's never do this again. # speed: fast
 
 /* RANDOM NPCS */
 
+VAR talkedToReceptionist=false
+
 === libraryReceptionist ===
 # color: 95B79B
 { npcsTalkedTo==0:
     ~npcsTalkedTo=npcsTalkedTo+1
 }
 -> npcStart1 ->
+{ talkedToReceptionist==false && npcsTalkedTo<=2:
+    ~pauseTutorial(false)
+    ~goToTutorialPart(0)
+}
 NPC: Welcome to the library.
+{ talkedToReceptionist==false && npcsTalkedTo<=2:
+    ~goToTutorialPart(1)
+}
 Let me know if you need any help.
 +   [What is this place?]
+    ~pauseTutorial(true)
     This is the entrance to the library. 
     If you head further in, you can find a lot of the community's coralnet.
     Feel free to read or speak into any of them!
 +   [Who are you?]
+    ~pauseTutorial(true)
     My name is Elevide! Nice to meet you.
     MC: Name..?
     NPC: It's nice that you came to talk to me today.
@@ -1517,10 +1528,11 @@ Let me know if you need any help.
     ++  [No worries.]
         MC: Sure, uh, no worries.
 +   [I'm good thanks.]
+    ~pauseTutorial(true)
     NPC: No troubles.
 - ~pauseTutorial(false)
 { npcsTalkedTo > 2:
-    ~finishTutorialPart(6)
+    ~ finishTutorialPart(11)
 }
 ~continueSinging()
 {
@@ -1529,6 +1541,10 @@ Let me know if you need any help.
         ~changeDesire("<br>Read Coralnet.")
 }
 - -> npcEnd ->
+{ talkedToReceptionist==false && npcsTalkedTo<=2:
+    ~goToTutorialPart(10)
+}
+~ talkedToReceptionist=true
 -> END
 
 === npcAtLibrary1 ===

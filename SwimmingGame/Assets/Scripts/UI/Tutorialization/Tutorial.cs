@@ -38,7 +38,7 @@ public class Tutorial : MonoBehaviour
         for(var i=0;i<tutorialParts.Length;i++){
             tutorialParts[i].active=false;
             tutorialParts[i].triggered=false;
-            tutorialParts[i].canvasParent.SetActive(false);
+            if(tutorialParts[i].canvasParent!=null) tutorialParts[i].canvasParent.SetActive(false);
         }
 
         swimmerSinging=FindObjectOfType<SwimmerSinging>();
