@@ -6,7 +6,7 @@ using Obi;
 public class MainAct11CinematicsManager : MonoBehaviour
 {
     public ObiRopeExtrudedRenderer MCRope;
-    public SkinnedMeshRenderer MCMeshRenderer;
+    public SkinnedMeshRenderer MCHead;
     public Transform lidOrigin;
     public Rigidbody lidRigidbody; 
     public bool hideOrgansAtStart;
@@ -19,9 +19,9 @@ public class MainAct11CinematicsManager : MonoBehaviour
             MCRope.enabled = false;
         }
 
-        if (MCMeshRenderer != null && hideOrgansAtStart)
+        if (MCHead != null && hideOrgansAtStart)
         {
-            MCMeshRenderer.enabled = false;
+            MCHead.enabled = false;
         }
     }
  
@@ -33,9 +33,9 @@ public class MainAct11CinematicsManager : MonoBehaviour
             MCRope.enabled = true;
         }
 
-        if (MCMeshRenderer != null)
+        if (MCHead != null)
         {
-            MCMeshRenderer.enabled = true;
+            MCHead.enabled = true;
         }
     }
     public void ShootLid(){
@@ -47,26 +47,22 @@ public class MainAct11CinematicsManager : MonoBehaviour
     {
 
         Vector3 originalPosition = lidOrigin.localPosition; // Store the original position of the lid
-        float elapsedTime = 0f;
+        float time = 0f;
 
-        // Shake the lidOrigin for the specified duration
-        while (elapsedTime < duration)
+        while (time < duration)
         {
-            elapsedTime += Time.deltaTime;
+            time += Time.deltaTime;
 
             // Generate random shake offsets
             float offsetX = Random.Range(-shakeIntensity, shakeIntensity);
             float offsetY = Random.Range(-shakeIntensity, shakeIntensity);
             float offsetZ = Random.Range(-shakeIntensity, shakeIntensity);
 
-            // Apply the shake offsets to the lidOrigin's position
+            // Apply the shake offsets
             lidOrigin.localPosition = originalPosition + new Vector3(offsetX, offsetY, offsetZ);
 
             yield return null;
         }
-
-        // Reset the lidOrigin's position to its original position
-        //lidOrigin.localPosition = originalPosition;
 
         lidRigidbody.isKinematic = false; // Set the Rigidbody to be non-kinematic to allow physics interactions
         // Apply force in the positive X direction to the Rigidbody
