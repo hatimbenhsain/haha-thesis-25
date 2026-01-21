@@ -181,10 +181,12 @@ public class Menu : MonoBehaviour
         if((playerInput.navigateDown && !playerInput.prevNavigateDown)){
             buttonIndex+=1;
             Sound.PlayOneShotVolume("event:/Non-Diagetic SFX/Select Button",1f);
+            Rumble.AddRumbleWithTimeOut("Select Button",1,1f,true);
         }
         if((playerInput.navigateUp && !playerInput.prevNavigateUp)){
             buttonIndex-=1;
             Sound.PlayOneShotVolume("event:/Non-Diagetic SFX/Select Button",1f);
+            Rumble.AddRumbleWithTimeOut("Select Button",1,1f,true);
         }
         buttonIndex=(buttonIndex+currentButtons.Length)%currentButtons.Length;
     }
@@ -196,6 +198,7 @@ public class Menu : MonoBehaviour
                 if(buttonIndex>=0 && buttonIndex<events.Length && !buttonsLocked){
                     Sound.PlayInstance("event:/Non-Diagetic SFX/Click Button","Click Button",1f);
                     events[buttonIndex].Invoke();
+                    Rumble.AddRumbleWithTimeOut("Choose Button",1,1f,true);
                 }else{
                     Debug.LogWarning("Tried to invoke empty event.");
                 }
@@ -203,9 +206,11 @@ public class Menu : MonoBehaviour
         }else{
             if((playerInput.navigateLeft && !playerInput.prevNavigateLeft)){
                 SetValue(buttonIndex,Mathf.Clamp(GetSliderValue(buttonIndex)-1,0,10));
+                Rumble.AddRumbleWithTimeOut("Select Button",1,1f,true);
             }
             if((playerInput.navigateRight && !playerInput.prevNavigateRight)){
                 SetValue(buttonIndex,Mathf.Clamp(GetSliderValue(buttonIndex)+1,0,10));
+                Rumble.AddRumbleWithTimeOut("Select Button",1,1f,true);
             }
         }
     }

@@ -17,6 +17,13 @@ public class Rumble : MonoBehaviour
 
     private PlayerInput playerInput;
 
+    private static float timeout=0f;   // Time before cancelling rumble
+    private static float timer=0f;
+    private static float timedLeftMotorIntensity=0f;   //When adding a rumble that fades out, go from this to zero
+    private static float timedRightMotorIntensity=0f; //When adding a rumble that fades out, go from this to zero
+    private static bool fadingOut=true;
+    
+
     void Start()
     {
         settings=rumbleSettings;
@@ -26,8 +33,35 @@ public class Rumble : MonoBehaviour
     private void LateUpdate() {
         if(playerInput.currentControlScheme=="Gamepad"){
             Gamepad.current.SetMotorSpeeds(currentLeftMotorIntensity*maxRumbleIntensity,currentRightMotorIntensity*maxRumbleIntensity);
-            currentLeftMotorIntensity=0f;
-            currentRightMotorIntensity=0f;
+            if (timer > 0f)
+            {
+                if (timedLeftMotorIntensity != 0f && timedLeftMotorIntensity != -1f)
+                {
+                    if(fadingOut) currentLeftMotorIntensity=Mathf.Lerp(0f,timedLeftMotorIntensity,timer/timeout);
+                    else currentLeftMotorIntensity=Mathf.Lerp(0f,timedLeftMotorIntensity,timer/timeout);
+                }
+                else
+                {
+                    currentLeftMotorIntensity=0f;
+                }
+
+                if (timedRightMotorIntensity != 0f && timedRightMotorIntensity != -1f)
+                {
+                    if(fadingOut) currentRightMotorIntensity=Mathf.Lerp(0f,timedRightMotorIntensity,timer/timeout);
+                    else currentRightMotorIntensity=Mathf.Lerp(0f,timedRightMotorIntensity,timer/timeout);
+                }
+                else
+                {
+                    currentRightMotorIntensity=0f;
+                }
+
+                timer-=Time.unscaledDeltaTime;
+            }
+            else
+            {
+                currentLeftMotorIntensity=0f;
+                currentRightMotorIntensity=0f;
+            }
         }
     }
 
@@ -55,6 +89,45 @@ public class Rumble : MonoBehaviour
                 currentRightMotorIntensity=Mathf.Max(rightMotorIntensity*modifier,currentRightMotorIntensity);
                 break;
         }
+    }
+
+    public static void AddRumbleWithTimeOut(float leftMotorIntensity=-1f,float rightMotorIntensity=-1f,float modifier = 1f, float time=1f,bool isFadingOut=true)
+    {
+        fadingOut=isFadingOut;
+        if (leftMotorIntensity != -1f)
+        {
+            timedLeftMotorIntensity=leftMotorIntensity*modifier;
+        }
+        if (rightMotorIntensity != -1f)
+        {
+            timedRightMotorIntensity=rightMotorIntensity*modifier;
+        }
+        timeout=time;
+        timer=timeout;
+    }
+
+    public static void AddRumbleWithTimeOut(string nameOfAction,float modifier = 1f, float time=1f,bool isFadingOut=true)
+    {
+        float leftMotorIntensity=0f;
+        float rightMotorIntensity=0f;
+        foreach(RumbleSettings setting in settings){
+            if (setting.name == nameOfAction)
+            {
+                leftMotorIntensity=setting.leftMotorIntensity;
+                rightMotorIntensity=setting.rightMotorIntensity;
+            }
+        }
+        fadingOut=isFadingOut;
+        if (leftMotorIntensity != -1f)
+        {
+            timedLeftMotorIntensity=leftMotorIntensity*modifier;
+        }
+        if (rightMotorIntensity != -1f)
+        {
+            timedRightMotorIntensity=rightMotorIntensity*modifier;
+        }
+        timeout=time;
+        timer=timeout;
     }
 
     public static void ResetRumble(){
