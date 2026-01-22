@@ -1267,6 +1267,11 @@ Teacher: Ah...\\pause\\pause Well that's the thing. It's been different everytim
 Teacher: It would just kind of happen spontaneously. But maybe...
 MC: Yes?
 Teacher: Maybe we should try just harmonizing for a while? Like they say on the coralnet?
+~ loadInt("showcaseMode")
+{ showcaseMode==1:
+    MC: What about.. what do we do when the organs are out?
+    Teacher: I think we can...\\pause just try to wrap around each other?
+}
 MC: Ok. Let's do it.
 Teacher: You can take the lead.
 ~ nextBrain()
@@ -1289,7 +1294,12 @@ Teacher: Let's keep going.
 
 === teacherAtEdge3 ===
 ~nextBrain()
-~loadLevel("Main Act 1 - 1")
+~ loadInt("showcaseMode")
+{ showcaseMode==1:
+    ~loadLevel("Main Act 1 - 2")
+- else:
+    ~loadLevel("Main Act 1 - 1")
+}
 -> END
 
 VAR freezeMoment=false
