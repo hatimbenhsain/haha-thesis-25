@@ -38,7 +38,7 @@ public class StartMenu : Menu
         if (!startedGame)
         {
             timer+=Time.unscaledDeltaTime;
-            Rumble.AddRumble("Start Menu",(Mathf.Sin(timer*Mathf.PI/2f)+1)*.9f/2f+.1f);
+            Rumble.AddRumble("Start Menu",(Mathf.Sin(timer*Mathf.PI/2f)+1)*.7f/2f+.3f);
             if (FindObjectOfType<LevelLoader>().loadingLevel)
             {
                 startedGame=true;
