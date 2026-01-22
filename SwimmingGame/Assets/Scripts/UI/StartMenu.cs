@@ -5,11 +5,13 @@ using UnityEngine.SceneManagement;
 using TMPro;
 using UnityEngine.UI;
 using UnityEngine.Events;
+using System;
 
 public class StartMenu : Menu
 {    
     private bool startedGame=false;
 
+    private float timer=0f;
     
 
     public override void Initiate()
@@ -35,6 +37,8 @@ public class StartMenu : Menu
 
         if (!startedGame)
         {
+            timer+=Time.unscaledDeltaTime;
+            Rumble.AddRumble("Start Menu",(Mathf.Sin(timer*Mathf.PI/2f)+1)*.9f/2f+.1f);
             if (FindObjectOfType<LevelLoader>().loadingLevel)
             {
                 startedGame=true;
@@ -47,6 +51,8 @@ public class StartMenu : Menu
                 Sound.StopInstance("Title Screen Ambiance");
             }
         }
+
+
     }
 
 }

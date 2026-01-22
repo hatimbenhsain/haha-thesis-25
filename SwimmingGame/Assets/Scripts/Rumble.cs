@@ -32,7 +32,6 @@ public class Rumble : MonoBehaviour
 
     private void LateUpdate() {
         if(playerInput.currentControlScheme=="Gamepad"){
-            Gamepad.current.SetMotorSpeeds(currentLeftMotorIntensity*maxRumbleIntensity,currentRightMotorIntensity*maxRumbleIntensity);
             if (timer > 0f)
             {
                 if (timedLeftMotorIntensity != 0f && timedLeftMotorIntensity != -1f)
@@ -56,9 +55,13 @@ public class Rumble : MonoBehaviour
                 }
 
                 timer-=Time.unscaledDeltaTime;
+
+                Gamepad.current.SetMotorSpeeds(currentLeftMotorIntensity*maxRumbleIntensity,currentRightMotorIntensity*maxRumbleIntensity);
             }
             else
             {
+                Gamepad.current.SetMotorSpeeds(currentLeftMotorIntensity*maxRumbleIntensity,currentRightMotorIntensity*maxRumbleIntensity);
+
                 currentLeftMotorIntensity=0f;
                 currentRightMotorIntensity=0f;
             }
