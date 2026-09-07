@@ -201,9 +201,12 @@ public class Tutorial : MonoBehaviour
 
         currentlyUsed=false;
 
+        // Debug, moved to Menu.cs
+        /*
         if(Input.GetKeyDown(KeyCode.T) && (Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift))){
             PauseTutorial(!paused);
         }
+        */
         
     }
 

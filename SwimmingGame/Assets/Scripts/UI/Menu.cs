@@ -159,17 +159,81 @@ public class Menu : MonoBehaviour
             ShowButtons();
         }
 
-        if ((Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift)) && Input.GetKeyDown(KeyCode.S))
+        //DEBUG KEYS below
+       
+        if ((Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift)))
         {
-            int i = PlayerPrefs.GetInt("showcaseMode");
-            if (i == 0) i = 1;
-            else i = 0;
-            PlayerPrefs.SetInt("showcaseMode", i);
-            debugTMP.text = "showcase mode: " + i;
-            ResetManager.reset=(PlayerPrefs.GetInt("showcaseMode")==1);
-            debugTMP.gameObject.SetActive(true);
-            StartCoroutine(HideDebugTMP());
+             // showcase mode keys
+            if(Input.GetKeyDown(KeyCode.S)){
+                int i = PlayerPrefs.GetInt("showcaseMode");
+                if (i == 0) i = 1;
+                else i = 0;
+                PlayerPrefs.SetInt("showcaseMode", i);
+                debugTMP.text = "showcase mode: " + i;
+                ResetManager.reset=(PlayerPrefs.GetInt("showcaseMode")==1);
+                debugTMP.gameObject.SetActive(true);
+                StartCoroutine(HideDebugTMP());
+            }
+            // big dialogue text key
+            if(Input.GetKeyDown(KeyCode.B)){
+                // int i = PlayerPrefs.GetInt("showcaseMode");
+                // if (i == 0) i = 1;
+                // else i = 0;
+                // PlayerPrefs.SetInt("showcaseMode", i);
+                // debugTMP.text = "showcase mode: " + i;
+                // ResetManager.reset=(PlayerPrefs.GetInt("showcaseMode")==1);
+                // debugTMP.gameObject.SetActive(true);
+                // StartCoroutine(HideDebugTMP());
+            }
+
+            // Load level after pressing P
+            if (Input.GetKeyDown(KeyCode.P))
+            {
+                FindObjectOfType<LevelLoader>().LoadLevel();
+            }
+
+             // Load scene transition after pressing O
+            if (Input.GetKeyDown(KeyCode.O))
+            {
+                LevelLoader levelLoader=FindObjectOfType<LevelLoader>();
+                if(levelLoader!=null) levelLoader.EnsureSceneLoaderAndLoad(SceneManager.GetActiveScene().name, levelLoader.destinationScene, levelLoader.crossFadeTime);
+            }
+
+            // Pause Tutorial
+
+            if(Input.GetKeyDown(KeyCode.T)){
+                Tutorial tutorial=FindObjectOfType<Tutorial>();
+                tutorial.PauseTutorial(!tutorial.paused);
+            }
+
+            // SWIMMER stuff
+
+            // RESPAWN
+            if(Input.GetKeyDown(KeyCode.R)){
+                Respawn();
+            }
+
+            // TURN INVISIBLE
+            if(Input.GetKeyDown(KeyCode.H)){
+                Swimmer swimmer=FindObjectOfType<Swimmer>();
+                if(swimmer!=null) swimmer.TurnInvisible();
+            }
+            
+            // RESPAWN ELSEWHERE (aka teleport between possible respawn areas)
+            if(Input.GetKeyDown(KeyCode.LeftArrow)){
+                Swimmer swimmer=FindObjectOfType<Swimmer>();
+                swimmer.RespawnElsewhere(-1);
+            }
+            if(Input.GetKeyDown(KeyCode.RightArrow) && (Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift))){
+                Swimmer swimmer=FindObjectOfType<Swimmer>();
+                swimmer.RespawnElsewhere(1);
+            }
+
+
+
         }
+
+
 
         if (fadingOutCanvas)
         {

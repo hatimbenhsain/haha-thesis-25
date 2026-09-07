@@ -277,7 +277,8 @@ public class Swimmer : MonoBehaviour
 
 
         // DEBUG HOTKEYS
-
+        // MOVED TO MENU.CS
+        /*
         if(Input.GetKeyDown(KeyCode.R) && (Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift))){
             Respawn();
         }
@@ -285,6 +286,7 @@ public class Swimmer : MonoBehaviour
         if(Input.GetKeyDown(KeyCode.H) && (Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift))){
             TurnInvisible();
         }
+        
 
         if(respawnTriggers.Length>0){
             if(Input.GetKeyDown(KeyCode.LeftArrow) && (Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift))){
@@ -298,6 +300,8 @@ public class Swimmer : MonoBehaviour
                 Respawn();
             }
         }
+
+        */
 
 
         if (canMove && (playerInput.movingForward || playerInput.movingBackward))
@@ -902,6 +906,16 @@ public class Swimmer : MonoBehaviour
         if(respawnTransform!=null){
             Transport(respawnTransform.position,respawnTransform.rotation);
             StartCoroutine(WakeUp(0f));
+        }
+    }
+
+    // Go to another respawn location
+    public void RespawnElsewhere(int i)
+    {
+        if(respawnTriggers.Length>0){
+            respawnTriggerIndex=(respawnTriggerIndex+i+respawnTriggers.Length)%respawnTriggers.Length;
+            respawnTransform=respawnTriggers[respawnTriggerIndex].transform;
+            Respawn();
         }
     }
 

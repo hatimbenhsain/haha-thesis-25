@@ -142,6 +142,9 @@ public class LevelLoader : MonoBehaviour
         {
             LoadLevel(); 
         }
+
+        // Move this stuff to Menu.cs (Debug Keys)
+        /*
         // Load level after pressing P
         if (Input.GetKeyDown(KeyCode.P) && (Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift)) && pressP)
         {
@@ -152,6 +155,7 @@ public class LevelLoader : MonoBehaviour
         {
             EnsureSceneLoaderAndLoad(SceneManager.GetActiveScene().name, destinationScene, crossFadeTime);
         }
+        */
 
         // Showcase Reset Logic
         if (ResetManager.reset && currentSceneName != "GameStart")
@@ -287,7 +291,7 @@ public class LevelLoader : MonoBehaviour
         }
     }
 
-    void EnsureSceneLoaderAndLoad(string currentScene, string destination, float crossFadeTime)
+    public void EnsureSceneLoaderAndLoad(string currentScene, string destination, float crossFadeTime)
     {
         StartCoroutine(EnsureSceneLoaderCoroutine(currentScene, destination, crossFadeTime));
     }
