@@ -130,7 +130,7 @@ public class Menu : MonoBehaviour
     }
     
     public virtual void Initiate(){
-
+        ShowcaseMode(PlayerPrefs.GetInt("showcaseMode")==1);
     }
 
     // // Just making every button gray to show it's not active anymore, but without hiding it
@@ -674,6 +674,8 @@ public class Menu : MonoBehaviour
             buttonIndex=0;
         }
 
+        ShowcaseMode(PlayerPrefs.GetInt("showcaseMode")==1);
+
     }
 
     void OnDestroy(){
@@ -681,6 +683,26 @@ public class Menu : MonoBehaviour
         masterBus.getVolume(out v);
         PlayerPrefs.SetFloat("soundLevel",v);
         singingBus.setVolume(1f);
+    }
+
+    void ShowcaseMode(bool b)
+    {
+        int numberOfButtonsToDelete=7;
+        if (b && chapterSelectButtons.Length>numberOfButtonsToDelete+1)
+        {
+            GameObject[] newArrayButtons= new GameObject[chapterSelectButtons.Length-numberOfButtonsToDelete];
+            UnityEvent[] newArrayEvents= new UnityEvent[chapterSelectEvents.Length-numberOfButtonsToDelete];
+            for(var i = 0; i < chapterSelectButtons.Length-numberOfButtonsToDelete-1; i++)
+            {
+                newArrayButtons[i]=chapterSelectButtons[i];
+                newArrayEvents[i]=chapterSelectEvents[i];
+            }
+            newArrayButtons[newArrayButtons.Length-1]=chapterSelectButtons[chapterSelectButtons.Length-1];
+            newArrayEvents[newArrayEvents.Length-1]=chapterSelectEvents[chapterSelectEvents.Length-1];
+            chapterSelectButtons=newArrayButtons;
+            chapterSelectEvents=newArrayEvents;
+        }
+        
     }
 
 }
