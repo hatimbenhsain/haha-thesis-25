@@ -1,5 +1,6 @@
 INCLUDE Functions.ink
 
+
 VAR sexIntensity=0
 VAR npcsTalkedTo=0
 VAR coralTalkedTo=0
@@ -1051,127 +1052,194 @@ Teacher: What would you have said?
 // MC finds teacher at diner sitting. They start singing when MC gets nearby to invite conversation
 === teacherAtDiner ===
  -> npcStart1 ->
-{ 
-- talkedToTeacherAtDiner:
-    Teacher: <>
-    {stopping:
-        - Did you change your mind?
-        - Are you really sure you don't wanna go?
-        - Are you really really sure you don't wanna go? 
-        - ...
-    }
-    Well?
-    +   [Let's go.]
-        MC: Yes. Let's go now.
-        -> going
-    +   [No.]
-        MC: No.
-        Teacher: ...Okay then.
-        -> npcEnd ->
-        -> END
-- else:
-    ->chat->
-    -> END
-}
-
-= chat
-~talkedToTeacherAtDiner=true
-{ 
- - talkedToTeacherAgain:
-    Teacher: So you came.
-    MC: Yes.
-    ~pause(4)
-    { awkwardnessLevel>1:
-        Teacher: I'm surprised. I thought I made a bad impression.
-        MC: It's.. It was fine. I was just startled.
-        ~ pause(2)
-        MC: But I wanted to come here.
-    }
- - awkwardnessLevel<1:
-    Teacher: I had a feeling you'd come.
-    MC: But I said I wouldn't.
-    Teacher: Oh, haha.
-    MC: Why would you think I would?
-    Teacher: Well.. Um. Just a vibe I got.
-    ~ pause(4)
- - awkwardnessLevel>3:
-    Teacher: Oh, you're here!
-    MC: Yeah.
-    ~pause(2)
-    Teacher: I must've been really bothersome at the library. #speed:fast # ambient # time:0.5
-    MC: I was really curt with you. # speed:fast # time:0.5 # notambient
-    Teacher: It's alright.
-    ~pause(4)
-    So what brings you here?
- -  else:
-    Teacher: I'm surprised you've come after all.
-    MC: Yeah..
-    I think I am as well.
-    ~ pause(2)
-}
-Teacher: Can I share some food with you? They have really tasteful salmonds this season.
-MC: I'm not hungry.
+Teacher: So you came.
+MC: I did.
 ~pause(4)
-MC: Have you been watching me?
-Teacher: What?
-MC: At the library. You said that you've often seen me there.
-Teacher: Hmm.. Well.. I wouldn't say I watch you..
-I just meant.. I notice you there almost everytime I visit.
-MC: Right.
+Teacher: I'm surprised. \\pauseI thought I'd made a terrible impression.
+MC: It's okay. \\pauseI wanted...
+~pause(1)
+I want to get to know you better. #speed: 50
 ~pause(2)
-MC: ...
-+   [I'm noticeable.]
-    MC: I guess I'm noticeable.
-    Teacher: I would say so, yes.
-+   [(Say nothing.)]
-- ~ pause(2)
-Teacher: Would that be bad? If I watched you?
-+   [No.]
-    MC: No.
-    Teacher: Then I guess I do watch you a little bit.
-+   [I would like it.]
-    MC: I would actually like it.
-    Teacher: Then I guess I do watch you a little bit.
-+   [Yes.]
-    MC: Yeah, kind of.
-    ~ pause(2)
-    It's weird when you don't know someone like that.
-    Teacher: Ah... I guess so.
-    MC: But we know each other now.
-    Teacher: We do.
-- ~ pause(4)
-Teacher: Since you're not hungry.. Would you like to..
-MC: Yeah?
-~ changeDesire("<br>Follow <br>the library stranger.")
-~ desireStep=4
-Teacher: Go somewhere with fewer people?
-+   [Let's go.]
-    MC: Sure. Let's go.
-    -> going
-+   [No.]
-    MC: Oh. Uhm...
-    Not really.
-    Teacher: Ah. Okay.
-    ~pause(2)
-    Let me know if you change your mind.
-    -> npcEnd ->
-- ->->
+Teacher: Me too.
+~pause(2)
+MC: So, this "entanglement".. # speed: slow
+Teacher: Yes?
+MC: Can you tell me more about it? #speed:fast
+~pause(2)
+Teacher: Well...
+~pause(4)
+Teacher: ...and that's it. 
+But also, I'm not entirely sure. \\pauseI've never really... 
+MC: You haven't gone all the way through.
+~ pause(2)
+Teacher: So... #speed:slow
+What do you want to do now?
+~pause(2)
+MC: I think... I want to cut video here #speed: slow
 
-= going
-Teacher: Okay then. I'll show you one of my favorite places.
-~ fadeOut(1) //maybe at this point show a camera view of the tunnel?
-You know the tunnel entrance, when you exit the diner and head straight to the bottom?
-Meet me there.
-MC: Wait, what about your food...?
-Teacher: Oh..
-It's fine. Others will eat it.
-~ activateBorder("floral",false)
-~ changeDesire("<br>Meet <br>the library stranger at the bottom.")
-~ restoreNPCsVolume()
-~ pauseTutorial(false)
-~ switchObject("Teacher",false)
-~ switchObject("Teacher - Center",true)
-~ fadeIn(1)
+// SHORTER VERSION
+
+// Teacher: So you came.
+// MC: I did.
+// ~pause(4)
+// Teacher: I'm surprised. \\pauseI thought I'd made a terrible impression.
+// MC: It's okay. \\pauseI wanted...
+// ~pause(1)
+// I want to get to know you better. #speed: 50
+// ~pause(2)
+// Teacher: Me too.
+// ~pause(2)
+// MC: So, this "entanglement".. # speed: slow
+// Teacher: Yes?
+// MC: Can you tell me more about it? #speed:fast
+// ~pause(2)
+// Teacher: Well...
+// ~pause(4)
+// Teacher: ...and that's it. 
+// ~ pause(2)
+// Teacher: So... #speed:slow
+// What do you want to do now?
+// ~pause(2)
+// MC: I think... I want to cut video here #speed: slow
+
+// WAY SHORTER VERSION
+
+// MC: So, I'm here.
+// Teacher: I had a feeling you would come.
+// ~pause(2)
+// MC: About this... "entanglement".. # speed: slow
+// Teacher: Yes?
+// MC: Can you tell me more about it? # speed:fast
+// ~pause(4)
+// Teacher: ...and that's it, basically. 
+// ~pause(3)
+// Teacher: So... #speed:slow
+// What do you want to do now?
+// ~pause(2)
+// MC: I think... I want to cut video here #speed: slow
+
+// { 
+// - talkedToTeacherAtDiner:
+//     Teacher: <>
+//     {stopping:
+//         - Did you change your mind?
+//         - Are you really sure you don't wanna go?
+//         - Are you really really sure you don't wanna go? 
+//         - ...
+//     }
+//     Well?
+//     +   [Let's go.]
+//         MC: Yes. Let's go now.
+//         -> going
+//     +   [No.]
+//         MC: No.
+//         Teacher: ...Okay then.
+//         -> npcEnd ->
+//         -> END
+// - else:
+//     ->chat->
+//     -> END
+// }
+
+// = chat
+// ~talkedToTeacherAtDiner=true
+// { 
+//  - talkedToTeacherAgain:
+//     Teacher: So you came.
+//     MC: Yes.
+//     ~pause(4)
+//     { awkwardnessLevel>1:
+//         Teacher: I'm surprised. I thought I'd made a bad impression.
+//         MC: It's.. It was fine. I was just startled.
+//         ~ pause(2)
+//         MC: But I wanted to come here.
+//     }
+//  - awkwardnessLevel<1:
+//     Teacher: I had a feeling you'd come.
+//     MC: But I said I wouldn't.
+//     Teacher: Oh, haha.
+//     MC: Why would you think I would?
+//     Teacher: Well.. Um. Just a vibe I got.
+//     ~ pause(4)
+//  - awkwardnessLevel>3:
+//     Teacher: Oh, you're here!
+//     MC: Yeah.
+//     ~pause(2)
+//     Teacher: I must've been really bothersome at the library. #speed:fast # ambient # time:0.5
+//     MC: I was really curt with you. # speed:fast # time:0.5 # notambient
+//     Teacher: It's alright.
+//     ~pause(4)
+//     So what brings you here?
+//  -  else:
+//     Teacher: I'm surprised you've come after all.
+//     MC: Yeah..
+//     I think I am as well.
+//     ~ pause(2)
+// }
+// Teacher: Can I share some food with you? They have really tasteful salmonds this season.
+// MC: I'm not hungry.
+// ~pause(4)
+// MC: Have you been watching me?
+// Teacher: What?
+// MC: At the library. You said that you've often seen me there.
+// Teacher: Hmm.. Well.. I wouldn't say I watch you..
+// I just meant.. I notice you there almost everytime I visit.
+// MC: Right.
+// ~pause(2)
+// MC: ...
+// +   [I'm noticeable.]
+//     MC: I guess I'm noticeable.
+//     Teacher: I would say so, yes.
+// +   [(Say nothing.)]
+// - ~ pause(2)
+// Teacher: Would that be bad? If I watched you?
+// +   [No.]
+//     MC: No.
+//     Teacher: Then I guess I do watch you a little bit.
+// +   [I would like it.]
+//     MC: I would actually like it.
+//     Teacher: Then I guess I do watch you a little bit.
+// +   [Yes.]
+//     MC: Yeah, kind of.
+//     ~ pause(2)
+//     It's weird when you don't know someone like that.
+//     Teacher: Ah... I guess so.
+//     MC: But we know each other now.
+//     Teacher: We do.
+// - ~ pause(4)
+// Teacher: Since you're not hungry.. Would you like to..
+// MC: Yeah?
+// ~ changeDesire("<br>Follow <br>the library stranger.")
+// ~ desireStep=4
+// Teacher: Go somewhere with fewer people?
+// +   [Let's go.]
+//     MC: Sure. Let's go.
+//     -> going
+// +   [No.]
+//     MC: Oh. Uhm...
+//     Not really.
+//     Teacher: Ah. Okay.
+//     ~pause(2)
+//     Let me know if you change your mind.
+//     -> npcEnd ->
+// - ->->
+
+// = going
+// Teacher: Okay then. I'll show you one of my favorite places.
+// ~ fadeOut(1) //maybe at this point show a camera view of the tunnel?
+// You know the tunnel entrance, when you exit the diner and head straight to the bottom?
+// Meet me there.
+// MC: Wait, what about your food...?
+// Teacher: Oh..
+// It's fine. Others will eat it.
+// ~ activateBorder("floral",false)
+// ~ changeDesire("<br>Meet <br>the library stranger at the bottom.")
+// ~ restoreNPCsVolume()
+// ~ pauseTutorial(false)
+// ~ switchObject("Teacher",false)
+// ~ switchObject("Teacher - Center",true)
+// ~ fadeIn(1)
+-> npcEnd ->
 -> END
 
 // SOUND CUE: TEACHER LEAVING
