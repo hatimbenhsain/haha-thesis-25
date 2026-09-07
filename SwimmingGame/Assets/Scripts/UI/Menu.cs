@@ -176,14 +176,11 @@ public class Menu : MonoBehaviour
             }
             // big dialogue text key
             if(Input.GetKeyDown(KeyCode.B)){
-                // int i = PlayerPrefs.GetInt("showcaseMode");
-                // if (i == 0) i = 1;
-                // else i = 0;
-                // PlayerPrefs.SetInt("showcaseMode", i);
-                // debugTMP.text = "showcase mode: " + i;
-                // ResetManager.reset=(PlayerPrefs.GetInt("showcaseMode")==1);
-                // debugTMP.gameObject.SetActive(true);
-                // StartCoroutine(HideDebugTMP());
+                Dialogue dialogue=FindObjectOfType<Dialogue>();
+                if (dialogue != null)
+                {
+                    dialogue.embiggenText=!dialogue.embiggenText;
+                }
             }
 
             // Load level after pressing P

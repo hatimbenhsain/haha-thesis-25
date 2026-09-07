@@ -139,6 +139,10 @@ public class Dialogue : MonoBehaviour
 
     private List<string> prevTags;
 
+    [Header("Debug")]
+    public int embiggenedTextSize=52;
+    public bool embiggenText=false;
+
     void Awake()
     {
         if (Instance != null && Instance != this) 
@@ -464,6 +468,16 @@ public class Dialogue : MonoBehaviour
         else
         {
             textBox.GetComponentInChildren<Animator>().speed = 0.5f;
+        }
+
+        if (embiggenText)
+        {
+            TMP_Text[] textboxes=canvasParent.GetComponentsInChildren<TMP_Text>();
+            foreach(TMP_Text t in textboxes)
+            {
+                if(t.enableAutoSizing) t.fontSizeMax=embiggenedTextSize;
+                else t.fontSize=embiggenedTextSize;
+            }
         }
     }
 
